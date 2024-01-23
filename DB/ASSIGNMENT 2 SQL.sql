@@ -192,11 +192,46 @@ select * from
 ORDER BY salesman
 GO
 
---6. write a SQL query to find the details of an order. Return ord_no, ord_date, purch_amt, Customer Name, grade, Salesman, commissionSELECT O.ord_no AS orderNo, O.ord_date as orderDate ,O.purch_amt as amount , C.cust_name AS CustomerName , C.grade as grade  , S.name Salesman , S.commission as commissionFROM orders O JOIN customer C on O.customer_id = C.customer_id		JOIN Salesman S ON O.salesman_id = S.salesman_id ;--7. Write a SQL statement to join the tables salesman, customer and orders so that the same column of each table appears once and only the relational rows are returned. SELECT O.ord_no AS orderNo, O.ord_date as orderDate ,O.purch_amt as amount , C.cust_name AS CustomerName , C.grade as grade  , S.name Salesman , S.commission as commissionFROM orders O 	left JOIN customer C on O.customer_id = C.customer_id	left JOIN Salesman S ON O.salesman_id = S.salesman_id ;--8. write a SQL query to display the customer name, customer city, grade, salesman, salesman city. The results should be sorted by ascending customer_idSELECT C.cust_name as name, C.city as CustomerCity , C.grade as grade, S.name Salesman, S.city SalesmanCity FROM customer C left join Salesman S ON C.salesman_id = S.salesman_idORDER BY C.customer_id ASC;--9. write a SQL query to find those customers with a grade less than 300. Return cust_name, customer city, grade, Salesman, salesmancity. The result should be ordered by ascending customer_id.SELECT C.cust_name as name, C.city as CustomerCity , C.grade as grade, S.name Salesman, S.city SalesmanCity FROM customer C left join Salesman S ON C.salesman_id = S.salesman_id WHERE C.grade < 300ORDER BY C.customer_id ASC;--10. Write a SQL statement to make a report with customer name, city, order number, order date, and order amount in ascending order according to the order date to 
+--6. write a SQL query to find the details of an order. Return ord_no, ord_date, purch_amt, Customer Name, grade, Salesman, commission
+SELECT O.ord_no AS orderNo, O.ord_date as orderDate ,O.purch_amt as amount , C.cust_name AS CustomerName , C.grade as grade  , S.name Salesman , S.commission as commission
+FROM orders O JOIN customer C on O.customer_id = C.customer_id
+		JOIN Salesman S ON O.salesman_id = S.salesman_id ;
+
+--7. Write a SQL statement to join the tables salesman, customer and orders so that the same column of each table appears once and only the relational rows are returned. 
+SELECT O.ord_no AS orderNo, O.ord_date as orderDate ,O.purch_amt as amount , C.cust_name AS CustomerName , C.grade as grade  , S.name Salesman , S.commission as commission
+FROM orders O 
+	left JOIN customer C on O.customer_id = C.customer_id
+	left JOIN Salesman S ON O.salesman_id = S.salesman_id ;
+
+
+--8. write a SQL query to display the customer name, customer city, grade, salesman, salesman city. The results should be sorted by ascending customer_id
+
+SELECT C.cust_name as name, C.city as CustomerCity , C.grade as grade, S.name Salesman, S.city SalesmanCity 
+FROM customer C left join Salesman S ON C.salesman_id = S.salesman_id
+ORDER BY C.customer_id ASC;
+
+--9. write a SQL query to find those customers with a grade less than 300. Return cust_name, customer city, grade, Salesman, salesmancity. The result should be ordered by ascending customer_id.
+SELECT C.cust_name as name, C.city as CustomerCity , C.grade as grade, S.name Salesman, S.city SalesmanCity 
+FROM customer C left join Salesman S ON C.salesman_id = S.salesman_id WHERE C.grade < 300
+ORDER BY C.customer_id ASC;
+
+
+--10. Write a SQL statement to make a report with customer name, city, order number, order date, and order amount in ascending order according to the order date to 
 --determine whether any of the existing customers have placed an order or not
-SELECT C.cust_name as name, C.city as CustomerCity ,O.ord_no AS orderNo , O.ord_date as date , O.purch_amt as  orderAmountFROM orders O join customer C ON C.customer_id = O.customer_id where C.salesman_id IS NOT NULLORDER BY  O.ord_date ASC;--11. Write a SQL statement to generate a report with customer name, city, order number, order date, order amount, salesperson name, and commission to determine if any of 
+SELECT C.cust_name as name, C.city as CustomerCity ,O.ord_no AS orderNo , O.ord_date as date , O.purch_amt as  orderAmount
+FROM orders O join customer C ON C.customer_id = O.customer_id where C.salesman_id IS NOT NULL
+ORDER BY  O.ord_date ASC;
+
+--11. Write a SQL statement to generate a report with customer name, city, order number, order date, order amount, salesperson name, and commission to determine if any of 
 --the existing customers have not placed orders or if they have placed orders through their salesman or by themselves
-SELECT C.cust_name AS CustomerName , O.ord_no AS orderNo, O.ord_date as orderDate ,O.purch_amt as amount , S.name Salesman , S.commission as commissionFROM orders O 	left JOIN customer C on O.customer_id = C.customer_id	left JOIN Salesman S ON O.salesman_id = S.salesman_id WHERE C.customer_id != O.customer_id;--12. Write a SQL statement to generate a list in ascending order of salespersons who work either for one or more customers or have not yet joined any of the customersSELECT COUNT(C.cust_name) as noOfCustomer,S.name as salesman
+SELECT C.cust_name AS CustomerName , O.ord_no AS orderNo, O.ord_date as orderDate ,O.purch_amt as amount , S.name Salesman , S.commission as commission
+FROM orders O 
+	left JOIN customer C on O.customer_id = C.customer_id
+	left JOIN Salesman S ON O.salesman_id = S.salesman_id WHERE C.customer_id != O.customer_id;
+
+--12. Write a SQL statement to generate a list in ascending order of salespersons who work either for one or more customers or have not yet joined any of the customers
+
+SELECT COUNT(C.cust_name) as noOfCustomer,S.name as salesman
 FROM 
 	customer C JOIN Salesman S 
 ON C.salesman_id = S.salesman_id
@@ -205,7 +240,12 @@ ORDER BY noOfCustomer asc;
 GO
 
 --13. write a SQL query to list all salespersons along with customer name, city, grade, order number, date, and amount
-SELECT C.cust_name AS CustomerName ,C.city as city,C.grade as grade ,O.ord_no AS orderNo, O.ord_date as orderDate ,O.purch_amt as amount, S.name Salesman FROM orders O JOIN customer C on O.customer_id = C.customer_id		JOIN Salesman S ON O.salesman_id = S.salesman_idORDER BY Salesman;--14. Write a SQL statement to make a list for the salesmen who either work for one or more customers or yet to join any of the customers. The customer may have placed, 
+SELECT C.cust_name AS CustomerName ,C.city as city,C.grade as grade ,O.ord_no AS orderNo, O.ord_date as orderDate ,O.purch_amt as amount, S.name Salesman 
+FROM orders O JOIN customer C on O.customer_id = C.customer_id
+		JOIN Salesman S ON O.salesman_id = S.salesman_id
+ORDER BY Salesman;
+
+--14. Write a SQL statement to make a list for the salesmen who either work for one or more customers or yet to join any of the customers. The customer may have placed, 
 --either one or more orders on or above order amount 2000 and must have a grade, or he may not have placed any order to the associated supplier.
 
 
@@ -225,7 +265,8 @@ FROM
 	WHERE O.purch_amt >2000 AND C.grade IS NOT NULL;
 
 --16. Write a SQL statement to generate a report with the customer name, city, order no. order date, purchase amount for only those customers on the list who must have a 
---grade and placed one or more orders or which order(s) have been placed by the customer who neither is on the list nor has a grade.SELECT c.cust_name AS customerName,
+--grade and placed one or more orders or which order(s) have been placed by the customer who neither is on the list nor has a grade.
+SELECT c.cust_name AS customerName,
        c.city,
        o.ord_no,
        o.ord_date,
@@ -234,7 +275,12 @@ FROM
   FULL OUTER JOIN orders o
     ON c.customer_id= o.customer_id
       AND c.grade IS NOT NULL;
---17. Write a SQL query to combine each row of the salesman table with each row of the customer tablESELECT * FROM salesman S CROSS JOIN customer C;
+
+
+--17. Write a SQL query to combine each row of the salesman table with each row of the customer tablE
+SELECT * FROM salesman S CROSS JOIN customer C;
+
+
 --19. Write a SQL statement to create a Cartesian product between salesperson and customer, i.e. each salesperson will appear for every customer and vice versa for those salesmen who belong to a city and customers who require a grade 
 SELECT * FROM salesman S CROSS JOIN customer C
 WHERE S.city = C.city;
@@ -243,3 +289,4 @@ WHERE S.city = C.city;
 --and vice versa for those salesmen who must belong to a city which is not the same as his customer and the customers should have their own grade
 SELECT * FROM salesman s CROSS JOIN customer c
 WHERE s.city IS NOT NULL AND c.grade IS NOT NULL AND s.city <> c.city;
+
