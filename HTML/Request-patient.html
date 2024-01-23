@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="./Css/style-patient.css">
+</head>
+
+<body>
+  <!-- --------------------------------------Main container--------------------------------------------- -->
+ 
+  <div class="container d-flex justify-content-center   align-items-center min-vh-100 ">
+    <div class="min-vh-100 min-vw-100 login-bg" id="light-theme"></div>
+    <div class="min-vh-100 min-vw-100 login-bg-dark" id="dark-theme"></div>
+      <div class="row">
+        <div class="col-12">
+          
+              <button class="theme-btn " onclick="changeTheme()">
+                <i class="fa-regular fa-moon fa-lg"></i>
+              </button>
+          
+          
+            <form method="POST" action="Submit-request-patient.html">
+               
+              <div class="row justify-content-center mb-2 ">
+                  <div class="col">
+                      <button type="submit" class="btn btn-info text-light w-100 mt-2 px-5 py-2">Submit Request</button>
+                  </div>
+              </div>
+            </form>
+            <form method="post" action="login-patient.html">
+                <div class="row justify-content-center mb-2 ">
+                  <div class="col">
+                    <button type="submit" class="btn btn-info text-light  mb-5 mt-4 px-5 py-2" style="background-color: rgb(8, 8, 71);">Registerd Patients</button>
+                  </div>
+              </div>
+              
+              
+               
+              </form>
+              <footer class="text-center text-lg-center bg-body-tertiary footer-bottom text-muted bg-transparent" >
+                <span>Terms and Conditions | Privacy Policy</span>
+              </footer>
+        </div>
+      </div>
+
+
+     
+
+
+  </div>
+  
+  <script>
+    function changeTheme()
+    {
+      if($('#light-theme').css('display') == 'none'){
+        document.querySelector(".login-bg").style.display = "block";
+      document.querySelector(".login-bg-dark").style.display = "none";
+      }
+      else{
+        document.querySelector(".login-bg").style.display = "none";
+        document.querySelector(".login-bg-dark").style.display = "block";
+      }
+      
+    }
+  </script>
+  
+</body>
+
+
+</html>
