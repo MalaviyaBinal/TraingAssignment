@@ -82,8 +82,14 @@ SELECT * FROM Employee;
 GO
 
 --1. write a SQL query to find Employees who have the biggest salary in their Department
-select max(E.salary) AS "Maximum salary in  department",E.dept_id ,D.dept_name from Employee E JOIN Department D ON E.dept_id=D.dept_id
-GROUP BY E.dept_id,D.dept_name;
+
+
+select MaxSalary,d.dept_id,d.dept_name,e.emp_name FROM
+(select max(salary)as MaxSalary ,dept_id 
+from Employee e group by dept_id) as t1 
+left JOIN Employee e on e.dept_id=t1.dept_id 
+right JOIN Department d on d.dept_id=t1.dept_id
+where e.salary=t1.MaxSalary OR e.salary is NULL
 
 --2. write a SQL query to find Departments that have less than 3 people in it
 select * from(
@@ -91,7 +97,7 @@ select * from(
  where noOfEmp <3;
 
  --3. write a SQL query to find All Department along with the number of people there
- select COUNT(E.emp_id) as noOfEmp,E.dept_id ,D.dept_name from Employee E JOIN Department D ON E.dept_id=D.dept_id GROUP BY E.dept_id,D.dept_name;
+ select COUNT(E.emp_id) as noOfEmp,D.dept_id ,D.dept_name from Department D FULL JOIN Employee E  ON E.dept_id=D.dept_id GROUP BY D.dept_id,D.dept_name;
 
  --4. write a SQL query to find All Department along with the total salary there
 select sum(E.salary) AS "Total salary in  department",E.dept_id ,D.dept_name from Employee E JOIN Department D ON E.dept_id=D.dept_id
