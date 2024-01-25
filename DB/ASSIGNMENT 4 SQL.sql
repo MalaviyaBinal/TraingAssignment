@@ -4,37 +4,30 @@
 --be triggered before every Update and Insert command in the Orders controller,and 
 --will use the stored procedure to verify that the Freight does not exceed the average 
 --freight. If it does, a message will be displayed and the command will be cancelled.
-	--SELECT AVG(Freight)as sumF,CustomerID as customer FROM orders 
-	--	GROUP BY CustomerID ORDER BY CustomerID DESC;
+	--SELECT AVG(Freight)as sumF,CustomerID as customer FROM orders GROUP BY CustomerID ORDER BY CustomerID DESC;
 
-CREATE PROCEDURE AvgFrieght 
-@cus_id nchar(5) = 0, @emp_id int ,@ord_date datetime , @req_date datetime, @ship_date datetime, @ship_via int , @frieght money , @shi_name nvarchar(40) , @shi_adr nvarchar(60) ,
-@shi_city nvarchar(15) , @shi_region nvarchar(15), @postal_code nvarchar(10),@shi_country nvarchar(15)
-AS
-	declare  @ch money
-	set @ch = (SELECT  AVG(Freight)FROM orders   where customerID = @cus_id GROUP BY CustomerID )
-		
-	if @ch > @frieght
-	begin 
-		insert into orders([CustomerID], [EmployeeID], [OrderDate], [RequiredDate], [ShippedDate], [ShipVia], [Freight], [ShipName], [ShipAddress], [ShipCity], [ShipRegion], [ShipPostalCode], [ShipCountry])
-		values(@cus_id,@emp_id,@ord_date,@req_date,@ship_date,@ship_via,@frieght,@shi_name,@shi_adr ,@shi_city ,@shi_region , @postal_code ,@shi_country);
-
-	end
-	else
-	begin 
+CREATE TRIGGER insertTrigger   ON orders
+AFTER	
+	INSERT,update
+as 
+	declare  @avg money,@cus_id nchar(5),@id int,@frieght money
+	SET @ID = (SELECT @@IDENTITY);
+	set @cus_id =(SELECT CustomerID from Orders where OrderID = @id)
+	set @frieght = (SELECT Freight from Orders where OrderID = @id)
+	set @avg = (SELECT  AVG(Freight)FROM orders   where customerID = @cus_id GROUP BY CustomerID)
+	if @frieght > @avg
+	begin
 		print 'can not insert'
+		rollback;
 	end
 GO
-exec AvgFrieght 'HANAR',6,'1996-07-05 00:00:00.000','1996-08-16 00:00:00.000','1996-07-10 00:00:00.000',3,12.34,'abcdefgh','abnhdbcuyc','xyz',null,'12345','Inida'
 
-
-drop procedure AvgFrieght
+insert into orders([CustomerID], [EmployeeID], [OrderDate], [RequiredDate], [ShippedDate], [ShipVia], [Freight], [ShipName], [ShipAddress], [ShipCity], [ShipRegion], [ShipPostalCode], [ShipCountry])
+		values('WOLZA',6,'1996-07-05 00:00:00.000','1996-08-16 00:00:00.000','1996-07-10 00:00:00.000',3,12.34,'abcdefgh','abnhdbcuyc','xyz',null,'12345','Inida');
+GO
 
 select * from orders order by customerID;
 GO
- 
-insert into orders([CustomerID], [EmployeeID], [OrderDate], [RequiredDate], [ShippedDate], [ShipVia], [Freight], [ShipName], [ShipAddress], [ShipCity], [ShipRegion], [ShipPostalCode], [ShipCountry])
-values();
 
 
 
