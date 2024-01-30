@@ -5,29 +5,40 @@
 --will use the stored procedure to verify that the Freight does not exceed the average 
 --freight. If it does, a message will be displayed and the command will be cancelled.
 	--SELECT AVG(Freight)as sumF,CustomerID as customer FROM orders GROUP BY CustomerID ORDER BY CustomerID DESC;
-
-CREATE TRIGGER insertTrigger   ON orders
+CREATE TRIGGER updateTrigger  ON orders
 AFTER	
-	INSERT,update
+	insert,UPDATE
 as 
+begin
 	declare  @avg money,@cus_id nchar(5),@id int,@frieght money
-	SET @ID = (SELECT @@IDENTITY);
-	set @cus_id =(SELECT CustomerID from Orders where OrderID = @id)
-	set @frieght = (SELECT Freight from Orders where OrderID = @id)
-	set @avg = (SELECT  AVG(Freight)FROM orders   where customerID = @cus_id GROUP BY CustomerID)
-	if @frieght > @avg
-	begin
-		print 'can not insert'
-		rollback;
+	select * into #tempTable from inserted
+	
+	while(Exists (select OrderID FROM #tempTable))
+	begin 
+		select top 1 @id = OrderID, @cus_id = CustomerID,@frieght = Freight from #tempTable
+		set @avg = (SELECT  AVG(Freight)FROM orders   where customerID = @cus_id GROUP BY CustomerID)
+		if @frieght > @avg
+		begin
+			print 'You can not make changes.....frienght value is greater than average'
+			
+			rollback;
+		end
+		delete from #tempTable where OrderID = @id
 	end
+end	
 GO
 
 insert into orders([CustomerID], [EmployeeID], [OrderDate], [RequiredDate], [ShippedDate], [ShipVia], [Freight], [ShipName], [ShipAddress], [ShipCity], [ShipRegion], [ShipPostalCode], [ShipCountry])
-		values('WOLZA',6,'1996-07-05 00:00:00.000','1996-08-16 00:00:00.000','1996-07-10 00:00:00.000',3,12.34,'abcdefgh','abnhdbcuyc','xyz',null,'12345','Inida');
+		values('ALFKI',6,'1996-07-05 00:00:00.000','1996-08-16 00:00:00.000','1996-07-10 00:00:00.000',3,5.00,'abcdefgh','abnhdbcuyc','xyz',null,'12345','Inida');
+GO
+
+update orders set Freight = 53 where OrderID = 11083;
 GO
 
 select * from orders order by customerID;
 GO
+
+
 
 
 
