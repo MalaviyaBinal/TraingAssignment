@@ -1,0 +1,187 @@
+﻿@model HalloDocWebEntity.ViewModel.AdminProviderModel
+<div class="container p-5 tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+        <div class=" row mb-4">
+            <div class="col-sm-10 col">
+                <span class="h1">Provider Information</span>
+            </div>
+            <div class="col text-end">
+                <form action="Submit-request-patient.html">
+                    <button type="submit" class="text-info bg-transparent border-info px-2 mt-5 py-1 btn">
+                        < Back
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="  boxshadow rounded ">
+            <div class="ms-3 mt-3 p-3">
+
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <select name="" id="regionSelect" class="form-select" aria-label="Default select example">
+                            <option value="0">All</option>
+                            @foreach (var i in Model.regions)
+                            {
+                                <option value="@i.Regionid">@i.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 text-end">
+
+                        @*<a asp-action="CreateProviderAdmin" asp-controller="Admin">*@
+                        <button class="btn btn-outline-info" onclick="createProvider()" type="button" id="phyacco">
+                            Create Provider Account
+                        </button>
+                        @*</a>*@
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row p-3">
+                <table class="table  ">
+
+                    <thead class="table-secondary">
+                        <tr>
+                            <td><strong class="text-muted"><span>Stop Notification</span></strong></td>
+                            <td><strong class="text-muted"><span>Provider Name</span></strong></td>
+                            <td><strong class="text-muted"> Role</strong></td>
+                            <td><strong class="text-muted"> On Call Status</strong></td>
+                            <td> <strong class="text-muted"> Status </strong></td>
+                            <td> <strong class="text-muted"> Action</strong> </td>
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.physicians)
+                        {
+                            <tr>
+                                <td><input type="checkbox" class="Subcheckbox checkboxes ms-3" /></td>
+                                <td>@item.Firstname @item.Lastname</td>
+                                @if (item.Roleid == 1)
+                                {
+                                    <td>Physicion</td>
+                                }
+                                else
+                                {
+                                    <td>test</td>
+                                }
+                                @if (item.Status == 1)
+                                {
+                                    <td>Unavailable</td>
+                                }
+                                else
+                                {
+                                    <td>Available</td>
+                                }
+                                @if (item.Status == 1)
+                                {
+                                    <td>Active</td>
+                                }
+                                else
+                                {
+                                    <td>Pending</td>
+                                }
+                                <td>
+                                    <button type="button" onclick="contactProvider(this)" id="@item.Physicianid" class="text-info bg-transparent border-info btn">
+                                        Contact
+                                    </button>
+
+                                    <button type="button" class="text-info bg-transparent border-info btn" id="@item.Physicianid" onclick="editProvider(this)">
+                                        Edit
+                                    </button>
+
+
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+
+                </table>
+                <div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div id="modelContent"></div>
+<script>
+    $("#regionSelect").change(function () {
+        var id = this.value;
+        $.ajax({
+            url: "/Admin/Provider",
+            data: { 'regid': id },
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                $("#providerDiv").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#providerDiv").html('An error has occurred');
+            }
+        });
+    });
+    function createProvider() {
+        $.ajax({
+            url: "/Admin/CreateProviderAdmin",
+
+            dataType: "html",
+            success: function (data) {
+                $("#providerDiv").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#providerDiv").html('An error has occurred');
+            }
+        });
+
+    }
+    function editProvider(e) {
+
+        $.ajax({
+            url: "/Admin/EditProviderDetail",
+
+            dataType: "html",
+            success: function (data) {
+                $("#providerDiv").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#providerDiv").html('An error has occurred');
+            }
+        });
+
+    }
+    function contactProvider(element) {
+
+        var id = element.id;
+        console.log(id);
+        $.ajax({
+            url: "/Admin/ContactProviderModal",
+            data: { 'id': id },
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modelContent").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#modelContent").html('An error has occurred');
+            }
+        });
+    };
+</script>

@@ -1,0 +1,56 @@
+﻿
+@model HalloDocWebEntity.Data.Requestclient
+@{
+    ViewData["Title"] = "Agreement";
+}
+<div class="container mt-5 p-5 " id="opensendorderpage">
+    <div class="row">
+        <div class="col-12">
+            <input type="hidden" id="email" />
+            <p class="mb-5 text-black text-center">
+                To Provide best medical service, we cannot determine that cost right away.If you agree to our service, so will provide care and follow-up until all care
+                is completed.So with this points, if you like us to provide care to you click on "Agree" and we'll get started immediately,if you do not agree simply click "Cancel".
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+                <a asp-action="SendAgreementConfirm" asp-controller="Admin" asp-route-id="@Model.Requestid" asp-route-username="@Model.Notes">
+                    <button type="button" class="btn btn-success m-3">I Agree</button>
+                </a>
+                <a type="button" class="btn btn-danger m-3" data-bs-target="#CancelRequest" data-bs-toggle="modal">Cancel</a>
+                <div class="modal fade" id="CancelRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <h5 class="modal-title text-white" id="exampleModalLongTitle">Cancel Confirmation</h5>
+
+                                <img src="~/images/close.png" height="35px" data-bs-dismiss="modal" aria-label="Close" />
+
+                            </div>
+                            <form id="myform" method="post">
+                                <input value="@Model.Requestid " name="Requestid" type="hidden" />
+                                <div class="modal-body">
+                                    <p>@Model.Firstname @Model.Lastname</p>
+                                
+                                    <div class="form-group my-3">
+                                        <textarea class="form-control"  name="Notes"  rows="6" placeholder="Please provide a brief explanation for your cancellation"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-outline-info">Confirm</button>
+                                    <button type="button" id="cancelbtn" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#cancelbtn").click(function () {
+        $("#modalpopup").remove();
+        $(".modal-backdrop").remove()
+        location.reload();
+    });
+   
+</script>

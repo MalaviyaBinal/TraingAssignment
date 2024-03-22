@@ -1,0 +1,276 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>  @ViewData["Title"] </title>
+    <link rel="icon" href="~/images/stethoscope.png">
+    <link rel="stylesheet" href="~/css/style-patient.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+
+    @*<link rel="stylesheet" href="~/Hallodoc.styles.css" asp-append-version="true" />*@
+
+</head>
+
+
+<body style="background-color: #f3f3f3; ">
+    <!-- --------------------------------------Main container--------------------------------------------- -->
+    <nav class="bg-white">
+        <ul class="sideBar shadow">
+            <li style="text-align: end;">
+                <a onclick="hideSidebar()" class="mt-5 me-3 pt-5" href="#"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="10.5" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" /></svg></a>
+            </li>
+            <li>
+                <a asp-controller="Admin" asp-action="AdminDashboard">Dashboard</a>
+            </li>
+            <li>
+                <a asp-controller="Admin" asp-action="AdminDashboardProviderLocation">Provider Location</a>
+            </li>
+            <li>
+                <a asp-controller="Admin" asp-action="AdminDashboardMyProfile">My Profile</a>
+            </li>
+            <li>
+                <a asp-controller="Admin" asp-action="AdminDashboardProviders">Providers</a>
+            </li>
+            <li>
+                <a asp-controller="Admin" asp-action="AdminDashboardPartners">Partners</a>
+            </li>
+            <li>
+                <a asp-controller="Admin" asp-action="AdminDashboardAccess">Access</a>
+            </li>
+            <li>
+                <a asp-controller="Admin" asp-action="AdminDashboardRecords">Records</a>
+            </li>
+
+
+        </ul>
+        <ul style="margin-bottom: 0px !important;">
+            <li class="d-flex">
+                <button class="theme-btn-header  mt-3 showOnMobile" style="display:none" onclick="showSidebar()">
+                    <i class="fa-solid fa-bars" style="color: #54B4D3;"></i>
+
+
+                </button>
+                <div>
+                    <img class="logo-icon mb-5 " src="~/images/lobgin-logo.png"  alt="logo">
+                </div>
+
+            </li>
+            <li class="hideOnMobile">
+                <p class="p-3 m-2 ">Wellcome : <b><small>@Accessor.HttpContext.Request.Cookies["userName"]</small></b></p>
+            </li>
+            <li>
+                <button class="btn btn-outline-info mt-3 hideOnMobile"><a asp-controller="Admin" asp-action="Logout" style="text-decoration: none; color: #54B4D3;">Logout</a></button>
+            </li>
+            <li>
+                <button class="theme-btn-header showOnMobile hide mt-3">
+                    <a asp-controller="Home" asp-action="PatientLogin"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #54B4D3;"></i></a>
+                </button>
+            </li>
+
+            <li>
+                <button class="theme-btn-header mt-3" onclick="changeTheme()">
+                    <i class="fa-regular fa-moon fa-lg"></i>
+                </button>
+            </li>
+        </ul>
+
+    </nav>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs tabs bg-white shadow hideOnMobile">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" id="dashbrd" style="cursor : pointer;">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" id="providerLocation" style="cursor :pointer;">Provider Location</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " data-bs-toggle="tab" id="myProfile" style="cursor :pointer;">My Profile</a>
+        </li>
+        <li class="nav-item">
+            <div class="dropdown navbar-dropdown" data-bs-toggle="tab" id="providers_dropdown" style="cursor :pointer;">
+                <button class="navbar-btn bg-white border-0 nav-link" type="button" id="provider" data-bs-toggle="dropdown" aria-expanded="false">
+                    Providers
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="provider">
+                    <li><a class="navbar-dropdown-item dropdown-item" id="providers">Provider</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" href="#">Scheduling</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" href="#">Invoicing</a></li>
+                </ul>
+            </div>
+          @*  <a class="nav-link" data-bs-toggle="tab" id="providers" style="cursor :pointer;">Providers</a>*@
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " data-bs-toggle="tab" id="partners" style="cursor :pointer;">Partners</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" id="access" style="cursor :pointer;">Access</a>
+        </li>
+        <li class="nav-item">
+
+            <div class="dropdown navbar-dropdown ms-1" data-bs-toggle="tab" id="records" style="cursor :pointer;">
+                <button class="navbar-btn bg-white border-0 nav-link" type="button" id="records" data-bs-toggle="dropdown" aria-expanded="false">
+                    Records
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="records">
+                  
+                    <li><a class="navbar-dropdown-item dropdown-item" id="records" asp-action="AdminRecord" asp-controller="Admin">Search Records</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" href="#">Email Logs</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" href="#">SMS Logs</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" href="#">Patient History</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" href="#">Block History</a></li>
+                </ul>
+            </div>
+
+            @*<a class="nav-link" data-bs-toggle="tab" id="records" style="cursor :pointer;">Records</a>*@
+        </li>
+
+    </ul>
+
+
+ 
+        <main id="content" role="main" class="pb-3">
+            @RenderBody()
+        </main>
+
+    <script>
+
+        $(document).ready(function () {
+
+
+
+            $('#dashbrd').click(function () {
+                $.ajax({
+                    url: "/Admin/NavAdmin",
+                    data: { 'id': 1 },
+                    type: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#content").html(data);
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#content").html('An error has occurred');
+                    }
+                });
+            });
+            $('#providerLocation').click(function () {
+                $.ajax({
+                    url: "/Admin/NavAdmin",
+                    data: { 'id': 2 },
+                    type: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#content").html(data);
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#content").html('An error has occurred');
+                    }
+                });
+            });
+            $('#myProfile').click(function () {
+                $.ajax({
+                    url: "/Admin/NavAdmin",
+                    data: { 'id': 3 },
+                    type: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#content").html(data);
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#content").html('An error has occurred');
+                    }
+                });
+            });
+            $('#providers').click(function () {
+                $.ajax({
+                    url: "/Admin/NavAdmin",
+                    data: { 'id': 4 },
+                    type: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#content").html(data);
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#content").html('An error has occurred');
+                    }
+                });
+            });
+            $('#partners').click(function () {
+                $.ajax({
+                    url: "/Admin/NavAdmin",
+                    data: { 'id': 5 },
+                    type: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#content").html(data);
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#content").html('An error has occurred');
+                    }
+                });
+            });
+            $('#access').click(function () {
+                $.ajax({
+                    url: "/Admin/NavAdmin",
+                    data: { 'id': 6 },
+                    type: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#content").html(data);
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#content").html('An error has occurred');
+                    }
+                });
+            });
+            $('#records').click(function () {
+                $.ajax({
+                    url: "/Admin/NavAdmin",
+                    data: { 'id': 7 },
+                    type: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#content").html(data);
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#content").html('An error has occurred');
+                    }
+                });
+            });
+        });
+        function showSidebar() {
+            if (document.querySelector(".sideBar").style.display == "flex")
+                document.querySelector(".sideBar").style.display = "none"
+            else
+            document.querySelector(".sideBar").style.display = "flex";
+        }
+        function hideSidebar() {
+            document.querySelector(".sideBar").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

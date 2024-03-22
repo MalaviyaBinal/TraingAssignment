@@ -1,0 +1,50 @@
+.input-placeholder {
+    padding:10px;
+    width: 100%;
+}
+.label-placeholder {
+    padding:10px;
+    pointer-events: none;
+    position:absolute;
+    left:0;
+    top:0;
+    transition: 0.2s;
+    transition-timing-function: ease;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    opacity:0.5;
+    background: #fff;
+}
+p {
+    margin:20px 0;
+    position:relative;
+    display:inline-block;
+    width: 100%;
+}
+a:hover{
+    text-decoration-color: red;
+    background-color: aquamarine;
+}
+
+input:focus + label, input:not(:placeholder-shown) + label {
+    opacity:1;
+    transform: scale(0.75) translateY(-70%) translateX(-14px);
+}
+.dash-icon{
+    top: 100px;
+    height: 40px;
+    width: 60px;
+
+}
+#radio1.checked{
+    background-color: red;
+    border: red;
+}
+#form-check-input{
+    background-color: red;
+    border-color: red;
+    border: red;
+}
+.file-input{
+    opacity: 0;
+    position: absolute;
+}

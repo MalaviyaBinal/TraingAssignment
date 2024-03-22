@@ -1,0 +1,30 @@
+﻿
+<div id="providerDiv">
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        //window.location.href = "/Admin/Provider";
+            $.ajax({
+            url: "/Admin/Provider",
+                data: { 'regid': 0 },
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                $("#providerDiv").html(data);
+                },
+                error: function () {
+                    alert("No Projects Found");
+                $("#providerDiv").html('An error has occurred');
+                }
+            });
+        
+    });
+   
+
+</script>
+
+
+
+          

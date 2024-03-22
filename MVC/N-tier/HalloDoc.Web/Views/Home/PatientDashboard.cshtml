@@ -1,0 +1,386 @@
+﻿@model HalloDocWebEntity.ViewModel.Profile
+@{
+    Layout = "_AfterLogin";
+}
+
+<!-----------modal---------------------------->
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <section>
+                <div class="mapouter">
+                    <div class="gmap_canvas">
+                        <iframe width="600" height="500" id="gmap_canvas" src="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+
+                            <!-- </iframe><a href="https://123movies-to.org">123 movies</a><br> -->
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: right;
+                                    height: 500px;
+                                    width: 600px;
+                                }</style>
+                            <!-- <a href="https://www.embedgooglemap.net">embedgooglemap.net</a> -->
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 500px;
+                                    width: 600px;
+                                }
+                            </style>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+ 
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane container active" id="dashboard">
+            <div class="container mx-0">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="mt-3">Medical History</h5>
+
+                        <div class="container  rounded bg-white shadow py-3">
+                            <div class="row justify-content-end text-end me-2 ">
+                                <button class="theme-btn-header showOnMobile hide  mb-3" data-bs-toggle="modal" data-bs-target="#myModel">
+
+                                    <i class="fa-solid fa-plus" style="color: #54B4D3;"></i>
+
+                                </button>
+                                <button class="theme-btn-header px-1  mb-3 hideOnMobile" style="height: 40px; width : 180px; color: #54B4D3;" data-bs-toggle="modal" data-bs-target="#myModel">Create New Request</button>
+
+                            </div>
+                            <table class="table hideOnMobile ">
+                                <thead class="bg-light justify-content-center ">
+                                    <tr>
+                                     
+                                        <th>
+                                            Createddate
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th class="text-center">Document</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Request.ToList() )
+                                    {
+                                        <tr>
+                                            
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Createddate)
+                                            </td>
+                                        @switch (item.Status)
+                                        {
+                                            case 1:
+                                                <td>
+                                                    Unassigned
+                                                </td>
+                                                break;
+                                            case 2:
+                                                <td>
+                                                    Accepted
+                                                </td>
+                                                break;
+                                            case 5 or 4 :
+                                                <td>
+                                                    Processing
+                                                </td>
+                                                break;
+                                            case 3:
+                                                <td>
+                                                    Cancelled by Admin
+                                                </td>
+                                                break;
+                                            case 6:
+                                                <td>
+                                                    Concluded
+                                                </td>
+                                                break;
+                                            case 7:
+                                                <td>
+                                                    Cancelled by Patient
+                                                </td>
+                                                break;
+                                            case 8:
+                                                <td>
+                                                    Closed
+                                                </td>
+                                                break;
+                                            case 9:
+                                                <td>
+                                                    Unpaid
+                                                </td>
+                                                break;
+                                        }
+
+                                            
+                                            <td class="text-center">
+                                            <a asp-action="PatientViewDocument" asp-controller="Home" asp-route-id="@item.Requestid"><button class="theme-btn-header px-1 " style="height: 40px; width : 100px; color: #54B4D3;">(@ViewBag.RequestIdCounts[item.Requestid])Document</button></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        <div class="accordion" style="background-color: #54d4d3;" id="accordionExample">
+
+                            @foreach (var item in Model.Request.ToList())
+                            {
+                                string id = 'a' + item.Requestid.ToString();
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="@id">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@id-A" aria-expanded="false" aria-controls="@id-A">
+                                            <i class="fa-regular fa-clock me-1" style="color: #54d4d3;"></i><b>Created Date: </b> @Html.DisplayFor(modelItem => item.Createddate)
+                                        </button>
+                                    </h2>
+                                    <div id="@id-A" class="accordion-collapse collapse" aria-labelledby="@id" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p><i class="fa-solid fa-user-doctor me-1 circlefa" style="color: #54d4d3; "></i>Provider : @id</p>
+                                            <p>
+                                                <i class="fa-solid fa-check circlefa me-1" style="color: #54d4d3;"></i>Current Status
+
+                                                @switch (item.Status)
+                                                {
+                                                    case 1:
+                                                        <span> Unassigned</span>
+
+                                                        break;
+                                                    case 2:
+                                                        <span>
+                                                            Accepted
+                                                        </span>
+                                                        break;
+                                                    case 5 or 4:
+                                                        <span>
+                                                            Processing
+                                                        </span>
+                                                        break;
+                                                    case 3:
+                                                        <span>
+                                                            Cancelled by Admin
+                                                        </span>
+                                                        break;
+                                                    case 6:
+                                                        <span>
+                                                            Concluded
+                                                        </span>
+                                                        break;
+                                                    case 7:
+                                                        <span>
+                                                            Cancelled by Patient
+                                                        </span>
+                                                        break;
+                                                    case 8:
+                                                        <span>
+                                                            Closed
+                                                        </span>
+                                                        break;
+                                                    case 9:
+                                                        <span>
+                                                            Unpaid
+                                                        </span>
+                                                        break;
+                                                }
+
+
+                                            <p class=""><a asp-action="PatientViewDocument" asp-controller="Home" asp-route-id="@item.Requestid"><button class="btn btn-white w-100" style="border-color: #54d4d3; color: #54d4d3;">(@ViewBag.RequestIdCounts[item.Requestid])Document</button></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+       
+        <div class="tab-pane container fade" id="profile">
+
+                <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between mt-3">
+                <h4 class="mt-3">User Profile</h4>
+               
+                <a class="text-start text-info text-decoration-none " asp-controller="Home" asp-action="patientdashboard">
+                    <button class="btn btn-white  text-info border-info rounded ">
+                        <i class="fa-solid  fa-less-than"></i> Back
+                    </button>
+                </a>
+            </div>
+            <div class="container  rounded bg-white shadow py-3">
+
+                    <form id="myForm" asp-action="EditProfile" method="post">
+                <h4 class="mb-3">General Information</h4>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input value="@Model.User.Firstname" name="first_name" type="text" class="form-control" id="fname" placeholder="Firstname" disabled>
+                        <label for="fname" class="form-label ps-4">First name</label>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input value="@Model.User.Lastname" name="last_name" type="text" class="form-control" id="lname" placeholder="Lastname" disabled>
+                        <label for="lname" class="form-label ps-4">last name </label>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input value="@Model.dob" type="date" name="dob" class="form-control" id="dob" placeholder="Date Of Birth" disabled>
+                        <label for="dob" class="form-label ps-4">Date Of Birth</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 h3 mb-3">
+                        Patient Contact Information
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12">
+                        <div class="mb-3 border border-light rounded-5">
+                            <select class="form-select p-3 pla1" aria-label=".form-select-lg example" id="mobile" disabled>
+                                <option selected>Mobile</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                    @* <div class="dropdown col-sm-2 col-md-2 col-xl-2">
+                      <a class="btn btn-light btn-outline-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Mobile
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      </ul>
+                    </div> *@
+                    <div class="col-sm-12 col-md-4 col-xl-4 form-floating mb-3 text-muted">
+                            <input name="phone" type="tel" class="form-control" id="phone" placeholder="Lastname" value="@Model.User.Mobile" disabled>
+                        <label  for="phone" class="form-label ps-4">Phone Number</label>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted" >
+                            <input name="email_user" type="email" class="form-control" value="@Model.User.Email" id="email" placeholder="Firstname" disabled>
+                        <label for="email_user" class="form-label ps-4">Email</label>
+                    </div>
+                 </div>
+                <div class="row">
+                    <div class="col-12 h3 mb-3">
+                        Location Information
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-6 form-floating  mb-3 text-muted">
+                            <input value="@Model.User.Street" type="text" name="street" class="form-control" id="street" placeholder="Street" disabled>
+                        <label for="street" class="form-label ps-4">Street</label>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
+                            <input type="text" value="@Model.User.City" name="city" class="form-control" id="city" placeholder="City" disabled>
+                        <label for="city" class="form-label ps-4">City</label>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
+                            <input value="@Model.User.State" type="text" name="state" class="form-control" id="state" placeholder="State" disabled>
+                        <label for="state" class="form-label ps-4">State</label>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-xl-4  form-floating mb-3 text-muted">
+                                <input type="text" value="@Model.User.Zip" name="zip_code" class="form-control" id="zip" placeholder="Zip Code" disabled>
+                                <label for="zip" class="form-label ps-4">Zip Code</label>
+                    </div>
+                            <div class="col-2 mb-3">
+                               
+                                    <a id="openBtn" class="btn btn-white border-info text-info " style="height:55px;"><i class="fa-solid fa-location-dot me-1"></i>Map</a>
+                             
+                            </div>
+                    
+                </div>
+                
+                <div class="text-endpb-3">
+                            <button class="btn btn-info me-2 text-white  justify-content-end " id="save_btn" type="submit" style="display:none;">Save</button>
+                    <button class="btn btn-info me-2 text-white" id="edit_btn" onclick="enableFeild()" type="button" style="display:block;">Edit</button>
+                </div>
+                    </form>
+                    
+            </div>
+        </div>
+    </div>
+</div>
+
+        </div>
+
+    
+       <div class="modal fade" id="myModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-light" id="staticBackdropLabel">Create New Request</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="text-muted">Here, i want to create new request for....</h6>
+                <div class="text-center">
+                    <a asp-action="PatientDashboardRequestForMe" asp-controller="Home"><button type="button" class="btn btn-info text-light me-3">Me</button></a>
+                    <a asp-action="PatientDashboardRequestForSomeone" asp-controller="Home"><button type="button" class="btn btn-outline-info">Some One Else</button></a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                
+                <button type="button" class="btn btn-outline-info">Continue</button>
+                <button type="button" class="btn btn-info text-light" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!--  -->
+    <script>
+        function changeTheme() {
+            if ($('#light-theme').css('display') == 'none') {
+                document.querySelector(".login-bg").style.display = "block";
+                document.querySelector(".login-bg-dark").style.display = "none";
+            }
+            else {
+                document.querySelector(".login-bg").style.display = "none";
+                document.querySelector(".login-bg-dark").style.display = "block";
+            }
+
+        }
+        function showSidebar() {
+            document.querySelector(".sideBar").style.display = "flex";
+        }
+        function hideSidebar() {
+            document.querySelector(".sideBar").style.display = "none";
+        }
+       
+    function enableFeild()
+    {
+        var formelements = document.getElementById("myForm").elements;
+        document.getElementById("save_btn").style.display = "block";
+        document.getElementById("edit_btn").style.display = "none";
+        for (var i = 0; i < formelements.length; i++) {
+            if(i == 5)
+                continue;
+            formelements[i].disabled = false;
+        }
+
+    }
+
+    $(document).ready(function () {
+        $("#openBtn").click(function () {
+            $("#myModal1").modal("show");
+            var Street = $("#street").val();
+            var City = $("#city").val();
+            var State = $("#state").val();
+            var ZipCode = $("#zipcode").val();
+            var address = "https://maps.google.com/maps?q=" + Street + City + State + ZipCode + "&t=&z=13&ie=UTF8&iwloc=&output=embed";
+            $("#gmap_canvas").attr("src", address);
+        });
+    });
+    </script>
+
+

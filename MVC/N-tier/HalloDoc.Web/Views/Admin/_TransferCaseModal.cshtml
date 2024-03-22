@@ -1,0 +1,114 @@
+﻿@model HalloDocWebEntity.ViewModel.AssignCaseModel
+<div class="modal fade" id="Transfercasemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Transfer Request</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="assignForm" method="post">
+            <div class="modal-body">
+                
+                <div class="row mb-3">
+                    <div class="col text-muted">
+                        To Assign this request,search and select another Physician.
+                    </div>
+                </div>
+                 
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="PhysicianSelect" aria-label="Floating label select example">
+                        
+                            @foreach(var item in Model.physicians)
+                            {
+                                <option value="@item.Physicianid">@item.Firstname @item.Lastname</option>
+                            }
+                       
+                        </select>
+                        <label for="PhysicianSelect">Select Physicion</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="RegionSelect" aria-label="Floating label select example">
+                            <option value="0">select Region</option>
+                            @foreach (var item in Model.regions)
+                            {
+                                <option value="@item.Regionid">@item.Name</option>
+                            }
+                        
+                        </select>
+                        <label for="RegionSelect">Narrow Search By Region</label>
+                    </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="notes" style="height: 100px"></textarea>
+                            <label for="floatingTextarea2">Description</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info text-white">Submit</button>
+                <button type="button" id="cancelbtn" class="btn btn-white border-info text-info" data-bs-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var myModal = new bootstrap.Modal(document.getElementById('Transfercasemodal'));
+        myModal.show();
+
+    });
+    
+        $("#RegionSelect").change(function () {
+            
+            var regionid = $('#RegionSelect').val()
+            var reqid = '@TempData["reqid"]';
+            console.log(regionid);
+            $.ajax({
+                url: "/Admin/AssignCaseModal",
+                data : {'id' : reqid , 'regid' : regionid},
+                type: "POST",
+            
+                success: function (result) {
+                    $("#modalpopup").html(result);
+                    
+                },
+                error: function () {
+                    alert("No Projects Found");
+                }
+            });
+        });
+    $("#cancelbtn").click(function () {
+        $("#modalpopup").remove();
+        $(".modal-backdrop").remove()
+        location.reload();
+        });
+    $('#assignForm').submit(function (e) {
+        e.preventDefault();
+        var phyId = $('#PhysicianSelect').val();
+        var notes = $('#notes').val();
+        var reqid = '@TempData["reqid"]';
+        $.ajax({
+            url: "/Admin/RequestTransfer",
+            data: { phyId: phyId, notes: notes, id: reqid },
+            type: "POST",
+            success: function (data) {
+                $("#modalpopup").remove();
+                $(".modal-backdrop").remove();
+                alert('Request assigned successfully');
+                location.reload();
+                //window.onload(getLocation());
+            },
+            error: function () {
+                alert("No Projects Found");
+
+            }
+        });
+    });
+        
+  
+</script>

@@ -1,0 +1,147 @@
+/* _content/HalloDoc.Web/Views/Shared/_AdminHeader.cshtml.rz.scp.css */
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-dnz8huv2uu] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-dnz8huv2uu] {
+  color: #0077cc;
+}
+
+.btn-primary[b-dnz8huv2uu] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-dnz8huv2uu], .nav-pills .show > .nav-link[b-dnz8huv2uu] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-dnz8huv2uu] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-dnz8huv2uu] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-dnz8huv2uu] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-dnz8huv2uu] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-dnz8huv2uu] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+/* _content/HalloDoc.Web/Views/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-cpwzw6gwpi] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-cpwzw6gwpi] {
+  color: #0077cc;
+}
+
+.btn-primary[b-cpwzw6gwpi] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-cpwzw6gwpi], .nav-pills .show > .nav-link[b-cpwzw6gwpi] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-cpwzw6gwpi] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-cpwzw6gwpi] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-cpwzw6gwpi] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-cpwzw6gwpi] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-cpwzw6gwpi] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+/* _content/HalloDoc.Web/Views/Shared/_MyLayout.cshtml.rz.scp.css */
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-a2742tsuwv] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-a2742tsuwv] {
+  color: #0077cc;
+}
+
+.btn-primary[b-a2742tsuwv] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-a2742tsuwv], .nav-pills .show > .nav-link[b-a2742tsuwv] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-a2742tsuwv] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-a2742tsuwv] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-a2742tsuwv] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-a2742tsuwv] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-a2742tsuwv] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}

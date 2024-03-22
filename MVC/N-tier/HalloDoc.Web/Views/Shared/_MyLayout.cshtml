@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hallodoc</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Hallodoc.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header id="myHeader" style="z-index:100;" class="px-3 Submit-request-header">
+
+        <img class="logo-icon " src="~/images/lobgin-logo.png" alt="logo">
+        <button class="theme-btn " onclick="changeTheme()">
+            <i class="fa-regular fa-moon fa-lg"></i>
+        </button>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

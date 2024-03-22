@@ -1,0 +1,61 @@
+﻿@model HalloDocWebEntity.Data.Physician
+<!-- Modal -->
+<div class="modal fade" id="ContactProvider" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Contact Your Provider</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-action="ContactProviderSendMessage" asp-controller="Admin">
+                <div class="modal-body">
+                    <p class="mb-3">
+                        Choose Communication to send message.
+                    </p>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">SMS</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Email</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                        <label class="form-check-label" for="inlineRadio3">Both</label>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="hidden" value="@Model.Email" asp-for=Email />
+                                <textarea asp-for=Adminnotes class="form-control" placeholder="Message" id="notes" style="height: 100px"></textarea>
+                                <label for="floatingTextarea2">Message</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info text-white">Send</button>
+                    <button type="button" id="cancelbtn" class="btn btn-white text-info border-info" data-bs-dismiss="modal">cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var myModal = new bootstrap.Modal(document.getElementById('ContactProvider'));
+        myModal.show();
+        console.log("xyz");
+    });
+
+
+
+    $("#cancelbtn").click(function () {
+        $("#modalpopup").remove();
+        $(".modal-backdrop").remove()
+        location.reload();
+    });
+   
+</script>
