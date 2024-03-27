@@ -1,4 +1,4 @@
-﻿
+﻿@model HalloDocWebEntity.ViewModel.AdminProviderModel
 <style>
     .iti {
         width: 100%;
@@ -24,16 +24,18 @@
                 </a>
             </div>
 
-            <div class="container rounded  shadow py-3">
-                <form method="post">
+            <div class="container rounded bg-light shadow py-3">
+                <form method="post" asp-action="SavePhysicianPassword" asp-controller="Admin">
                     <h5 class="mb-3">Account Information</h5>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input name="first_name" type="text" class="form-control d3class" id="exampleFormControlInput1" placeholder="Firstname" disabled>
+                            <input type="hidden" value="@Model.aspnetuser.Id" asp-for="@Model.aspnetuser.Id" />
+                            <input type="hidden" value="@Model.physician.Physicianid" asp-for="@Model.physician.Physicianid" />
+                            <input type="text" class="form-control d3class" asp-for="@Model.aspnetuser.Usarname" value=@Model.aspnetuser.Usarname id="exampleFormControlInput1" placeholder="Firstname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">User Name</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input name="last_name" type="text" class="form-control d3class" id="exampleFormControlInput1" placeholder="Lastname" disabled>
+                            <input type="text" class="form-control d3class" name="Passwordhash" id="exampleFormControlInput1" placeholder="Lastname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Password </label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
@@ -55,45 +57,45 @@
                     </div>
                     <div class="text-end pb-3">
                         <button class="btn btn-info text-white" type="button" id="edit3" onclick="EditData3()">Edit</button>
-                        <button class="btn btn-info text-white d-none" id="save3" type="submit">Save</button>
+                        @*<button class="btn btn-info text-white d-none" id="save3" type="submit">Save</button>*@
 
                         <button class="btn btn-white text-info border-info d-none" onclick="Cancel3()" id="cancel3" type="button">Cancel</button>
-                        <button class="btn btn-white text-info border-info" type="button">Reset password</button>
+                        <button class="btn btn-white text-info border-info" type="submit">Reset password</button>
                     </div>
                 </form>
-                <form id="enable">
-
+                <form id="enable" method="post" asp-action="SavePhysicianInfo" asp-controller="Admin">
+                    <input type="hidden" asp-for="@Model.physician.Physicianid" />
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Physician Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control dclass" id="exampleFormControlInput1" placeholder="Firstname" disabled>
+                            <input type="text" class="form-control dclass" asp-for=Firstname value="@Model.Firstname" id="exampleFormControlInput1" placeholder="Firstname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Firstname</label>
                             <span class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control dclass" id="exampleFormControlInput1" placeholder="Lastname" disabled>
+                            <input type="text" class="form-control dclass" asp-for=Lastname value="@Model.Lastname" id="exampleFormControlInput1" placeholder="Lastname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Lastname</label>
                             <span class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="email" class="form-control dclass" id="email" placeholder="Email" disabled>
+                            <input type="email" class="form-control dclass" asp-for=Email value="@Model.Email" id="email" placeholder="Email" disabled>
                             <label for="email" class="form-label ms-2">Email</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input id="phone" class="form-control inp2 dclass" type="tel" placeholder="Phone Number" disabled>
+                            <input id="phone" class="form-control inp2 dclass" asp-for=Mobile value="@Model.Mobile" type="tel" placeholder="Phone Number" disabled>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control dclass" id="exampleFormControlInput1" placeholder="Lastname" disabled>
+                            <input type="text" class="form-control dclass" asp-for=Medicallicense value="@Model.Medicallicense" id="exampleFormControlInput1" placeholder="Lastname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Medical Licence</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control dclass" id="exampleFormControlInput1" placeholder="NPI Number" disabled>
+                            <input type="text" class="form-control dclass" asp-for=Npinumber value="@Model.Npinumber" id="exampleFormControlInput1" placeholder="NPI Number" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">NPI Number</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="email" class="form-control dclass" id="exampleFormControlInput1" placeholder="Synchronization Email Address" disabled>
+                            <input type="email" class="form-control dclass" asp-for=Syncemailaddress value="@Model.Syncemailaddress" id="exampleFormControlInput1" placeholder="Synchronization Email Address" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Synchronization Email Address</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
@@ -122,34 +124,34 @@
                         <button class="btn btn-white text-info border-info d-none" onclick="Cancel()" id="cancel" type="button">Cancel</button>
                     </div>
                 </form>
-                <form id="enable1">
+                <form id="enable1" method="post" asp-action="SavePhysicianBillingInfo" asp-controller="Admin">
 
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Mailing & Billing Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control d1class" id="Address-1" placeholder="Address 1" disabled>
+                            <input type="text" asp-for=Address1 value="@Model.Address1" class="form-control d1class" id="Address-1" placeholder="Address 1" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Address 1</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control d1class" id="Address-2" placeholder="Address 2" disabled>
+                            <input type="text" asp-for=Address2 value="@Model.Address2" class="form-control d1class" id="Address-2" placeholder="Address 2" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Address 2</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input type="text" class="form-control d1class" id="city" placeholder="City" disabled>
+                            <input type="text" asp-for=City value="@Model.City" class="form-control d1class" id="city" placeholder="City" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">City</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input type="text" class="form-control d1class" id="state" placeholder="State" disabled>
+                            <input type="text" asp-for=City value="@Model.City" class="form-control d1class" id="state" placeholder="State" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">State</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input type="text" class="form-control d1class" id="zipcode" placeholder="Zip Code" disabled>
+                            <input type="text" asp-for=Zip value="@Model.Zip" class="form-control d1class" id="zipcode" placeholder="Zip Code" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Zip Code</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input id="phone1" class="form-control inp2 d1class" type="tel" placeholder="Phone Number" disabled>
+                            <input id="phone1" asp-for=Mobile value="@Model.Mobile" class="form-control inp2 d1class" type="tel" placeholder="Phone Number" disabled>
                         </div>
                     </div>
                     <div class="text-end pb-3">
@@ -165,11 +167,11 @@
                             Provider Profile
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control d2class" id="Address-1" placeholder="Business Name" disabled>
+                            <input type="text" asp-for=Businessname value="@Model.Businessname" class="form-control d2class" id="Address-1" placeholder="Business Name" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Business Name</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control d2class" id="Address-2" placeholder="Business Website" disabled>
+                            <input type="text" asp-for=Businesswebsite value="@Model.Businesswebsite" class="form-control d2class" id="Address-2" placeholder="Business Website" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Business Website</label>
                         </div>
                         <fieldset id="upload" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -203,7 +205,7 @@
                             </button>
                         </div>
                         <div class="form-floating mb-3">
-                            <textarea class="form-control d2class" placeholder="Admin Notes" id="floatingTextarea2" style="height: 100px" disabled></textarea>
+                            <textarea class="form-control d2class" asp-for=Adminnotes value="@Model.Adminnotes placeholder="Admin Notes" id="floatingTextarea2" style="height: 100px" disabled></textarea>
                             <label for="floatingTextarea2" class="ms-2">Admin Notes</label>
                         </div>
                     </div>
@@ -367,7 +369,7 @@
 
     function EditData3() {
         document.getElementById("cancel3").classList.remove("d-none");
-        document.getElementById("save3").classList.remove("d-none");
+        //document.getElementById("save3").classList.remove("d-none");
         document.getElementById("edit3").classList.add("d-none");
 
         document.querySelectorAll(".d3class").forEach(x => {
@@ -378,7 +380,7 @@
     function Cancel3() {
         document.getElementById("edit3").classList.remove("d-none");
         document.getElementById("cancel3").classList.add("d-none");
-        document.getElementById("save3").classList.add("d-none");
+        //document.getElementById("save3").classList.add("d-none");
 
         document.querySelectorAll(".d3class").forEach(x => {
             x.setAttribute("disabled", "");

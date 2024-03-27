@@ -43,10 +43,6 @@ namespace HalloDoc.Web.Controllers
         }
 
 
-        public IActionResult AdminDashboardAccess()
-        {
-            return View();
-        }
         public IActionResult CreateProviderAdmin()
         {
             return View();
@@ -56,17 +52,13 @@ namespace HalloDoc.Web.Controllers
         {
             _service.addProviderByAdmin(model);
             return RedirectToAction(nameof(AdminDashboard));
-            
+
         }
-        public IActionResult EditProviderDetail()
-        {
-            
-            return View();
-        }
+
         [HttpPost]
         public IActionResult Provider(int regid)
         {
-            
+
             AdminProviderModel model = _service.getProviderDataForAdmin(regid);
             return View(model);
         }
@@ -79,6 +71,11 @@ namespace HalloDoc.Web.Controllers
         public IActionResult AdminDashboardPartners()
         {
             return View();
+        }
+        public IActionResult AdminDashboardAccess()
+        {
+
+            return View(_service.getRoleList());
         }
         public IActionResult AdminDashboardProviderLocation()
         {
@@ -221,8 +218,6 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public ActionResult NavAdmin(int id)
         {
-
-
             if (id == 1)
             {
                 Response.Cookies.Append("Isheader", "false", new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
@@ -237,6 +232,17 @@ namespace HalloDoc.Web.Controllers
             else if (id == 6) return RedirectToAction("AdminDashboardAccess");
             else if (id == 7) return RedirectToAction("AdminDashboardRecords");
             else return RedirectToAction("AdminDashboard");
+        }
+        public IActionResult CreateRole(int check)
+        {
+
+            return View(_service.GetMenuData(check));
+        }
+
+        public IActionResult GenerateRole(string RoleName, string[] selectedRoles, int check)
+        {
+            _service.generateRole(RoleName, selectedRoles, check, HttpContext.Request.Cookies["UserEmail"]);
+            return RedirectToAction(nameof(AdminDashboard));
         }
 
         public ActionResult Export(int id, int check, string searchValue, int searchRegion)
@@ -376,7 +382,7 @@ namespace HalloDoc.Web.Controllers
             else if (id == 6) return View("_Unpaid", model);
             else return View("_New", model);
         }
-      
+
         public async Task<ActionResult> ViewCase(int id)
         {
 
@@ -392,7 +398,6 @@ namespace HalloDoc.Web.Controllers
             return RedirectToAction(nameof(AdminDashboard));
         }
 
-        [Route("/Home")]
         public async Task<ActionResult> ViewNotes(int id)
         {
 
@@ -492,10 +497,35 @@ namespace HalloDoc.Web.Controllers
             _service.updateadminform(info);
             return RedirectToAction(nameof(AdminDashboard));
         }
+
+        public IActionResult EditProviderDetail(int id)
+        {
+
+            return View(_service.getProviderByAdmin(id));
+        }
         public ActionResult SendLink(AdminDashboardDataWithRegionModel info)
         {
             _service.sendLinkAdminDashboard(info);
             return RedirectToAction(nameof(AdminDashboard));
         }
+        [HttpPost]
+        public ActionResult SavePhysicianPassword(AdminProviderModel info)
+        {
+            _service.savePhysicianPassword(info);
+            return RedirectToAction(nameof(EditProviderDetail), new { id = info.physician.Physicianid });
+        }
+        [HttpPost]
+        public ActionResult SavePhysicianInfo(AdminProviderModel info)
+        {
+            _service.savePhysicianInfo(info);
+            return RedirectToAction(nameof(EditProviderDetail), new { id = info.physician.Physicianid });
+        }
+        [HttpPost]
+        public ActionResult SavePhysicianBillingInfo(AdminProviderModel info)
+        {
+            _service.savePhysicianBillingInfo(info);
+            return RedirectToAction(nameof(EditProviderDetail), new { id = info.physician.Physicianid });
+        }
+
     }
 }

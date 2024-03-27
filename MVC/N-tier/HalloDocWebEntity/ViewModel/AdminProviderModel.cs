@@ -9,8 +9,11 @@ namespace HalloDocWebEntity.ViewModel
     {
         public List<Region> regions { get; set; }
         public List<Physician> physicians{ get; set; }
+        public Aspnetuser aspnetuser { get; set; }
+        public Physician physician { get; set; }    
         public string Firstname { get; set; }
         public string Lastname { get; set; }
+        public string Passwordhash { get; set; }
         public string Businesswebsite { get; set; }
         public string Businessname { get; set; }
         public string? Altphone { get; set; }

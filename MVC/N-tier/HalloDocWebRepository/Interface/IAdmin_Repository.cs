@@ -61,5 +61,13 @@ namespace HalloDocWebRepo.Interface
         void addAdminReg(Adminregion ar);
         void RemoveAdminReg(Adminregion ar);
         void addPhysician(Physician model);
+        Aspnetuser getAspnetuserByID(int? aspnetuserid);
+        void updateAspnetUser(Aspnetuser aspnetuser);
+        void updatePhysician(Physician physician);
+        List<Menu> getMenuListWithCheck(int check);
+        List<Menu> getmenudataof();
+        void saveRole(Role role);
+        void saveRoleMenu(Rolemenu rolemenu);
+        List<Role> getRoleList();
     }
 }

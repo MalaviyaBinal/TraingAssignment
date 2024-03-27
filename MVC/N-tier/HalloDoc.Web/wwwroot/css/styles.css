@@ -1,19 +1,20 @@
 
-  
-  .container {
+
+.container {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     padding: 10px;
     align-items: center;
-  }
-  
-  #phone, .btn {
+}
+
+#phone, .btn {
     padding-top: 6px;
     padding-bottom: 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
+}
+
 .accordion-button:not(.collapsed) {
     color: black !important;
     background-color: #daffff !important;
@@ -23,8 +24,8 @@
 .accordion-item {
     background-color: #daffff !important;
 }
-  
-  .btn {
+
+.btn {
     color: #ffffff;
     background-color: #428BCA;
     border-color: #357EBD;
@@ -33,32 +34,32 @@
     cursor: pointer;
     padding-left: 12px;
     padding-right: 12px;
-  }
-  
-  .btn:focus, .btn:hover {
-    background-color: #3276B1;
-    border-color: #285E8E;
-  }
-  
-  .btn:active {
-    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
-  }
-  
-  .alert {
+}
+
+    .btn:focus, .btn:hover {
+        background-color: #3276B1;
+        border-color: #285E8E;
+    }
+
+    .btn:active {
+        box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+    }
+
+.alert {
     padding: 15px;
     margin-top: 10px;
     border: 1px solid transparent;
     border-radius: 4px;
-  }
-  
-  .alert-info {
+}
+
+.alert-info {
     border-color: #bce8f1;
     color: #31708f;
     background-color: #d9edf7;
-  }
-  
-  .alert-error {
+}
+
+.alert-error {
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
-  }
+}

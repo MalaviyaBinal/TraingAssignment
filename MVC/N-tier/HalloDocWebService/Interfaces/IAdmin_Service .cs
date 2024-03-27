@@ -11,6 +11,7 @@ namespace HalloDocWebServices.Interfaces
 {
     public interface IAdmin_Service
     {
+
         public AssignCaseModel AssignCaseModel(int regid);
         void blockConfirm(int id, string notes);
         public void cancelConfirm(int id, int reasonid, string notes);
@@ -21,19 +22,19 @@ namespace HalloDocWebServices.Interfaces
         public AdminProfile getAdminProfileData(string? v);
         public byte[] getBytesForFile(int id);
         public IQueryable<AdminDashboardTableModel> getDashboardTables(int id, int check);
-        //public IQueryable<AdminDashboardTableModel> getDashboardTablesWithRegion(int id, int check,int region);
+
         public SendOrderModel getOrderModel(int id, int profId, int businessId);
         public AdminViewUpload getPatientDocument(int? id);
         public Requestclient getRequestClientByID(int id);
         public Requestwisefile getRequestWiseFileByID(int id);
-        public void patientRequestByAdmin(RequestForMe info,string email);
-        public void requestAssign(int phyId, string notes, int id,string email);
+        public void patientRequestByAdmin(RequestForMe info, string email);
+        public void requestAssign(int phyId, string notes, int id, string email);
         public void requestTransfer(int phyId, string notes, int id, string? v);
-        public void saveNotes(Notes n, int id);       
+        public void saveNotes(Notes n, int id);
         void SendEmail(int id, string[] filenames);
         void sendOrder(SendOrderModel info);
         public AdminDashboard setAdminDashboardCount();
-        public void uploadFileAdmin(IFormFile fileToUpload, int v,string email);
+        public void uploadFileAdmin(IFormFile fileToUpload, int v, string email);
         public ViewCaseModel ViewCaseModel(int id);
         public Notes ViewNotes(int id);
         public Requestclient sendAgreementService(string id);
@@ -55,5 +56,13 @@ namespace HalloDocWebServices.Interfaces
         void addProviderByAdmin(AdminProviderModel model);
         Physician getPhysicianByID(int id);
         void ContactProviderSendMessage(Physician info);
+        AdminProviderModel getProviderByAdmin(int id);
+        void savePhysicianPassword(AdminProviderModel info);
+        void savePhysicianInfo(AdminProviderModel info);
+        void savePhysicianBillingInfo(AdminProviderModel info);
+        RoleModel GetMenuData(int check);
+        void generateRole(string roleName, string[] selectedRoles, int check, string? v);
+       List<Role> getRoleList();
+
     }
 }

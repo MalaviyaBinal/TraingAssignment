@@ -109,7 +109,7 @@ namespace HalloDocWebRepo.Implementation
                     break;
 
             }
-            
+
             return _context.Requests.Where(i => status.Any(j => j == i.Status)).Count();
         }
 
@@ -175,13 +175,13 @@ namespace HalloDocWebRepo.Implementation
                     status = new int[] { 2 };
                     break;
                 case 3:
-                    status = new int[] { 4,5 };
+                    status = new int[] { 4, 5 };
                     break;
                 case 4:
                     status = new int[] { 6 };
                     break;
                 case 5:
-                    status = new int[] { 3,7,8 };
+                    status = new int[] { 3, 7, 8 };
                     break;
                 case 6:
                     status = new int[] { 9 };
@@ -227,11 +227,11 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Healthprofessionaltype> getHealthProfessionalTypeList()
         {
-            return _context.Healthprofessionaltypes.ToList(); 
+            return _context.Healthprofessionaltypes.ToList();
         }
         public List<Healthprofessionaltype> getHealthProfessionalType(int profId)
         {
-            return _context.Healthprofessionaltypes.Where(m => m.Healthprofessionalid == profId).ToList(); 
+            return _context.Healthprofessionaltypes.Where(m => m.Healthprofessionalid == profId).ToList();
         }
 
         public List<Requestwisefile> getPatientDocument(int? id)
@@ -241,7 +241,7 @@ namespace HalloDocWebRepo.Implementation
 
         public Physician getPhysicianById(int? physicianid)
         {
-           return _context.Physicians.FirstOrDefault(m => m.Physicianid == physicianid);
+            return _context.Physicians.FirstOrDefault(m => m.Physicianid == physicianid);
         }
 
         public List<Physician> getPhysicianList()
@@ -281,7 +281,7 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Requeststatuslog> getRequestStatusLog(int id)
         {
-           return  _context.Requeststatuslogs.Where(m => m.Requestid == id).ToList();
+            return _context.Requeststatuslogs.Where(m => m.Requestid == id).ToList();
         }
 
         public Requestwisefile getRequestWiseFile(int id)
@@ -289,12 +289,12 @@ namespace HalloDocWebRepo.Implementation
             return _context.Requestwisefiles.FirstOrDefault(m => m.Requestwisefileid == id && m.Isdeleted == null);
         }
 
-        public Requestwisefile getRequestWiseFileByName(string filename ,int id)
+        public Requestwisefile getRequestWiseFileByName(string filename, int id)
         {
-           return _context.Requestwisefiles.FirstOrDefault(m => m.Requestid == id && m.Filename == filename && m.Isdeleted == null);
+            return _context.Requestwisefiles.FirstOrDefault(m => m.Requestid == id && m.Filename == filename && m.Isdeleted == null);
         }
 
-        public Requestwisefile getRequesWiseFileList(int id,string filename)
+        public Requestwisefile getRequesWiseFileList(int id, string filename)
         {
             return _context.Requestwisefiles.FirstOrDefault(m => m.Requestid == id && m.Isdeleted == null && m.Filename == filename);
         }
@@ -371,7 +371,7 @@ namespace HalloDocWebRepo.Implementation
                    join r in _context.Requests on rc.Requestid equals r.Requestid
                    join phy in _context.Physicians on r.Physicianid equals phy.Physicianid
                    join rt in _context.Requesttypes on r.Requesttypeid equals rt.Requesttypeid
-                   join reg in _context.Regions on rc.Regionid equals reg.Regionid                  
+                   join reg in _context.Regions on rc.Regionid equals reg.Regionid
                    orderby r.Createddate descending
                    select new AdminDashboardTableModel
                    {
@@ -406,7 +406,7 @@ namespace HalloDocWebRepo.Implementation
 
         public void updateAdmin(Admin model)
         {
-           _context.Admins.Update(model);
+            _context.Admins.Update(model);
             _context.SaveChanges();
         }
 
@@ -426,6 +426,47 @@ namespace HalloDocWebRepo.Implementation
         {
             _context.Physicians.Add(model);
             _context.SaveChanges();
+        }
+
+        public Aspnetuser getAspnetuserByID(int? aspnetuserid)
+        {
+            return _context.Aspnetusers.FirstOrDefault(m => m.Id == aspnetuserid);
+        }
+
+        public void updateAspnetUser(Aspnetuser aspnetuser)
+        {
+            _context.Aspnetusers.Update(aspnetuser);
+            _context.SaveChanges();
+        }
+
+        public void updatePhysician(Physician physician)
+        {
+            _context.Physicians.Update(physician);
+            _context.SaveChanges();
+        }
+        public List<Menu> getmenudataof()
+        {
+            return _context.Menus.ToList();
+        }
+
+        public List<Menu> getMenuListWithCheck(int check)
+        {
+            return _context.Menus.Where(m => m.Accounttype == check).ToList();
+        }
+        public void saveRole(Role role)
+        {
+            _context.Roles.Add(role);
+            _context.SaveChanges();
+        }
+        public void saveRoleMenu(Rolemenu role)
+        {
+            _context.Rolemenus.Add(role);
+            _context.SaveChanges();
+        }
+
+        public List<Role> getRoleList()
+        {
+            return _context.Roles.ToList();
         }
     }
 }

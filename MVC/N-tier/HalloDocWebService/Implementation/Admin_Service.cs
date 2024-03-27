@@ -99,25 +99,25 @@ namespace HalloDocWebServices.Implementation
             };
             _repository.addRequestStatusLogTable(statuslog);
             Request request = _repository.getRequestByID(id);
-           
+
             request.Status = 10;
-           
+
             _repository.updateRequest(request);
         }
 
         public void deleteAllFile(int id, string[] filenames)
         {
             List<Requestwisefile> files = new();
-            foreach(var filename in filenames)
+            foreach (var filename in filenames)
             {
-                files.Add(_repository.getRequestWiseFileByName(filename,id));
+                files.Add(_repository.getRequestWiseFileByName(filename, id));
             }
-            foreach(var file  in files)
+            foreach (var file in files)
             {
                 file.Isdeleted = new BitArray(1, true);
                 _repository.updateRequestWiseFile(file);
             }
-            
+
         }
 
         public void deleteFile(int id)
@@ -143,7 +143,7 @@ namespace HalloDocWebServices.Implementation
                         {
                             zipArchive.CreateEntryFromFile(filePath, filename);
                         }
-                        
+
                     }
                 }
                 zipStream.Seek(0, SeekOrigin.Begin);
@@ -186,7 +186,7 @@ namespace HalloDocWebServices.Implementation
             model.Neuro = info.Neuro;
             model.Pain = info.Pain;
             model.Other = info.Other;
-            model.TreatmentPlan = info.TreatmentPlan; 
+            model.TreatmentPlan = info.TreatmentPlan;
             return model;
         }
 
@@ -218,7 +218,7 @@ namespace HalloDocWebServices.Implementation
             if (check == 0)
             {
                 tabledata = _repository.getDashboardTablesWithoutcheck(id);
-                
+
             }
             else
             {
@@ -237,16 +237,17 @@ namespace HalloDocWebServices.Implementation
                 Healthprofessional healthprofessional = new();
                 healthprofessional.Businesscontact = string.Empty;
                 healthprofessional.Email = string.Empty;
-               healthprofessional.Faxnumber = string.Empty;
+                healthprofessional.Faxnumber = string.Empty;
                 model.businessDetail = healthprofessional;
             }
-            else {
+            else
+            {
                 model.business = _repository.getHealthProfessional(profId);
                 model.businessDetail = _repository.getHealthProfessionalDetail(businessId);
-            } 
-            
+            }
+
             model.professions = _repository.getHealthProfessionalTypeList();
-            
+
             model.req_id = id;
 
             return model;
@@ -367,7 +368,7 @@ namespace HalloDocWebServices.Implementation
 
             //request.Physicianid = 0;
             _repository.updateRequest(request);
-        } 
+        }
         public void requestTransfer(int phyId, string notes, int id, string email)
         {
             Request request = _repository.getRequestByID(id);
@@ -457,9 +458,9 @@ namespace HalloDocWebServices.Implementation
             var subject = "Review Agreement";
             var message = "Review Your Agreement:https://localhost:44380/Admin/SendAgreement?token=" + token;
 
-            Request req = _repository.getRequestByID(id) ;
+            Request req = _repository.getRequestByID(id);
             req.Ip = token;
-            _repository.updateRequest(req) ;
+            _repository.updateRequest(req);
 
 
             var mailclient = new SmtpClient("smtp.office365.com", 587)
@@ -484,10 +485,10 @@ namespace HalloDocWebServices.Implementation
             List<Requestwisefile> files = new();
             foreach (var filename in filenames)
             {
-                files.Add(_repository.getRequesWiseFileList(id,filename));
+                files.Add(_repository.getRequesWiseFileList(id, filename));
             }
-            
-           
+
+
             Request request = _repository.getRequestByID(id);
             var receiver = "binalmalaviya2002@gmail.com";
             var subject = "Documents of Request " /*+ request.Confirmationnumber?.ToUpper()*/;
@@ -640,8 +641,8 @@ namespace HalloDocWebServices.Implementation
                     else if (item.Physicianid != null && item.Adminid != null)
                     {
                         var phy = _repository.getPhysicianById(item.Physicianid);
-                        
-                        var str = "admin transfered case To " + phy.Firstname +  " on " + item.Createddate.ToString() + ": " + item.Notes;
+
+                        var str = "admin transfered case To " + phy.Firstname + " on " + item.Createddate.ToString() + ": " + item.Notes;
                         strings.Add(str);
                     }
                 }
@@ -790,7 +791,7 @@ namespace HalloDocWebServices.Implementation
 
         public List<Physician> getPhysicianList()
         {
-            return  _repository.getPhysicianList();
+            return _repository.getPhysicianList();
         }
 
         public List<Region> getRegionList()
@@ -871,7 +872,7 @@ namespace HalloDocWebServices.Implementation
                 _repository.RemoveAdminReg(ar);
             }
 
-           
+
             model.Firstname = info.admin.Firstname;
             model.Lastname = info.admin.Lastname;
             model.Email = info.admin.Email;
@@ -882,14 +883,14 @@ namespace HalloDocWebServices.Implementation
 
         public void sendLinkAdminDashboard(AdminDashboardDataWithRegionModel info)
         {
-          
+
             var mail = "tatva.dotnet.binalmalaviya@outlook.com";
             var password = "binal@2002";
             var receiver = "binalmalaviya2002@gmail.com";
             var subject = "Make Your Appointment";
             var message = "You are invited to visit :https://localhost:44380/";
 
-            
+
 
             var mailclient = new SmtpClient("smtp.office365.com", 587)
             {
@@ -910,9 +911,9 @@ namespace HalloDocWebServices.Implementation
                 model.physicians = _repository.getPhysicianList();
             }
             else model.physicians = _repository.getPhysicianListByregion(id);
-           
-            
-            
+
+
+
             return model;
         }
         public void addProviderByAdmin(AdminProviderModel phy)
@@ -930,7 +931,7 @@ namespace HalloDocWebServices.Implementation
             model.Address1 = phy.Address1;
             model.Address2 = phy.Address2;
             model.City = phy.City;
-            model.Zip = phy.Zip;           
+            model.Zip = phy.Zip;
             model.Adminnotes = phy.Adminnotes;
             model.Altphone = phy.Altphone;
             model.Businessname = phy.Businessname;
@@ -942,7 +943,7 @@ namespace HalloDocWebServices.Implementation
 
         public Physician getPhysicianByID(int id)
         {
-           return _repository.getPhysicianById(id);
+            return _repository.getPhysicianById(id);
         }
 
         public void ContactProviderSendMessage(Physician info)
@@ -964,6 +965,111 @@ namespace HalloDocWebServices.Implementation
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
 
             mailclient.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
+        }
+
+        public AdminProviderModel getProviderByAdmin(int id)
+        {
+            Physician phy = _repository.getPhysicianById(id);
+            Aspnetuser asp = _repository.getAspnetuserByID(phy.Aspnetuserid);
+            AdminProviderModel model = new AdminProviderModel();
+            model.physician = phy;
+            //model.Username = user.UserName;
+            //model.Password = user.PasswordHash;
+            model.aspnetuser = asp;
+            model.Firstname = "Dr" + phy.Firstname;
+            model.Lastname = phy.Lastname;
+            model.Email = phy.Email;
+            model.Mobile = phy.Mobile;
+            model.Medicallicense = phy.Medicallicense;
+            model.Npinumber = phy.Npinumber;
+            model.Syncemailaddress = phy.Syncemailaddress;
+            model.Address1 = phy.Address1;
+            model.Address2 = phy.Address2;
+            model.City = phy.City;
+            model.Zip = phy.Zip;
+            model.Adminnotes = phy.Adminnotes;
+            model.Altphone = phy.Altphone;
+            model.Businessname = phy.Businessname;
+            model.Businesswebsite = phy.Businesswebsite;
+            return model;
+        }
+
+        public void savePhysicianPassword(AdminProviderModel info)
+        {
+            var aspnetuser = _repository.getAspnetuserByID(info.aspnetuser.Id);
+            aspnetuser.Passwordhash = info.Passwordhash;
+            aspnetuser.Modifieddate = DateTime.Now;
+            _repository.updateAspnetUser(aspnetuser);
+        }
+
+        public void savePhysicianInfo(AdminProviderModel model)
+        {
+            var physician = _repository.getPhysicianById(model.physician.Physicianid);
+            physician.Firstname = model.Firstname;
+            physician.Lastname = model.Lastname;
+            physician.Email = model.Email;
+            physician.Mobile = model.Mobile;
+            physician.Medicallicense = model.Medicallicense;
+            physician.Npinumber = model.Npinumber;
+            physician.Syncemailaddress = model.Syncemailaddress;
+            physician.Modifiedby = model.Email;
+            physician.Modifieddate = DateTime.Now;
+            _repository.updatePhysician(physician);
+        }
+
+        public void savePhysicianBillingInfo(AdminProviderModel model)
+        {
+            var physician = _repository.getPhysicianById(model.physician.Physicianid);
+            physician.Address1 = model.Address1;
+            physician.Address2 = model.Address2;
+            physician.City = model.City;
+
+            physician.Regionid = Int32.Parse(model.City);
+            physician.Zip = model.Zip;
+            physician.Altphone = model.Altphone;
+            physician.Modifieddate = DateTime.Now;
+            _repository.updatePhysician(physician);
+        }
+
+
+        public RoleModel GetMenuData(int check)
+        {
+            RoleModel model = new();
+            model.SelectedRole = check;
+            if (check == 0)
+            {
+
+                model.menu = _repository.getmenudataof();
+            }
+            else
+            {
+                model.menu = _repository.getMenuListWithCheck(check);
+            }
+            return model;
+        }
+        public void generateRole(string roleName, string[] selectedRoles, int check, string email)
+        {
+            var roles = selectedRoles[0].Split(',');
+            Role role = new Role();
+            role.Name = roleName;
+            role.Createddate = DateTime.Now;
+            role.Accounttype = (short)check;
+            role.Createdby = email;
+            role.Isdeleted = new BitArray(1, false);
+            _repository.saveRole(role);
+
+            foreach (string item in roles)
+            {
+                Rolemenu rolemenu = new Rolemenu();
+                rolemenu.Roleid = role.Roleid;
+                rolemenu.Menuid = Int32.Parse(item);
+                _repository.saveRoleMenu(rolemenu);
+            }
+        }
+
+        public List<Role> getRoleList()
+        {
+            return _repository.getRoleList();
         }
     }
 }
