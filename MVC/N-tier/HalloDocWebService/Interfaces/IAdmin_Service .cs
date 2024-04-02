@@ -21,7 +21,7 @@ namespace HalloDocWebServices.Interfaces
         public MemoryStream downloadFile(string[] filenames);
         public AdminProfile getAdminProfileData(string? v);
         public byte[] getBytesForFile(int id);
-        public IQueryable<AdminDashboardTableModel> getDashboardTables(int id, int check);
+        public List<AdminDashboardTableModel> getDashboardTables(int id, int check);
 
         public SendOrderModel getOrderModel(int id, int profId, int businessId);
         public AdminViewUpload getPatientDocument(int? id);
@@ -63,6 +63,11 @@ namespace HalloDocWebServices.Interfaces
         RoleModel GetMenuData(int check);
         void generateRole(string roleName, string[] selectedRoles, int check, string? v);
        List<Role> getRoleList();
-
+        void updateroleof(RoleModel roleModel);
+        RoleModel EditRole(int id);
+        void CreateAdminAccount(AdminProfile model, string? v);
+        AdminProfile getAdminRoleData();
+        public Dictionary<int, string> GetExtension(int Id);
+       UserAccess getUserAccessData();
     }
 }

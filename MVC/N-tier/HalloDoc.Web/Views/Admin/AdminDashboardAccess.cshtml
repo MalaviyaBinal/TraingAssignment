@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<HalloDocWebEntity.Data.Role>
-@*@{
+@{
     Layout = "_AdminHeader";
-}*@
+}
 <div class="container p-0">
     <div class="row">
         <div class="col-12">
@@ -26,41 +26,39 @@
             <tr class="bg-light text-muted h-100">
                 <th scope="col">Name</th>
                 <th scope="col">Account Type</th>
-                <th scope="col">Actions</th>
+                <th scope="col" class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody class="text-muted">
             <tR>
-                @foreach(var item in Model)
+                @foreach (var item in Model)
                 {
                     <td>@item.Name</td>
-                    if(item.Accounttype == 1)
+                    switch (item.Accounttype)
                     {
-                        <td>Admin</td>
+                        case 1:
+                            <td>Admin</td>
+                            break;
+                        case 2:
+                            <td>Physician</td>
+                            break;
+                        case 0:
+                            <td>All</td>
+                            break;
+
                     }
-                    else if(item.Accounttype == 2)
-                    {
-                        <td>Physician</td>
-                    } else if(item.Accounttype == 0)
-                    {
-                        <td>All</td>
-                    }
-                    <td>@item.Accounttype</td>
+                    <td class="text-center">
+                        <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Roleid"><button type="button" class="btn btn-outline-info">Edit</button></a>
+                        <button type="button" class="btn btn-outline-info">Delete</button>
+                    </td>
                 }
-                <td>
-                    Role Name
-                </td>
-                <td>
-                    Account Type
-                </td>
-                <td>
-                    <a asp-action="EditPhysicianAccount" asp-controller="Admin"><button type="button" class="btn btn-outline-info">Edit</button></a>
-                    <button type="button" class="btn btn-outline-info">Delete</button>
-                </td>
+               
+                
             </tR>
 
         </tbody>
     </table>
 </div>
 <script>
+    document.getElementById("access").classList.add("active");
 </script>

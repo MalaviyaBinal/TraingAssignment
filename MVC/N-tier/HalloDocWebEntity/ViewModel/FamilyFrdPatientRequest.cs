@@ -41,7 +41,7 @@ namespace HalloDocWebEntity.ViewModel
 
         public string? p_zip_code { get; set; }
 
-        public IFormFile fileToUploade { get; set; }
+        public IFormFile fileToUpload { get; set; }
 
         public DateTime Createddate { get; set; } = DateTime.Now;
     }

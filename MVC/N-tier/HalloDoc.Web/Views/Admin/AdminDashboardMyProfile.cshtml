@@ -1,6 +1,8 @@
 ﻿
 @model HalloDocWebEntity.ViewModel.AdminProfile
-
+@{
+    Layout = "_AdminHeader";
+}
 
 <style>
     .iti {
@@ -108,50 +110,6 @@
                             }
                         </div>
 
-                        @*
-                        @foreach (var i in Model.regions)
-                        {
-                        @foreach(var a in Model.adminregion)
-                        {
-
-                        @if (a.Regionid == i.Regionid)
-                        {
-                        <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1_@i" value="option1_@i" checked>
-                        <label class="form-check-label text-black" for="inlinecheckbox1_@i">@i.Name</label>
-                        </div>
-                        }
-                        else
-                        {
-                        <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1_@i" value="option1_@i">
-                        <label class="form-check-label" for="inlinecheckbox1_@i">@i.Name</label>
-                        </div>
-                        }
-                        break;
-                        }
-                        }*@
-
-
-                        @* <div class="col-sm-12 col-md-6 col-xl-6">
-                        <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"disabled>
-                        <label class="form-check-label" for="inlineCheckbox1">District Of Columbia</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2"disabled>
-                        <label class="form-check-label" for="inlineCheckbox2">New York</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3"disabled>
-                        <label class="form-check-label" for="inlineCheckbox3">Virginia</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4"disabled>
-                        <label class="form-check-label" for="inlineCheckbox4">Maryland</label>
-                        </div>
-                        </div>
-                        </div> *@
                         <div class="text-end pb-3">
                             <button class="btn btn-info text-white" id="edit" onclick="EditData()" type="button">Edit</button>
                             <button class="btn btn-info text-white" id="save" type="submit" style="display:none;">Save</button>
@@ -185,11 +143,6 @@
                                 }
                             </select>
                         </div>
-                        @* <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-
-                        <input value="@Model.region.Name" type="text"  class="form-control" id="state" placeholder="State"disabled>
-                        <label for="exampleFormControlInput1" class="form-label ps-4">State</label>
-                        </div> *@
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
                             <input asp-for=admin.Zip value="@Model.admin.Zip" type="text" class="form-control" id="zipcode" placeholder="Zip Code" disabled>
                             <label for="exampleFormControlInput1" class="form-label ps-4">Zip Code</label>
@@ -273,5 +226,5 @@
     });
 </script>
 <script>
-    document.getElementById("profile").classList.add("active");
+    document.getElementById("myProfile").classList.add("active");
 </script>

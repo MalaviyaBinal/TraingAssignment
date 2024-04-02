@@ -36,4 +36,8 @@
     <ProjectReference Include="..\HalloDocWebService\HalloDocWebService.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PhysicianDoc\" />
+  </ItemGroup>
+
 </Project>

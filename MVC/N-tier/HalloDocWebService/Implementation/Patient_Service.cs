@@ -430,7 +430,7 @@ namespace HalloDocWebServices.Implementation
             };
             _repository.addRequestTable(req);
 
-            var file = info.fileToUploade;
+            var file = info.fileToUpload;
             var uniqueFileName = Path.GetFileName(file.FileName);
             var uploads = "D:\\Projects\\HelloDOC\\MVC\\Hallodoc - Copy\\wwwroot\\UploadedFiles\\";
             var filePath = Path.Combine(uploads, uniqueFileName);
@@ -492,8 +492,8 @@ namespace HalloDocWebServices.Implementation
                     Createddate = info.Createddate,
 
                 };
-                
-                userid.Userid = user.Userid;
+
+                userid = user;
                 _repository.addUserTable(user);
 
             }

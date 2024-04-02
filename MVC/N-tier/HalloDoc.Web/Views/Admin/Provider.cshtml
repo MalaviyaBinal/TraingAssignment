@@ -1,7 +1,4 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminProviderModel
-@{
-    Layout = "_AdminHeader";
-}
 
 <div class="container p-5 tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -121,6 +118,7 @@
 </div>
 <div id="modelContent"></div>
 <script>
+    document.getElementById("provider").classList.add("active");
     $("#regionSelect").change(function () {
         var id = this.value;
         $.ajax({

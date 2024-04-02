@@ -1,4 +1,4 @@
-﻿
+﻿@model HalloDocWebEntity.ViewModel.FamilyFrdPatientRequest
 @{
     Layout = "_MyLayout";
 }
@@ -38,15 +38,15 @@
                 <div class="row mb-3">
 
                     <div class="col text-end">
-                        <form action="Submit-request-patient.html">
-                            <button type="submit" class="text-info bg-transparent border-info px-2 mt-5 py-1 btn" asp-action="SubmitPatientRequest" asp-controller="Home">
-                                < Back
+                        <a class="text-start text-info text-decoration-none " asp-controller="Home" asp-action="SubmitPatientRequest">
+                            <button class="btn btn-white px-2 mt-5 py-1  text-info border-info rounded ">
+                                <i class="fa-solid  fa-less-than"></i> Back
                             </button>
-                        </form>
+                        </a>
                     </div>
                 </div>
                 <div class="container-fluid margin-header rounded shadow " style="background-color: white;">
-                    <form asp-action="CreatePatientByFamilyFrd" asp-controller="Aspnetusers">
+                    <form enctype="multipart/form-data" asp-action="CreatePatientByFamilyFrd" asp-controller="Home">
                         <div class="row">
                             <div class="col mt-3"> <label class="h5">Family/Friend Information</label></div>
                         </div>
@@ -203,30 +203,27 @@
                                     <label class="h5">(Optional) Upload Photo or Document</label>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group row">
                                 <div class="col">
+                                    <p>
+                                        <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                            <i class="fa-solid fa-cloud-arrow-up"
+                                               style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                        </span>
+                                        <input type="File" class="form-control input-placeholder " name="fileToUpload" id="fileToUpload"
+                                               placeholder="Select File">
 
-                                    <div class="form-group row">
-                                        <div class="col">
-                                            <p>
-                                                <input class="form-control-lg file-input" type="file" id="formFile">
-                                                <input type="password" class="form-control input-placeholder "
-                                                       id="inputPassword" placeholder="Select File" disabled>
 
-                                                <i class="fa-solid fa-cloud-arrow-up bg-info "
-                                                   style="color: #ffffff; border-radius: 0px 5px 5px 0px;"></i>
 
-                                            </p>
+                                    </p>
 
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row text-end mb-5">
                             <div class="col">
-                                <button class="btn btn-info text-white mb-4 " >Submit</button>
-                                <button class="btn btn-outline-info mb-4 ms-3">Cancel</button>
+                                <button class="btn btn-info text-white mb-4 " type="submit">Submit</button>
+                               <button class="btn btn-outline-info mb-4 ms-3" onclick="clickbtn()">Cancel</button>
                             </div>
                         </div>
 
@@ -269,6 +266,10 @@
     </div>
     <script>
         let c = 1;
+        function clickbtn()
+        {
+           
+                window.location.href = "/Home/SubmitPatientRequest";        }
         function changeTheme() {
 
             if (c % 2 === 0) {

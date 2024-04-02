@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using ClosedXML.Excel;
 using HalloDocWebEntity.Data;
+using System.Security.Claims;
 
 namespace HalloDoc.Web.Controllers
 {
@@ -24,8 +25,6 @@ namespace HalloDoc.Web.Controllers
             AdminDashboardDataWithRegionModel model = new AdminDashboardDataWithRegionModel();
             model.adminCount = count;
             model.regions = _service.getRegionList();
-            if (token == "unset")
-                Response.Cookies.Append("Isheader", "true", new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
             return View(model);
         }
 
@@ -34,7 +33,9 @@ namespace HalloDoc.Web.Controllers
             if (id != 0)
                 HttpContext.Session.SetInt32("req_id", (int)id);
             var data = _service.getPatientDocument(HttpContext.Session.GetInt32("req_id"));
+            var requestIdCounts = _service.GetExtension((int)HttpContext.Session.GetInt32("req_id"));
 
+            ViewBag.fileExtensions = requestIdCounts;
             return View(data);
         }
         public IActionResult EncounterForm(int id)
@@ -67,6 +68,10 @@ namespace HalloDoc.Web.Controllers
         {
             AdminProfile model = _service.getAdminProfileData(HttpContext.Request.Cookies["userEmail"]);
             return View(model);
+        }
+        public IActionResult UserAccess()
+        {
+            return View(_service.getUserAccessData());
         }
         public IActionResult AdminDashboardPartners()
         {
@@ -215,24 +220,7 @@ namespace HalloDoc.Web.Controllers
             return RedirectToAction(nameof(AdminDashboard));
         }
 
-        [HttpPost]
-        public ActionResult NavAdmin(int id)
-        {
-            if (id == 1)
-            {
-                Response.Cookies.Append("Isheader", "false", new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
-                //HttpContext.Session.SetString("Isheader", "false");
-                return RedirectToAction("AdminDashboard");
-            }
-
-            else if (id == 2) return RedirectToAction("AdminDashboardProviderLocation");
-            else if (id == 3) return RedirectToAction("AdminDashboardMyProfile");
-            else if (id == 4) return RedirectToAction("AdminDashboardProviders");
-            else if (id == 5) return RedirectToAction("AdminDashboardPartners");
-            else if (id == 6) return RedirectToAction("AdminDashboardAccess");
-            else if (id == 7) return RedirectToAction("AdminDashboardRecords");
-            else return RedirectToAction("AdminDashboard");
-        }
+     
         public IActionResult CreateRole(int check)
         {
 
@@ -250,7 +238,7 @@ namespace HalloDoc.Web.Controllers
             try
             {
 
-                IQueryable<AdminDashboardTableModel> tabledata1;
+                List<AdminDashboardTableModel> tabledata1;
 
                 tabledata1 = _service.getDashboardTables(id, check);
 
@@ -258,12 +246,12 @@ namespace HalloDoc.Web.Controllers
                 {
                     if (!string.IsNullOrWhiteSpace(searchValue))
                     {
-                        tabledata1 = tabledata1.Where(x => x.Name.ToLower().Contains(searchValue.ToLower()));
+                        tabledata1 = tabledata1.Where(x => x.Name.ToLower().Contains(searchValue.ToLower())).ToList();
                     }
                 }
                 if (searchRegion != 0)
                 {
-                    tabledata1 = tabledata1.Where(x => x.RegionID == searchRegion);
+                    tabledata1 = tabledata1.Where(x => x.RegionID == searchRegion).ToList();
                 }
 
 
@@ -340,7 +328,7 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public ActionResult DashboardTables(int id, int check, string searchValue, int searchRegion, int pagesize, int pagenumber = 1)
         {
-            IQueryable<AdminDashboardTableModel> tabledata1 = _service.getDashboardTables(id, check);
+                List<AdminDashboardTableModel> tabledata1 = _service.getDashboardTables(id, check);
             AdminDashboardDataWithRegionModel model = new AdminDashboardDataWithRegionModel();
             model.physicians = _service.getPhysicianList();
             model.regions = _service.getRegionList();
@@ -350,37 +338,38 @@ namespace HalloDoc.Web.Controllers
             {
                 if (!string.IsNullOrWhiteSpace(searchValue))
                 {
-                    tabledata1 = tabledata1.Where(x => x.Name.ToLower().Contains(searchValue.ToLower()));
+                    tabledata1 = tabledata1.Where(x => x.Name.ToLower().Contains(searchValue.ToLower())).ToList();
                 }
 
             }
             if (searchRegion != 0)
             {
 
-                tabledata1 = tabledata1.Where(x => x.RegionID == searchRegion);
+                tabledata1 = tabledata1.Where(x => x.RegionID == searchRegion).ToList();
 
             }
             model.tabledata = tabledata1;
             var count = tabledata1.Count();
             if (count > 0)
             {
-                tabledata1 = tabledata1.Skip((pagenumber - 1) * 3).Take(3);
+                tabledata1 = tabledata1.Skip((pagenumber - 1) * 3).Take(3).ToList();
                 model.tabledata = tabledata1;
                 model.TotalPages = (int)Math.Ceiling((double)count / 3);
                 model.CurrentPage = pagenumber;
                 model.PreviousPage = pagenumber > 1;
                 model.NextPage = pagenumber < model.TotalPages;
             }
+            switch (id)
+            {
+               
+                case 2: return PartialView("_Pending", model);
+                case 3: return PartialView("_Active", model);
+                case 4: return PartialView("_Conclude", model);
+                case 5: return PartialView("_Toclose", model);
+                case 6: return PartialView("_Unpaid", model);
+                default: return PartialView("_New", model);
+            }
 
-            if (id == 1)
-                return PartialView("_New", model);
-            else if (id == 2)
-                return View("_Pending", model);
-            else if (id == 3) return View("_Active", model);
-            else if (id == 4) return View("_Conclude", model);
-            else if (id == 5) return View("_Toclose", model);
-            else if (id == 6) return View("_Unpaid", model);
-            else return View("_New", model);
         }
 
         public async Task<ActionResult> ViewCase(int id)
@@ -526,6 +515,27 @@ namespace HalloDoc.Web.Controllers
             _service.savePhysicianBillingInfo(info);
             return RedirectToAction(nameof(EditProviderDetail), new { id = info.physician.Physicianid });
         }
+        public IActionResult UpdateRole(RoleModel roleModel)
+        {
+            _service.updateroleof(roleModel);
+            return RedirectToAction(nameof(AdminDashboard));
+        }
 
+        public ActionResult EditRole(int id)
+        {
+            return View(_service.EditRole(id));
+        }
+
+        [HttpPost]
+        public IActionResult CreateAdminAccount(AdminProfile model)
+        {
+            _service.CreateAdminAccount(model, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(AdminDashboard));
+        }
+        public IActionResult CreateAdminAccount()
+        {
+            return View(_service.getAdminRoleData());
+        }
+       
     }
 }

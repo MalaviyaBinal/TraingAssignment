@@ -1,5 +1,6 @@
 ﻿
 using HalloDocWebEntity.Data;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace HalloDocWebEntity.ViewModel
@@ -27,6 +28,12 @@ namespace HalloDocWebEntity.ViewModel
         public string? Medicallicense { get; set; }
         public string? Mobile { get; set; }
         public string? Email { get; set; }
+        public IFormFile AgreementDoc { get; set; }
+        public IFormFile backgroundDoc { get; set; }
+        public IFormFile TrainingDoc { get; set; }
+        public IFormFile NonDisclosure { get; set; }
+        public IFormFile LisenceDoc { get; set; }
+        public IFormFile Photo { get; set; }
 
     }
 }

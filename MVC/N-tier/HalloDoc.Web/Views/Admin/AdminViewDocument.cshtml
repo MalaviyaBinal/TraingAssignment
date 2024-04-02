@@ -1,6 +1,7 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminViewUpload
 
 @using Microsoft.AspNetCore.Http
+
 @inject IHttpContextAccessor Accessor
 
 @{
@@ -8,69 +9,57 @@
 }
 
 
- 
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div class="tab-pane container active" id="dashboard">
-            <div class="container mx-0">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="d-flex justify-content-between">
-                            <h4 class="mt-3">Documents</h4>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane container active" id="dashboard">
+        <div class="container mx-0">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="mt-3">Documents</h4>
                         <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
 
                             <button class="btn btn-white  text-info border-info rounded ">
                                 <i class="fa-solid  fa-less-than"></i> Back
                             </button>
                         </a>
-                        </div>
-                       
-                        <div class="container  rounded bg-white shadow py-3">
-                            <h6 class="text-muted">Patient Name</h6>
-                            <h4 style="color:#54d4d3;">@Model.patientData.Firstname @Model.patientData.Lastname</h4> (@Model.confirmationDetail.Confirmationnumber)
-                            <h6 class="text-muted">Check here for any files that you or the doctors of your subsequents requestors have attached for you to review.</h6>
+                    </div>
 
-                            
+                    <div class="container  rounded bg-white shadow py-3">
+                        <h6 class="text-muted">Patient Name</h6>
+                        <h4 style="color:#54d4d3;">@Model.patientData.Firstname @Model.patientData.Lastname</h4> (@Model.confirmationDetail.Confirmationnumber)
+                        <h6 class="text-muted">Check here for any files that you or the doctors of your subsequents requestors have attached for you to review.</h6>
 
-                            <div class="row">
-                           @* <form method="post"  asp-action="UploadFile" enctype="multipart/form-data">
-                                <div class="mb-2">
-                                    <label for="fileToUpload" class="form-label">
-                                        Select File to Upload
-                                    </label>
-                                    <input id="fileToUpload" name="fileToUpload"
-                                           type="file" class="form-control" />
-                                </div>
-                                <div class="mb-2">
-                                    <button class="btn btn-primary">Upload</button>
-                                </div>
-                            </form>
-                            </div>*@
+
 
                         <div class="row">
-                            <div class="col">
-                                <form method="post"  asp-action="UploadFileAdmin" asp-controller="Admin" enctype="multipart/form-data">
-                               
-                                <div class="form-group row">
-                                    <div class="col">
-                                        <p>
-                                            <button style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
-                                                <i class="fa-solid fa-cloud-arrow-up"
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <form method="post" asp-action="UploadFileAdmin" asp-controller="Admin" enctype="multipart/form-data">
+
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <p>
+                                                    <button style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                                        <i class="fa-solid fa-cloud-arrow-up"
                                                            style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
-                                            </button>
+                                                    </button>
                                                     <input type="File" class="form-control input-placeholder " name="fileToUpload" id="fileToUpload"
-                                                    placeholder="Select File" >
-                                            
+                                                           placeholder="Select File">
 
 
-                                        </p>
 
-                                    </div>
-                                </div>
+                                                </p>
+
+                                            </div>
+                                        </div>
                                     </form>
+                                </div>
                             </div>
-                        </div>
 
 
                             <div class="d-flex justify-content-between">
@@ -82,49 +71,72 @@
                                 </div>
 
                             </div>
-                        <table class="table hideOnMobile ">
-                            <thead class="bg-light justify-content-center ">
-                                <tr>
-                                    <th>
+                            <table class="table hideOnMobile ">
+                                <thead class="bg-light justify-content-center ">
+                                    <tr>
+                                        <th>
                                             <input type="checkbox" id="checkall" onclick="oncheck()" class="ms-3" />
 
-                                    </th>
-                                    <th>
-                                        Document
-                                    </th>
-                                    <th>
-                                        Upload Date
-                                    </th>
-                                    
-                                    <th class="text-center"> Action</th>
+                                        </th>
+                                        <th>
+                                            Document
+                                        </th>
+                                        <th>
+                                            Upload Date
+                                        </th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    @foreach (var item in Model.FileList)
-                                {
-                                    <tr>
-                                            <td><input type="checkbox" class="Subcheckbox checkboxes ms-3" data-filename="@item.Filename" /></td>
-                                        
-                                        <td>
-                                            <i class="fa-solid fa-file-pdf" style="color: #ff0000;"></i>
-                                            @Html.DisplayFor(modelItem => item.Filename)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Createddate)
-                                        </td>
-                                        
-                                        <td class="text-center">
-                                                @*@Html.ActionLink("Click here to download", "DownloadFile", new { })*@
-                                                <a asp-action="DeleteFile" asp-controller="Admin" asp-route-id="@item.Requestwisefileid"><button class="theme-btn-header px-1 "><i class="fa-solid fa-trash"  style="color: #54B4D3;"></i></button>
+                                        <th class="text-center"> Action</th>
 
-                                        </a>
-                                                <a asp-action="DownloadFile" asp-controller="Admin" asp-route-id="@item.Requestwisefileid"><button class="theme-btn-header px-1 "><i class="fa-solid fa-cloud-arrow-down" style="color: #54B4D3;"></i></button></a>
-                                        </td>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.FileList)
+                                    {
+                                        <tr>
+                                            <td><input type="checkbox" class="Subcheckbox checkboxes ms-3" data-filename="@item.Filename" /></td>
+
+                                            <td>
+
+                                                @switch (@ViewBag.fileExtensions[item.Requestwisefileid])
+                                                {
+                                                    case ".docx":
+                                                    case ".doc":
+                                                        <i class="fa-solid fa-file-word" style="color: #0f5fff;"> </i>
+                                                        break;
+                                                    case ".xlsx":
+                                                    case ".xls":
+                                                        <i class="fa-solid fa-file-excel" style="color: #4ac926;"> </i>
+                                                        break;
+                                                    case ".jpg":
+                                                    case ".jpeg":
+                                                    case ".png":
+                                                        <i class="fa-regular fa-image" style="color: #74C0FC;"> </i>
+                                                        break;
+                                                    case ".pdf":
+                                                        <i class="fa-solid fa-file-pdf" style="color: #ff0000;"> </i>
+                                                        break;
+                                                    default:
+                                                        <i class="bi bi-file-earmark-text-fill"> </i>
+                                                        break;
+                                                }
+                                                @*<i class="fa-solid fa-file-pdf" style="color: #ff0000;"></i>*@
+                                                @Html.DisplayFor(modelItem => item.Filename)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Createddate)
+                                            </td>
+
+                                            <td class="text-center">
+                                                <a asp-action="DeleteFile" asp-controller="Admin" asp-route-id="@item.Requestwisefileid">
+                                                    <button class="theme-btn-header px-1 "><i class="fa-solid fa-trash" style="color: #54B4D3;"></i></button>
+
+                                                </a>
+                                                <a asp-action="DownloadFile" asp-controller="Admin" asp-route-id="@item.Requestwisefileid"><button class="theme-btn-header px-1 "><i class="fa-solid fa-cloud-arrow-down" style="color: #54B4D3;"></i></button></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
 
                         </div>
 
@@ -135,9 +147,8 @@
             </div>
 
         </div>
-       
-        <div class="tab-pane container fade" id="profile">
 
+        <div class="tab-pane container fade" id="profile">
         </div>
 
     </div>
@@ -145,6 +156,7 @@
 
     <!--  -->
     <script>
+        document.getElementById("dashbrd").classList.add("active");
         function oncheck() {
 
 
@@ -185,11 +197,11 @@
                         //$("#tableContent").html('An error has occurred');
                     }
                 });
-                
+
             } else {
                 alert('Please select one or more files to download.');
             }
-         }
+        }
         function sendMail() {
             var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
             var filenames = [];
@@ -200,7 +212,7 @@
 
             if (filenames.length > 0) {
                 $.ajax({
-                        url: "/Admin/SendMail",
+                    url: "/Admin/SendMail",
                     data: { 'id': @Model.confirmationDetail.Requestid, 'filenames': filenames },
                     type: "POST",
                     dataType: "html",
@@ -212,7 +224,7 @@
                         //$("#tableContent").html('An error has occurred');
                     }
                 });
-                
+
             } else {
                 alert('Please select one or more files to download.');
             }

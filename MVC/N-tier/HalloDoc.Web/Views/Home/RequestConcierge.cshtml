@@ -33,15 +33,15 @@
                 <div class="row mb-3">
 
                     <div class="col text-end">
-                        <form action="Submit-request-patient.html">
-                            <button type="submit" class="text-info bg-transparent border-info px-2 mt-5 py-1 btn" asp-action="SubmitPatientRequest" asp-controller="Home">
-                                < Back
+                        <a class="text-start text-info text-decoration-none " asp-controller="Home" asp-action="SubmitPatientRequest">
+                            <button class="btn btn-white  text-info border-info rounded ">
+                                <i class="fa-solid  fa-less-than"></i> Back
                             </button>
-                        </form>
+                        </a>
                     </div>
                 </div>
                 <div class="container-fluid margin-header rounded shadow " style="background-color: white;">
-                    <form asp-action="CreatePatientByConierge" asp-controller="Aspnetusers">
+                    <form asp-action="CreatePatientByConierge" asp-controller="Home">
                         <div class="row">
                             <div class="col mt-3"> <label class="h4">Conciegre Information</label></div>
                         </div>
@@ -199,8 +199,8 @@
 
                         <div class="row text-end mb-5">
                             <div class="col">
-                                <button class="btn btn-info text-white mb-4 " >Submit</button>
-                                <button class="btn btn-outline-info mb-4 ms-3">Cancel</button>
+                                <button class="btn btn-info text-white mb-4 " type="submit">Submit</button>
+                                <button class="btn btn-outline-info mb-4 ms-3" onclick="clickbtn()">Cancel</button>
                             </div>
                         </div>
 
@@ -219,6 +219,10 @@
     </div>
     <script>
         let c = 1;
+        function clickbtn() {
+
+            window.location.href = "/Home/SubmitPatientRequest";
+        }
         function changeTheme() {
 
             if (c % 2 === 0) {

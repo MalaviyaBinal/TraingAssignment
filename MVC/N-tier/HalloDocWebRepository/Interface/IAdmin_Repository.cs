@@ -21,10 +21,8 @@ namespace HalloDocWebRepo.Interface
         public Aspnetuser getAspnetuserByEmail(string email);
         public Casetag getCasetag(int reasonid);
         public int getcount(int id);
-        public IQueryable<AdminDashboardTableModel> getDashboardTables(int id, int check);
-        //public IQueryable<AdminDashboardTableModel> getDashboardTablesWithRegion(int id, int check,int region);
-        //public IQueryable<AdminDashboardTableModel> getDashboardTablesWithRegionWithoutCheck(int id,int region);
-        public IQueryable<AdminDashboardTableModel> getDashboardTablesWithoutcheck(int id);
+        public List<AdminDashboardTableModel> getDashboardTables(int id, int check);
+        public List<AdminDashboardTableModel> getDashboardTablesWithoutcheck(int id);
         List<Healthprofessional> getHealthProfessional(int businessId);
         public List<Healthprofessional> getHealthProfessionalList();
         List<Healthprofessionaltype> getHealthProfessionalTypeList();
@@ -69,5 +67,12 @@ namespace HalloDocWebRepo.Interface
         void saveRole(Role role);
         void saveRoleMenu(Rolemenu rolemenu);
         List<Role> getRoleList();
+        Role getRoleByID(int id);
+        List<Rolemenu> getSelectedRoleMenuByRoleID(int id);
+        void removeAllRoleMenu(int roleId);
+        void addAdminTable(Admin admin);
+        List<Role> getRolesOfAdmin();
+        List<Aspnetuser> getAspnetUserList();
+        List<Admin> getAdminList();
     }
 }
