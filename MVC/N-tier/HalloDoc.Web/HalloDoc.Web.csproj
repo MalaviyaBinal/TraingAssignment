@@ -9,6 +9,9 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\UploadedFiles\DemoMvcCore.sln" />
+    <None Include="wwwroot\PhysicianDoc\2\Profile.png" />
+    <None Include="wwwroot\PhysicianDoc\2\Signature.png" />
+    <None Include="wwwroot\PhysicianDoc\5\HIPAA.xlsx" />
     <None Include="wwwroot\UploadedFiles\DemoMvcCore.sln" />
   </ItemGroup>
 
@@ -34,6 +37,13 @@
   <ItemGroup>
     <ProjectReference Include="..\HalloDocWebEntity\HalloDocWebEntity.csproj" />
     <ProjectReference Include="..\HalloDocWebService\HalloDocWebService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\PhysicianDoc\5\SRS-23-24-Trainees.pdf">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

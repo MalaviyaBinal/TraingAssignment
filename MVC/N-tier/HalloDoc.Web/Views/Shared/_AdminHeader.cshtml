@@ -30,30 +30,48 @@
 <body style="background-color: #f3f3f3; ">
     <!-- --------------------------------------Main container--------------------------------------------- -->
     <nav class="bg-white">
-        <ul class="sideBar shadow">
-            <li style="text-align: end;">
-                <a onclick="hideSidebar()" class="mt-5 me-3 pt-5" href="#"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="10.5" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" /></svg></a>
+        <ul class="sideBar shadow hide">
+            
+            <li>
+                <a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboard">Dashboard</a>
             </li>
             <li>
-                <a asp-controller="Admin" asp-action="AdminDashboard">Dashboard</a>
+                <a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboardProviderLocation">Provider Location</a>
             </li>
             <li>
-                <a asp-controller="Admin" asp-action="AdminDashboardProviderLocation">Provider Location</a>
+                <a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboardMyProfile">My Profile</a>
             </li>
             <li>
-                <a asp-controller="Admin" asp-action="AdminDashboardMyProfile">My Profile</a>
+                <div class="dropdown navbar-dropdown" id="providers_dropdown" style="cursor :pointer;">
+                    <button class="navbar-btn bg-white border-0 nav-link" type="button" id="provider" data-bs-toggle="dropdown" aria-expanded="false">
+                        Providers
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="provider">
+                        <li><a class="navbar-dropdown-item dropdown-item" asp-action="AdminDashboardProviders" asp-controller="Admin" id="providers">Provider</a></li>
+                        <li><a class="navbar-dropdown-item dropdown-item" href="#">Scheduling</a></li>
+                        <li><a class="navbar-dropdown-item dropdown-item" href="#">Invoicing</a></li>
+                    </ul>
+                </div>
+                @*<a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboardProviders">Providers</a>*@
             </li>
             <li>
-                <a asp-controller="Admin" asp-action="AdminDashboardProviders">Providers</a>
+                <a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboardPartners">Partners</a>
             </li>
             <li>
-                <a asp-controller="Admin" asp-action="AdminDashboardPartners">Partners</a>
+                <div class="dropdown navbar-dropdown ms-1">
+                    <button class="navbar-btn bg-white border-0 nav-link" type="button" id="access" data-bs-toggle="dropdown" aria-expanded="false">
+                        Access
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="access">
+                        <li><a class="navbar-dropdown-item dropdown-item" asp-action="AdminDashboardAccess" asp-controller="Admin">Account Access</a></li>
+                        <li><a class="navbar-dropdown-item dropdown-item" asp-action="UserAccess" asp-controller="Admin">User Access</a></li>
+                        <li><a class="navbar-dropdown-item dropdown-item" asp-action="CreateAdminAccount" asp-controller="Admin">Create Admin</a></li>
+                    </ul>
+                </div>
+                @*<a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboardAccess">Access</a>*@
             </li>
             <li>
-                <a asp-controller="Admin" asp-action="AdminDashboardAccess">Access</a>
-            </li>
-            <li>
-                <a asp-controller="Admin" asp-action="AdminDashboardRecords">Records</a>
+                <a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboardRecords">Records</a>
             </li>
 
 

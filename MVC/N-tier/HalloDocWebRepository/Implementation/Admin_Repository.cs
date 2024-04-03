@@ -152,7 +152,7 @@ namespace HalloDocWebRepo.Implementation
                     RequestTypeName = item.Requesttype.Name,
                     RequestorPhonenumber = item.Phonenumber,
                     Status = item.Status
-                        
+
                 });
             });
             return model;
@@ -202,7 +202,7 @@ namespace HalloDocWebRepo.Implementation
                     RequestTypeId = item.Requesttypeid,
                     RegionID = item.Requestclients.FirstOrDefault().Regionid,
                     RequestTypeName = item.Requesttype.Name,
-                    RequestorPhonenumber =  item.Phonenumber,
+                    RequestorPhonenumber = item.Phonenumber,
                     Status = item.Status
                 });
             });
@@ -359,32 +359,58 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges();
         }
 
-        public IQueryable<AdminDashboardTableModel> GetExportAllData()
+        public List<AdminDashboardTableModel> GetExportAllData()
         {
-            return from rc in _context.Requestclients
-                   join r in _context.Requests on rc.Requestid equals r.Requestid
-                   join phy in _context.Physicians on r.Physicianid equals phy.Physicianid
-                   join rt in _context.Requesttypes on r.Requesttypeid equals rt.Requesttypeid
-                   join reg in _context.Regions on rc.Regionid equals reg.Regionid
-                   orderby r.Createddate descending
-                   select new AdminDashboardTableModel
-                   {
-                       Name = rc.Firstname + ' ' + rc.Lastname,
-                       Requestor = rt.Name + " , " + r.Firstname + ' ' + r.Lastname,
-                       physician = r.Physicianid,
-                       Dateofservice = r.Lastreservationdate,
-                       Requesteddate = r.Createddate,
-                       Phonenumber = rc.Phonenumber,
-                       Email = r.Email,
-                       Address = rc.Street + " , " + rc.City + " , " + rc.Street + " , " + rc.Zipcode,
-                       Requestid = r.Requestid,
-                       Notes = rc.Notes,
-                       RequestTypeId = r.Requesttypeid,
-                       RegionID = rc.Regionid,
-                       RequestTypeName = rt.Name,
-                       RequestorPhonenumber = r.Phonenumber,
-                       Status = r.Status
-                   };
+            var data1 = _context.Requests.Where(r => r.Status != 10).Include(x => x.Requestclients).Include(x => x.Requesttype).ToList();
+            List<AdminDashboardTableModel> model = new List<AdminDashboardTableModel>();
+            data1?.ForEach(item =>
+            {
+                model.Add(new AdminDashboardTableModel
+                {
+                    Name = item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname,
+                    Requestor = item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname,
+                    physician = item.Physicianid,
+                    Dateofservice = item.Lastreservationdate,
+                    Requesteddate = item.Createddate,
+                    Phonenumber = item.Requestclients.FirstOrDefault().Phonenumber,
+                    Email = item.Email,
+                    Address = item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().City + " , " + item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().Zipcode,
+                    Requestid = item.Requestid,
+                    Notes = item.Requestclients.FirstOrDefault().Notes,
+                    RequestTypeId = item.Requesttypeid,
+                    RegionID = item.Requestclients.FirstOrDefault().Regionid,
+                    RequestTypeName = item.Requesttype.Name,
+                    RequestorPhonenumber = item.Phonenumber,
+                    Status = item.Status
+
+                });
+            });
+
+            return model;
+            //return from rc in _context.Requestclients
+            //       join r in _context.Requests on rc.Requestid equals r.Requestid
+            //       join phy in _context.Physicians on r.Physicianid equals phy.Physicianid
+            //       join rt in _context.Requesttypes on r.Requesttypeid equals rt.Requesttypeid
+            //       join reg in _context.Regions on rc.Regionid equals reg.Regionid
+            //       orderby r.Createddate descending
+            //       select new AdminDashboardTableModel
+            //       {
+            //           Name = rc.Firstname + ' ' + rc.Lastname,
+            //           Requestor = rt.Name + " , " + r.Firstname + ' ' + r.Lastname,
+            //           physician = r.Physicianid,
+            //           Dateofservice = r.Lastreservationdate,
+            //           Requesteddate = r.Createddate,
+            //           Phonenumber = rc.Phonenumber,
+            //           Email = r.Email,
+            //           Address = rc.Street + " , " + rc.City + " , " + rc.Street + " , " + rc.Zipcode,
+            //           Requestid = r.Requestid,
+            //           Notes = rc.Notes,
+            //           RequestTypeId = r.Requesttypeid,
+            //           RegionID = rc.Regionid,
+            //           RequestTypeName = rt.Name,
+            //           RequestorPhonenumber = r.Phonenumber,
+            //           Status = r.Status
+            //       };
         }
 
         public void updateRewuestClient(Requestclient reqclient)
@@ -475,8 +501,8 @@ namespace HalloDocWebRepo.Implementation
 
         public void removeAllRoleMenu(int roleId)
         {
-           var meunus = _context.Rolemenus.Where(m => m.Roleid == roleId).ToList();
-            foreach(var m in meunus)
+            var meunus = _context.Rolemenus.Where(m => m.Roleid == roleId).ToList();
+            foreach (var m in meunus)
             {
                 _context.Rolemenus.Remove(m);
             }
@@ -492,20 +518,63 @@ namespace HalloDocWebRepo.Implementation
         {
             return _context.Roles.Where(m => m.Accounttype == 2).ToList();
         }
-        public List<Aspnetuser> getaspnetuserdataofadminandprovider()
-        {
-            //return _context.Aspnetusers.Include(e => e.Admins).Include(e => e.Physicians).ToList();
-            return _context.Aspnetusers.Include(e => e.Admins).Include(e => e.Physicians).Where(m => m.Role == 1 || m.Role == 3).ToList();
-        }
+        //public List<Aspnetuser> getaspnetuserdataofadminandprovider()
+        //{
+        //    //return _context.Aspnetusers.Include(e => e.Admins).Include(e => e.Physicians).ToList();
+        //    return _context.Aspnetusers.Include(e => e.Admins).Include(e => e.Physicians).Where(m => m.Role == 1 || m.Role == 3).ToList();
+        //}
 
-        public List<Aspnetuser> getAspnetUserList()
+        public List<Aspnetuser> getAspnetUserList(int roleid)
         {
-            return _context.Aspnetusers.ToList();
+            switch (roleid)
+            {
+                case 3:
+                    return _context.Aspnetusers.Include(e => e.Admins).Include(e => e.Physicians).Where(m => m.Role == 3).ToList();
+
+                case 1:
+                    return _context.Aspnetusers.Include(e => e.Admins).Include(e => e.Physicians).Where(m => m.Role == 1).ToList();
+
+                default:
+                    return _context.Aspnetusers.Include(e => e.Admins).Include(e => e.Physicians).Where(m => m.Role == 1 || m.Role == 3).ToList();
+
+            }
+
         }
 
         public List<Admin> getAdminList()
         {
             return _context.Admins.ToList();
+        }
+
+        public List<Physicianregion> getPhysicianRegionByPhy(int id)
+        {
+            return _context.Physicianregions.Where(m => m.Physicianid == id).ToList();
+        }
+
+        public void removeAllPhysicianRegion(int physicianid)
+        {
+            var reg = _context.Physicianregions.Where(m => m.Physicianid == physicianid).ToList();
+            reg.ForEach(item =>
+            {
+                _context.Physicianregions.Remove(item);
+            });
+            _context.SaveChanges();
+        }
+
+        public void addAllPhysicianRegion(List<int>? selectedReg,int id)
+        {
+            selectedReg.ForEach(item =>
+            {
+                Physicianregion pr = new() { Physicianid = id, Regionid = item };
+                _context.Physicianregions.Add(pr);
+            });
+            _context.SaveChanges();
+            
+        }
+
+        public List<Physicianlocation> getPhysicianLocationList()
+        {
+            return _context.Physicianlocations.ToList();
         }
     }
 }

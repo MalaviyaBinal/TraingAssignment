@@ -1,32 +1,184 @@
-﻿@{
+﻿@model HalloDocWebEntity.ViewModel.AdminProviderModel
+@{
+    Layout = "_AdminHeader";
+}
+<div class="container p-5 tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+        <div class=" row mb-4">
+            <div class="col-sm-10 col">
+                <span class="h1">Provider Information</span>
+            </div>
+            <div class="col text-end">
+               
+                    <button type="submit" class="text-info bg-transparent border-info px-2 mt-5 py-1 btn">
+                        < Back
+                    </button>
+                
+            </div>
+        </div>
+
+        <div class="  boxshadow rounded ">
+            <div class="ms-3 mt-3 p-3">
+
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <select name="" id="regionSelect" class="form-select" aria-label="Default select example">
+                            <option value="0">All</option>
+                            @foreach (var i in Model.regions)
+                            {
+                                <option value="@i.Regionid">@i.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 text-end">
+
+                      <a asp-action="CreateProviderAdmin" asp-controller="Admin">
+ 
+                          <button class="btn btn-outline-info " type="button" id="phyacco">
+                            Create Provider Account
+                        </button>
+                      </a>
+                       
+                   
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row p-3">
+                <div id="tableContent">
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div id="modelContent"></div>
+<script>
+    document.getElementById("provider").classList.add("active");
+     $(document).ready(function () {
+
+        //window.location.href = "/Admin/Provider";
+        $.ajax({
+            url: "/Admin/Provider",
+            data: { 'regid': 0 },
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                $("#tableContent").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+
+    });
+
+    $("#regionSelect").change(function () {
+        var id = this.value;
+        $.ajax({
+            url: "/Admin/Provider",
+            data: { 'regid': id },
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                $("#tableContent").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    });
+    //function createProvider() {
+    //    $.ajax({
+    //        url: "/Admin/CreateProviderAdmin",
+
+    //        dataType: "html",
+    //        success: function (data) {
+    //            $("#providerDiv").html(data);
+    //        },
+    //        error: function () {
+    //            alert("No Projects Found");
+    //            $("#providerDiv").html('An error has occurred');
+    //        }
+    //    });
+
+    //}
+    //function editProvider(e) {
+    //    var id = e.id;
+    //    $.ajax({
+    //        url: "/Admin/EditProviderDetail",
+    //        data : {id:id},
+    //        dataType: "html",
+    //        success: function (data) {
+    //            $("#providerDiv").html(data);
+    //        },
+    //        error: function () {
+    //            alert("No Projects Found");
+    //            $("#providerDiv").html('An error has occurred');
+    //        }
+    //    });
+
+    //}
+    function contactProvider(element) {
+
+        var id = element.id;
+        console.log(id);
+        $.ajax({
+            url: "/Admin/ContactProviderModal",
+            data: { 'id': id },
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modelContent").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#modelContent").html('An error has occurred');
+            }
+        });
+    };
+</script>
+
+@*@{
     Layout = "_AdminHeader";
 }
 <div id="providerDiv">
-
 </div>
 <script>
     $(document).ready(function () {
 
         //window.location.href = "/Admin/Provider";
-            $.ajax({
+        $.ajax({
             url: "/Admin/Provider",
-                data: { 'regid': 0 },
-                type: "POST",
-                dataType: "html",
-                success: function (data) {
+            data: { 'regid': 0 },
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
                 $("#providerDiv").html(data);
-                },
-                error: function () {
-                    alert("No Projects Found");
+            },
+            error: function () {
+                alert("No Projects Found");
                 $("#providerDiv").html('An error has occurred');
-                }
-            });
-        
+            }
+        });
+
     });
-   
-
-</script>
 
 
+</script>*@
 
-          
+
+

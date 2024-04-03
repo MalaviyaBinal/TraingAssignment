@@ -60,7 +60,7 @@
                 <small><p class="p-3 m-2 hideOnMobile">Wellcome : <b>@Accessor.HttpContext.Request.Cookies["userName"]</b></p></small>
             </li>
             <li>
-                <button class="btn btn-outline-info mt-3 hideOnMobile"><a asp-controller="Home" asp-action="PatientLogin" style="text-decoration: none; color: #54B4D3;">Logout</a></button>
+                <button class="btn btn-outline-info mt-3 hideOnMobile"><a asp-controller="Admin" asp-action="Logout"  style="text-decoration: none; color: #54B4D3;">Logout</a></button>
             </li>
             <li>
                 <button class="theme-btn-header showOnMobile hide mt-3">
@@ -77,12 +77,14 @@
 
     </nav>
     <!-- Nav tabs -->
-    <ul class="nav nav-tabs tabs bg-white shadow">
+    <ul class="nav nav-tabs tabs bg-white shadow hideOnMobile">
         <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="#dashboard">Dashboard</a>
+            <a class="nav-link " asp-action="PatientDashboard" asp-controller="Home" id="dashbrd" style="cursor : pointer;">Dashboard</a>
+            @*<a class="nav-link active" data-bs-toggle="tab" href="#dashboard">Dashboard</a>*@
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#profile">Profile</a>
+            <a class="nav-link " asp-action="Profile" asp-controller="Home" id="Profile" style="cursor : pointer;">Profile</a>
+            @*<a class="nav-link" data-bs-toggle="tab" href="#profile">Profile</a>*@
         </li>
 
     </ul>

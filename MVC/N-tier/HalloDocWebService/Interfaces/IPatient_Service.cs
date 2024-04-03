@@ -28,7 +28,7 @@ namespace HalloDocWebServices.Interfaces
         public void createPatient(PatientRequest info);
         public Requestwisefile getRequestWiseFile(int id);
         public byte[] getBytesForFileDownload(int id);
-        public MemoryStream downloadAlll(int id);
+        public MemoryStream downloadAlll(string[] filenames);
         public void sendMail(ForgotPwdModel info);
         public Boolean getAspnetUserAny(string email);
         void sendMailForCreateAccount(string email);

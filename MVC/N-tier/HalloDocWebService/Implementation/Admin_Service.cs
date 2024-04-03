@@ -651,7 +651,7 @@ namespace HalloDocWebServices.Implementation
         }
         public byte[] GetBytesForExportAll()
         {
-            IQueryable<AdminDashboardTableModel> data = _repository.GetExportAllData();
+            List<AdminDashboardTableModel> data = _repository.GetExportAllData();
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Sheet1");
@@ -739,6 +739,7 @@ namespace HalloDocWebServices.Implementation
         }
         public void updateadminform(AdminProfile info)
         {
+
             var model = _repository.getAdminByAdminId(info.admin);
             var regions1 = _repository.getAdminRegionByAdminId(model.Adminid);
             List<int> adminreg = new();
@@ -819,7 +820,7 @@ namespace HalloDocWebServices.Implementation
             if (phy.TrainingDoc != null)
             {
                 string filename = "HIPAA" + Path.GetExtension(phy.TrainingDoc?.FileName);
-                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\PhysicianDoc\\" + model.Physicianid + "\\" + filename);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + model.Physicianid + "\\" + filename);
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 using FileStream stream = new(path, FileMode.Create);
                 phy.TrainingDoc?.CopyTo(stream);
@@ -827,7 +828,7 @@ namespace HalloDocWebServices.Implementation
             if (phy.AgreementDoc != null)
             {
                 string filename = "AgreementDoc" + Path.GetExtension(phy.AgreementDoc?.FileName);
-                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\PhysicianDoc\\" + model.Physicianid + "\\" + filename);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + model.Physicianid + "\\" + filename);
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 using FileStream stream = new(path, FileMode.Create);
                 phy.AgreementDoc?.CopyTo(stream);
@@ -835,7 +836,7 @@ namespace HalloDocWebServices.Implementation
             if (phy.backgroundDoc != null)
             {
                 string filename = "BackgroundDoc" + Path.GetExtension(phy.backgroundDoc?.FileName);
-                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\PhysicianDoc\\" + model.Physicianid + "\\" + filename);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + model.Physicianid + "\\" + filename);
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 using FileStream stream = new(path, FileMode.Create);
                 phy.backgroundDoc?.CopyTo(stream);
@@ -850,8 +851,8 @@ namespace HalloDocWebServices.Implementation
             }
             if (phy.Photo != null)
             {
-                string filename = "NonDisclosureDoc" + Path.GetExtension(phy.Photo?.FileName);
-                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\PhysicianDoc\\" + model.Physicianid + "\\" + filename);
+                string filename = "Profile" + Path.GetExtension(phy.Photo?.FileName);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + model.Physicianid + "\\" + filename);
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 using FileStream stream = new(path, FileMode.Create);
                 phy.Photo?.CopyTo(stream);
@@ -883,6 +884,8 @@ namespace HalloDocWebServices.Implementation
             Physician phy = _repository.getPhysicianById(id);
             Aspnetuser asp = _repository.getAspnetuserByID(phy.Aspnetuserid);
             AdminProviderModel model = new AdminProviderModel();
+            model.regions = _repository.getRegions();
+            model.phyregions = _repository.getPhysicianRegionByPhy(id);
             model.physician = phy;
             model.aspnetuser = asp;
             model.Firstname = "Dr" + phy.Firstname;
@@ -900,17 +903,35 @@ namespace HalloDocWebServices.Implementation
             model.Altphone = phy.Altphone;
             model.Businessname = phy.Businessname;
             model.Businesswebsite = phy.Businesswebsite;
+            model.Isagrementdoc = phy.Isagreementdoc;
+            model.IsbackgroundDoc = phy.Isbackgrounddoc;
+            model.IsLisenceDoc = phy.Islicensedoc;
+            model.IsNonDisclosure = phy.Isnondisclosuredoc;
+            model.IsTrainingDoc = phy.Istrainingdoc;
+            model.isPhoto = phy.Photo != null ? true : false;
+            model.isSignature = phy.Signature != null ? true : false;
+            model.PhotoName = phy.Photo != null ? phy.Photo : null;
+            model.SignatureName = phy.Signature != null ? phy.Signature : null;
+
             return model;
         }
         public void savePhysicianPassword(AdminProviderModel info)
         {
             var aspnetuser = _repository.getAspnetuserByID(info.aspnetuser.Id);
-            aspnetuser.Passwordhash = info.Passwordhash;
+            if (info.Passwordhash != null)
+            {
+                aspnetuser.Passwordhash = info.Passwordhash;
+            }
+
+
             aspnetuser.Modifieddate = DateTime.Now;
             _repository.updateAspnetUser(aspnetuser);
         }
         public void savePhysicianInfo(AdminProviderModel model)
         {
+
+            _repository.removeAllPhysicianRegion(model.physician.Physicianid);
+            _repository.addAllPhysicianRegion(model.SelectedReg, model.physician.Physicianid);
             var physician = _repository.getPhysicianById(model.physician.Physicianid);
             physician.Firstname = model.Firstname;
             physician.Lastname = model.Lastname;
@@ -929,7 +950,7 @@ namespace HalloDocWebServices.Implementation
             physician.Address1 = model.Address1;
             physician.Address2 = model.Address2;
             physician.City = model.City;
-            physician.Regionid = Int32.Parse(model.City);
+            //physician.Regionid = Int32.Parse(model.City);
             physician.Zip = model.Zip;
             physician.Altphone = model.Altphone;
             physician.Modifieddate = DateTime.Now;
@@ -979,7 +1000,7 @@ namespace HalloDocWebServices.Implementation
                 Rolemenu rolemenu = new Rolemenu();
                 rolemenu.Roleid = roleModel.RoleId;
                 rolemenu.Menuid = item;
-                _repository.saveRoleMenu(rolemenu); 
+                _repository.saveRoleMenu(rolemenu);
             }
         }
         public RoleModel EditRole(int id)
@@ -1036,13 +1057,144 @@ namespace HalloDocWebServices.Implementation
             return model;
         }
 
-        public UserAccess getUserAccessData()
+        public UserAccess getUserAccessData(int roleid)
         {
             UserAccess userAccess = new UserAccess();
-            userAccess.Aspnetuser = _repository.getAspnetUserList();
-            userAccess.admins = _repository.getAdminList();
-            userAccess.physicsian = _repository.getPhysicianList();
+            switch (roleid)
+            {
+                case 3:
+                    userAccess.Aspnetuser = _repository.getAspnetUserList(roleid);
+                    userAccess.physicsian = _repository.getPhysicianList();
+                    userAccess.admins = null;
+                    break;
+                case 1:
+                    userAccess.Aspnetuser = _repository.getAspnetUserList(roleid);
+                    userAccess.admins = _repository.getAdminList();
+                    userAccess.physicsian = null;
+                    break;
+                default:
+                    userAccess.Aspnetuser = _repository.getAspnetUserList(roleid);
+                    userAccess.admins = _repository.getAdminList();
+                    userAccess.physicsian = _repository.getPhysicianList();
+                    break;
+
+            }
+
             return userAccess;
+        }
+
+        public void savePhysicianProfile(AdminProviderModel info)
+        {
+            var phy = _repository.getPhysicianById(info.physician.Physicianid);
+            phy.Businessname = info.Businessname;
+            phy.Businesswebsite = info.Businesswebsite;
+            if (info.Photo != null)
+                phy.Photo = "Profile" + Path.GetExtension(info.Photo?.FileName);
+            if (info.Signature != null)
+                phy.Signature = "Signature" + Path.GetExtension(info.Photo?.FileName);
+            phy.Adminnotes = info.Adminnotes;
+            phy.Modifieddate = DateTime.Now;
+            _repository.updatePhysician(phy);
+            if (phy.Photo != null)
+            {
+                string filename = "Profile" + Path.GetExtension(info.Photo?.FileName);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                using FileStream stream = new(path, FileMode.Create);
+                info.Photo?.CopyTo(stream)
+;
+            }
+            if (phy.Signature != null)
+            {
+                string filename = "Signature" + Path.GetExtension(info.Photo?.FileName);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                using FileStream stream = new(path, FileMode.Create);
+                info.Photo?.CopyTo(stream)
+;
+            }
+        }
+
+        public void savePhysicianDocuments(AdminProviderModel info)
+        {
+            var valtrue = new BitArray(1, true);
+            var valfalse = new BitArray(1, false);
+            var phy = _repository.getPhysicianById(info.physician.Physicianid);
+            phy.Isagreementdoc = info.AgreementDoc != null ? valtrue : valfalse;
+            phy.Isbackgrounddoc = info.backgroundDoc != null ? valtrue : valfalse;
+            phy.Istrainingdoc = info.TrainingDoc != null ? valtrue : valfalse;
+            phy.Isnondisclosuredoc = info.NonDisclosure != null ? valtrue : valfalse;
+            phy.Islicensedoc = info.LisenceDoc != null ? valtrue : valfalse;
+            _repository.updatePhysician(phy);
+
+
+            if (info.TrainingDoc != null/* && info.IsTrainingDoc[0] != false */)
+            {
+                string filename = "HIPAA" + Path.GetExtension(info.TrainingDoc?.FileName);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                using FileStream stream = new(path, FileMode.Create);
+                info.TrainingDoc?.CopyTo(stream);
+            }
+            if (info.AgreementDoc != null)
+            {
+                string filename = "AgreementDoc" + Path.GetExtension(info.AgreementDoc?.FileName);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                using FileStream stream = new(path, FileMode.Create);
+                info.AgreementDoc?.CopyTo(stream);
+            }
+            if (info.backgroundDoc != null)
+            {
+                string filename = "BackgroundDoc" + Path.GetExtension(info.backgroundDoc?.FileName);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                using FileStream stream = new(path, FileMode.Create);
+                info.backgroundDoc?.CopyTo(stream);
+            }
+            if (info.NonDisclosure != null)
+            {
+                string filename = "NonDisclosureDoc" + Path.GetExtension(info.NonDisclosure?.FileName);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                using FileStream stream = new(path, FileMode.Create);
+                info.NonDisclosure?.CopyTo(stream);
+            }
+            if (info.LisenceDoc != null)
+            {
+                string filename = "LisenceDoc" + Path.GetExtension(info.Photo?.FileName);
+                string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                using FileStream stream = new(path, FileMode.Create);
+                info.Photo?.CopyTo(stream);
+            }
+
+
+        }
+
+        public List<Physicianlocation> getPhysicianLocation()
+        {
+            return _repository.getPhysicianLocationList();
         }
     }
 }

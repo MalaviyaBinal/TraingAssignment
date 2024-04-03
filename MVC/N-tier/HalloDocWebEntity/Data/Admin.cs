@@ -41,9 +41,6 @@ public partial class Admin
     [StringLength(500)]
     public string? Address2 { get; set; }
 
-    [Column("city")]
-    public int? City { get; set; }
-
     [Column("regionid")]
     public int? Regionid { get; set; }
 
@@ -77,6 +74,10 @@ public partial class Admin
 
     [Column("roleid")]
     public int? Roleid { get; set; }
+
+    [Column("city")]
+    [StringLength(128)]
+    public string? City { get; set; }
 
     [ForeignKey("Aspnetuserid")]
     [InverseProperty("Admins")]

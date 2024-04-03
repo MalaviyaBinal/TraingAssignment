@@ -1,4 +1,7 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminProviderModel
+@{
+    Layout = "_AdminHeader";
+}
 <style>
     .iti {
         width: 100%;
@@ -17,14 +20,14 @@
         <div class="col-12">
             <div class="d-flex justify-content-between mt-3">
                 <h4 class="mt-3">Edit Physician Account</h4>
-                <a class="text-start text-info text-decoration-none ">
+                <a asp-action="AdminDashboardProviders" asp-controller="Admin">
                     <button class="btn btn-white  text-info border-info rounded ">
                         <i class="fa-solid  fa-less-than"></i> Back
                     </button>
                 </a>
             </div>
 
-            <div class="container rounded bg-light shadow py-3">
+            <div class="container rounded bg-white shadow py-3">
                 <form method="post" asp-action="SavePhysicianPassword" asp-controller="Admin">
                     <h5 class="mb-3">Account Information</h5>
                     <div class="row">
@@ -35,7 +38,7 @@
                             <label for="exampleFormControlInput1" class="form-label ms-2">User Name</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control d3class" name="Passwordhash" id="exampleFormControlInput1" placeholder="Lastname" disabled>
+                            <input type="text" class="form-control d3class" name="Passwordhash" id="password" placeholder="Password" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Password </label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
@@ -60,7 +63,7 @@
                         @*<button class="btn btn-info text-white d-none" id="save3" type="submit">Save</button>*@
 
                         <button class="btn btn-white text-info border-info d-none" onclick="Cancel3()" id="cancel3" type="button">Cancel</button>
-                        <button class="btn btn-white text-info border-info" type="submit">Reset password</button>
+                        <button class="btn btn-white text-info border-info" id="resetpwd" type="submit" disabled>Reset password</button>
                     </div>
                 </form>
                 <form id="enable" method="post" asp-action="SavePhysicianInfo" asp-controller="Admin">
@@ -98,23 +101,27 @@
                             <input type="email" class="form-control dclass" asp-for=Syncemailaddress value="@Model.Syncemailaddress" id="exampleFormControlInput1" placeholder="Synchronization Email Address" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Synchronization Email Address</label>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-xl-6">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dclass" type="checkbox" id="inlineCheckbox1" value="option1" disabled>
-                                <label class="form-check-label" for="inlineCheckbox1">District Of Columbia</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dclass" type="checkbox" id="inlineCheckbox2" value="option2" disabled>
-                                <label class="form-check-label" for="inlineCheckbox2">New York</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dclass" type="checkbox" id="inlineCheckbox3" value="option3" disabled>
-                                <label class="form-check-label" for="inlineCheckbox3">Virginia</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dclass" type="checkbox" id="inlineCheckbox4" value="option4" disabled>
-                                <label class="form-check-label" for="inlineCheckbox4">Maryland</label>
-                            </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 mb-3 text-muted">
+                            @if (Model.regions != null)
+                            {
+                                @foreach (var item in Model.regions)
+                                {
+                                    @if (Model.phyregions.Any(x => x.Regionid == item.Regionid))
+                                    {
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input checkboxes dclass" type="checkbox" name="SelectedReg" value="@item.Regionid" checked disabled>
+                                            <span class="form-check-label text6" for="inlineCheckbox1">@item.Name</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input checkboxes dclass" type="checkbox" name="SelectedReg" value="@item.Regionid" disabled>
+                                            <span class="form-check-label text6" for="inlineCheckbox1">@item.Name</span>
+                                        </div>
+                                    }
+                                }
+                            }
                         </div>
                     </div>
                     <div class="text-end pb-3">
@@ -125,7 +132,7 @@
                     </div>
                 </form>
                 <form id="enable1" method="post" asp-action="SavePhysicianBillingInfo" asp-controller="Admin">
-
+                    <input type="hidden" value="@Model.physician.Physicianid" asp-for="@Model.physician.Physicianid" />
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Mailing & Billing Information
@@ -160,8 +167,8 @@
                         <button class="btn btn-white text-info border-info d-none" onclick="Cancel1()" id="cancel1" type="button">Cancel</button>
                     </div>
                 </form>
-                <form id="enable1">
-
+                <form id="enable1" method="post" enctype="multipart/form-data" asp-action="SavePhysicianProfile" asp-controller="Admin">
+                    <input type="hidden" value="@Model.physician.Physicianid" asp-for="@Model.physician.Physicianid" />
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Provider Profile
@@ -174,40 +181,57 @@
                             <input type="text" asp-for=Businesswebsite value="@Model.Businesswebsite" class="form-control d2class" id="Address-2" placeholder="Business Website" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Business Website</label>
                         </div>
-                        <fieldset id="upload" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                            <div class="input-group mb-3 ">
-                                <input type="file" class="form-control d2class" id="inputGroupFile02" disabled>
-                                <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                    <label class="btn btn-info text-white mx-0">
-                                        <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                        Upload
-                                    </label>
+                        <div class=" col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <p>
+                                <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                    <i class="fa-solid fa-cloud-arrow-up"
+                                       style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                </span>
+                                <input type="File" class="form-control input-placeholder border-0 d2class " asp-for="Photo"
+                                       placeholder="Select Photo" disabled>
 
-                                </label>
-                            </div>
-                        </fieldset>
-                        <fieldset id="upload" class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                            <div class="input-group mb-3 ">
-                                <input type="file" class="form-control d2class" id="inputGroupFile02" disabled>
-                                <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                    <label class="btn btn-info text-white mx-0">
-                                        <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                        Upload
-                                    </label>
 
-                                </label>
-                            </div>
-                        </fieldset>
-                        <div class="col-2 mb-3">
-                            <button class="btn btn-info text-white">
-                                <i class="fa-solid fa-pen" style="color: #ffffff;"></i>
-                                <span>Create</span>
-                            </button>
+
+                            </p>
+
                         </div>
+
+                        <div class=" col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                            <p>
+                                <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                    <i class="fa-solid fa-cloud-arrow-up"
+                                       style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                </span>
+                                <input type="file" asp-for="Signature" class="form-control input-placeholder border-0 d2class " id="fileToUpload"
+                                       placeholder="Select Signature" disabled>
+
+
+
+                            </p>
+
+                        </div>
+
+
                         <div class="form-floating mb-3">
                             <textarea class="form-control d2class" asp-for=Adminnotes value="@Model.Adminnotes placeholder="Admin Notes" id="floatingTextarea2" style="height: 100px" disabled></textarea>
                             <label for="floatingTextarea2" class="ms-2">Admin Notes</label>
                         </div>
+                        @if (Model.isPhoto == true)
+                        {
+                            var str = "/PhysicianDoc/" + Model.physician.Physicianid + "/" + Model.PhotoName;
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
+                                <img src="@str" class="img-fluid" style="height:250px ; width : 250px;">
+                            </div>
+                        }
+                        @if (Model.isSignature == true)
+                        {
+
+                            var str = "/PhysicianDoc/" + Model.physician.Physicianid + "/" + Model.SignatureName;
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
+                                <img src="@str" class="img-fluid" style="height:250px ; width : 250px;">
+                            </div>
+                        }
+
                     </div>
                     <div class="text-end pb-3">
                         <button class="btn btn-info text-white" id="edit2" onclick="EditData2()" type="button">Edit</button>
@@ -216,68 +240,158 @@
                     </div>
                     <hr />
                 </form>
-                <div class="row">
-                    <div class="col-12 h5 mb-3">
-                        Onboarding
-                    </div>
-                    <div class="form-check mb-3 col-6 mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="1">
-                        <label class="form-check-label" for="1">
-                            Independent Contractor Agreement
-                        </label>
+                <form asp-action="SavePhysicianDocuments" method="post" asp-controller="Admin" enctype="multipart/form-data">
 
-                    </div>
-                    <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                        <button class="btn btn-info text-white" type="button">Upload</button>
-                        <button class="btn btn-info text-white" type="button">View</button>
-                    </div>
-                    <div class="form-check mb-3 col-6 mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="2">
-                        <label class="form-check-label" for="2">
-                            Background Check
-                        </label>
+                    <input type="hidden" value="@Model.physician.Physicianid" asp-for="@Model.physician.Physicianid" />
+                    <div class="row p-3">
+                        <div class="col-12 h5 mb-3">
+                            Onboarding
+                        </div>
+                        <div class="form-check mb-3 pt-4 col-6 mb-3">
+                            <input class="form-check-input" type="checkbox"  id="1" asp-for="@Model.Isagrementdoc[0]">
 
+                            <span class="form-check-label" for="1">
+                                Independent Contractor Agreement
+                            </span>
+
+                        </div>
+                        <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <p>
+                                <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                    <i class="fa-solid fa-cloud-arrow-up"
+                                       style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                </span>
+                                <input type="File" class="form-control input-placeholder border-0  " asp-for="@Model.AgreementDoc" id="fileToUpload"
+                                       placeholder="Select File">
+
+
+
+                            </p>
+
+                        </div>
+
+                        @if (@Model.Isagrementdoc[0])
+                        {
+                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('AgreementDoc')">View</button>
+                        }
+
+                        <div class="form-check mb-3 pt-4 col-6 mb-3">
+                            <input class="form-check-input" type="checkbox"  id="2" asp-for="@Model.IsbackgroundDoc[0]">
+                            <span class="form-check-label" for="2">
+                                Background Check
+                            </span>
+
+                        </div>
+
+
+                        <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <p>
+                                <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                    <i class="fa-solid fa-cloud-arrow-up"
+                                       style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                </span>
+                                <input type="File" class="form-control input-placeholder border-0 " asp-for=@Model.backgroundDoc id="fileToUpload"
+                                       placeholder="Select File">
+
+
+
+                            </p>
+
+                        </div>
+
+                        @if (@Model.IsbackgroundDoc[0])
+                        {
+                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('BackgroundDoc')">View</button>
+                        }
+
+
+                        <div class="form-check mb-3 pt-4 col-6 mb-3">
+                            <input class="form-check-input" type="checkbox"  id="3" asp-for="@Model.IsTrainingDoc[0]">
+                            <span class="form-check-label" for="3">
+                                HIPAA Compilance
+                            </span>
+                        </div>
+
+                        <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <p>
+                                <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                    <i class="fa-solid fa-cloud-arrow-up"
+                                       style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                </span>
+                                <input type="File" class="form-control input-placeholder border-0  " asp-for="TrainingDoc" id="fileToUpload"
+                                       placeholder="Select File">
+
+
+
+                            </p>
+
+                        </div>
+                        @if (@Model.IsTrainingDoc[0])
+                        {
+                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('HIPAA')">View</button>
+                        }
+                        <div class="form-check mb-3 pt-4 col-6 mb-3">
+                            <input class="form-check-input" type="checkbox"  id="4" asp-for="@Model.IsNonDisclosure[0]">
+                            <span class="form-check-label" for="4">
+                                Non-Disclosure Agreement
+                            </span>
+                        </div>
+
+                        <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <p>
+                                <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                    <i class="fa-solid fa-cloud-arrow-up"
+                                       style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                </span>
+                                <input type="File" class="form-control input-placeholder border-0 " asp-for="@Model.NonDisclosure" id="fileToUpload"
+                                       placeholder="Select File">
+
+
+
+                            </p>
+
+                        </div>
+
+                        @if (@Model.IsNonDisclosure[0])
+                        {
+                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('NonDisclosureDoc')">View</button>
+                        }
+                        <div class="form-check mb-3 pt-4 col-6">
+
+                            <input class="form-check-input" type="checkbox"  id="5" asp-for="@Model.IsLisenceDoc[0]">
+                            <span class="form-check-label" for="5">
+                                Licence Document
+                            </span>
+                        </div>
+
+                        <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <p>
+                                <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                    <i class="fa-solid fa-cloud-arrow-up"
+                                       style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                </span>
+                                <input type="File" class="form-control input-placeholder border-0 " asp-for="LisenceDoc" id="fileToUpload"
+                                       placeholder="Select File">
+
+
+
+                            </p>
+
+                        </div>
+                        @if (@Model.IsLisenceDoc[0])
+                        {
+
+                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('LicenseDoc')">View</button>
+                        }
                     </div>
-                    <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                        <button class="btn btn-info text-white" type="button">Upload</button>
-                        <button class="btn btn-info text-white" type="button">View</button>
-                    </div>
-                    <div class="form-check mb-3 col-6 mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="3">
-                        <label class="form-check-label" for="3">
-                            HIPAA Compilance
-                        </label>
-                    </div>
-                    <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                        <button class="btn btn-info text-white" type="button">Upload</button>
-                        <button class="btn btn-info text-white" type="button">View</button>
-                    </div>
-                    <div class="form-check mb-3 col-6 mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="4">
-                        <label class="form-check-label" for="4">
-                            Non-Disclosure Agreement
-                        </label>
-                    </div>
-                    <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                        <button class="btn btn-info text-white" type="button">Upload</button>
-                        <button class="btn btn-info text-white" type="button">View</button>
-                    </div>
-                    <div class="form-check mb-3 col-6">
-                        <input class="form-check-input" type="checkbox" value="" id="5">
-                        <label class="form-check-label" for="5">
-                            Licence Document
-                        </label>
-                    </div>
-                    <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                        <button class="btn btn-info text-white" type="button">Upload</button>
-                        <button class="btn btn-info text-white" type="button">View</button>
-                    </div>
-                </div>
+
+              
                 <hr />
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-info text-white me-md-2" type="button">Save</button>
+                    <button class="btn btn-info text-white me-md-2" type="submit">Save</button>
                     <button class="btn btn-danger" type="button">Delete Account</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -285,6 +399,7 @@
 
 <script>
 
+    document.getElementById("provider").classList.add("active");
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
     const button = document.querySelector("#btn");
@@ -303,7 +418,9 @@
         initialCountry: "us",
         utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
     });
-
+    function viewdoc(str) {
+        window.open("/PhysicianDoc/" + @Model.physician.Physicianid+"/" + str + ".pdf");
+    }
 
     function EditData() {
         document.getElementById("save").classList.remove("d-none");
@@ -371,15 +488,18 @@
         document.getElementById("cancel3").classList.remove("d-none");
         //document.getElementById("save3").classList.remove("d-none");
         document.getElementById("edit3").classList.add("d-none");
+        document.getElementById("resetpwd").removeAttribute("disabled");
+        document.getElementById("password").removeAttribute("disabled");
 
-        document.querySelectorAll(".d3class").forEach(x => {
-            x.removeAttribute("disabled");
-        })
+        //document.querySelectorAll(".d3class").forEach(x => {
+        //    x.removeAttribute("disabled");
+        //})
     }
 
     function Cancel3() {
         document.getElementById("edit3").classList.remove("d-none");
         document.getElementById("cancel3").classList.add("d-none");
+        document.getElementById("resetpwd").setAttribute("disabled", "");
         //document.getElementById("save3").classList.add("d-none");
 
         document.querySelectorAll(".d3class").forEach(x => {

@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                            <textarea class="form-control" placeholder="Leave a comment here" id="notes" style="height: 100px"></textarea>
                             <label for="floatingTextarea2">Description</label>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
     });
     
         $("#RegionSelect").change(function () {
-            
+        $(".modal-backdrop").remove()
             var regionid = $('#RegionSelect').val()
             var reqid = '@TempData["reqid"]';
             console.log(regionid);
@@ -89,8 +89,9 @@
         });
     $('#assignForm').submit(function (e) {
         e.preventDefault();
+        debugger;
         var phyId = $('#PhysicianSelect').val();
-        var notes = $('#notes').val();
+        var notes = document.getElementById("notes").value;
         var reqid = '@TempData["reqid"]';
         $.ajax({
             url: "/Admin/RequestAssgin",

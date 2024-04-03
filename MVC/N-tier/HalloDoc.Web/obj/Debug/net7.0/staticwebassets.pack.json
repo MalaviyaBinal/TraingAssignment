@@ -5,6 +5,50 @@
       "PackagePath": "staticwebassets\\HalloDoc.Web.bundle.scp.css"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\2\\AgreementDoc.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\BackgroundDoc.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\2\\BackgroundDoc.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\Profile.png",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\2\\Profile.png"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\Signature.png",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\2\\Signature.png"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\5\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\5\\AgreementDoc.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\5\\BackgroundDoc.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\5\\BackgroundDoc.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\5\\HIPAA.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\5\\HIPAA.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\5\\LisenceDoc.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\5\\LisenceDoc.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\5\\NonDisclosureDoc.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\5\\NonDisclosureDoc.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\5\\Profile.png",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\5\\Profile.png"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\5\\Signature.png",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\5\\Signature.png"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\.net-Whole-Plane-2024.pdf",
       "PackagePath": "staticwebassets\\UploadedFiles\\.net-Whole-Plane-2024.pdf"
     },
@@ -17,6 +61,10 @@
       "PackagePath": "staticwebassets\\UploadedFiles\\ASSIGNMENT 1 SQL.sql"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\ExportedData (2).xlsx",
+      "PackagePath": "staticwebassets\\UploadedFiles\\ExportedData (2).xlsx"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\HalloDoc - DB.xlsx",
       "PackagePath": "staticwebassets\\UploadedFiles\\HalloDoc - DB.xlsx"
     },
@@ -27,6 +75,10 @@
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Phase 1 - Training Plan .net.pdf",
       "PackagePath": "staticwebassets\\UploadedFiles\\Phase 1 - Training Plan .net.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Plan_till_1Feb2024.pdf",
+      "PackagePath": "staticwebassets\\UploadedFiles\\Plan_till_1Feb2024.pdf"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\SRS-23-24-Trainees-14Feb24.pdf",
@@ -63,6 +115,14 @@
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Test Instructions.pdf",
       "PackagePath": "staticwebassets\\UploadedFiles\\Test Instructions.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\data (3).xlsx",
+      "PackagePath": "staticwebassets\\UploadedFiles\\data (3).xlsx"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\data (4).xlsx",
+      "PackagePath": "staticwebassets\\UploadedFiles\\data (4).xlsx"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\halloDoc_schema.xlsx",

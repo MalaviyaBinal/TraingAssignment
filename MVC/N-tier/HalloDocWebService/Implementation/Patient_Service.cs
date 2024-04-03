@@ -105,7 +105,7 @@ namespace HalloDocWebServices.Implementation
 
         void IPatient_Service.uploadFile(IFormFile fileToUpload, int id)
         {
-             var FileNameOnServer = "D:\\Projects\\HelloDOC\\MVC\\Hallodoc - Copy\\wwwroot\\UploadedFiles\\";
+             var FileNameOnServer = "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\";
             FileNameOnServer += fileToUpload.FileName;
            
             using var stream = System.IO.File.Create(FileNameOnServer);
@@ -557,22 +557,40 @@ namespace HalloDocWebServices.Implementation
             return bytes;
         }
 
-        public MemoryStream downloadAlll(int id)
+        public MemoryStream downloadAlll(string[] filenames)
         {
-            var filesRow = _repository.getRequestWiseFileTolist(id);
-            MemoryStream ms = new MemoryStream();
-            using (ZipArchive zip = new ZipArchive(ms, ZipArchiveMode.Create, true))
-                filesRow.ForEach(file =>
+            string repositoryPath = @"D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\wwwroot\UploadedFiles\";
+            using (MemoryStream zipStream = new MemoryStream())
+            {
+                using (ZipArchive zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
                 {
-                    var path = "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\" + Path.GetFileName(file.Filename);
-                    ZipArchiveEntry zipEntry = zip.CreateEntry(file.Filename);
-                    using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-                    using (Stream zipEntryStream = zipEntry.Open())
+                    foreach (string filename in filenames)
                     {
-                        fs.CopyTo(zipEntryStream);
+                        string filePath = Path.Combine(repositoryPath, filename);
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            zipArchive.CreateEntryFromFile(filePath, filename);
+                        }
                     }
-                });
-            return ms;
+                }
+                zipStream.Seek(0, SeekOrigin.Begin);
+                return zipStream;
+            }
+
+            //var filesRow = _repository.getRequestWiseFileTolist(id);
+            //MemoryStream ms = new MemoryStream();
+            //using (ZipArchive zip = new ZipArchive(ms, ZipArchiveMode.Create, true))
+            //    filesRow.ForEach(file =>
+            //    {
+            //        var path = "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\" + Path.GetFileName(file.Filename);
+            //        ZipArchiveEntry zipEntry = zip.CreateEntry(file.Filename);
+            //        using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            //        using (Stream zipEntryStream = zipEntry.Open())
+            //        {
+            //            fs.CopyTo(zipEntryStream);
+            //        }
+            //    });
+            //return ms;
         }
 
         public void sendMail(ForgotPwdModel info)

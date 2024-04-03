@@ -1,5 +1,71 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminProviderModel
 
+<table class="table  ">
+
+    <thead class="table-secondary">
+        <tr>
+            <td><strong class="text-muted"><span>Stop Notification</span></strong></td>
+            <td><strong class="text-muted"><span>Provider Name</span></strong></td>
+            <td><strong class="text-muted"> Role</strong></td>
+            <td><strong class="text-muted"> On Call Status</strong></td>
+            <td> <strong class="text-muted"> Status </strong></td>
+            <td> <strong class="text-muted"> Action</strong> </td>
+        </tr>
+
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model.physicians)
+        {
+            <tr>
+                <td><input type="checkbox" class="Subcheckbox checkboxes ms-3" /></td>
+                <td>@item.Firstname @item.Lastname</td>
+                @if (item.Roleid == 1)
+                {
+                    <td>Physicion</td>
+                }
+                else
+                {
+                    <td>test</td>
+                }
+                @if (item.Status == 1)
+                {
+                    <td>Unavailable</td>
+                }
+                else
+                {
+                    <td>Available</td>
+                }
+                @if (item.Status == 1)
+                {
+                    <td>Active</td>
+                }
+                else
+                {
+                    <td>Pending</td>
+                }
+                <td>
+                    <button type="button" onclick="contactProvider(this)" id="@item.Physicianid" class="text-info bg-transparent border-info btn">
+                        Contact
+                    </button>
+                    <a asp-action="EditProviderDetail" asp-controller="Admin" asp-route-id="@item.Physicianid">
+                        <button type="button" class="text-info bg-transparent border-info btn" id="@item.Physicianid" >
+                            Edit
+                        </button>
+                    </a>
+
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+
+</table>
+
+@*@model HalloDocWebEntity.ViewModel.AdminProviderModel
+
 <div class="container p-5 tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
@@ -33,11 +99,10 @@
 
                     <div class="col-sm-6 text-end">
 
-                        @*<a asp-action="CreateProviderAdmin" asp-controller="Admin">*@
                         <button class="btn btn-outline-info" onclick="createProvider()" type="button" id="phyacco">
                             Create Provider Account
                         </button>
-                        @*</a>*@
+
 
                     </div>
                 </div>
@@ -186,4 +251,4 @@
             }
         });
     };
-</script>
+</script>*@

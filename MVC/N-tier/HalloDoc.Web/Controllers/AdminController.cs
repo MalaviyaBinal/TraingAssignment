@@ -71,8 +71,13 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult UserAccess()
         {
-            return View(_service.getUserAccessData());
+            return View();
         }
+        public IActionResult GetUserAccessTable(int roleid)
+        {
+            return PartialView("_UserAccessTable", _service.getUserAccessData(roleid));
+        }
+
         public IActionResult AdminDashboardPartners()
         {
             return View();
@@ -84,7 +89,7 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult AdminDashboardProviderLocation()
         {
-            return View();
+            return View(_service.getPhysicianLocation());
         }
         [HttpGet]
         public async Task<IActionResult> SendOrder(int id, int profId = 0, int businessId = 0)
@@ -106,7 +111,8 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult AdminDashboardProviders()
         {
-            return View();
+            AdminProviderModel model = _service.getProviderDataForAdmin(0);
+            return View(model);
         }
         public IActionResult AdminDashboardRecords()
         {
@@ -479,12 +485,12 @@ namespace HalloDoc.Web.Controllers
         public ActionResult UpdateAddressInformationOfAdmin(AdminProfile info)
         {
             _service.updateadminaddress(info);
-            return RedirectToAction(nameof(AdminDashboard));
+            return RedirectToAction(nameof(AdminDashboardMyProfile));
         }
         public ActionResult UpdateAdminProfile(AdminProfile info)
         {
             _service.updateadminform(info);
-            return RedirectToAction(nameof(AdminDashboard));
+            return RedirectToAction(nameof(AdminDashboardMyProfile));
         }
 
         public IActionResult EditProviderDetail(int id)
@@ -513,6 +519,18 @@ namespace HalloDoc.Web.Controllers
         public ActionResult SavePhysicianBillingInfo(AdminProviderModel info)
         {
             _service.savePhysicianBillingInfo(info);
+            return RedirectToAction(nameof(EditProviderDetail), new { id = info.physician.Physicianid });
+        }
+        [HttpPost]
+        public ActionResult SavePhysicianProfile(AdminProviderModel info)
+        {
+            _service.savePhysicianProfile(info);
+            return RedirectToAction(nameof(EditProviderDetail), new { id = info.physician.Physicianid });
+        }
+        [HttpPost]
+        public ActionResult SavePhysicianDocuments(AdminProviderModel info)
+        {
+            _service.savePhysicianDocuments(info);
             return RedirectToAction(nameof(EditProviderDetail), new { id = info.physician.Physicianid });
         }
         public IActionResult UpdateRole(RoleModel roleModel)

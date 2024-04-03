@@ -62,12 +62,15 @@ namespace HalloDocWebServices.Interfaces
         void savePhysicianBillingInfo(AdminProviderModel info);
         RoleModel GetMenuData(int check);
         void generateRole(string roleName, string[] selectedRoles, int check, string? v);
-       List<Role> getRoleList();
+        List<Role> getRoleList();
         void updateroleof(RoleModel roleModel);
         RoleModel EditRole(int id);
         void CreateAdminAccount(AdminProfile model, string? v);
         AdminProfile getAdminRoleData();
         public Dictionary<int, string> GetExtension(int Id);
-       UserAccess getUserAccessData();
+        UserAccess getUserAccessData(int roleid);
+        void savePhysicianProfile(AdminProviderModel info);
+        void savePhysicianDocuments(AdminProviderModel info);
+        List<Physicianlocation> getPhysicianLocation();
     }
 }

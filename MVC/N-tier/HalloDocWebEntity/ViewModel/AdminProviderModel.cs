@@ -1,6 +1,7 @@
 ﻿
 using HalloDocWebEntity.Data;
 using Microsoft.AspNetCore.Http;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace HalloDocWebEntity.ViewModel
@@ -9,7 +10,9 @@ namespace HalloDocWebEntity.ViewModel
     public class AdminProviderModel
     {
         public List<Region> regions { get; set; }
+        public List<Physicianregion> phyregions { get; set; }
         public List<Physician> physicians{ get; set; }
+        public List<int>? SelectedReg { get; set; }
         public Aspnetuser aspnetuser { get; set; }
         public Physician physician { get; set; }    
         public string Firstname { get; set; }
@@ -28,12 +31,23 @@ namespace HalloDocWebEntity.ViewModel
         public string? Medicallicense { get; set; }
         public string? Mobile { get; set; }
         public string? Email { get; set; }
+        public string? PhotoName { get; set; }
+        public string? SignatureName { get; set; }
         public IFormFile AgreementDoc { get; set; }
         public IFormFile backgroundDoc { get; set; }
         public IFormFile TrainingDoc { get; set; }
         public IFormFile NonDisclosure { get; set; }
         public IFormFile LisenceDoc { get; set; }
         public IFormFile Photo { get; set; }
+        public IFormFile Signature { get; set; }
+        public BitArray? Isdeleted { get; set; }
+        public BitArray? Isagrementdoc { get; set; }
+        public BitArray? IsbackgroundDoc { get; set; }
+        public BitArray? IsTrainingDoc { get; set; }
+        public BitArray? IsNonDisclosure { get; set; }
+        public BitArray? IsLisenceDoc { get; set; }
+        public bool isPhoto { get; set; }
+        public bool isSignature { get; set; }
 
     }
 }

@@ -2,16 +2,10 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor Accessor
 @{
+     ViewData["Title"] = "Dashboard";
     Layout = "_AdminHeader";
 }
-@*@{
-      ViewData["Title"] = "Dashboard";
-    if (@Accessor.HttpContext.Request.Cookies["Isheader"] == "true")
-    {
-        Layout = "_AdminHeader";
-    }
-    else Layout = null;
-}*@
+
 <!-- Send Link Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
@@ -259,7 +253,7 @@
                         <button class="btn btn-info ms-2 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"><i class="fa-regular fa-paper-plane"></i>Send Link</button>
                         <a asp-action="PatientRequestAdmin" asp-controller="Admin"><button class="btn btn-info text-white ms-2 border-info" type="button"><i class="fa-regular fa-note-sticky"></i> Requests</button></a>
                         <button class="btn btn-info ms-2 text-white" onclick="exportfile()" type="button"><i class="fa fa-share-square" aria-hidden="true"></i>Export</button>
-                        <button class="btn btn-info text-white ms-2 border-info" type="button"><i class="fa fa-share-square" aria-hidden="true"></i>Export All</button>
+                        <a asp-action="ExportAll" asp-controller="Admin"><button class="btn btn-info text-white ms-2 border-info" type="button"><i class="fa fa-share-square" aria-hidden="true"></i>Export All</button></a>
                         <button class="btn btn-info ms-2 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal1" type="button"><i class="fa-regular fa-user"></i>Request DTY Support</button>
                     </div>
                 </DIV>
@@ -343,6 +337,7 @@
     }
 
      function exportfile(){
+         searchValue = document.getElementById("searchPatient").value;
      window.location.href = '/Admin/Export?id=' + id + '&check=' + check + '&searchValue=' + searchValue + '&searchRegion=' + searchRegion;
      
  }
@@ -498,195 +493,8 @@
         });
     });
 </script>
-@*<script>
-    var check;
-    var id;
-    function tableFilter(e){
-        var s  = e.id;
-        switch(s){
-            case "allrecord":
-                check = 0;
-                //MyAjax();
-                break;
-            case "patientrecord":
-                check = 2;
-                //MyAjax();
-                break;
-            case "frdrecord":
-                check = 3;
-                //MyAjax();
-                break;
-            case "businessrecord":
-                check = 1;
-                //MyAjax();
-                break;
-            case "conciergerecord":
-                check = 4;
-                //MyAjax();
-                break;
+<script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",});
 
-        }
-         MyAjax();
-    }
-
-     function exportfile(){
-     var searchValue = document.getElementById("searchPatient").value;
-     var searchRegion = document.getElementById("regionSelect").value;
-     window.location.href = '/Admin/Export?id=' + id + '&check=' + check + '&searchValue=' + searchValue + '&searchRegion=' + searchRegion;
-     
- }
-
-
-    function MyAjax(pagenumber){
- 
-        if(pagenumber == 0){
-            pagenumber = @Model.CurrentPage;
-        }
-        alert(temp);
-        var searchValue = document.getElementById("searchPatient").value;
-        var searchRegion = document.getElementById("regionSelect").value;
-        $.ajax({
-            url: "/Admin/DashboardTables",
-            data: { 'id': id, 'check': check,'searchValue':searchValue,'searchRegion':searchRegion , 'pagesize':3,'pagenumber':pagenumber },
-            type: "POST",
-            dataType: "html",
-            success: function (data) {
-                $("#tableContent").html(data);
-            },
-            error: function () {
-                alert("No Projects Found");
-                $("#tableContent").html('An error has occurred');
-            }
-        });
-
-    }
-
-
-
-    $(document).ready(function () {
-        check =0;
-        id= 1;
-         
-            document.getElementById("statusValue").textContent= "New";
-        MyAjax();
-
-
-        $('#new-box').click(function () {
-            id =1;
-            temp = "newtemp";
-            $('#newbtn_active').show();
-            $('#pendingbtn_active').hide();
-            $('#activebtn_active').hide();
-            $('#concludebtn_active').hide();
-            $('#toclosebtn_active').hide();
-            $('#unpaidbtn_active').hide();
-            $('#newbtn').hide();
-            $('#pendingbtn').show();
-            $('#activebtn').show();
-            $('#concludebtn').show();
-            $('#toclosebtn').show();
-            $('#unpaidbtn').show();
-            
-            document.getElementById("statusValue").textContent= "New";
-            MyAjax();
-           
-        });
-        $('#pending-box').click(function () {
-            id = 2;
-            temp = "pendingtemp";
-            $('#newbtn_active').hide();
-            $('#pendingbtn_active').show();
-            $('#activebtn_active').hide();
-            $('#concludebtn_active').hide();
-            $('#toclosebtn_active').hide();
-            $('#unpaidbtn_active').hide();
-            $('#newbtn').show();
-            $('#pendingbtn').hide();
-            $('#activebtn').show();
-            $('#concludebtn').show();
-            $('#toclosebtn').show();
-            $('#unpaidbtn').show();             
-            document.getElementById("statusValue").textContent= "Pending";
-            MyAjax();
-          
-        });
-        $('#active-box').click(function () {
-            id = 3;
-            temp = "newtemp";
-            $('#newbtn_active').hide();
-            $('#pendingbtn_active').hide();
-            $('#activebtn_active').show();
-            $('#concludebtn_active').hide();
-            $('#toclosebtn_active').hide();
-            $('#unpaidbtn_active').hide();
-            $('#newbtn').show();
-            $('#pendingbtn').show();
-            $('#activebtn').hide();
-            $('#concludebtn').show();
-            $('#toclosebtn').show();
-            $('#unpaidbtn').show();
-             
-            document.getElementById("statusValue").textContent= "Active";
-            MyAjax();
-            
-        });
-        $('#conclude-box').click(function () {
-            id = 4;
-            temp = "newtemp";
-            $('#newbtn_active').hide();
-            $('#pendingbtn_active').hide();
-            $('#activebtn_active').hide();
-            $('#concludebtn_active').show();
-            $('#toclosebtn_active').hide();
-            $('#unpaidbtn_active').hide();
-            $('#newbtn').show();
-            $('#pendingbtn').show();
-            $('#activebtn').show();
-            $('#concludebtn').hide();
-            $('#toclosebtn').show();
-            $('#unpaidbtn').show();
-             
-            document.getElementById("statusValue").textContent= "Conclude";
-            MyAjax();
-
-        });
-        $('#close-box').click(function () {
-            id = 5;
-            temp = "newtemp";
-            $('#newbtn_active').hide();
-            $('#pendingbtn_active').hide();
-            $('#activebtn_active').hide();
-            $('#concludebtn_active').hide();
-            $('#toclosebtn_active').show();
-            $('#unpaidbtn_active').hide();
-            $('#newbtn').show();
-            $('#pendingbtn').show();
-            $('#activebtn').show();
-            $('#concludebtn').show();
-            $('#toclosebtn').hide();
-            $('#unpaidbtn').show();
-             
-            document.getElementById("statusValue").textContent= "To Close";
-            MyAjax();
-        });
-        $('#unpaid-box').click(function () {
-            id = 6;
-            temp = "newtemp";
-            $('#newbtn_active').hide();
-            $('#pendingbtn_active').hide();
-            $('#activebtn_active').hide();
-            $('#concludebtn_active').hide();
-            $('#toclosebtn_active').hide();
-            $('#unpaidbtn_active').show();
-            $('#newbtn').show();
-            $('#pendingbtn').show();
-            $('#activebtn').show();
-            $('#concludebtn').show();
-            $('#toclosebtn').show();
-            $('#unpaidbtn').hide();
-             
-            document.getElementById("statusValue").textContent= "Unpaid";
-            MyAjax();
-        });
-    });
-</script>*@
+</script>

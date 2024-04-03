@@ -52,7 +52,7 @@ namespace HalloDocWebRepo.Interface
         Request getRequestClientByToken(string token);
         EncounterForm getEncounterTable(int id);
         void updateEncounterForm(EncounterForm model);
-        IQueryable<AdminDashboardTableModel> GetExportAllData();
+        List<AdminDashboardTableModel> GetExportAllData();
         void updateRewuestClient(Requestclient reqclient);
         Admin getAdminByAdminId(Admin admin);
         void updateAdmin(Admin model);
@@ -72,7 +72,11 @@ namespace HalloDocWebRepo.Interface
         void removeAllRoleMenu(int roleId);
         void addAdminTable(Admin admin);
         List<Role> getRolesOfAdmin();
-        List<Aspnetuser> getAspnetUserList();
+        List<Aspnetuser> getAspnetUserList(int roleid);
         List<Admin> getAdminList();
+        List<Physicianregion> getPhysicianRegionByPhy(int id);
+        void removeAllPhysicianRegion(int physicianid);
+        void addAllPhysicianRegion(List<int>? selectedReg,int id);
+        List<Physicianlocation> getPhysicianLocationList();
     }
 }
