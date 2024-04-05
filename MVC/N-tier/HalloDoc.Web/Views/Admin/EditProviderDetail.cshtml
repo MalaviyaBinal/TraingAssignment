@@ -389,17 +389,18 @@
                 <hr />
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button class="btn btn-info text-white me-md-2" type="submit">Save</button>
-                    <button class="btn btn-danger" type="button">Delete Account</button>
+                        <button class="btn btn-danger" onclick="deleteaccess(this)" value="@Model.physician.Physicianid" type="button">Delete Account</button>
                 </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
+<div id="modalpopup">
+</div>
 <script>
 
-    document.getElementById("provider").classList.add("active");
+    document.getElementById("provider1").classList.add("active");
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
     const button = document.querySelector("#btn");
@@ -421,7 +422,26 @@
     function viewdoc(str) {
         window.open("/PhysicianDoc/" + @Model.physician.Physicianid+"/" + str + ".pdf");
     }
+    function deleteaccess(element) {
 
+        var id = element.value;
+        console.log(id);
+        $.ajax({
+            url: "/Admin/ShowDeleteModal",
+            data: { 'id': id, 'acntType': "Physician" },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modalpopup").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+
+            }
+        });
+    };
     function EditData() {
         document.getElementById("save").classList.remove("d-none");
         document.getElementById("cancel").classList.remove("d-none");

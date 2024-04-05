@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\HalloDoc.Web.bundle.scp.css"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\1\\AgreementDoc.pdf"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\AgreementDoc.pdf",
       "PackagePath": "staticwebassets\\PhysicianDoc\\2\\AgreementDoc.pdf"
     },
@@ -13,8 +17,16 @@
       "PackagePath": "staticwebassets\\PhysicianDoc\\2\\BackgroundDoc.pdf"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\Profile.jpg",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\2\\Profile.jpg"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\Profile.png",
       "PackagePath": "staticwebassets\\PhysicianDoc\\2\\Profile.png"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\Signature",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\2"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\Signature.png",
@@ -123,6 +135,10 @@
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\data (4).xlsx",
       "PackagePath": "staticwebassets\\UploadedFiles\\data (4).xlsx"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\data (9).xlsx",
+      "PackagePath": "staticwebassets\\UploadedFiles\\data (9).xlsx"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\halloDoc_schema.xlsx",

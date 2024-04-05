@@ -72,5 +72,15 @@ namespace HalloDocWebServices.Interfaces
         void savePhysicianProfile(AdminProviderModel info);
         void savePhysicianDocuments(AdminProviderModel info);
         List<Physicianlocation> getPhysicianLocation();
+        List<Healthprofessionaltype> getVenderDetail();
+        DeleteAccountDetails openDeleteModal(int id, string acntType);
+        void deleteVender(int id);
+        void deleteAccessRole(int id);
+        void deletePhysicianAccount(int id);
+        SendOrderModel GetEditBusinessData(int id);
+        void UpdateBusinessData(SendOrderModel model);
+        List<Requesttype> GetRequestTypes();
+        AdminRecordsModel getSearchRecordData(AdminRecordsModel model);
+        public void SendSms(string receiverPhoneNumber, string message );
     }
 }

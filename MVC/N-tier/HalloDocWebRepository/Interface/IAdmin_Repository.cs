@@ -24,6 +24,7 @@ namespace HalloDocWebRepo.Interface
         public List<AdminDashboardTableModel> getDashboardTables(int id, int check);
         public List<AdminDashboardTableModel> getDashboardTablesWithoutcheck(int id);
         List<Healthprofessional> getHealthProfessional(int businessId);
+        public List<Healthprofessionaltype> getVenderDetail();
         public List<Healthprofessional> getHealthProfessionalList();
         List<Healthprofessionaltype> getHealthProfessionalTypeList();
         List<Healthprofessionaltype> getHealthProfessionalType(int profId);
@@ -78,5 +79,14 @@ namespace HalloDocWebRepo.Interface
         void removeAllPhysicianRegion(int physicianid);
         void addAllPhysicianRegion(List<int>? selectedReg,int id);
         List<Physicianlocation> getPhysicianLocationList();
+        void updateHealthProfessionalTable(Healthprofessional vender);
+        Role getAccessroleById(int id);
+        void updateRoleTable(Role role);
+        IQueryable<Blockrequest> getBlockData();
+        List<Requesttype> getRequestTypeList();
+        List<Requestclient> getRequestClientList();
+        List<Requestnote> getREquestNotesList();
+        void addSmsLogTable(Smslog smslog);
+        void addEmailLogTable(Emaillog emaillog);
     }
 }

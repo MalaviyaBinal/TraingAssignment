@@ -30,7 +30,7 @@
 <body style="background-color: #f3f3f3; ">
     <!-- --------------------------------------Main container--------------------------------------------- -->
     <nav class="bg-white">
-        <ul class="sideBar shadow hide">
+        <ul class="sideBar shadow ">
             
             <li>
                 <a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboard">Dashboard</a>
@@ -121,12 +121,12 @@
         </li>
         <li class="nav-item">
             <div class="dropdown navbar-dropdown" id="providers_dropdown" style="cursor :pointer;">
-                <button class="navbar-btn bg-white border-0 nav-link" type="button" id="provider" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="navbar-btn bg-white border-0 nav-link" type="button" id="provider1" data-bs-toggle="dropdown" aria-expanded="false">
                     Providers
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="provider">
+                <ul class="dropdown-menu" aria-labelledby="provider1">
                     <li><a class="navbar-dropdown-item dropdown-item" asp-action="AdminDashboardProviders" asp-controller="Admin" id="providers">Provider</a></li>
-                    <li><a class="navbar-dropdown-item dropdown-item" href="#">Scheduling</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" asp-action="ProviderScheduling" asp-controller="Admin">Scheduling</a></li>
                     <li><a class="navbar-dropdown-item dropdown-item" href="#">Invoicing</a></li>
                 </ul>
             </div>
@@ -137,11 +137,11 @@
         </li>
         <li class="nav-item">
             <div class="dropdown navbar-dropdown ms-1">
-                <button class="navbar-btn bg-white border-0 nav-link" type="button" id="access" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="navbar-btn bg-white border-0 nav-link" type="button" id="access1" data-bs-toggle="dropdown" aria-expanded="false">
                     Access
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="access">
-                    <li><a class="navbar-dropdown-item dropdown-item" asp-action="AdminDashboardAccess" asp-controller="Admin">Account Access</a></li>
+                <ul class="dropdown-menu" aria-labelledby="access1">
+                    <li><a class="navbar-dropdown-item dropdown-item" asp-action="AdminDashboardAccess" asp-controller="Admin" >Account Access</a></li>
                     <li><a class="navbar-dropdown-item dropdown-item" asp-action="UserAccess" asp-controller="Admin">User Access</a></li>
                     <li><a class="navbar-dropdown-item dropdown-item" asp-action="CreateAdminAccount" asp-controller="Admin">Create Admin</a></li>
                 </ul>

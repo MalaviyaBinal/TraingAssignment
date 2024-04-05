@@ -1,0 +1,150 @@
+﻿
+
+
+@*@model HalloDocWebEntity.ViewModel.SchedulingViewModel;
+@{
+    Layout = "_AdminHeader";
+}
+    <div class="container min-vh-100 d-flex flex-column justify-content-between create-patient-req-main full-content">
+        <form method="post" class="row row-cols-1" enctype="multipart/form-data">
+            <div class="main-create-patient-req d-flex justify-content-center align-items-center mt-1">
+                <div class="row row-cols-1 justify-content-center align-items-center width-create-patient-req ">
+                    <div class="col  d-flex justify-content-between gy-3">
+                        <h3>Scheduling</h3>
+                        
+                    </div>
+                    <div class="col d-flex flex-row justify-content-between gy-3">
+                        <select id="region" name="region" class="form-select m-1 w-25" aria-label="Default select example">
+                            <option selected>Select Region</option>
+                        </select>
+                        <div>
+                            <button role="button" class="btn btn-info p-1 text-white mb-3">Providers On Call</button>
+                            <button role="button"  class="btn btn-info p-1 text-white mb-3">Shifts For Review</button>
+                        <a role="button" id="create-shift" data-bs-toggle="modal" data-bs-target="#modalShift"  class="btn btn-info p-1 text-white mb-3">Add New Shift</a>
+                        </div>
+                    </div>
+                    <div class="col gy-3">
+                        <h5>Monday, Dec 4,2023</h5>
+                    </div>
+                    <div class="col d-flex flex-row justify-content-end gy-3">
+                        <div class="m-1 p-0 rounded" style="background-color:pink; width:5%;  opacity:0.5;"></div>
+                        <div class="m-2 ">Pending Shifts</div>
+                        <div class="m-1 rounded" style="background-color:green; width:5%; opacity:0.5;"></div>
+                        <div class="m-2">Approved Shifts</div>
+                    </div>
+                    <div class="col gy-3">
+                        <span class="p-2 m-1" style="border-radius: 50%; color:white; background: #01bce9;"><</span>
+                        <i class="fa-solid fa-calendar-days" style="color:grey;"> </i>
+                        <span class="p-2 m-1" style="border-radius: 50%; color:white; background: #01bce9;">></span>
+                    </div>
+                    <div class="col d-flex flex-row justify-content-end gy-3">
+                        <button role="button" class="btn btn-outline-info m-2">Day</button>
+                        <button role="button" class="btn btn-outline-info  m-2">Week</button>
+                        <button role="button" class="btn btn-outline-info  m-2">Month</button>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Staff</th>
+                                    <th scope="col">12A</th>
+                                    <th scope="col">1A</th>
+                                    <th scope="col">2A</th>
+                                    <th scope="col">3A</th>
+                                    <th scope="col">4A</th>
+                                    <th scope="col">5A</th>
+                                    <th scope="col">6A</th>
+                                    <th scope="col">7A</th>
+                                    <th scope="col">8A</th>
+                                    <th scope="col">9A</th>
+                                    <th scope="col">10A</th>
+                                    <th scope="col">11A</th>
+                                    <th scope="col">12P</th>
+                                    <th scope="col">1P</th>
+                                    <th scope="col">2P</th>
+                                    <th scope="col">3P</th>
+                                    <th scope="col">4P</th>
+                                    <th scope="col">5P</th>
+                                    <th scope="col">6P</th>
+                                    <th scope="col">7P</th>
+                                    <th scope="col">8P</th>
+                                    <th scope="col">9P</th>
+                                    <th scope="col">10P</th>
+                                    <th scope="col">11P</th>
+                                </tr>
+                            </thead>
+                            <tbody class="coverage">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+     
+    </div>
+    <!--For create shift-->
+    <div class="modal" id="modalShift">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="createShiftForm" asp-controller="Admin" asp-action="insertShift" method="POST">
+                    <!-- Modal Header -->
+                    <div class="modal-header" style="background:#01bce9; color:white;">
+                        <h4 class="modal-title">Create Shift</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body" style="color:grey;">
+                        <select asp-for="RegionId" class="form-select mb-3 region" aria-label="Default select example">
+                            <option selected>Select Region</option>
+                        </select>
+                        <select asp-for="PhysicianId" id="physician" class="form-select mb-3" aria-label="Default select example">
+                            <option selected>Select Physician</option>
+                        </select>
+                        <div class="form-floating mb-3">
+                            <input asp-for="ShiftDate" type="date" class="form-control dob-create-patient shadow-none" id="floatingInput" placeholder="">
+                            <label class="dob-create-patient-text" for="floatingInput">Shift Date</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="StartTime" type="time" class="form-control dob-create-patient shadow-none" placeholder="">
+                            <label class="dob-create-patient-text">Start</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="EndTime" type="time" class="form-control dob-create-patient shadow-none" placeholder="">
+                            <label class="dob-create-patient-text">End</label>
+                        </div>
+                        <input name="checktoggle" type="checkbox" id="toggle" />
+                        <label class="toggle-label" for="toggle"></label>
+                        <div class="d-flex  mb-1">
+                            <input class="m-2" type="checkbox" id="sun" name="dayList" value="1">
+                            <span for="sun"> Every Sunday</span>
+                            <input class="m-2" type="checkbox" id="mon" name="dayList" value="2">
+                            <span for="mon"> Every Monday</span>
+                            <input class="m-2" type="checkbox" id="tue" name="dayList" value="3">
+                            <span for="tue"> Every Tuesday</span>
+                        </div>
+                        <div class="d-flex justify-content-around mb-1">
+                            <input type="checkbox" id="wed" name="dayList" value="4">
+                            <span for="wed"> Every Wednesday</span>
+                            <input type="checkbox" id="thur" name="dayList" value="5">
+                            <span for="thur"> Every Thursday</span>
+                            <input type="checkbox" id="fri" name="dayList" value="6">
+                            <span  for="fri"> Every Friday</span>
+                        </div>
+                    <input class="m-2" type="checkbox" class="mb-3" id="sat" name="dayList" value="7">
+                        <span for="sat"> Every Saturday</span>
+                        <select asp-for="RepeatUpto" id="repeat" class="form-select mb-3" aria-label="Default select example">
+                            <option selected>Repeat End</option>
+                            <option value="1">1-time</option>
+                            <option value="2">2-times</option>
+                            <option value="3">3-times</option>
+                        </select>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn submit-btn-assigncase">Submit</button>
+                        <button type="button" class="btn cancel-btn-cancelcase" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+*@

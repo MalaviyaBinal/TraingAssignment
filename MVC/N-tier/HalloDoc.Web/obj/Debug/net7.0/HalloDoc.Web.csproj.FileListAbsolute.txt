@@ -411,3 +411,5 @@ D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\Irony.dll
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\SixLabors.Fonts.dll
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\System.IO.Packaging.dll
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\XLParser.dll
+D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\GoogleMaps.LocationServices.dll
+D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\Twilio.dll

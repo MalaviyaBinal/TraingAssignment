@@ -4,13 +4,19 @@ using HalloDocWebRepo.Interface;
 using HalloDocWebService.Authentication;
 using HalloDocWebServices.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using System;
 using System.Collections;
 using System.Data;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Mail;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+
 namespace HalloDocWebServices.Implementation
 {
     public class Admin_Service : IAdmin_Service
@@ -48,11 +54,12 @@ namespace HalloDocWebServices.Implementation
             };
             _repository.addRequestStatusLogTable(statuslog);
             Request request = _repository.getRequestByID(id);
+
             Blockrequest blockrequest = new Blockrequest
             {
                 Phonenumber = request.Phonenumber,
                 Email = request.Email,
-                Requestid = request.Requestid.ToString(),
+                Requestid = request.Requestid,
                 Createddate = DateTime.Now
             };
             _repository.addBlockRequestTable(blockrequest);
@@ -1091,7 +1098,7 @@ namespace HalloDocWebServices.Implementation
             if (info.Photo != null)
                 phy.Photo = "Profile" + Path.GetExtension(info.Photo?.FileName);
             if (info.Signature != null)
-                phy.Signature = "Signature" + Path.GetExtension(info.Photo?.FileName);
+                phy.Signature = "Signature" + Path.GetExtension(info.Signature?.FileName);
             phy.Adminnotes = info.Adminnotes;
             phy.Modifieddate = DateTime.Now;
             _repository.updatePhysician(phy);
@@ -1099,6 +1106,10 @@ namespace HalloDocWebServices.Implementation
             {
                 string filename = "Profile" + Path.GetExtension(info.Photo?.FileName);
                 string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 using FileStream stream = new(path, FileMode.Create);
                 info.Photo?.CopyTo(stream)
@@ -1106,11 +1117,15 @@ namespace HalloDocWebServices.Implementation
             }
             if (phy.Signature != null)
             {
-                string filename = "Signature" + Path.GetExtension(info.Photo?.FileName);
+                string filename = "Signature" + Path.GetExtension(info.Signature?.FileName);
                 string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 using FileStream stream = new(path, FileMode.Create);
-                info.Photo?.CopyTo(stream)
+                info.Signature?.CopyTo(stream)
 ;
             }
         }
@@ -1178,7 +1193,7 @@ namespace HalloDocWebServices.Implementation
             }
             if (info.LisenceDoc != null)
             {
-                string filename = "LisenceDoc" + Path.GetExtension(info.Photo?.FileName);
+                string filename = "LisenceDoc" + Path.GetExtension(info.LisenceDoc?.FileName);
                 string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + info.physician.Physicianid + "\\" + filename);
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 if (File.Exists(path))
@@ -1186,7 +1201,7 @@ namespace HalloDocWebServices.Implementation
                     File.Delete(path);
                 }
                 using FileStream stream = new(path, FileMode.Create);
-                info.Photo?.CopyTo(stream);
+                info.LisenceDoc?.CopyTo(stream);
             }
 
 
@@ -1196,5 +1211,140 @@ namespace HalloDocWebServices.Implementation
         {
             return _repository.getPhysicianLocationList();
         }
+
+        public List<Healthprofessionaltype> getVenderDetail()
+        {
+
+            return _repository.getVenderDetail();
+        }
+
+
+
+        public DeleteAccountDetails openDeleteModal(int id, string acntType)
+        {
+            DeleteAccountDetails model = new();
+            switch (acntType)
+            {
+                case "Vender":
+                    model.venderID = id;
+                    model.accountTypeName = acntType;
+                    break;
+                case "AccessRole":
+                    model.roleId = id;
+                    model.accountTypeName = acntType;
+                    break;
+                case "Physician":
+                    model.PhyId = id;
+                    model.accountTypeName = acntType;
+                    break;
+
+            }
+            return model;
+        }
+
+        public void deleteVender(int id)
+        {
+            var vender = _repository.getHealthProfessionalDetail(id);
+            vender.Isdeleted = new BitArray(1, true);
+            _repository.updateHealthProfessionalTable(vender);
+        }
+
+        public void deleteAccessRole(int id)
+        {
+            var role = _repository.getAccessroleById(id);
+            role.Isdeleted = new BitArray(1, true);
+            _repository.updateRoleTable(role);
+        }
+
+        public void deletePhysicianAccount(int id)
+        {
+            var phy = _repository.getPhysicianById(id);
+            phy.Isdeleted = new BitArray(1, true);
+            _repository.updatePhysician(phy);
+        }
+
+        public SendOrderModel GetEditBusinessData(int id)
+        {
+            SendOrderModel model = new SendOrderModel();
+            model.businessDetail = _repository.getHealthProfessionalDetail(id);
+            model.professions = _repository.getHealthProfessionalTypeList();
+            return model;
+        }
+        public void UpdateBusinessData(SendOrderModel model)
+        {
+            Healthprofessional business = _repository.getHealthProfessionalDetail(model.businessDetail.Vendorid);
+            business.Vendorname = model.businessDetail.Vendorname;
+            business.Profession = model.businessDetail.Profession;
+            business.Faxnumber = model.businessDetail.Faxnumber;
+            business.Address = model.businessDetail.Address;
+            business.City = model.businessDetail.City;
+            business.State = model.businessDetail.State;
+            business.Zip = model.businessDetail.Zip;
+            business.Phonenumber = model.businessDetail.Phonenumber;
+            business.Email = model.businessDetail.Email;
+            business.Businesscontact = model.businessDetail.Businesscontact;
+            business.Modifieddate = DateTime.Now;
+            _repository.updateHealthProfessionalTable(business);
+        }
+
+        public List<Requesttype> GetRequestTypes()
+        {
+            return _repository.getRequestTypeList();
+        }
+
+        public AdminRecordsModel getSearchRecordData(AdminRecordsModel model)
+        {
+
+            model.Data = _repository.getRequestClientList();
+            model.ReqNotes = _repository.getREquestNotesList();
+            model.ReqType = _repository.getRequestTypeList();
+            model.phy = _repository.getPhysicianList();
+            return model;
+        }
+        public void SendSms(string receiverPhoneNumber = "+9183200566504", string message = "this is testing")
+        {
+            string accountSid = "ACf3e07eb694877aff1ffd392934bdb764";
+            string authToken = "fe03fccadb7d42d562d8f9879bb50ece";
+            string twilioPhoneNumber = "+12676139096";
+
+            //TwilioClient.Init(accountSid, authToken);
+
+            //try
+            //{
+            //    var smsMessage = MessageResource.Create(
+            //        body: message,
+            //        from: new Twilio.Types.PhoneNumber(twilioPhoneNumber),
+            //        to: new Twilio.Types.PhoneNumber(receiverPhoneNumber)
+            //    );
+
+            //    Console.WriteLine("SMS sent successfully. SID: " + smsMessage.Sid);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("An error occurred while sending the SMS: " + ex.Message);
+            //}
+            Emaillog emaillog = new Emaillog
+            {
+                Emailtemplate = message,
+                Emailid = "abc@gmail.com",
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Subjectname = "this is subject",
+                Isemailsent = new BitArray(1, true),
+                Senttries = 1
+            };
+            _repository.addEmailLogTable(emaillog);
+            Smslog smslog = new Smslog
+            {
+                Smstemplate = message,
+                Mobilenumber = receiverPhoneNumber,
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Senttries = 1
+            };
+            _repository.addSmsLogTable(smslog);
+        }
+        
     }
 }
+

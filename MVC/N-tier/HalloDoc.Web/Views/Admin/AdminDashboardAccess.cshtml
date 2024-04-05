@@ -30,11 +30,12 @@
             </tr>
         </thead>
         <tbody class="text-muted">
-            <tR>
-                @foreach (var item in Model)
-                {
+
+            @foreach (var item in Model)
+            {
+                <tr>
                     <td>@item.Name</td>
-                    switch (item.Accounttype)
+                    @switch (item.Accounttype)
                     {
                         case 1:
                             <td>Admin</td>
@@ -49,16 +50,40 @@
                     }
                     <td class="text-center">
                         <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Roleid"><button type="button" class="btn btn-outline-info">Edit</button></a>
-                        <button type="button" class="btn btn-outline-info">Delete</button>
+                        <button type="button" onclick="deleteaccess(this)" value="@item.Roleid" class="btn btn-outline-info">Delete</button>
                     </td>
-                }
-               
-                
-            </tR>
+                </tr>
+            }
+
+
+
 
         </tbody>
     </table>
 </div>
+<div id="modalpopup">
+</div>
 <script>
-    document.getElementById("access").classList.add("active");
+    document.getElementById("access1").classList.add("active");
+    function deleteaccess(element) {
+
+        var id = element.value;
+        console.log(id);
+        $.ajax({
+            url: "/Admin/ShowDeleteModal",
+            data: { 'id': id, 'acntType': "AccessRole" },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modalpopup").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+
+            }
+        });
+    };
+
 </script>

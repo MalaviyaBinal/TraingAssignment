@@ -9,14 +9,13 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\UploadedFiles\DemoMvcCore.sln" />
-    <None Include="wwwroot\PhysicianDoc\2\Profile.png" />
-    <None Include="wwwroot\PhysicianDoc\2\Signature.png" />
     <None Include="wwwroot\PhysicianDoc\5\HIPAA.xlsx" />
     <None Include="wwwroot\UploadedFiles\DemoMvcCore.sln" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.2" />
+    <PackageReference Include="GoogleMaps.LocationServices" Version="1.2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />

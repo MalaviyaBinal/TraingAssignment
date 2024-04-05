@@ -80,8 +80,34 @@ namespace HalloDoc.Web.Controllers
 
         public IActionResult AdminDashboardPartners()
         {
-            return View();
+            return View(_service.getVenderDetail());
+            //return View(_service.getHealthProfessionalList());
         }
+
+         public IActionResult ShowDeleteModal(int id, string acntType)
+        {
+            
+            return PartialView("_DeleteAccountModal",_service.openDeleteModal(id,acntType));
+        }
+
+
+
+        public IActionResult DeleteVender(int id)
+        {
+            _service.deleteVender(id);
+            return RedirectToAction(nameof(AdminDashboardPartners));
+        }
+        public IActionResult DeleteAccessRole(int id)
+        {
+            _service.deleteAccessRole(id);
+            return RedirectToAction(nameof(AdminDashboardAccess));
+        }
+        public IActionResult DeletePhysician(int id)
+        {
+            _service.deletePhysicianAccount(id);
+            return RedirectToAction(nameof(AdminDashboardProviders));
+        }
+
         public IActionResult AdminDashboardAccess()
         {
 
@@ -114,10 +140,69 @@ namespace HalloDoc.Web.Controllers
             AdminProviderModel model = _service.getProviderDataForAdmin(0);
             return View(model);
         }
-        public IActionResult AdminDashboardRecords()
+        public IActionResult AdminDashboardRecords(AdminRecordsModel model)
         {
-            return View();
+            model.ReqType = _service.GetRequestTypes();
+            
+            return View(model);
         }
+
+        
+        [HttpPost]
+        public IActionResult _SearchRecordsTable(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr)
+        {
+            //_service.SendSms("+918320056504", "sample message");
+            model = _service.getSearchRecordData(model);
+            if (!string.IsNullOrWhiteSpace(searchstr))
+            {
+                model.Data = model.Data.Where(x => x.Firstname.ToLower().Contains(searchstr.ToLower())).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(mobile))
+            {
+                model.Data = model.Data.Where(x => x.Phonenumber.ToLower().Contains(mobile.ToLower())).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                model.Data = model.Data.Where(x => x.Email.ToLower().Contains(email.ToLower())).ToList();
+            }
+            //if (!string.IsNullOrWhiteSpace(pname))
+            //{
+            //    model.Data = model.Data.Where(x => x.FirstName.ToLower().Contains(searchstr.ToLower())).ToList();
+            //}
+            if (status != 0)
+            {
+
+                model.Data = model.Data.Where(x => x.Request.Status == status).ToList();
+
+            }
+            if (reqtype != 0)
+            {
+
+                model.Data = model.Data.Where(x => x.Request.Requesttypeid == reqtype).ToList();
+
+            }
+            if (fdate != DateTime.MinValue)
+            {
+
+                model.Data = model.Data.Where(x => x.Request.Createddate > fdate).OrderBy(x => x.Request.Createddate).ToList();
+
+            }
+
+            if (tdate != DateTime.MinValue)
+            {
+                model.Data = model.Data.Where(x => x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
+            }
+
+            if (tdate != DateTime.MinValue && tdate != DateTime.MinValue)
+            {
+                model.Data = model.Data.Where(x => x.Request.Createddate > fdate && x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
+            }
+
+
+
+            return PartialView(model);
+        }
+
         public IActionResult PatientRequestAdmin()
         {
             return PartialView();
@@ -236,7 +321,7 @@ namespace HalloDoc.Web.Controllers
         public IActionResult GenerateRole(string RoleName, string[] selectedRoles, int check)
         {
             _service.generateRole(RoleName, selectedRoles, check, HttpContext.Request.Cookies["UserEmail"]);
-            return RedirectToAction(nameof(AdminDashboard));
+            return RedirectToAction(nameof(AdminDashboardAccess));
         }
 
         public ActionResult Export(int id, int check, string searchValue, int searchRegion)
@@ -554,6 +639,20 @@ namespace HalloDoc.Web.Controllers
         {
             return View(_service.getAdminRoleData());
         }
-       
+
+        public IActionResult EditBusiness(int id)
+        {
+            return View(_service.GetEditBusinessData(id));
+        }
+        [HttpPost]
+        public IActionResult EditBusiness(SendOrderModel model)
+        {
+            _service.UpdateBusinessData(model);
+            return RedirectToAction(nameof(AdminDashboardPartners));
+        }
+        public IActionResult ProviderScheduling()
+        {
+            return View();
+        }
     }
 }

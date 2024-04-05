@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "nlP/rH+lofoveIgHcQdGLAGg6D0cyoxGnbWUx52g5XKIL/d7qSU+zU1IiNR5AZljeLPzZEr53gBsZsr4kGvflw==",
+  "dgSpecHash": "voX3GNKwciTV4M5GpvmmbjVY25vIOn2WGghWq1o01FOX5CO9e/rP2piTSAmuTs7cvjyLyTasmQKazv0x3yQG4Q==",
   "success": true,
   "projectFilePath": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDocWebEntity\\HalloDocWebEntity.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\pce83\\.nuget\\packages\\googlemaps.locationservices\\1.2.0.5\\googlemaps.locationservices.1.2.0.5.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.4\\microsoft.aspnetcore.authentication.jwtbearer.7.0.4.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.extensions\\6.0.0\\microsoft.aspnetcore.mvc.razor.extensions.6.0.0.nupkg.sha512",

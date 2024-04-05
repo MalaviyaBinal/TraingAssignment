@@ -4,6 +4,7 @@ using HalloDocWebEntity.ViewModel;
 using HalloDocWebRepo.Interface;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Xml.Linq;
 
 namespace HalloDocWebRepo.Implementation
@@ -29,6 +30,7 @@ namespace HalloDocWebRepo.Implementation
 
         public void addRequestNotesTAble(Requestnote note)
         {
+           
             _context.Requestnotes.Add(note);
             _context.SaveChanges();
         }
@@ -214,9 +216,15 @@ namespace HalloDocWebRepo.Implementation
             return _context.Healthprofessionals.Where(m => m.Profession == businessId).ToList();
         }
 
+        public List<Healthprofessionaltype> getVenderDetail()
+        {
+           
+            return _context.Healthprofessionaltypes.Include(e => e.Healthprofessionals).ToList();
+        }
+
         public List<Healthprofessional> getHealthProfessionalList()
         {
-            return _context.Healthprofessionals.ToList();
+            return _context.Healthprofessionals.Where(m => m.Isdeleted == null).ToList();
         }
 
         public List<Healthprofessionaltype> getHealthProfessionalTypeList()
@@ -240,12 +248,12 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Physician> getPhysicianList()
         {
-            return _context.Physicians.ToList();
+            return _context.Physicians.Where(m => m.Isdeleted == null).ToList();
         }
 
         public List<Physician> getPhysicianListByregion(int regid)
         {
-            return _context.Physicians.Where(m => m.Regionid == regid).ToList();
+            return _context.Physicians.Where(m => m.Regionid == regid && m.Isdeleted == null).ToList();
         }
 
         public Region getRegionByRegionId(int regionid)
@@ -318,6 +326,7 @@ namespace HalloDocWebRepo.Implementation
 
         public Healthprofessional getHealthProfessionalDetail(int businessId)
         {
+            
             return _context.Healthprofessionals.FirstOrDefault(m => m.Vendorid == businessId);
         }
 
@@ -486,7 +495,7 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Role> getRoleList()
         {
-            return _context.Roles.ToList();
+            return _context.Roles.Where(m => m.Isdeleted == new BitArray(1,false)).ToList();
         }
 
         public Role getRoleByID(int id)
@@ -561,7 +570,7 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges();
         }
 
-        public void addAllPhysicianRegion(List<int>? selectedReg,int id)
+        public void addAllPhysicianRegion(List<int>? selectedReg, int id)
         {
             selectedReg.ForEach(item =>
             {
@@ -569,12 +578,62 @@ namespace HalloDocWebRepo.Implementation
                 _context.Physicianregions.Add(pr);
             });
             _context.SaveChanges();
-            
+
         }
 
         public List<Physicianlocation> getPhysicianLocationList()
         {
             return _context.Physicianlocations.ToList();
+        }
+
+        public void updateHealthProfessionalTable(Healthprofessional vender)
+        {
+            _context.Healthprofessionals.Update(vender);
+            _context.SaveChanges();
+        }
+
+        public Role getAccessroleById(int id)
+        {
+            return _context.Roles.FirstOrDefault(m => m.Roleid == id);
+        }
+
+        public void updateRoleTable(Role role)
+        {
+            _context.Roles.Update(role);
+            _context.SaveChanges(true);
+        }
+
+        public IQueryable<Blockrequest> getBlockData()
+        {
+            return _context.Blockrequests.Include(e => e.Request).ThenInclude(m => m.Requestclients.Where(f => f.Requestid == m.Requestid));
+        }
+
+        public List<Requesttype> getRequestTypeList()
+        {
+            return _context.Requesttypes.ToList();
+        }
+
+        public List<Requestclient> getRequestClientList()
+        {
+            return _context.Requestclients.Include(e => e.Request).ToList();
+        }
+
+        public List<Requestnote> getREquestNotesList()
+        {
+            return _context.Requestnotes.ToList();
+        }
+
+        public void addSmsLogTable(Smslog smslog)
+        {
+            _context.Smslogs.Add(smslog);
+            _context.SaveChanges();
+        }
+
+        public void addEmailLogTable(Emaillog emaillog)
+        {
+            
+            _context.Emaillogs.Add(emaillog);   
+            _context.SaveChanges(); 
         }
     }
 }
