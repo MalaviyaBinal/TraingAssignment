@@ -126,7 +126,7 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="provider1">
                     <li><a class="navbar-dropdown-item dropdown-item" asp-action="AdminDashboardProviders" asp-controller="Admin" id="providers">Provider</a></li>
-                    <li><a class="navbar-dropdown-item dropdown-item" asp-action="ProviderScheduling" asp-controller="Admin">Scheduling</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" asp-action="ProviderSchedulingDayWise" asp-controller="Admin">Scheduling</a></li>
                     <li><a class="navbar-dropdown-item dropdown-item" href="#">Invoicing</a></li>
                 </ul>
             </div>
@@ -156,10 +156,10 @@
                 <ul class="dropdown-menu" aria-labelledby="records">
 
                     <li><a class="navbar-dropdown-item dropdown-item" id="records" asp-action="AdminDashboardRecords" asp-controller="Admin">Search Records</a></li>
-                    <li><a class="navbar-dropdown-item dropdown-item" href="#">Email Logs</a></li>
-                    <li><a class="navbar-dropdown-item dropdown-item" href="#">SMS Logs</a></li>
-                    <li><a class="navbar-dropdown-item dropdown-item" href="#">Patient History</a></li>
-                    <li><a class="navbar-dropdown-item dropdown-item" href="#">Block History</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" asp-action="EmailLogs" asp-controller="Admin">Email Logs</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" asp-action="SMSLogs" asp-controller="Admin">SMS Logs</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" asp-action="PatientHistory" asp-controller="Admin">Patient History</a></li>
+                    <li><a class="navbar-dropdown-item dropdown-item" asp-action="BlockHistory" asp-controller="Admin">Block History</a></li>
                 </ul>
             </div>
 

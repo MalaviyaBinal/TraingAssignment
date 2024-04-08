@@ -43,7 +43,7 @@ namespace HalloDoc.Web.Controllers
             return View(_service.EncounterAdmin(id));
         }
 
-
+        #region Provider
         public IActionResult CreateProviderAdmin()
         {
             return View();
@@ -63,6 +63,8 @@ namespace HalloDoc.Web.Controllers
             AdminProviderModel model = _service.getProviderDataForAdmin(regid);
             return View(model);
         }
+        #endregion
+
         //[CustomAuthorize("Admin")]
         public IActionResult AdminDashboardMyProfile()
         {
@@ -97,9 +99,14 @@ namespace HalloDoc.Web.Controllers
             _service.deleteVender(id);
             return RedirectToAction(nameof(AdminDashboardPartners));
         }
+        public IActionResult UnblockRequest(int id)
+        {
+            _service.unblockRequest(id, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(BlockHistory));
+        }
         public IActionResult DeleteAccessRole(int id)
         {
-            _service.deleteAccessRole(id);
+            _service.deleteAccessRole(id); 
             return RedirectToAction(nameof(AdminDashboardAccess));
         }
         public IActionResult DeletePhysician(int id)
@@ -650,9 +657,84 @@ namespace HalloDoc.Web.Controllers
             _service.UpdateBusinessData(model);
             return RedirectToAction(nameof(AdminDashboardPartners));
         }
-        public IActionResult ProviderScheduling()
+        public IActionResult ProviderSchedulingDayWise()
+        {
+            return View(_service.getSchedulingData());
+        }
+        public IActionResult ProviderSchedulingWeekWise()
+        {
+            return View(_service.getSchedulingData());
+        }
+        public IActionResult ProviderSchedulingMonthWise()
+        {
+            return View(_service.getSchedulingData());
+        }
+        public IActionResult EmailLogs()
+        {
+            string username = HttpContext.Session.GetString("userName");
+            ViewBag.userName = username;
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult EmailLogTable(int roleid, string name, string email, string createdDate, string sentDate)
+        {
+            List<Email_SMS_LogModel> emaillogs = _service.GetEmailLogs(roleid, name, email, createdDate, sentDate);
+            //List<ProviderMenuModel> providers = _service.GetProviders(regionid, order);
+            return PartialView("_EmailLogTable", emaillogs);
+        }
+        public IActionResult SMSLogs()
+        {
+          
+            return View();
+        }
+        [HttpGet]
+        public IActionResult SmsLogTable(int roleid, string name, string mobile, string createdDate, string sentDate)
+        {
+            List<Email_SMS_LogModel> smslogs = _service.GetSmsLogs(roleid, name, mobile, createdDate, sentDate);
+            //List<ProviderMenuModel> providers = _service.GetProviders(regionid, order);
+            return PartialView("_SMSLogTable", smslogs);
+        }
+        public async Task<IActionResult> OpenAddShiftModal(int regionid)
+        {
+            return PartialView("_AddShiftModal", _service.openShiftModel(regionid));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateShift(SchedulingViewModel info)
+        {
+            _service.CreateShift(info);
+            return RedirectToAction(nameof(ProviderSchedulingDayWise));
+        }
+        public IActionResult BlockHistory()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult _BlockHistoryTable()
+        {
+
+            return View(_service.getBlockHistoryData());
+        }
+        public IActionResult DeleteRequest(int id)
+        {
+            _service.deleteRequest(id);
+            return RedirectToAction(nameof(AdminDashboardRecords));
+        }
+        public IActionResult PatientHistory()
         {
             return View();
+        }
+        public IActionResult PatientHistoryTable(string? fname, string? lname, string? email, string? phone)
+        {
+            List<PatientHistoryTable> model = _service.PatientHistoryTable(fname, lname, email, phone);
+            return PartialView("_PatientHistoryTable", model);
+        }
+        public IActionResult PatientRecord(int id)
+        {
+            List<PatientRecordModel> model = _service.PatientRecord(id);
+            return View("PatientRecord", model);
         }
     }
 }

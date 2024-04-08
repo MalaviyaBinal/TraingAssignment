@@ -1,0 +1,76 @@
+﻿@model List<HalloDocWebEntity.ViewModel.Email_SMS_LogModel>
+
+<div>
+    <div class="table-responsive">
+        <table class="mt-3 border-0 w-100 mx-0 hideOnMobile" id="providerTable" style="--bs-gutter-x: 0rem;">
+            <thead>
+                <tr class="row border-bottom p-2 mx-0" style="--bs-gutter-x: 0rem; background-color:lightgray; ">
+                    <th class="col">
+                        Receipient
+                    </th>
+                    <th class="col">
+                        Action
+                    </th>
+                    <th class="col">
+                        Role Name
+                    </th>
+                    <th class="col">
+                        Mobile Number
+                    </th>
+                    <th class="col">
+                        Created Date
+                    </th>
+                    <th class="col">
+                        Sent Date
+                    </th>
+                    <th class="col">
+                        Sent
+                    </th>
+                    <th class="col">
+                        Sent Tries
+                    </th>
+                    <th class="col">
+                        Confirmation Number
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="row border-bottom p-2 align-items-center" style="--bs-gutter-x: 0rem;">
+                        <td class="col">
+                            @item.Receipient
+                        </td>
+                        <td class="col">
+                            @item.Actions
+                        </td>
+                        <td class="col">
+                            @item.RoleName
+                        </td>
+                        <td class="col">
+                            @item.Mobile
+                        </td>
+                        <td class="col">
+                            @item.createdDate
+                        </td>
+                        <td class="col">
+                            @item.sentDate
+                        </td>
+                        <td class="col">
+                            @item.sent
+                        </td>
+                        <td class="col">
+                            @item.sentTries
+                        </td>
+                        <td class="col">
+                            @item.ConfirmationNum
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button id="saveChangesButton" onclick="saveChanges()" style="display: none;">Save Changes</button>
+        <div id="modaldata">
+        </div>
+    </div>
+</div>

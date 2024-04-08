@@ -82,11 +82,22 @@ namespace HalloDocWebRepo.Interface
         void updateHealthProfessionalTable(Healthprofessional vender);
         Role getAccessroleById(int id);
         void updateRoleTable(Role role);
-        IQueryable<Blockrequest> getBlockData();
+        List<Blockrequest> getBlockData();
         List<Requesttype> getRequestTypeList();
         List<Requestclient> getRequestClientList();
         List<Requestnote> getREquestNotesList();
         void addSmsLogTable(Smslog smslog);
         void addEmailLogTable(Emaillog emaillog);
+        List<Smslog> GetAllSmsLogs(int roleid, string name, string mobile, string createdDate, string sentDate);
+        List<Emaillog> GetAllEmailLogs(int roleid, string name, string email, string createdDate, string sentDate);
+        void AddShiftTable(Shift shift);
+        List<ShiftDetailsModel> getshiftDetail();
+        void AddShiftDetails(List<Shiftdetail> shiftdetails);
+        Blockrequest getBlockRequestById(int id);
+        void updateBlockRequest(Blockrequest req);
+        IQueryable<PatientHistoryTable> GetPatientHistoryTable(string? fname, string? lname, string? email, string? phone);
+        List<Request> GetAllRequestsByAid(int id);
+        string? GetStatus(short status);
+        int GetNumberOfDocsByRid(int requestid);
     }
 }

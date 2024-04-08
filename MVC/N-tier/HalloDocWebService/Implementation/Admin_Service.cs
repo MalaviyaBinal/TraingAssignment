@@ -60,6 +60,7 @@ namespace HalloDocWebServices.Implementation
                 Phonenumber = request.Phonenumber,
                 Email = request.Email,
                 Requestid = request.Requestid,
+                Reason = notes,
                 Createddate = DateTime.Now
             };
             _repository.addBlockRequestTable(blockrequest);
@@ -1237,6 +1238,14 @@ namespace HalloDocWebServices.Implementation
                     model.PhyId = id;
                     model.accountTypeName = acntType;
                     break;
+                case "Unblock":
+                    model.blockId = id;
+                    model.accountTypeName = acntType;
+                    break;
+                case "Request":
+                    model.reqId = id;
+                    model.accountTypeName = acntType;
+                    break;
 
             }
             return model;
@@ -1344,7 +1353,261 @@ namespace HalloDocWebServices.Implementation
             };
             _repository.addSmsLogTable(smslog);
         }
-        
+
+        public List<Email_SMS_LogModel> GetEmailLogs(int roleid, string name, string email, string createdDate, string sentDate)
+        {
+            List<Emaillog> emaillogtable = _repository.GetAllEmailLogs(roleid, name, email, createdDate, sentDate);
+            List<Email_SMS_LogModel> emailLogs = new List<Email_SMS_LogModel>();
+            foreach (Emaillog log in emaillogtable)
+            {
+                //Aspnetuser aspnetuser = _repository.GetAspNetUserByEmail(log.Emailid);
+                //Role role = _repository.GetRoleById((int)log.Roleid);
+                int startIndex = log.Emailtemplate.IndexOf("Hello ") + "Hello ".Length;
+                int endIndex = log.Emailtemplate.IndexOf(",", startIndex);
+                string storedName = log.Emailtemplate.Substring(startIndex, endIndex - startIndex);
+                Email_SMS_LogModel emaillog = new Email_SMS_LogModel
+                {
+                    Receipient = storedName,
+                    Actions = log.Action,
+                    RoleName = log.Roleid.ToString(),
+                    Email = log.Emailid,
+                    createdDate = log.Createdate.ToString("MMM dd, yyyy hh:mm tt"),
+                    sentDate = log.Createdate.ToString("MMM dd, yyyy"),
+                    sent = log.Isemailsent[0].ToString(),
+                    sentTries = log.Senttries.ToString(),
+                    ConfirmationNum = log.Confirmationnumber,
+                };
+                emailLogs.Add(emaillog);
+            }
+            return emailLogs;
+        }
+
+        public List<Email_SMS_LogModel> GetSmsLogs(int roleid, string name, string mobile, string createdDate, string sentDate)
+        {
+            List<Smslog> smslogtable = _repository.GetAllSmsLogs(roleid, name, mobile, createdDate, sentDate);
+            List<Email_SMS_LogModel> emailLogs = new List<Email_SMS_LogModel>();
+            foreach (Smslog log in smslogtable)
+            {
+                //Aspnetuser aspnetuser = _repository.GetAspNetUserByEmail(log.Emailid);
+                //Role role = _repository.GetRoleById((int)log.Roleid);
+                int startIndex = log.Smstemplate.IndexOf("Hello ") + "Hello ".Length;
+                int endIndex = log.Smstemplate.IndexOf(",", startIndex);
+                string storedName = log.Smstemplate.Substring(startIndex, endIndex - startIndex);
+                Email_SMS_LogModel emaillog = new Email_SMS_LogModel
+                {
+                    Receipient = storedName,
+                    Actions = log.Action,
+                    RoleName = log.Roleid.ToString(),
+                    Mobile = log.Mobilenumber,
+                    createdDate = log.Createdate.ToString("MMM dd, yyyy hh:mm tt"),
+                    sentDate = log.Createdate.ToString("MMM dd, yyyy"),
+                    sent = log.Issmssent[0].ToString(),
+                    sentTries = log.Senttries.ToString(),
+                    ConfirmationNum = log.Confirmationnumber,
+                };
+                emailLogs.Add(emaillog);
+            }
+            return emailLogs;
+        }
+
+        public SchedulingViewModel openShiftModel(int regionid)
+        {
+            SchedulingViewModel model = new();
+            if (regionid == 0)
+            {
+                var physician = _repository.getPhysicianList();
+                model.physics = physician;
+            }
+            else
+            {
+
+                var physician = _repository.getPhysicianListByregion(regionid);
+                model.physics = physician;
+            }
+            var region = _repository.getRegions();
+            model.regions = region;
+            model.SelectedRegion = regionid;
+            return model;
+        }
+
+        public void CreateShift(SchedulingViewModel model)
+        {
+            var weekdays = "";
+            foreach (var i in model.daylist)
+            {
+                weekdays += i;
+            }
+            var shift = new Shift
+            {
+                Physicianid = model.PhysicianId,
+                Startdate = model.ShiftDate,
+                Isrepeat = new BitArray(1, model.IsRepeat),
+                Weekdays = weekdays,
+                Createdby = "Admin",
+                Createddate = DateTime.Now,
+                Repeatupto = model.RepeatCount
+            };
+            _repository.AddShiftTable(shift);
+
+
+            List<Shiftdetail> shiftdetails = new();
+
+            Shiftdetail shiftdetail = new()
+            {
+                Shiftid = shift.Shiftid,
+                Shiftdate = model.ShiftDate,
+                Regionid = model.RegionId,
+                Starttime = model.StartTime,
+                Endtime = model.EndTime,
+                Status = 1,
+                Isdeleted = new BitArray(1, false),
+            };
+            shiftdetails.Add(shiftdetail);
+
+            if (model.IsRepeat)
+            {
+
+                List<DateOnly> days = new();
+                days.Add(model.ShiftDate);
+                for (var i = 0; i < model.RepeatCount; i++)
+                {
+                    for (int j = 0; j < model.daylist.Count; j++)
+                    {
+                        int temp;
+                        switch (model.daylist[j])
+                        {
+                            case 0:
+                                temp = (int)DayOfWeek.Sunday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 1:
+                                temp = (int)DayOfWeek.Monday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 2:
+                                temp = (int)DayOfWeek.Tuesday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 3:
+                                temp = (int)DayOfWeek.Wednesday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 4:
+                                temp = (int)DayOfWeek.Thursday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 5:
+                                temp = (int)DayOfWeek.Friday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            default:
+                                temp = (int)DayOfWeek.Saturday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                        }
+                        if (temp <= 0)
+                        {
+                            temp += 7;
+                        }
+                        days.Add(days.Last().AddDays(temp));
+                    }
+                }
+                foreach (var day in days)
+                {
+                    Shiftdetail shiftdetail1 = new()
+                    {
+                        Shiftid = shift.Shiftid,
+                        Shiftdate = day,
+                        Regionid = model.RegionId,
+                        Starttime = model.StartTime,
+                        Endtime = model.EndTime,
+                        Status = 1,
+                        Isdeleted = new BitArray(1, false),
+                    };
+                    if (days[0] == shiftdetail1.Shiftdate)
+                    {
+                        continue;
+                    }
+                    shiftdetails.Add(shiftdetail1);
+                }
+            }
+
+            _repository.AddShiftDetails(shiftdetails);
+        }
+
+        public ShiftDetailsModel getSchedulingData()
+        {
+            ShiftDetailsModel model = new();
+            model.physicians = _repository.getPhysicianList();
+            model.regions = _repository.getRegions();
+            model.shiftDetails = _repository.getshiftDetail();
+
+            return model;
+        }
+
+        public AdminRecordsModel getBlockHistoryData()
+        {
+            AdminRecordsModel model = new();
+            model.blockRequests = _repository.getBlockData();
+            return model;
+        }
+
+        public void unblockRequest(int id, string email)
+        {
+            Blockrequest req = _repository.getBlockRequestById(id);
+            req.Isactive = new BitArray(1, true);
+            req.Modifieddate = DateTime.Now;
+            _repository.updateBlockRequest(req);
+            Request r = _repository.getRequestByID(req.Requestid);
+            r.Status = 1;
+            r.Modifieddate = DateTime.Now;
+            _repository.updateRequest(r);
+            Admin admin = _repository.getAdminTableDataByEmail(email);
+            Requeststatuslog log = new Requeststatuslog
+            {
+                Status = 1,
+                Requestid = req.Requestid,
+                Adminid = admin.Adminid,
+                Createddate = DateTime.Now,
+            };
+            _repository.addRequestStatusLogTable(log);
+        }
+
+        public void deleteRequest(int id)
+        {
+            Request r = _repository.getRequestByID(id);
+            r.Isdeleted = new BitArray(1, true);
+            r.Modifieddate = DateTime.Now;
+            _repository.updateRequest(r);
+            
+        }
+
+        public List<PatientHistoryTable> PatientHistoryTable(string? fname, string? lname, string? email, string? phone)
+        {
+            IQueryable<PatientHistoryTable> tabledata = _repository.GetPatientHistoryTable(fname, lname, email, phone);
+            return tabledata.ToList();
+        }
+
+        public List<PatientRecordModel> PatientRecord(int id)
+        {
+            List<Request> requests = _repository.GetAllRequestsByAid(id)
+;
+            List<PatientRecordModel> records = new List<PatientRecordModel>();
+            foreach (Request request in requests)
+            {
+                Physician physician = new Physician();
+                if(request.Physicianid != null)
+                {
+                    physician = _repository.getPhysicianById((int)request.Physicianid);
+                }
+                PatientRecordModel record = new PatientRecordModel
+                {
+                    rid = request.Requestid,
+                    Name = request.Firstname + " " + request.Lastname,
+                    createdDate = request.Createddate.ToString("MMM dd, yyyy"),
+                    conNo = request.Confirmationnumber ?? "-",
+                    phyName = physician.Firstname == null && physician.Lastname == null ? "-" : "Dr. " + physician.Firstname + " " + physician.Lastname,
+                    concludeDate = request.Status == 6 && request.Modifieddate != null ? request.Modifieddate.Value.ToString("MMM dd, yyyy") : "-",
+                    status = _repository.GetStatus(request.Status) ?? "-",
+                    docNo = _repository.GetNumberOfDocsByRid(request.Requestid),
+                };
+                records.Add(record);
+            }
+            return records;
+        }
     }
 }
 

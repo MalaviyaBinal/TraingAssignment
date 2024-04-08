@@ -1,0 +1,99 @@
+﻿@model List<HalloDocWebEntity.ViewModel.PatientRecordModel>
+@{
+    Layout = "_AdminHeader";
+}
+
+<style>
+    th, td, tr {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    td, th {
+        padding-left: 0.5rem;
+    }
+    .container{
+        max-width: 90rem;
+    }
+</style>
+<div>
+    <div class="row" style="--bs-gutter-x: 0rem;">
+        <div class="col-12">
+            <div class="container mt-5 ps-1 w-100 d-flex justify-content-between">
+                <h4 class="mt-3">Patient History</h4>
+                <a class="btn bg-transparent border-info text-info" asp-action="PatientHistory" asp-controller="Admin">< Back</a>
+            </div>
+            <div class="container  rounded bg-white shadow py-3 mb-5 mt-3">
+                <div class="table-responsive w-100">
+                    <table class="mt-3 border-0 w-100 mx-0 hideOnMobile" id="patientTable" style="--bs-gutter-x: 0rem;">
+                        <thead>
+                            <tr class=" border-bottom p-2 mx-0 py-2" scope="row" style=" background-color:lightgray; ">
+                                <th scope="col">
+                                    Client / Member
+                                </th>
+                                <th scope="col">
+                                    Created Date
+                                </th>
+                                <th scope="col">
+                                    Confirmation
+                                </th>
+                                <th scope="col">
+                                    Provider Name
+                                </th>
+                                <th scope="col">
+                                    Concluded Date
+                                </th>
+                                <th scope="col">
+                                    Status
+                                </th>
+                                <th scope="col">
+                                    Final Report
+                                </th>
+                                <th scope="col">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr scope="row">
+                                    <td scope="col">
+                                        @item.Name
+                                    </td>
+                                    <td scope="col">
+                                        @item.createdDate
+                                    </td>
+                                    <td scope="col">
+                                        @item.conNo
+                                    </td>
+                                    <td scope="col">
+                                        @item.phyName
+                                    </td>
+                                    <td scope="col">
+                                        @item.concludeDate
+                                    </td>
+                                    <td scope="col">
+                                        @item.status
+                                    </td>
+                                    <td scope="col">
+                                        <a class="btn bg-transparent border-info text-info">View</a>
+                                    </td>
+                                    <td scope="col">
+                                        <a class="btn bg-transparent border-info text-info" data-bs-toggle="dropdown">Actions</a>
+                                        <ul class="dropdown-menu position-fixed" id="ActionsList">
+                                            <li><a class="dropdown-item btn" asp-action="ViewCase" asp-route-id="@item.rid" asp-controller="Admin">View Case</a></li>
+                                            <li><button type="button" class="dropdown-item btn">Chat</button></li>
+                                            <li><a class="dropdown-item btn" asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.rid">@item.docNo Documents</a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

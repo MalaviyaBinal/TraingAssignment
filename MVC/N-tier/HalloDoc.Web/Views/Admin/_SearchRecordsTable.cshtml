@@ -3,7 +3,6 @@
     <table class="table ">
         <thead>
             <tr class="bg-light text-muted h-100">
-
                 <th scope="col">No.</th>
                 <th scope="col">Patient Name</th>
                 <th scope="col">Requestor</th>
@@ -29,20 +28,15 @@
             @foreach (var data in Model.Data)
             {
                 <tr>
-
                     <td>@no</td>
-
                     <td> @data.Firstname @data.Lastname</td>
-
                     @if (Model.ReqType.Any(x => x.Requesttypeid == @data.Request.Requesttypeid))
                     {
-
                         var name = Model.ReqType.FirstOrDefault(x => x.Requesttypeid == @data.Request.Requesttypeid);
                         <td>
                             @name.Name
                         </td>
                     }
-
                     <td> @data.Request.Createddate</td>
                     <td> @data.Request.Createddate</td>
                     <td>@data.Email</td>
@@ -53,28 +47,28 @@
                     {
                         case 1:
                             <td>New</td>
-                            ; break;
+                            break;
                         case 2:
                             <td>Pending</td>
-                            ; break;
+                            break;
                         case 3 or 7 or 8:
                             <td>To Close</td>
-                            ; break;
+                            break;
                         case 4 or 5:
                             <td>Active</td>
-                            ; break;
+                            break;
                         case 6:
                             <td>Conclude</td>
-                            ; break;
+                            break;
                         case 9:
                             <td>Unpaid</td>
-                            ; break;
+                            break;
                         case 10:
                             <td>Clear</td>
-                            ; break;
+                            break;
                         case 11:
                             <td>Block</td>
-                            ; break;
+                            break;
                     }
                     @if (data.Request.Physicianid != null)
                     {
@@ -94,10 +88,8 @@
                             --
                         </td>
                     }
-
                     @if (Model.ReqNotes.Any(x => x.Requestid == @data.Request.Requestid))
                     {
-
                         var notes = Model.ReqNotes.FirstOrDefault(x => x.Requestid == @data.Request.Requestid);
                         if (@notes.Physiciannotes != null)
                         {
@@ -111,7 +103,6 @@
                                 --
                             </td>
                         }
-
                         if (@notes.Adminnotes != null)
                         {
                             <td>
@@ -124,8 +115,6 @@
                                 --
                             </td>
                         }
-
-
                     }
                     else
                     {
@@ -134,28 +123,16 @@
                     }
                     <td>--</td>
                     <td>--</td>
-
                     <td>
-                        <a asp-action="DeleteRecord" asp-controller="Admin" asp-route-id="@data.Request.Requestid"><button class="btn btn-outline-info">Delete</button></a>
+                        <button class="btn btn-outline-info" onclick="deleteRequest(this)" value="@data.Request.Requestid">Delete</button>
                     </td>
-
-
-
-
-
-
                 </tr>
                 no++;
             }
-
         </tbody>
-
-
-
     </table>
 </div>
-
-
+<div id="modalpopup"></div>
 <script>
     var vendorid;
     function DeleteVendor(element) {
@@ -163,30 +140,24 @@
         vendorid = element.value;
         var myModal = new bootstrap.Modal(document.getElementById('DeleteVendor'));
         myModal.show();
-
     };
     $("#cancelbtn").click(function () {
         $("#modalpopup").remove();
         $(".modal-backdrop").remove()
         location.reload();
     });
-
-    function deletevendorform(element) {
+    function deleteRequest(element) {
         debugger;
-
         var id = element.value;
-
         $.ajax({
-            url: "/Admin/DeleteVendorModal",
-            data: { id: vendorid },
-            type: "POST",
+            url: "/Admin/ShowDeleteModal",
+            data: { 'id': id, 'acntType': "Request" },
+            type: "GET",
+            dataType: "html",
             success: function (data) {
-                $("#modalpopup").remove();
-                $(".modal-backdrop").remove();
 
-                location.reload();
+                $("#modalpopup").html(data);
 
-                //window.onload(getLocation());
             },
             error: function () {
                 alert("No Projects Found");
@@ -195,5 +166,3 @@
         });
     };
 </script>
-
-

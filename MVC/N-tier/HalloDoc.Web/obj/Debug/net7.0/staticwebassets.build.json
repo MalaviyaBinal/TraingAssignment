@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "K30cVriUJxIj0/+SGY9p7j+FEsBcRtdlfTa5rte3Lmg=",
+  "Hash": "HFm9kcPZhqKz1neiMvv6KSsus4+taDNrzKQ1eWzciFg=",
   "Source": "HalloDoc.Web",
   "BasePath": "_content/HalloDoc.Web",
   "Mode": "Default",
@@ -542,6 +542,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\unpaid_active.png"
+    },
+    {
+      "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\js\\daypilot-all.min.js",
+      "SourceId": "HalloDoc.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\",
+      "BasePath": "_content/HalloDoc.Web",
+      "RelativePath": "js/daypilot-all.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\daypilot-all.min.js"
     },
     {
       "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\js\\site.js",

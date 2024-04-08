@@ -10,6 +10,8 @@ namespace HalloDocWebEntity.ViewModel
         public int venderID { get; set; }
         public int roleId { get; set; }
         public int PhyId { get; set; }
+        public int blockId { get; set; }
+        public int reqId { get; set; }
 
     }
 }

@@ -82,5 +82,15 @@ namespace HalloDocWebServices.Interfaces
         List<Requesttype> GetRequestTypes();
         AdminRecordsModel getSearchRecordData(AdminRecordsModel model);
         public void SendSms(string receiverPhoneNumber, string message );
+        List<Email_SMS_LogModel> GetEmailLogs(int roleid, string name, string email, string createdDate, string sentDate);
+        List<Email_SMS_LogModel> GetSmsLogs(int roleid, string name, string mobile, string createdDate, string sentDate);
+        SchedulingViewModel openShiftModel(int regionid);
+        void CreateShift(SchedulingViewModel info);
+        ShiftDetailsModel getSchedulingData();
+        AdminRecordsModel getBlockHistoryData();
+        void unblockRequest(int id,string email);
+        void deleteRequest(int id);
+        List<PatientHistoryTable> PatientHistoryTable(string? fname, string? lname, string? email, string? phone);
+        List<PatientRecordModel> PatientRecord(int id);
     }
 }

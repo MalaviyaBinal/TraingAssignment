@@ -30,7 +30,7 @@ namespace HalloDocWebRepo.Implementation
 
         public void addRequestNotesTAble(Requestnote note)
         {
-           
+
             _context.Requestnotes.Add(note);
             _context.SaveChanges();
         }
@@ -218,7 +218,7 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Healthprofessionaltype> getVenderDetail()
         {
-           
+
             return _context.Healthprofessionaltypes.Include(e => e.Healthprofessionals).ToList();
         }
 
@@ -326,7 +326,7 @@ namespace HalloDocWebRepo.Implementation
 
         public Healthprofessional getHealthProfessionalDetail(int businessId)
         {
-            
+
             return _context.Healthprofessionals.FirstOrDefault(m => m.Vendorid == businessId);
         }
 
@@ -495,7 +495,7 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Role> getRoleList()
         {
-            return _context.Roles.Where(m => m.Isdeleted == new BitArray(1,false)).ToList();
+            return _context.Roles.Where(m => m.Isdeleted == new BitArray(1, false)).ToList();
         }
 
         public Role getRoleByID(int id)
@@ -603,9 +603,9 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges(true);
         }
 
-        public IQueryable<Blockrequest> getBlockData()
+        public List<Blockrequest> getBlockData()
         {
-            return _context.Blockrequests.Include(e => e.Request).ThenInclude(m => m.Requestclients.Where(f => f.Requestid == m.Requestid));
+            return _context.Blockrequests.Include(e => e.Request).ThenInclude(m => m.Requestclients).ToList();
         }
 
         public List<Requesttype> getRequestTypeList()
@@ -631,9 +631,217 @@ namespace HalloDocWebRepo.Implementation
 
         public void addEmailLogTable(Emaillog emaillog)
         {
-            
-            _context.Emaillogs.Add(emaillog);   
-            _context.SaveChanges(); 
+
+            _context.Emaillogs.Add(emaillog);
+            _context.SaveChanges();
         }
+
+        public List<Smslog> GetAllSmsLogs(int roleid, string name, string mobile, string createdDate, string sentDate)
+        {
+            IQueryable<Smslog> query = _context.Smslogs;
+
+            if (roleid != 0)
+            {
+                query = query.Where(e => e.Roleid == roleid);
+            }
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(e =>
+                    e.Smstemplate.Contains("Hello ") &&
+                    e.Smstemplate.Contains(",") &&
+                    e.Smstemplate.Substring(e.Smstemplate.IndexOf("Hello ") + "Hello ".Length, e.Smstemplate.IndexOf(",") - e.Smstemplate.IndexOf("Hello ") - "Hello ".Length)
+                    .ToLower().Contains(name.ToLower())
+                );
+            }
+
+            if (!string.IsNullOrEmpty(mobile))
+            {
+                query = query.Where(e => e.Mobilenumber.ToLower().Contains(mobile.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(createdDate))
+            {
+                DateTime parsedCreatedDate = DateTime.Parse(createdDate).Date; // Extract the date part
+                query = query.Where(e => e.Createdate.Date == parsedCreatedDate);
+            }
+
+            if (!string.IsNullOrEmpty(sentDate))
+            {
+                DateTime parsedSentDate = DateTime.Parse(sentDate);
+                query = query.Where(e => e.Sentdate == parsedSentDate);
+            }
+
+            return query.ToList();
+        }
+
+        public List<Emaillog> GetAllEmailLogs(int roleid, string name, string email, string createdDate, string sentDate)
+        {
+            IQueryable<Emaillog> query = _context.Emaillogs;
+
+            if (roleid != 0)
+            {
+                query = query.Where(e => e.Roleid == roleid);
+            }
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(e =>
+                    e.Emailtemplate.Contains("Hello ") &&
+                    e.Emailtemplate.Contains(",") &&
+                    e.Emailtemplate.Substring(e.Emailtemplate.IndexOf("Hello ") + "Hello ".Length, e.Emailtemplate.IndexOf(",") - e.Emailtemplate.IndexOf("Hello ") - "Hello ".Length)
+                    .ToLower().Contains(name.ToLower())
+                );
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                query = query.Where(e => e.Emailid.ToLower().Contains(email.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(createdDate))
+            {
+                DateTime parsedCreatedDate = DateTime.Parse(createdDate).Date; // Extract the date part
+                query = query.Where(e => e.Createdate.Date == parsedCreatedDate);
+            }
+
+            if (!string.IsNullOrEmpty(sentDate))
+            {
+                DateTime parsedSentDate = DateTime.Parse(sentDate);
+                query = query.Where(e => e.Sentdate == parsedSentDate);
+            }
+
+            return query.ToList();
+        }
+
+        public void AddShiftTable(Shift shift)
+        {
+            _context.Shifts.Add(shift);
+            _context.SaveChanges();
+        }
+
+        public List<ShiftDetailsModel> getshiftDetail()
+        {
+            var data = from sd in _context.Shiftdetails
+                       join
+                       s in _context.Shifts on sd.Shiftid equals s.Shiftid
+                       join phy in _context.Physicians on s.Physicianid equals phy.Physicianid
+                       join reg in _context.Regions on sd.Regionid equals reg.Regionid
+                       select new ShiftDetailsModel
+                       {
+                           PhysicianName = phy.Firstname + " " + phy.Lastname,
+                           Physicianid = phy.Physicianid,
+                           RegionName = reg.Name,
+                           Status = sd.Status,
+                           Starttime = sd.Starttime,
+                           Endtime = sd.Endtime,
+                           Shiftdate = sd.Shiftdate,
+                           Shiftdetailid = sd.Shiftdetailid,
+                       };
+            return data.ToList();
+
+        }
+
+        public void AddShiftDetails(List<Shiftdetail> shiftdetails)
+        {
+            shiftdetails.ForEach(item =>
+            {
+                _context.Shiftdetails.Add(item);
+            });
+            _context.SaveChanges();
+
+        }
+
+        public Blockrequest getBlockRequestById(int id)
+        {
+            return _context.Blockrequests.FirstOrDefault(m => m.Blockrequestid == id);
+        }
+
+        public void updateBlockRequest(Blockrequest req)
+        {
+            _context.Blockrequests.Update(req);
+            _context.SaveChanges();
+        }
+        public IQueryable<PatientHistoryTable> GetPatientHistoryTable(string? fname, string? lname, string? email, string? phone)
+        {
+            IQueryable<PatientHistoryTable> tabledata = 
+                                                        from u in _context.Users 
+                                                      
+                                                        select new PatientHistoryTable
+                                                        {
+                                                            aspId = u.Userid,
+                                                            Firstname = u.Firstname ?? "-",
+                                                            Lastname = u.Lastname ?? "-",
+                                                            Email = u.Email ?? "-",
+                                                            phone = u.Mobile ?? "-",
+                                                            Address = (u.Street ?? "") + " , " + (u.City ?? "") + " , " + (u.State ?? ""),
+                                                        };
+            if (!string.IsNullOrEmpty(fname))
+            {
+                tabledata = tabledata.Where(e => e.Firstname.ToLower().Contains(fname.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(lname))
+            {
+                tabledata = tabledata.Where(e => e.Lastname.ToLower().Contains(lname.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(email))
+            {
+                tabledata = tabledata.Where(e => e.Email.ToLower().Contains(email.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(phone))
+            {
+                tabledata = tabledata.Where(e => e.phone.Contains(phone));
+            }
+            return tabledata;
+        }
+
+        public List<Request> GetAllRequestsByAid(int id)
+        {
+           
+            return _context.Requests.Where(r => r.Userid == id && r.Isdeleted != new BitArray(1, true) && r.Status != 11).ToList();
+           
+        }
+
+        public int GetNumberOfDocsByRid(int requestid)
+        {
+            return _context.Requestwisefiles.Where(f => f.Requestid == requestid).Count();
+        }
+
+        public string? GetStatus(short status)
+        {
+            switch (status)
+            {
+                case 1:
+                    return "Unassigned";
+
+                case 2:
+                    return "Accepted";
+
+                case 3:
+                    return "MDEnRoute";
+
+                case 4:
+                    return "MDEnRoute";
+
+                case 5:
+                    return "Conclude";
+
+                case 6:
+                    return "Cancelled";
+
+                case 7:
+                    return "CancelledByPatient";
+
+                case 8:
+                    return "Closed";
+
+                default:
+                    return "Unpaid";
+
+
+            }
+        }
+   
+
     }
 }

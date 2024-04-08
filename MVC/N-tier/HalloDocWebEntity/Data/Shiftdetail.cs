@@ -23,11 +23,11 @@ public partial class Shiftdetail
     [Column("regionid")]
     public int? Regionid { get; set; }
 
-    [Column("starttime", TypeName = "timestamp without time zone")]
-    public DateTime Starttime { get; set; }
+    [Column("starttime")]
+    public TimeOnly Starttime { get; set; }
 
-    [Column("endtime", TypeName = "timestamp without time zone")]
-    public DateTime Endtime { get; set; }
+    [Column("endtime")]
+    public TimeOnly Endtime { get; set; }
 
     [Column("status")]
     public short Status { get; set; }

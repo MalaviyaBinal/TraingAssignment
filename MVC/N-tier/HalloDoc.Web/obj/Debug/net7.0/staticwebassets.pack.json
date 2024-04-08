@@ -277,6 +277,10 @@
       "PackagePath": "staticwebassets\\images\\unpaid_active.png"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\js\\daypilot-all.min.js",
+      "PackagePath": "staticwebassets\\js\\daypilot-all.min.js"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
