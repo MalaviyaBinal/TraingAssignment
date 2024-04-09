@@ -671,8 +671,7 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult EmailLogs()
         {
-            string username = HttpContext.Session.GetString("userName");
-            ViewBag.userName = username;
+   
             return View();
         }
 
@@ -735,6 +734,25 @@ namespace HalloDoc.Web.Controllers
         {
             List<PatientRecordModel> model = _service.PatientRecord(id);
             return View("PatientRecord", model);
+        }
+        public IActionResult _ViewShiftModal(int id, int regid)
+        {
+            return View(_service.getViewShiftData(id, regid));
+        }
+        public IActionResult UpdateShiftDetailData(ShiftDetailsModel model)
+        {
+            _service.UpdateShiftDetailData(model, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(ProviderSchedulingDayWise));
+        }
+        public IActionResult DeleteShiftDetails(int id)
+        {
+            _service.DeleteShiftDetails(id);
+            return RedirectToAction(nameof(ProviderSchedulingDayWise));
+        }
+        public IActionResult UpdateShiftStatus(int id)
+        {
+            _service.UpdateShiftDetailsStatus(id);
+            return RedirectToAction(nameof(ProviderSchedulingDayWise));
         }
     }
 }

@@ -615,7 +615,7 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Requestclient> getRequestClientList()
         {
-            return _context.Requestclients.Include(e => e.Request).ToList();
+            return _context.Requestclients.Include(e => e.Request).Where(e => e.Request.Isdeleted ==null).ToList();
         }
 
         public List<Requestnote> getREquestNotesList()
@@ -841,7 +841,20 @@ namespace HalloDocWebRepo.Implementation
 
             }
         }
-   
+        public Shiftdetail getShiftDetailByShiftDetailId(int id)
+        {
+            return _context.Shiftdetails.FirstOrDefault(e => e.Shiftdetailid == id);
+        }
 
+        public Shift getShiftByID(int shiftid)
+        {
+            return _context.Shifts.FirstOrDefault(e => e.Shiftid == shiftid);
+        }
+
+        public void UpdateShiftDetailTable(Shiftdetail sd)
+        {
+            _context.Shiftdetails.Update(sd);
+            _context.SaveChanges();
+        }
     }
 }

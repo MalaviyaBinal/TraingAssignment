@@ -10,11 +10,14 @@ namespace HalloDocWebEntity.ViewModel
         public List<Physician> physicians { get; set; }
         public List<Region> regions { get; set; }
         public List<Shift> shifts { get; set; }
+        public Shift shiftData { get; set; }
+        public Shiftdetail ShiftDetailData { get; set; }
         public List<Shiftdetail> shiftdetail { get; set; }
         public List<ShiftDetailsModel> shiftDetails { get; set; }
         public string PhysicianName { get; set; }
         public int Physicianid { get; set; }
         public string RegionName { get; set; }
+        public int RegionId { get; set; }
         public short Status { get; set; }
         public TimeOnly Starttime { get; set; }
         public DateOnly Shiftdate { get; set; }

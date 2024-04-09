@@ -92,5 +92,9 @@ namespace HalloDocWebServices.Interfaces
         void deleteRequest(int id);
         List<PatientHistoryTable> PatientHistoryTable(string? fname, string? lname, string? email, string? phone);
         List<PatientRecordModel> PatientRecord(int id);
+        ShiftDetailsModel getViewShiftData(int id, int regid);
+        void UpdateShiftDetailData(ShiftDetailsModel model,string email);
+        void DeleteShiftDetails(int id);
+        void UpdateShiftDetailsStatus(int id);
     }
 }

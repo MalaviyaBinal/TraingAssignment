@@ -1459,7 +1459,7 @@ namespace HalloDocWebServices.Implementation
                 Regionid = model.RegionId,
                 Starttime = model.StartTime,
                 Endtime = model.EndTime,
-                Status = 1,
+                Status = 0,
                 Isdeleted = new BitArray(1, false),
             };
             shiftdetails.Add(shiftdetail);
@@ -1607,6 +1607,67 @@ namespace HalloDocWebServices.Implementation
                 records.Add(record);
             }
             return records;
+        }
+
+        public ShiftDetailsModel getViewShiftData(int id, int regid)
+        {
+            ShiftDetailsModel model = new ShiftDetailsModel();
+            Shiftdetail sd = _repository.getShiftDetailByShiftDetailId(id);
+        ;
+            Shift s = _repository.getShiftByID(sd.Shiftid);
+            if (regid != 0)
+            {
+                model.RegionId = regid;
+                model.physicians = _repository.getPhysicianListByregion(regid);
+            }
+            else
+            {
+                model.RegionId = (int)sd.Regionid;
+                model.physicians = _repository.getPhysicianList();
+            }
+            DateOnly date = DateOnly.Parse(sd.Shiftdate.ToString("yyyy-MM-dd"));
+            model.regions = _repository.getRegions();
+            model.Shiftdate = date;
+            model.Physicianid = s.Physicianid;
+            model.shiftData = s;
+            model.ShiftDetailData = sd;
+
+
+            return model;
+        }
+
+        public void UpdateShiftDetailData(ShiftDetailsModel model,string email)
+        {
+
+            Admin admin = _repository.getAdminTableDataByEmail(email);
+            Shiftdetail sd = _repository.getShiftDetailByShiftDetailId(model.ShiftDetailData.Shiftdetailid);
+            sd.Modifiedby = admin.Aspnetuserid.ToString();
+            sd.Starttime = model.ShiftDetailData.Starttime;
+            sd.Endtime = model.ShiftDetailData.Endtime;
+            sd.Shiftdate = model.ShiftDetailData.Shiftdate;
+            sd.Modifieddate=DateTime.Now;
+
+        }
+        public void DeleteShiftDetails(int id)
+        {
+            Shiftdetail sd = _repository.getShiftDetailByShiftDetailId(id);
+            sd.Isdeleted = new BitArray(1, true);
+            sd.Modifieddate = DateTime.Now;
+            _repository.UpdateShiftDetailTable(sd);
+        }
+
+        public void UpdateShiftDetailsStatus(int id)
+        {
+            Shiftdetail sd = _repository.getShiftDetailByShiftDetailId(id);
+            if (sd.Status == 0)
+            {
+                sd.Status = 1;
+            }
+            else
+            {
+                sd.Status = 0;
+            }
+            _repository.UpdateShiftDetailTable(sd);
         }
     }
 }

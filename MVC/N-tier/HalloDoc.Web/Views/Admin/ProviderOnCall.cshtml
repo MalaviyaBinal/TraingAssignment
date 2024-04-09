@@ -1,0 +1,197 @@
+﻿@*@model HalloDocWebEntity.ViewModel.SchedulingViewModel
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+@{
+    ViewBag.tab = "partners";
+}
+
+<div class="p-3 boxshadow">
+    <div class="row">
+
+        @{
+            bool flag = false;
+        }
+        <span id="dis" class="h4 mb-2">MD'S On Call</span>
+        @for (int i = 0; i < Model.MDsOnCall.Count(); i++)
+        {
+
+            if (@Model.MDsOnCall[i].IsBusy)
+            {
+
+                <div class="d-flex col-4 align-items-center mb-2">
+                    @{
+                        var path = "D:\\Projects\\HalloDoc_Application\\MVC\\HalloDoc\\wwwroot\\PhyFiles\\" + @Model.MDsOnCall[i].PhysicianId + "\\ProfilePhoto.png";
+                    }
+                    @if (File.Exists(path))
+                    {
+                        <div> <img width="50px" height="50px" src="~/PhyFiles/@Model.MDsOnCall[i].PhysicianId/ProfilePhoto.png" /></div>
+
+                    }
+                    else
+                    {
+                        <div> <img width="50px" height="50px" src="~/PhyFiles/images.png" /></div>
+                    }
+                    <div class="mx-1 my-1"> Dr.@Model.MDsOnCall[i].PhysicianName </div>
+
+                </div>
+                flag = true;
+            }
+            <div id="msg" class="col-10"></div>
+
+        }
+
+        @{
+            bool flag1 = false;
+        }
+        <span class="h4 mb-2">MD'S Off Duty </span>
+        @for (int i = 0; i < Model.MDsOnCall.Count(); i++)
+        {
+
+            if (@Model.MDsOnCall[i].IsBusy == false)
+            {
+
+                <div class="d-flex col-4 align-items-center mb-2">
+                    @{
+                        var path = "D:\\Projects\\HalloDoc_Application\\MVC\\HalloDoc\\wwwroot\\PhyFiles\\" + @Model.MDsOnCall[i].PhysicianId + "\\ProfilePhoto.png";
+                    }
+                    @if (File.Exists(path))
+                    {
+                        <div> <img width="50px" height="50px" src="~/PhyFiles/@Model.MDsOnCall[i].PhysicianId/ProfilePhoto.png" /></div>
+
+                    }
+                    else
+                    {
+                        <div> <img width="50px" height="50px" src="~/PhyFiles/images.png" /></div>
+                    }
+                    <div class="mx-1 my-1"> Dr.@Model.MDsOnCall[i].PhysicianName </div>
+
+                </div>
+                flag1 = true;
+
+            }
+
+
+        }
+        <div id="msg1" class="col-10"></div>
+
+
+    </div>
+
+    <div>
+    </div>
+</div>
+
+
+
+
+<script>
+    if (@flag.ToString().ToLower()) {
+        document.getElementById('dis').style.display = "block";
+    }
+    else {
+        // document.getElementById('dis').style.display = "none";
+        document.getElementById('msg').innerHTML = "!NO anyone Doctor are on duty now";
+
+    }
+    if (@flag1.ToString().ToLower()) {
+        document.getElementById('dis').style.display = "block";
+    }
+    else {
+        // document.getElementById('dis').style.display = "none";
+        document.getElementById('msg1').innerHTML = "!NO anyone Doctor are off duty now";
+
+    }
+    function oncheck() {
+
+
+        var check = document.getElementById('checkall').checked;
+        if (check) {
+            var len = document.getElementsByClassName('checkboxes');
+            for (var i = 0; i < len.length; i++) {
+                len[i].checked = true;
+            }
+        } else {
+            var len = document.getElementsByClassName('checkboxes');
+            for (var i = 0; i < len.length; i++) {
+                len[i].checked = false;
+            }
+        }
+        console.log(check);
+    }
+
+    function ApproveShifts() {
+        debugger;
+        var shifts = [];
+        var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
+        console.log(checkboxes);
+
+
+        checkboxes.forEach(function (checkbox) {
+            shifts.push(checkbox.getAttribute('data-shiftid'));
+        });
+
+        if (shifts.length > 0) {
+
+
+            $.ajax({
+                url: "/Admin/ApproveShifts",
+                data: { shifts: shifts },
+                method: "POST",
+                success: function () {
+
+
+                    location.reload();
+
+                    //window.onload(getLocation());
+                },
+                error: function () {
+                    alert("No Projects Found");
+
+                }
+            });
+        }
+        else {
+            alert("Please Select The Shift")
+        }
+    };
+
+    function DeleteShifts() {
+        debugger;
+        var shifts = [];
+        var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
+        console.log(checkboxes);
+
+
+        checkboxes.forEach(function (checkbox) {
+            shifts.push(checkbox.getAttribute('data-shiftid'));
+        });
+
+        if (shifts.length > 0) {
+
+
+            $.ajax({
+                url: "/Admin/DeleteShifts",
+                data: { shifts: shifts },
+                method: "POST",
+                success: function () {
+
+
+                    location.reload();
+
+                    //window.onload(getLocation());
+                },
+                error: function () {
+                    alert("No Projects Found");
+
+                }
+            });
+        }
+        else {
+            alert("Please Select The Shift")
+        }
+    };
+</script>
+
+
+
+*@

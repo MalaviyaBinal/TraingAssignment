@@ -99,5 +99,8 @@ namespace HalloDocWebRepo.Interface
         List<Request> GetAllRequestsByAid(int id);
         string? GetStatus(short status);
         int GetNumberOfDocsByRid(int requestid);
+        Shiftdetail getShiftDetailByShiftDetailId(int id);
+        Shift getShiftByID(int shiftid);
+        void UpdateShiftDetailTable(Shiftdetail sd);
     }
 }
