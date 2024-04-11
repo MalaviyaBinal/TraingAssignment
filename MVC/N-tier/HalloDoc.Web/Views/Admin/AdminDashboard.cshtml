@@ -1,4 +1,4 @@
-﻿@model HalloDocWebEntity.ViewModel.AdminDashboardDataWithRegionModel
+﻿@model HalloDocWebEntity.ViewModel.AdminDashBoardPagination
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor Accessor
 @{
@@ -46,23 +46,25 @@
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
-            <div class="modal-header bg-info text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Request Support</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="mb-3">
-                    To all unscheduled Physicians: We are short on coverage and needs additional support On Call to respond to Requests.
-                </p>
-                <div class="form-floating mt-3">
-                    <textarea class="form-control text-secondary" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                    <label for="floatingTextarea2">Message</label>
+            <form asp-action="DTYSupportRequest" asp-controller="Admin">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Request Support</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info text-white">Send</button>
-                <button type="button" class="btn btn-white text-info border-info" data-bs-dismiss="modal">cancel</button>
-            </div>
+                <div class="modal-body">
+                    <p class="mb-3">
+                        To all unscheduled Physicians: We are short on coverage and needs additional support On Call to respond to Requests.
+                    </p>
+                    <div class="form-floating mt-3">
+                        <textarea class="form-control text-secondary" asp-for=Notes placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2">Message</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info text-white">Send</button>
+                    <button type="button" class="btn btn-white text-info border-info" data-bs-dismiss="modal">cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -787,7 +787,7 @@ namespace HalloDocWebServices.Implementation
             model.Modifieddate = DateTime.Now;
             _repository.updateAdmin(model);
         }
-        public void sendLinkAdminDashboard(AdminDashboardDataWithRegionModel info)
+        public void sendLinkAdminDashboard(AdminDashBoardPagination info)
         {
             var mail = "tatva.dotnet.binalmalaviya@outlook.com";
             var password = "binal@2002";
@@ -800,6 +800,7 @@ namespace HalloDocWebServices.Implementation
                 Credentials = new NetworkCredential(mail, password)
             };
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
+            //mailclient.SendMailAsync(mailMessage);
         }
         public AdminProviderModel getProviderDataForAdmin(int id)
         {
@@ -885,13 +886,38 @@ namespace HalloDocWebServices.Implementation
         {
             return _repository.getPhysicianById(id);
         }
-        public void ContactProviderSendMessage(Physician info)
+        public void SendSMS(string phonenumber,string message)
+        {
+            //string accountSid = "ACf3e07eb694877aff1ffd392934bdb764";
+            //string authToken = "fe03fccadb7d42d562d8f9879bb50ece";
+            //string twilioPhoneNumber = "+12676139096";
+
+            //TwilioClient.Init(accountSid, authToken);
+
+            //try
+            //{
+            //    var smsMessage = MessageResource.Create(
+            //        body: message,
+            //        from: new Twilio.Types.PhoneNumber(twilioPhoneNumber),
+            //        to: new Twilio.Types.PhoneNumber(phonenumber)
+            //    );
+
+            //    Console.WriteLine("SMS sent successfully. SID: " + smsMessage.Sid);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("An error occurred while sending the SMS: " + ex.Message);
+            //}
+            Console.WriteLine(message);
+
+        }
+        public void SendEmail(string email,string msg,string sub)
         {
             var mail = "tatva.dotnet.binalmalaviya@outlook.com";
             var password = "binal@2002";
-            var receiver = "binalmalaviya2002@gmail.com";
-            var subject = "Mail From Admin";
-            var message = info.Adminnotes;
+            var receiver = email;
+            var subject = sub;
+            var message = msg;
             var mailclient = new SmtpClient("smtp.office365.com", 587)
             {
                 EnableSsl = true,
@@ -899,6 +925,25 @@ namespace HalloDocWebServices.Implementation
             };
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
             mailclient.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
+        }
+        public void ContactProviderSendMessage(string email,string phone, string note, int selected)
+        {
+            switch (selected)
+            {
+                case 1:
+                    SendSMS(phone, note);
+                    break;
+                case 2:
+                    SendEmail(email, note,"Alert!!!");
+                    break;
+                case 3:
+                    SendEmail(email, note, "Alert!!!");
+                    SendSMS(phone, note);
+                    break;
+
+            }
+
+           
         }
         public AdminProviderModel getProviderByAdmin(int id, string u)
         {
@@ -1544,20 +1589,20 @@ namespace HalloDocWebServices.Implementation
             _repository.AddShiftDetails(shiftdetails);
         }
 
-        public ShiftDetailsModel getSchedulingData()
+        public ShiftDetailsModel getSchedulingData(int reg)
         {
             ShiftDetailsModel model = new();
             model.physicians = _repository.getPhysicianList();
             model.regions = _repository.getRegions();
-            model.shiftDetails = _repository.getshiftDetail();
-
+            model.shiftDetails = _repository.getshiftDetail(reg);
+            model.SelectedRegion = reg;
             return model;
         }
 
-        public AdminRecordsModel getBlockHistoryData()
+        public AdminRecordsModel getBlockHistoryData(string searchstr, string date, string email, string mobile)
         {
             AdminRecordsModel model = new();
-            model.blockRequests = _repository.getBlockData();
+            model.blockRequests = _repository.getBlockData(searchstr, date, email, mobile);
             return model;
         }
 
@@ -1750,9 +1795,58 @@ namespace HalloDocWebServices.Implementation
             foreach (var i in notSelected)
             {
                 Physiciannotification notification = _repository.getPhyNotificationByPhyID(i.Pysicianid);
-                notification.Isnotificationstopped = new BitArray(1, true);
+                notification.Isnotificationstopped = new BitArray(1, false);
                 _repository.updatePhyNotificationTable(notification);
             }
+        }
+
+        public void DTYSupportRequest(string notes)
+        {
+            var data = _repository.GetUnscheduledPhysicanID();
+            var phy = _repository.getUnscheduledPhysicianList(data);
+            foreach (var i in phy)
+            {
+                var mail = "tatva.dotnet.binalmalaviya@outlook.com";
+                var password = "binal@2002";
+                var receiver = "binalmalaviya2002@gmail.com";
+                var subject = "Make Your Appointment";
+                var message = "You are invited to visit :https://localhost:44380/";
+                var mailclient = new SmtpClient("smtp.office365.com", 587)
+                {
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(mail, password)
+                };
+                var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
+                //mailclient.SendMailAsync(mailMessage);
+            }
+        }
+
+        public void AddVendor(SendOrderModel model)
+        {
+            var business = new Healthprofessional
+            {
+                Vendorname = model.businessDetail.Vendorname,
+                Profession = model.SelectedProfession,
+                Faxnumber = model.businessDetail.Faxnumber,
+                Address = model.businessDetail.Address,
+                City = model.businessDetail.City,
+                State = model.businessDetail.State,
+                Zip = model.businessDetail.Zip,
+                //Regionid = model.businessDetail.Regionid,
+                Createddate = DateTime.Now,
+                Phonenumber = model.businessDetail.Phonenumber,
+                Email = model.businessDetail.Email,
+                Businesscontact = model.businessDetail.Businesscontact,
+
+            };
+            _repository.addHealthProfessionTable(business);
+        }
+
+        public SendOrderModel getVenderData()
+        {
+            SendOrderModel model = new();
+            model.professions = _repository.getVenderDetail();
+            return model;
         }
     }
 }

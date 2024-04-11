@@ -4,7 +4,13 @@
 @{
     Layout = "_AdminHeader";
 }
-<link rel="stylesheet" href="~/css/Scheduling.css" />
+<style>
+    .scheduler_default_corner_inner + div {
+        display: none;
+    }
+
+</style>
+<link rel="stylesheet" href="~/css/style-patient.css" />
 <script src="~/js/daypilot-all.min.js"></script>
 <div class="container ">
     <div class="row">
@@ -18,9 +24,13 @@
             <div class=" container rounded bg-white shadow py-3 ">
                 <div class="row align-items-center justify-content-between my-3">
                     <div class="col-md-4 col-sm-12 mb-3">
-                        <select class="form-select form-select-lg" id="Regions">
+                        <select class="form-select form-select-lg" id="RegionSelect" asp-for=SelectedRegion >
 
-                            <option selected><i class="fa fa-search text-muted position-absolute" style="padding-top:10px; padding-left:10px;"></i>All Regions</option>
+                            <option value="0">All Regions</option>
+                            @foreach(var i in Model.regions)
+                            {
+                                <option value="@i.Regionid">@i.Name</option>
+                            }
 
                         </select>
                     </div>
@@ -36,13 +46,10 @@
                 <div>
                     <div class="h5  heading">Monday,Dec 4 2023</div>
                 </div>
-                <div>
-                    <div class="h5 heading" id="picker">Date</div>
-                </div>
                 <div class="text-end mb-3">
-                    <i class="bi bi-square-fill" style="color: #ff80ff;"></i>
+                    <i class="bi bi-square-fill" style="color: #EEACD0;"></i>
                     <span class="me-2">Pending Shifts</span>
-                    <i class="bi bi-square-fill" style="color: #00cc00;"></i>
+                    <i class="bi bi-square-fill" style="color: #A1D0A2;"></i>
                     <span>Approved Shifts</span>
                 </div>
 
@@ -75,6 +82,7 @@
 
 
 <script>
+    document.getElementById("provider1").classList.add("active");
     function ModalofShift() {
         console.log("dfdf");
         $.ajax({
@@ -131,7 +139,7 @@
         startDate: DayPilot.Date.today(),
         businessBeginsHour: 8,
         businessEndsHour: 21,
-        eventHeight: 40,
+        eventHeight: 50,
         timeRangeSelectedHandling: "Enabled",
         //onTimeRangeSelected: async (args) => {
         //    const dp = args.control;
@@ -265,5 +273,8 @@
 
 </script>
 <script>
-    document.getElementById("provider").classList.add("active");
+    $("#RegionSelect").change(function(e){
+        var reg = $("#RegionSelect").val();
+        window.location.href = "/Admin/ProviderSchedulingDayWise?reg="+reg;
+    })
 </script>

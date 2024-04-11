@@ -1,4 +1,4 @@
-﻿@model HalloDocWebEntity.ViewModel.AdminDashboardDataWithRegionModel
+﻿@model HalloDocWebEntity.ViewModel.AdminDashBoardPagination
 <table id="adminTable" class="table table-responsive caption-top mt-4 hideOnMobile">
     <thead>
         <tr class="text-muted">
@@ -10,7 +10,6 @@
             <th scope="col">Phone</th>
             <th scope="col">Address</th>
             <th scope="col">Notes</th>
-            <th scope="col">Chat With</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -58,9 +57,13 @@
                     @item.Requesteddate
                 </td>
                 <td>
-
-                    <button class="btn btn-outline-light"> @item.Phonenumber</button>
-
+                <td class="font">
+                    <a href="tel:@item.Phonenumber" class="text-decoration-none f">
+                        <button class="btn btn-outline-light d-flex">
+                            <i class="fa-solid fa-phone"></i>@item.Phonenumber
+                        </button>
+                    </a>
+                </td>
                 </td>
                 <td>
                     @item.Address
@@ -68,9 +71,7 @@
                 <td>
                     @item.Notes
                 </td>
-                <td>
-                    <button class="btn btn-outline-light" type="button"><i class="fa-solid fa-user-doctor me-1"></i>Provider</button>
-                </td>
+
                 <td>
                     <div class="dropdown">
                         <button class="btn text-light bg-transparent border border-white  " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -177,8 +178,8 @@
                         </p>
                         <p class="mb-1"><i class="fa-regular fa-user me-1 circlefa"></i>Requestor : @item.Requestor</p>
                         <div class="row">
-                           
-                            
+
+
                             <div class="col-6 mb-2">
                                 <a asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.Requestid">
                                     <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
@@ -186,7 +187,7 @@
                                     </button>
                                 </a>
                             </div>
-                            
+
                             <div class="col-6 mb-2">
                                 <a asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.Requestid">
                                     <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
@@ -203,9 +204,9 @@
                             </div>
                             <div class="col-6 mb-2">
                                 <a class="dropdown-item" asp-action="SendOrder" asp-controller="Admin" asp-route-id="@item.Requestid">
-                                <button class="btn text-white rounded-pill 2px w-100" style="background-color:#EE9125;"  id="clearcase">
-                                    <small>Orders</small>
-                                </button>
+                                    <button class="btn text-white rounded-pill 2px w-100" style="background-color:#EE9125;" id="clearcase">
+                                        <small>Orders</small>
+                                    </button>
                                 </a>
                             </div>
                             <div class="col-6 mb-2">

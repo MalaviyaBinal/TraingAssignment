@@ -91,7 +91,7 @@ namespace HalloDocWebRepo.Interface
         List<Smslog> GetAllSmsLogs(int roleid, string name, string mobile, string createdDate, string sentDate);
         List<Emaillog> GetAllEmailLogs(int roleid, string name, string email, string createdDate, string sentDate);
         void AddShiftTable(Shift shift);
-        List<ShiftDetailsModel> getshiftDetail();
+        List<ShiftDetailsModel> getshiftDetail(int reg);
         void AddShiftDetails(List<Shiftdetail> shiftdetails);
         Blockrequest getBlockRequestById(int id);
         void updateBlockRequest(Blockrequest req);
@@ -109,5 +109,8 @@ namespace HalloDocWebRepo.Interface
         List<Physiciannotification> getNotSelectedPhyNotification(int[] ints);
         void updatePhyNotificationTable(Physiciannotification notification);
         Physiciannotification getPhyNotificationByPhyID(int pysicianid);
+        public int[] GetUnscheduledPhysicanID();
+        List<Physician> getUnscheduledPhysicianList(int[] data);
+        void addHealthProfessionTable(Healthprofessional business);
     }
 }

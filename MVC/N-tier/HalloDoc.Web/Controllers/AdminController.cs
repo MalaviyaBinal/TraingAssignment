@@ -22,7 +22,7 @@ namespace HalloDoc.Web.Controllers
             var request = HttpContext.Request;
             var token = request.Cookies["Isheader"];
             var count = _service.setAdminDashboardCount();
-            AdminDashboardDataWithRegionModel model = new AdminDashboardDataWithRegionModel();
+            AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.adminCount = count;
             model.regions = _service.getRegionList();
             return View(model);
@@ -61,7 +61,7 @@ namespace HalloDoc.Web.Controllers
         {
 
             AdminProviderModel model = _service.getProviderDataForAdmin(regid);
-            return View(model);
+            return View( model);
         }
         #endregion
 
@@ -137,11 +137,10 @@ namespace HalloDoc.Web.Controllers
             Physician model = _service.getPhysicianByID(id);
             return PartialView("_ContactProviderModal", model);
         }
-        [HttpPost]
-        public async Task<IActionResult> ContactProviderSendMessage(Physician info)
+        public async Task<IActionResult> ContactProviderSendMessage(string email,string phone, string note,int selected)
         {
-            _service.ContactProviderSendMessage(info);
-            return RedirectToAction(nameof(AdminDashboard));
+            _service.ContactProviderSendMessage(email,phone,note,selected);
+            return RedirectToAction(nameof(AdminDashboardProviders));
         }
         public IActionResult AdminDashboardProviders()
         {
@@ -428,7 +427,7 @@ namespace HalloDoc.Web.Controllers
         public ActionResult DashboardTables(int id, int check, string searchValue, int searchRegion, int pagesize, int pagenumber = 1)
         {
             List<AdminDashboardTableModel> tabledata1 = _service.getDashboardTables(id, check);
-            AdminDashboardDataWithRegionModel model = new AdminDashboardDataWithRegionModel();
+            AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.physicians = _service.getPhysicianList();
             model.regions = _service.getRegionList();
 
@@ -591,7 +590,7 @@ namespace HalloDoc.Web.Controllers
 
             return View(_service.getProviderByAdmin(id,username));
         }
-        public ActionResult SendLink(AdminDashboardDataWithRegionModel info)
+        public ActionResult SendLink(AdminDashBoardPagination  info)
         {
             _service.sendLinkAdminDashboard(info);
             return RedirectToAction(nameof(AdminDashboard));
@@ -658,17 +657,17 @@ namespace HalloDoc.Web.Controllers
             _service.UpdateBusinessData(model);
             return RedirectToAction(nameof(AdminDashboardPartners));
         }
-        public IActionResult ProviderSchedulingDayWise()
+        public IActionResult ProviderSchedulingDayWise(int reg)
         {
-            return View(_service.getSchedulingData());
+            return View(_service.getSchedulingData(reg));
         }
-        public IActionResult ProviderSchedulingWeekWise()
+        public IActionResult ProviderSchedulingWeekWise(int reg)
         {
-            return View(_service.getSchedulingData());
+            return View(_service.getSchedulingData(reg));
         }
-        public IActionResult ProviderSchedulingMonthWise()
+        public IActionResult ProviderSchedulingMonthWise(int reg)
         {
-            return View(_service.getSchedulingData());
+            return View(_service.getSchedulingData(reg));
         }
         public IActionResult EmailLogs()
         {
@@ -779,6 +778,21 @@ namespace HalloDoc.Web.Controllers
         {
             _service.SaveNotificationStatus(phyList);
             return RedirectToAction(nameof(AdminDashboardProviders));
+        }
+        public IActionResult DTYSupportRequest(AdminDashBoardPagination model)
+        {
+            _service.DTYSupportRequest(model.Notes);
+            return RedirectToAction(nameof(AdminDashboardProviders));
+        } 
+        public IActionResult AddVendor()
+        {
+            return View(_service.getVenderData());
+        }
+        [HttpPost]
+        public IActionResult AddVendor(SendOrderModel model)
+        {
+            _service.AddVendor(model);
+            return RedirectToAction(nameof(AdminDashboardPartners));
         }
     }
 }

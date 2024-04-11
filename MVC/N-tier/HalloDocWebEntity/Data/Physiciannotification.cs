@@ -19,4 +19,8 @@ public partial class Physiciannotification
 
     [Column("isnotificationstopped", TypeName = "bit(1)")]
     public BitArray Isnotificationstopped { get; set; } = null!;
+
+    [ForeignKey("Pysicianid")]
+    [InverseProperty("Physiciannotifications")]
+    public virtual Physician Pysician { get; set; } = null!;
 }

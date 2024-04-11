@@ -137,6 +137,9 @@ public partial class Physician
     [InverseProperty("Physicians")]
     public virtual Aspnetuser? Aspnetuser { get; set; }
 
+    [InverseProperty("Pysician")]
+    public virtual ICollection<Physiciannotification> Physiciannotifications { get; set; } = new List<Physiciannotification>();
+
     [ForeignKey("Regionid")]
     [InverseProperty("Physicians")]
     [JsonIgnore]

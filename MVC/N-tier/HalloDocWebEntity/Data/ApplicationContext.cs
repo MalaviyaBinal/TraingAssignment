@@ -250,6 +250,10 @@ public partial class ApplicationContext : DbContext
             entity.HasKey(e => e.Id).HasName("pk_physiciannotification");
 
             entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+
+            entity.HasOne(d => d.Pysician).WithMany(p => p.Physiciannotifications)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("physiciannotification_pysicianid_fkey");
         });
 
         modelBuilder.Entity<Physicianregion>(entity =>

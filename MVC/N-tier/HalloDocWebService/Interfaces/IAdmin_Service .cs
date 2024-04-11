@@ -52,11 +52,11 @@ namespace HalloDocWebServices.Interfaces
         void closeCaseSaveData(int id, AdminViewUpload n);
         void updateadminaddress(AdminProfile info);
         void updateadminform(AdminProfile info);
-        void sendLinkAdminDashboard(AdminDashboardDataWithRegionModel info);
+        void sendLinkAdminDashboard(AdminDashBoardPagination info);
         AdminProviderModel getProviderDataForAdmin(int id);
         void addProviderByAdmin(AdminProviderModel model);
         Physician getPhysicianByID(int id);
-        void ContactProviderSendMessage(Physician info);
+        void ContactProviderSendMessage(string email, string phone, string note, int selected);
         AdminProviderModel getProviderByAdmin(int id,string u);
         void savePhysicianPassword(AdminProviderModel info);
         void savePhysicianInfo(AdminProviderModel info);
@@ -87,7 +87,7 @@ namespace HalloDocWebServices.Interfaces
         List<Email_SMS_LogModel> GetSmsLogs(int roleid, string name, string mobile, string createdDate, string sentDate);
         SchedulingViewModel openShiftModel(int regionid);
         void CreateShift(SchedulingViewModel info);
-        ShiftDetailsModel getSchedulingData();
+        ShiftDetailsModel getSchedulingData(int reg);
         AdminRecordsModel getBlockHistoryData();
         void unblockRequest(int id, string email);
         void deleteRequest(int id);
@@ -102,5 +102,8 @@ namespace HalloDocWebServices.Interfaces
         void ApproveShift(string[] selectedShifts);
         ShiftDetailsModel getProviderOnCall(int reg);
         void SaveNotificationStatus(string[] phyList);
+        void DTYSupportRequest(string notes);
+        void AddVendor(SendOrderModel model);
+        SendOrderModel getVenderData();
     }
 }

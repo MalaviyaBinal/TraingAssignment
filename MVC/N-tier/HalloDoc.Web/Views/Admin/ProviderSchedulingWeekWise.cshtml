@@ -4,7 +4,7 @@
 @{
     Layout = "_AdminHeader";
 }
-<link rel="stylesheet" href="~/css/Scheduling.css" />
+@*<link rel="stylesheet" href="~/css/Scheduling.css" />*@
 <script src="~/js/daypilot-all.min.js"></script>
 <div class="container ">
     <div class="row">
@@ -36,9 +36,9 @@
                     <div class="h5  heading">Monday,Dec 4 2023</div>
                 </div>
                 <div class="text-end mb-3">
-                    <i class="bi bi-square-fill" style="color: #ff80ff;"></i>
+                    <i class="bi bi-square-fill" style="color: #EEACD0;"></i>
                     <span class="me-2">Pending Shifts</span>
-                    <i class="bi bi-square-fill" style="color: #00cc00;"></i>
+                    <i class="bi bi-square-fill" style="color: #A1D0A2;"></i>
                     <span>Approved Shifts</span>
                 </div>
 
@@ -114,6 +114,7 @@
     });
     const dp = new DayPilot.Scheduler("dp", {
         cellWidthSpec: "Auto",
+        eventHeight: 50,
         timeHeaders: [{ groupBy: "Day", format: "dddd dd" }],
         scale: "Day",
         days: 7,
@@ -123,7 +124,7 @@
         eventMoveHandling: "Disabled",
         eventResizeHandling: "Disabled",
         eventClickHandling: "Enabled",
-        onEventClicked: () => {
+        onEventClicked: (args) => {
             $.ajax({
                 url: "/Admin/_ViewShiftModal",
                 data: { 'id': args.e.data.id, 'regid': args.e.data.regionid },
@@ -154,9 +155,9 @@
             const resources = [{ html: "<b>Coverage</b>", id: "R0" }];
             console.log(resourcess['$values']);
             for (let i = 0; i < resourcess['$values'].length; ++i) {
-                let path = resourcess['$values'][i].Photo == null ? "/PhysicianDoc/user (1).jpg" : `/PhysicianDoc/${resourcess['$values'][i].Physicianid}/${resourcess['$values'][i].Photo}`;
+                let path = resourcess['$values'][i].Photo == null ? "/PhysicianDoc/userLogo.png" : `/PhysicianDoc/${resourcess['$values'][i].Physicianid}/${resourcess['$values'][i].Photo}`;
                 let obj = {
-                    html: `<div class='coverage-flex'><div class='coverage-inner-flex'><img style='width:15px;height:15px;' src='${path}' class='coverage-img' /><span>${resourcess['$values'][i].Firstname.charAt(0).toUpperCase() + resourcess['$values'][i].Firstname.slice(1) + ", " + resourcess['$values'][i].Lastname.charAt(0).toUpperCase() + "."}</span></div></div>`,
+                    html: `<div class='coverage-flex'><div class='coverage-inner-flex'><img style='width:35px;height:35px;' src='${path}' class=' class='coverage-img p-3' p-3' /><span  class='my-5'>${resourcess['$values'][i].Firstname.charAt(0).toUpperCase() + resourcess['$values'][i].Firstname.slice(1) + ", " + resourcess['$values'][i].Lastname.charAt(0).toUpperCase() + "."}</span></div></div>`,
                     id: resourcess['$values'][i].Physicianid
                 }
                 resources.push(obj);
@@ -197,5 +198,5 @@
     document.querySelector(".scheduler_default_corner_inner").nextElementSibling.style.display = "none";
 </script>
 <script>
-    document.getElementById("provider").classList.add("active");
+    document.getElementById("provider1").classList.add("active");
 </script>

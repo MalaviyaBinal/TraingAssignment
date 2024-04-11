@@ -21,6 +21,10 @@
             }
         });
     });
+    $('#switchCheck').change(function (e) {
+        
+    });
+
 </script>
 <div class="modal fade" id="create-shift" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -83,39 +87,39 @@
                             </div>
                             <div class="form-check form-switch">
                                 <label class="form-check-label" for="flexSwitchCheckChecked" asp-for="IsRepeat">Repeat</label>
-                                <input class="form-check-input" type="checkbox" role="switch" asp-for="IsRepeat" id="flexSwitchCheckChecked" checked>
+                                <input class="form-check-input" type="checkbox" role="switch" asp-for="IsRepeat" id="switchCheck" >
                             </div>
                             <fieldset class="my-3" id="daysSection">
                                 Repeat Days
-                                <div class="row my-2 row-cols-1 row-cols-sm-2 row-cols-md-3">
+                                <div class="row my-2 row-cols-1 row-cols-sm-2 row-cols-md-3" id="dayCheckBox">
 
                                     <div class="col my-1">
                                         <input class="form-check-input" id="day1" value="0" type="checkbox" name="daylist" />
-                                        <label class="form-check-label" for="day1"> Every Sunday </label>
+                                        <span class="form-check-label" for="day1"> Every Sunday </span>
                                     </div>
                                     <div class="col my-1">
                                         <input class="form-check-input " id="day2" value="1" type="checkbox" name="daylist" />
-                                        <label class="form-check-label" for="day2"> Every Monday </label>
+                                        <span class="form-check-label" for="day2"> Every Monday </span>
                                     </div>
                                     <div class="col my-1">
                                         <input class="form-check-input " id="day3" value="2" type="checkbox" name="daylist" />
-                                        <label class="form-check-label" for="day3"> Every Tuesday </label>
+                                        <span class="form-check-label" for="day3"> Every Tuesday </span>
                                     </div>
                                     <div class="col my-1 text-nowrap">
                                         <input class="form-check-input " id="day4" value="3" type="checkbox" name="daylist" />
-                                        <label class="form-check-label" for="day4"> Every Wednesday </label>
+                                        <span class="form-check-label" for="day4"> Every Wednesday </span>
                                     </div>
                                     <div class="col my-1">
                                         <input class="form-check-input " id="day5" value="4" type="checkbox" name="daylist" />
-                                        <label class="form-check-label" for="day5"> Every Thursday </label>
+                                        <span class="form-check-label" for="day5"> Every Thursday </span>
                                     </div>
                                     <div class="col my-1">
                                         <input class="form-check-input " id="day6" value="5" type="checkbox" name="daylist" />
-                                        <label class="form-check-label" for="day6"> Every Friday </label>
+                                        <span class="form-check-label" for="day6"> Every Friday </span>
                                     </div>
                                     <div class="col my-1">
                                         <input class="form-check-input " id="day7" value="6" type="checkbox" name="daylist" />
-                                        <label class="form-check-label" for="day7"> Every Saturday </label>
+                                        <span class="form-check-label" for="day7"> Every Saturday </span>
                                     </div>
                                 </div>
                                 <span class="text-danger hide" id="repeatDaysSpan">Atleast One Day is Required!!!</span>

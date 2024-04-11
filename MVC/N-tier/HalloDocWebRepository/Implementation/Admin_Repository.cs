@@ -5,6 +5,7 @@ using HalloDocWebRepo.Interface;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
+using System.Numerics;
 using System.Xml.Linq;
 
 namespace HalloDocWebRepo.Implementation
@@ -248,7 +249,7 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Physician> getPhysicianList()
         {
-            return _context.Physicians.Where(m => m.Isdeleted == null).ToList();
+            return _context.Physicians.Where(m => m.Isdeleted == null).Include(e => e.Physiciannotifications).ToList();
         }
 
         public List<Physician> getPhysicianListByregion(int regid)
@@ -607,9 +608,27 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges(true);
         }
 
-        public List<Blockrequest> getBlockData()
+        public List<Blockrequest> getBlockData(string searchstr, string date, string email, string mobile)
         {
-            return _context.Blockrequests.Include(e => e.Request).ThenInclude(m => m.Requestclients).ToList();
+            var tabledata= _context.Blockrequests.Include(e => e.Request).ThenInclude(m => m.Requestclients);
+            
+            //if (!string.IsNullOrEmpty(searchstr))
+            //{
+            //    tabledata = tabledata.Where(e => e.Request.Requestclients.First().Firstname.ToLower().Contains(searchstr.ToLower()));
+            //}
+            //if (!string.IsNullOrEmpty(lname))
+            //{
+            //    tabledata = tabledata.Where(e => e.Lastname.ToLower().Contains(lname.ToLower()));
+            //}
+            //if (!string.IsNullOrEmpty(email))
+            //{
+            //    tabledata = tabledata.Where(e => e.Email.ToLower().Contains(email.ToLower()));
+            //}
+            //if (!string.IsNullOrEmpty(phone))
+            //{
+            //    tabledata = tabledata.Where(e => e.phone.Contains(phone));
+            //}
+            return tabledata.ToList();
         }
 
         public List<Requesttype> getRequestTypeList()
@@ -724,25 +743,40 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges();
         }
 
-        public List<ShiftDetailsModel> getshiftDetail()
+        public List<ShiftDetailsModel> getshiftDetail(int reg)
         {
-            var data = from sd in _context.Shiftdetails
-                       join
-                       s in _context.Shifts on sd.Shiftid equals s.Shiftid
-                       join phy in _context.Physicians on s.Physicianid equals phy.Physicianid
-                       join reg in _context.Regions on sd.Regionid equals reg.Regionid
-                       select new ShiftDetailsModel
-                       {
-                           PhysicianName = phy.Firstname + " " + phy.Lastname,
-                           Physicianid = phy.Physicianid,
-                           RegionName = reg.Name,
-                           Status = sd.Status,
-                           Starttime = sd.Starttime,
-                           Endtime = sd.Endtime,
-                           Shiftdate = sd.Shiftdate,
-                           Shiftdetailid = sd.Shiftdetailid,
-                       };
-            return data.ToList();
+            if(reg == 0)
+             return _context.Shiftdetails.Where(e => e.Isdeleted != new BitArray(1, true))
+                .Include(e => e.Shift)
+                .ThenInclude(e => e.Physician).ThenInclude(e => e.Region).Select(e =>
+                    new ShiftDetailsModel
+                    {
+                        PhysicianName = e.Shift.Physician.Firstname + " " + e.Shift.Physician.Lastname,
+                        Physicianid = e.Shift.Physician.Physicianid,
+                        RegionName = e.Shift.Physician.Region.Name,
+                        Status = e.Status,
+                        Starttime = e.Starttime,
+                        Endtime = e.Endtime,
+                        Shiftdate = e.Shiftdate,
+                        Shiftdetailid = e.Shiftdetailid,
+                    }
+                ).ToList();
+            else
+                return _context.Shiftdetails.Where(e => e.Isdeleted != new BitArray(1, true) && e.Regionid == reg)
+                .Include(e => e.Shift)
+                .ThenInclude(e => e.Physician).ThenInclude(e => e.Region).Select(e =>
+                    new ShiftDetailsModel
+                    {
+                        PhysicianName = e.Shift.Physician.Firstname + " " + e.Shift.Physician.Lastname,
+                        Physicianid = e.Shift.Physician.Physicianid,
+                        RegionName = e.Shift.Physician.Region.Name,
+                        Status = e.Status,
+                        Starttime = e.Starttime,
+                        Endtime = e.Endtime,
+                        Shiftdate = e.Shiftdate,
+                        Shiftdetailid = e.Shiftdetailid,
+                    }
+                ).ToList();
 
         }
 
@@ -768,18 +802,19 @@ namespace HalloDocWebRepo.Implementation
         }
         public IQueryable<PatientHistoryTable> GetPatientHistoryTable(string? fname, string? lname, string? email, string? phone)
         {
-            IQueryable<PatientHistoryTable> tabledata =
-                                                        from u in _context.Users
+            IQueryable<PatientHistoryTable> tabledata =_context.Users.Select(u =>
+                                                         new PatientHistoryTable
+                                                         {
+                                                             aspId = u.Userid,
+                                                             Firstname = u.Firstname ?? "-",
+                                                             Lastname = u.Lastname ?? "-",
+                                                             Email = u.Email ?? "-",
+                                                             phone = u.Mobile ?? "-",
+                                                             Address = (u.Street ?? "") + " , " + (u.City ?? "") + " , " + (u.State ?? ""),
+                                                         }
+                                                        );
 
-                                                        select new PatientHistoryTable
-                                                        {
-                                                            aspId = u.Userid,
-                                                            Firstname = u.Firstname ?? "-",
-                                                            Lastname = u.Lastname ?? "-",
-                                                            Email = u.Email ?? "-",
-                                                            phone = u.Mobile ?? "-",
-                                                            Address = (u.Street ?? "") + " , " + (u.City ?? "") + " , " + (u.State ?? ""),
-                                                        };
+
             if (!string.IsNullOrEmpty(fname))
             {
                 tabledata = tabledata.Where(e => e.Firstname.ToLower().Contains(fname.ToLower()));
@@ -889,7 +924,8 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Physiciannotification> getNotSelectedPhyNotification(int[] ints)
         {
-            return _context.Physiciannotifications.Where(e => ints.Any(f => f != e.Pysicianid)).ToList();
+            var mod = _context.Physiciannotifications.Where(e => !ints.Any(f => f != e.Pysicianid)).ToList();
+            return mod;
         }
 
 
@@ -902,6 +938,28 @@ namespace HalloDocWebRepo.Implementation
         public Physiciannotification getPhyNotificationByPhyID(int pysicianid)
         {
             return _context.Physiciannotifications.FirstOrDefault(e => e.Pysicianid == pysicianid);
+        }
+        public int[] GetUnscheduledPhysicanID()
+        {
+            var phy = _context.Shifts.ToList();
+            int[] ints = new int[phy.Count];
+            int t = 0;
+            foreach (var e in phy)
+            {
+                ints[t++] = e.Physicianid;
+            }
+            return ints;
+        }
+
+        public List<Physician> getUnscheduledPhysicianList(int[] data)
+        {
+            return _context.Physicians.Where(e => !data.Any(f => f == e.Physicianid)).ToList();
+        }
+
+        public void addHealthProfessionTable(Healthprofessional business)
+        {
+            _context.Healthprofessionals.Add(business);
+            _context.SaveChanges();
         }
     }
 }

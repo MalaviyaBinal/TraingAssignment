@@ -23,5 +23,6 @@ namespace HalloDocWebEntity.ViewModel
         public DateOnly Shiftdate { get; set; }
         public TimeOnly Endtime { get; set; }
         public int Shiftdetailid { get; set; }
+        public int SelectedRegion { get; set; }
     }
 }

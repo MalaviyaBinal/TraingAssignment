@@ -36,7 +36,7 @@
         {
             <tr>
                 <td>
-                    <input type="checkbox" class="Subcheckbox checkboxes me-3" id="@item.Physicianid" onchange="showSaveBtn()" />
+                    <input type="checkbox" class="Subcheckbox checkboxes me-3" asp-for=@item.Physiciannotifications.FirstOrDefault().Isnotificationstopped[0] id="@item.Physicianid" onchange="showSaveBtn()" />
                 </td>
                 <td>@item.Firstname @item.Lastname</td>
                 @if (item.Roleid == 1)

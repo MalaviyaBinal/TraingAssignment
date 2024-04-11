@@ -7,42 +7,44 @@
                 <h5 class="modal-title" id="exampleModalLabel">Contact Your Provider</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post" asp-action="ContactProviderSendMessage" asp-controller="Admin">
+            @*<form method="post" asp-action="ContactProviderSendMessage" asp-controller="Admin">*@
                 <div class="modal-body">
                     <p class="mb-3">
                         Choose Communication to send message.
                     </p>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">SMS</label>
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" onclick="selectedRadio(this)" value="sms">
+                        <span class="form-check-label" for="inlineRadio1">SMS</span>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Email</label>
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" onclick="selectedRadio(this)" value="email">
+                        <span class="form-check-label" for="inlineRadio2">Email</span>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                        <label class="form-check-label" for="inlineRadio3">Both</label>
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" onclick="selectedRadio(this)" value="both">
+                        <span class="form-check-label" for="inlineRadio3">Both</span>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="form-floating">
-                                <input type="hidden" value="@Model.Email" asp-for=Email />
-                                <textarea asp-for=Adminnotes class="form-control" placeholder="Message" id="notes" style="height: 100px"></textarea>
+                                <input type="hidden" id="phyEmail" value="@Model.Email" asp-for=Email />
+                                <input type="hidden" id="phyPhone" value="@Model.Mobile" asp-for=Mobile />
+                                <textarea name="Adminnotes" class="form-control" placeholder="Message" id="notes" style="height: 100px"></textarea>
                                 <label for="floatingTextarea2">Message</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info text-white">Send</button>
+                    <button type="button" onclick="ContactProvider()" class="btn btn-info text-white">Send</button>
                     <button type="button" id="cancelbtn" class="btn btn-white text-info border-info" data-bs-dismiss="modal">cancel</button>
                 </div>
-            </form>
+            @*</form>*@
         </div>
     </div>
 </div>
 <script>
+    var selected;
     $(document).ready(function () {
         debugger;
         var myModal = new bootstrap.Modal(document.getElementById('ContactProvider'));
@@ -50,6 +52,19 @@
         console.log("xyz");
     });
 
+    function selectedRadio(e){
+        switch(e.value){
+            case "sms": selected = 1;break;
+            case "email": selected = 2;break;
+            case "both": selected = 3;break;
+        }
+    }
+    function ContactProvider(){
+        var email = document.getElementById("phyEmail").value;
+        var mobile = document.getElementById("phyPhone").value;
+        var note = document.getElementById("notes").value;
+        window.location.href = "/Admin/ContactProviderSendMessage?email="+email+"&phone="+mobile+"&note="+note+"&selected="+selected;
+    }
 
 
     $("#cancelbtn").click(function () {
