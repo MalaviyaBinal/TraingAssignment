@@ -14,7 +14,7 @@ namespace HalloDocWebRepo.Interface
         public void addAspnetuserTable(Aspnetuser aspuser);
         public void addRequestNotesTAble(Requestnote note);
         public void addRequestStatusLogTable(Requeststatuslog statuslog);
-        public  void addRequestTable(Request req);
+        public void addRequestTable(Request req);
         void addRequestWiseFile(Requestwisefile reqclient);
         public void addUserTable(User users);
         public void adRequestClientTable(Requestclient reqclient);
@@ -39,8 +39,8 @@ namespace HalloDocWebRepo.Interface
         public Requestnote getREquestNotes(int id);
         public List<Requeststatuslog> getRequestStatusLog(int id);
         public Requestwisefile getRequestWiseFile(int id);
-        public Requestwisefile getRequestWiseFileByName(string filename,int id);
-        public Requestwisefile getRequesWiseFileList(int id,string filename);
+        public Requestwisefile getRequestWiseFileByName(string filename, int id);
+        public Requestwisefile getRequesWiseFileList(int id, string filename);
         public User getUserByEmail(string? email);
         public void updateRequest(Request request);
         public void updateRequestNote(Requestnote reqnotes);
@@ -77,7 +77,7 @@ namespace HalloDocWebRepo.Interface
         List<Admin> getAdminList();
         List<Physicianregion> getPhysicianRegionByPhy(int id);
         void removeAllPhysicianRegion(int physicianid);
-        void addAllPhysicianRegion(List<int>? selectedReg,int id);
+        void addAllPhysicianRegion(List<int>? selectedReg, int id);
         List<Physicianlocation> getPhysicianLocationList();
         void updateHealthProfessionalTable(Healthprofessional vender);
         Role getAccessroleById(int id);
@@ -102,5 +102,12 @@ namespace HalloDocWebRepo.Interface
         Shiftdetail getShiftDetailByShiftDetailId(int id);
         Shift getShiftByID(int shiftid);
         void UpdateShiftDetailTable(Shiftdetail sd);
+        List<Shiftdetail> getShiftDetailByRegion(int reg);
+        List<Physician> getPhysicianOnCallList(int reg);
+        Admin getAdminByAdminID(int id);
+        List<Physiciannotification> getSelectedPhyNotification(int[] ints);
+        List<Physiciannotification> getNotSelectedPhyNotification(int[] ints);
+        void updatePhyNotificationTable(Physiciannotification notification);
+        Physiciannotification getPhyNotificationByPhyID(int pysicianid);
     }
 }

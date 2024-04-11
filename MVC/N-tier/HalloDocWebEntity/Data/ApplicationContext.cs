@@ -405,6 +405,10 @@ public partial class ApplicationContext : DbContext
 
             entity.Property(e => e.Shiftid).UseIdentityAlwaysColumn();
             entity.Property(e => e.Weekdays).IsFixedLength();
+
+            entity.HasOne(d => d.Physician).WithMany(p => p.Shifts)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("shift_physicianid_fkey");
         });
 
         modelBuilder.Entity<Shiftdetail>(entity =>

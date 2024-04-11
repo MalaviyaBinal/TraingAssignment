@@ -61,6 +61,10 @@
       "PackagePath": "staticwebassets\\PhysicianDoc\\5\\Signature.png"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\userLogo.png",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\userLogo.png"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\.net-Whole-Plane-2024.pdf",
       "PackagePath": "staticwebassets\\UploadedFiles\\.net-Whole-Plane-2024.pdf"
     },

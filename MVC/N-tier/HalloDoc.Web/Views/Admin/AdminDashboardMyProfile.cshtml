@@ -18,12 +18,26 @@
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between mt-3">
-                <h4 class="mt-3">My Profile</h4>
-                <a class="text-start text-info text-decoration-none ">
-                    <button class="btn btn-white  text-info border-info rounded ">
-                        <i class="fa-solid  fa-less-than"></i> Back
-                    </button>
-                </a>
+                @if (Model.isAdminProfile)
+                {
+                    <h4 class="mt-3">My Profile</h4>
+                    <script>
+                        document.getElementById("myProfile").classList.add("active");
+                    </script>
+                   
+                }
+                else
+                {<span></span>
+                    <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
+                        <button class="btn btn-white  text-info border-info rounded ">
+                            <i class="fa-solid  fa-less-than"></i> Back
+                        </button>
+                    </a>
+                    <script>
+                        document.getElementById("access1").classList.add("active");
+                    </script>
+                }
+                
             </div>
 
             <div class="container rounded bg-white shadow py-3">
@@ -281,7 +295,4 @@
         initialCountry: "us",
         utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
     });
-</script>
-<script>
-    document.getElementById("myProfile").classList.add("active");
 </script>

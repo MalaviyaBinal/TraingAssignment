@@ -180,6 +180,19 @@ namespace HalloDocWebServices.Implementation
             profile.adminuser = _repository.getAspnetuserByEmail(email);
             profile.regions = _repository.getRegions();
             profile.adminregion = adminRegion;
+            profile.isAdminProfile = true;
+            return profile;
+        }
+        public AdminProfile getAdminData(int id)
+        {
+            var admin = _repository.getAdminByAdminID(id);
+            var adminRegion = _repository.getAdminRegionByAdminId(admin.Adminid);
+            AdminProfile profile = new();
+            profile.admin = admin;
+            profile.adminuser = _repository.getAspnetuserByID(admin.Aspnetuserid);
+            profile.regions = _repository.getRegions();
+            profile.adminregion = adminRegion;
+            profile.isAdminProfile = false;
             return profile;
         }
         public byte[] getBytesForFile(int id)
@@ -887,7 +900,7 @@ namespace HalloDocWebServices.Implementation
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
             mailclient.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
         }
-        public AdminProviderModel getProviderByAdmin(int id)
+        public AdminProviderModel getProviderByAdmin(int id, string u)
         {
             Physician phy = _repository.getPhysicianById(id);
             Aspnetuser asp = _repository.getAspnetuserByID(phy.Aspnetuserid);
@@ -915,6 +928,9 @@ namespace HalloDocWebServices.Implementation
             model.IsbackgroundDoc = phy.Isbackgrounddoc;
             model.IsLisenceDoc = phy.Islicensedoc;
             model.IsNonDisclosure = phy.Isnondisclosuredoc;
+            if (u == null)
+                model.isProviderEdit = true;
+            else model.isProviderEdit = false;
             model.IsTrainingDoc = phy.Istrainingdoc;
             model.isPhoto = phy.Photo != null ? true : false;
             model.isSignature = phy.Signature != null ? true : false;
@@ -1371,7 +1387,7 @@ namespace HalloDocWebServices.Implementation
                     Actions = log.Action,
                     RoleName = log.Roleid.ToString(),
                     Email = log.Emailid,
-                    createdDate = log.Createdate.ToString("MMM dd, yyyy hh:mm tt"),
+                    createdDate = log.Createdate.ToString("MMM dd, yyyy"),
                     sentDate = log.Createdate.ToString("MMM dd, yyyy"),
                     sent = log.Isemailsent[0].ToString(),
                     sentTries = log.Senttries.ToString(),
@@ -1572,7 +1588,7 @@ namespace HalloDocWebServices.Implementation
             r.Isdeleted = new BitArray(1, true);
             r.Modifieddate = DateTime.Now;
             _repository.updateRequest(r);
-            
+
         }
 
         public List<PatientHistoryTable> PatientHistoryTable(string? fname, string? lname, string? email, string? phone)
@@ -1589,7 +1605,7 @@ namespace HalloDocWebServices.Implementation
             foreach (Request request in requests)
             {
                 Physician physician = new Physician();
-                if(request.Physicianid != null)
+                if (request.Physicianid != null)
                 {
                     physician = _repository.getPhysicianById((int)request.Physicianid);
                 }
@@ -1613,30 +1629,32 @@ namespace HalloDocWebServices.Implementation
         {
             ShiftDetailsModel model = new ShiftDetailsModel();
             Shiftdetail sd = _repository.getShiftDetailByShiftDetailId(id);
-        ;
+
             Shift s = _repository.getShiftByID(sd.Shiftid);
-            if (regid != 0)
-            {
-                model.RegionId = regid;
-                model.physicians = _repository.getPhysicianListByregion(regid);
-            }
-            else
-            {
-                model.RegionId = (int)sd.Regionid;
-                model.physicians = _repository.getPhysicianList();
-            }
+            //if (regid != 0)
+            //{
+            //    model.RegionId = regid;
+            //    model.physicians = _repository.getPhysicianListByregion(regid);
+            //}
+            //else
+            //{
+            //    model.RegionId = (int)sd.Regionid;
+            //    model.physicians = _repository.getPhysicianList();
+            //}
             DateOnly date = DateOnly.Parse(sd.Shiftdate.ToString("yyyy-MM-dd"));
             model.regions = _repository.getRegions();
             model.Shiftdate = date;
             model.Physicianid = s.Physicianid;
             model.shiftData = s;
             model.ShiftDetailData = sd;
+            model.RegionId = (int)sd.Regionid;
+            model.physicians = _repository.getPhysicianList();
 
 
             return model;
         }
 
-        public void UpdateShiftDetailData(ShiftDetailsModel model,string email)
+        public void UpdateShiftDetailData(ShiftDetailsModel model, string email)
         {
 
             Admin admin = _repository.getAdminTableDataByEmail(email);
@@ -1644,9 +1662,9 @@ namespace HalloDocWebServices.Implementation
             sd.Modifiedby = admin.Aspnetuserid.ToString();
             sd.Starttime = model.ShiftDetailData.Starttime;
             sd.Endtime = model.ShiftDetailData.Endtime;
-            sd.Shiftdate = model.ShiftDetailData.Shiftdate;
-            sd.Modifieddate=DateTime.Now;
-
+            sd.Shiftdate = model.Shiftdate;
+            sd.Modifieddate = DateTime.Now;
+            _repository.UpdateShiftDetailTable(sd);
         }
         public void DeleteShiftDetails(int id)
         {
@@ -1668,6 +1686,73 @@ namespace HalloDocWebServices.Implementation
                 sd.Status = 0;
             }
             _repository.UpdateShiftDetailTable(sd);
+        }
+
+        public ShiftDetailsModel getReviewShiftData(int reg)
+        {
+            return new ShiftDetailsModel
+            {
+                regions = _repository.getRegions(),
+                shiftdetail = _repository.getShiftDetailByRegion(reg),
+                RegionId = reg
+            };
+
+        }
+
+        public void DeletShift(string[] selectedShifts)
+        {
+            var shifts = selectedShifts[0].Split(',');
+            foreach (var shift in shifts)
+            {
+                Shiftdetail shiftdetail = _repository.getShiftDetailByShiftDetailId(int.Parse(shift));
+                shiftdetail.Isdeleted = new BitArray(1, true);
+                _repository.UpdateShiftDetailTable(shiftdetail);
+            }
+        }
+
+        public void ApproveShift(string[] selectedShifts)
+        {
+            var shifts = selectedShifts[0].Split(',');
+            foreach (var shift in shifts)
+            {
+                Shiftdetail shiftdetail = _repository.getShiftDetailByShiftDetailId(int.Parse(shift));
+                shiftdetail.Status = 1;
+                _repository.UpdateShiftDetailTable(shiftdetail);
+            }
+        }
+
+        public ShiftDetailsModel getProviderOnCall(int reg)
+        {
+            return new ShiftDetailsModel
+            {
+                regions = _repository.getRegions(),
+                physicians = _repository.getPhysicianOnCallList(reg)
+            };
+        }
+
+        public void SaveNotificationStatus(string[] phyList)
+        {
+            var phy = phyList[0].Split(',');
+            int[] ints = new int[phy.Length];
+            int t = 0;
+            foreach (var i in phy)
+            {
+                ints[t++] = int.Parse(i);
+            }
+            List<Physiciannotification> selected = _repository.getSelectedPhyNotification(ints);
+            List<Physiciannotification> notSelected = _repository.getNotSelectedPhyNotification(ints);
+            foreach (var i in selected)
+            {
+                Physiciannotification notification = _repository.getPhyNotificationByPhyID(i.Pysicianid);
+                notification.Isnotificationstopped = new BitArray(1, true);
+                _repository.updatePhyNotificationTable(notification);
+            }
+            foreach (var i in notSelected)
+            {
+                Physiciannotification notification = _repository.getPhyNotificationByPhyID(i.Pysicianid);
+                notification.Isnotificationstopped = new BitArray(1, true);
+                _repository.updatePhyNotificationTable(notification);
+            }
         }
     }
 }

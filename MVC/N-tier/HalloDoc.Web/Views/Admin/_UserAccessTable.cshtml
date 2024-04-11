@@ -70,9 +70,16 @@
                         }
                     }
                 </td>
-                <td>'numberofrequest' </td>
+                <td>0</td>
                 <td>
-                    <a><button type="button" class="btn btn-outline-info">Edit</button></a>
+                    @if (item.Role == 1)
+                    {
+                        <a asp-action="AdminDashboardMyProfile" asp-controller="Admin" asp-route-id="@item.Admins.FirstOrDefault().Adminid"><button type="button" class="btn btn-outline-info">Edit</button></a>
+                    }
+                    else
+                    {
+                        <a asp-action="EditProviderDetail" asp-controller="Admin" asp-route-id="@item.Physicians.FirstOrDefault().Physicianid" asp-route-username="access"><button type="button" class="btn btn-outline-info">Edit</button></a>
+                    }
                 </td>
             </tr>
         }

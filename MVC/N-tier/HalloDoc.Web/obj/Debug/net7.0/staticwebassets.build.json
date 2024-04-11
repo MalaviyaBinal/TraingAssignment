@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HFm9kcPZhqKz1neiMvv6KSsus4+taDNrzKQ1eWzciFg=",
+  "Hash": "mfqaKxYs7hiUC19/ZUNT+bKMHrQj03V0yM6nWhgPQdo=",
   "Source": "HalloDoc.Web",
   "BasePath": "_content/HalloDoc.Web",
   "Mode": "Default",
@@ -1783,6 +1783,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\PhysicianDoc\\5\\Signature.png"
+    },
+    {
+      "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\userLogo.png",
+      "SourceId": "HalloDoc.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\",
+      "BasePath": "_content/HalloDoc.Web",
+      "RelativePath": "PhysicianDoc/userLogo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\PhysicianDoc\\userLogo.png"
     },
     {
       "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\.net-Whole-Plane-2024.pdf",

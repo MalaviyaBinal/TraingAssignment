@@ -1,6 +1,5 @@
 ﻿using HalloDocWebEntity.Data;
 using HalloDocWebRepo.Interface;
-using HalloDocWebService.Utils;
 using HalloDocWebServices.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +56,7 @@ namespace HalloDocWebService.Authentication
 
             var request = context.HttpContext.Request;
             var token = request.Cookies["jwt"];
-            if(_role == "LoginStr")
+            if (_role == "LoginStr")
             {
                 if (token != null && jwtService.ValidateToken(token, out JwtSecurityToken jwtTokenforLogin))
                 {
@@ -67,7 +66,7 @@ namespace HalloDocWebService.Authentication
             }
             else
             {
-                
+
                 if (token == null || !jwtService.ValidateToken(token, out JwtSecurityToken jwtToken))
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Index" }));
@@ -82,7 +81,7 @@ namespace HalloDocWebService.Authentication
                     return;
                 }
             }
-          
+
         }
     }
 

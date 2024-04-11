@@ -20,6 +20,7 @@ namespace HalloDocWebServices.Interfaces
         public void deleteFile(int id);
         public MemoryStream downloadFile(string[] filenames);
         public AdminProfile getAdminProfileData(string? v);
+        public AdminProfile getAdminData(int v);
         public byte[] getBytesForFile(int id);
         public List<AdminDashboardTableModel> getDashboardTables(int id, int check);
 
@@ -56,7 +57,7 @@ namespace HalloDocWebServices.Interfaces
         void addProviderByAdmin(AdminProviderModel model);
         Physician getPhysicianByID(int id);
         void ContactProviderSendMessage(Physician info);
-        AdminProviderModel getProviderByAdmin(int id);
+        AdminProviderModel getProviderByAdmin(int id,string u);
         void savePhysicianPassword(AdminProviderModel info);
         void savePhysicianInfo(AdminProviderModel info);
         void savePhysicianBillingInfo(AdminProviderModel info);
@@ -81,20 +82,25 @@ namespace HalloDocWebServices.Interfaces
         void UpdateBusinessData(SendOrderModel model);
         List<Requesttype> GetRequestTypes();
         AdminRecordsModel getSearchRecordData(AdminRecordsModel model);
-        public void SendSms(string receiverPhoneNumber, string message );
+        public void SendSms(string receiverPhoneNumber, string message);
         List<Email_SMS_LogModel> GetEmailLogs(int roleid, string name, string email, string createdDate, string sentDate);
         List<Email_SMS_LogModel> GetSmsLogs(int roleid, string name, string mobile, string createdDate, string sentDate);
         SchedulingViewModel openShiftModel(int regionid);
         void CreateShift(SchedulingViewModel info);
         ShiftDetailsModel getSchedulingData();
         AdminRecordsModel getBlockHistoryData();
-        void unblockRequest(int id,string email);
+        void unblockRequest(int id, string email);
         void deleteRequest(int id);
         List<PatientHistoryTable> PatientHistoryTable(string? fname, string? lname, string? email, string? phone);
         List<PatientRecordModel> PatientRecord(int id);
         ShiftDetailsModel getViewShiftData(int id, int regid);
-        void UpdateShiftDetailData(ShiftDetailsModel model,string email);
+        void UpdateShiftDetailData(ShiftDetailsModel model, string email);
         void DeleteShiftDetails(int id);
         void UpdateShiftDetailsStatus(int id);
+        ShiftDetailsModel getReviewShiftData(int reg);
+        void DeletShift(string[] selectedShifts);
+        void ApproveShift(string[] selectedShifts);
+        ShiftDetailsModel getProviderOnCall(int reg);
+        void SaveNotificationStatus(string[] phyList);
     }
 }

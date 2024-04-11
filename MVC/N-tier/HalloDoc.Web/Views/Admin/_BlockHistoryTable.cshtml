@@ -53,19 +53,7 @@
 </div>
 
 <script>
-    var vendorid;
-    function DeleteVendor(element) {
-        debugger;
-        vendorid = element.value;
-        var myModal = new bootstrap.Modal(document.getElementById('DeleteVendor'));
-        myModal.show();
-
-    };
-    $("#cancelbtn").click(function () {
-        $("#modalpopup").remove();
-        $(".modal-backdrop").remove()
-        location.reload();
-    });
+  
     function unblock(element) {
 
         var id = element.value;

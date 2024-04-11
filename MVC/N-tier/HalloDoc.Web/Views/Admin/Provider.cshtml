@@ -1,5 +1,22 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminProviderModel
 
+<script>
+    function showSaveBtn() {
+        document.getElementById("savebtn").style.display = "inline";
+    }
+    function saveChanges() {
+        var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
+        var phy = [];
+        checkboxes.forEach(function (checkbox) {
+            phy.push(checkbox.getAttribute('id'));
+        });
+        if (phy.length > 0) {
+            window.location.href = "/Admin/SaveNotificationStatus?phyList=" + phy;
+        } else {
+            alert('Please select one or more files to download.');
+        }
+    }
+</script>
 <table class="table  ">
 
     <thead class="table-secondary">
@@ -18,7 +35,9 @@
         @foreach (var item in Model.physicians)
         {
             <tr>
-                <td><input type="checkbox" class="Subcheckbox checkboxes ms-3" /></td>
+                <td>
+                    <input type="checkbox" class="Subcheckbox checkboxes me-3" id="@item.Physicianid" onchange="showSaveBtn()" />
+                </td>
                 <td>@item.Firstname @item.Lastname</td>
                 @if (item.Roleid == 1)
                 {
@@ -58,11 +77,23 @@
                 </td>
             </tr>
         }
+        <tr class="text-end">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button class="btn btn-info text-white" onclick="saveChanges()" style="display:none;" id="savebtn">Save</button>
+            </td>
+            
+        </tr>
 
     </tbody>
 
 
 </table>
+
 
 @*@model HalloDocWebEntity.ViewModel.AdminProviderModel
 

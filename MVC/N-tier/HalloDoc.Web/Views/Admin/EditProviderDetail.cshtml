@@ -19,8 +19,26 @@
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between mt-3">
+
+
+                @if (Model.isProviderEdit)
+                {
+                    
+                    <script>
+                        alert("pr");
+                        document.getElementById("provider1").classList.add("active");
+                    </script>
+
+                }
+                else
+                {
+                    <script>
+                        alert("ac");
+                        document.getElementById("access1").classList.add("active");
+                    </script>
+                }
                 <h4 class="mt-3">Edit Physician Account</h4>
-                <a asp-action="AdminDashboardProviders" asp-controller="Admin">
+                <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
                     <button class="btn btn-white  text-info border-info rounded ">
                         <i class="fa-solid  fa-less-than"></i> Back
                     </button>
@@ -248,7 +266,7 @@
                             Onboarding
                         </div>
                         <div class="form-check mb-3 pt-4 col-6 mb-3">
-                            <input class="form-check-input" type="checkbox"  id="1" asp-for="@Model.Isagrementdoc[0]">
+                            <input class="form-check-input" type="checkbox" id="1" asp-for="@Model.Isagrementdoc[0]">
 
                             <span class="form-check-label" for="1">
                                 Independent Contractor Agreement
@@ -276,7 +294,7 @@
                         }
 
                         <div class="form-check mb-3 pt-4 col-6 mb-3">
-                            <input class="form-check-input" type="checkbox"  id="2" asp-for="@Model.IsbackgroundDoc[0]">
+                            <input class="form-check-input" type="checkbox" id="2" asp-for="@Model.IsbackgroundDoc[0]">
                             <span class="form-check-label" for="2">
                                 Background Check
                             </span>
@@ -306,7 +324,7 @@
 
 
                         <div class="form-check mb-3 pt-4 col-6 mb-3">
-                            <input class="form-check-input" type="checkbox"  id="3" asp-for="@Model.IsTrainingDoc[0]">
+                            <input class="form-check-input" type="checkbox" id="3" asp-for="@Model.IsTrainingDoc[0]">
                             <span class="form-check-label" for="3">
                                 HIPAA Compilance
                             </span>
@@ -331,7 +349,7 @@
                             <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('HIPAA')">View</button>
                         }
                         <div class="form-check mb-3 pt-4 col-6 mb-3">
-                            <input class="form-check-input" type="checkbox"  id="4" asp-for="@Model.IsNonDisclosure[0]">
+                            <input class="form-check-input" type="checkbox" id="4" asp-for="@Model.IsNonDisclosure[0]">
                             <span class="form-check-label" for="4">
                                 Non-Disclosure Agreement
                             </span>
@@ -358,7 +376,7 @@
                         }
                         <div class="form-check mb-3 pt-4 col-6">
 
-                            <input class="form-check-input" type="checkbox"  id="5" asp-for="@Model.IsLisenceDoc[0]">
+                            <input class="form-check-input" type="checkbox" id="5" asp-for="@Model.IsLisenceDoc[0]">
                             <span class="form-check-label" for="5">
                                 Licence Document
                             </span>
@@ -385,12 +403,12 @@
                         }
                     </div>
 
-              
-                <hr />
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-info text-white me-md-2" type="submit">Save</button>
+
+                    <hr />
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-info text-white me-md-2" type="submit">Save</button>
                         <button class="btn btn-danger" onclick="deleteaccess(this)" value="@Model.physician.Physicianid" type="button">Delete Account</button>
-                </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -400,7 +418,7 @@
 </div>
 <script>
 
-    document.getElementById("provider1").classList.add("active");
+
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
     const button = document.querySelector("#btn");

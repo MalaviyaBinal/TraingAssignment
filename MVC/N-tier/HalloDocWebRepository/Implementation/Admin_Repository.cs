@@ -432,6 +432,10 @@ namespace HalloDocWebRepo.Implementation
         {
             return _context.Admins.FirstOrDefault(m => m.Adminid == admin.Adminid);
         }
+        public Admin getAdminByAdminID(int admin)
+        {
+            return _context.Admins.FirstOrDefault(m => m.Adminid == admin);
+        }
 
         public void updateAdmin(Admin model)
         {
@@ -615,7 +619,7 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Requestclient> getRequestClientList()
         {
-            return _context.Requestclients.Include(e => e.Request).Where(e => e.Request.Isdeleted ==null).ToList();
+            return _context.Requestclients.Include(e => e.Request).Where(e => e.Request.Isdeleted == null).ToList();
         }
 
         public List<Requestnote> getREquestNotesList()
@@ -707,7 +711,7 @@ namespace HalloDocWebRepo.Implementation
 
             if (!string.IsNullOrEmpty(sentDate))
             {
-                DateTime parsedSentDate = DateTime.Parse(sentDate);
+                DateTime parsedSentDate = DateTime.Parse(sentDate).Date;
                 query = query.Where(e => e.Sentdate == parsedSentDate);
             }
 
@@ -764,9 +768,9 @@ namespace HalloDocWebRepo.Implementation
         }
         public IQueryable<PatientHistoryTable> GetPatientHistoryTable(string? fname, string? lname, string? email, string? phone)
         {
-            IQueryable<PatientHistoryTable> tabledata = 
-                                                        from u in _context.Users 
-                                                      
+            IQueryable<PatientHistoryTable> tabledata =
+                                                        from u in _context.Users
+
                                                         select new PatientHistoryTable
                                                         {
                                                             aspId = u.Userid,
@@ -797,9 +801,9 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Request> GetAllRequestsByAid(int id)
         {
-           
+
             return _context.Requests.Where(r => r.Userid == id && r.Isdeleted != new BitArray(1, true) && r.Status != 11).ToList();
-           
+
         }
 
         public int GetNumberOfDocsByRid(int requestid)
@@ -855,6 +859,49 @@ namespace HalloDocWebRepo.Implementation
         {
             _context.Shiftdetails.Update(sd);
             _context.SaveChanges();
+        }
+
+        public List<Shiftdetail> getShiftDetailByRegion(int reg)
+        {
+            if (reg != 0)
+                return _context.Shiftdetails.Where(e => e.Status == 0 && e.Isdeleted == new BitArray(1, false) && e.Regionid == reg).Include(e => e.Shift).ThenInclude(e => e.Physician).ThenInclude(e => e.Region).ToList();
+            else
+                return _context.Shiftdetails.Where(e => e.Status == 0 && e.Isdeleted == new BitArray(1, false)).Include(e => e.Shift).ThenInclude(e => e.Physician).ThenInclude(e => e.Region).ToList();
+        }
+
+        public List<Physician> getPhysicianOnCallList(int reg)
+        {
+            var time = TimeOnly.FromDateTime(DateTime.Now);
+            if (reg != 0)
+                return _context.Physicians.Where(e => e.Regionid == reg).Include(p => p.Shifts)
+                    .ThenInclude(p => p.Shiftdetails.Where(e => e.Shiftdate == DateOnly.FromDateTime(DateTime.Now) && e.Starttime <= time && e.Endtime >= time))
+                    .OrderBy(e => e.Physicianid).ToList();
+            else
+                return _context.Physicians.Include(p => p.Shifts)
+                    .ThenInclude(p => p.Shiftdetails.Where(e => e.Shiftdate == DateOnly.FromDateTime(DateTime.Now) && e.Starttime <= time && e.Endtime >= time))
+                    .OrderBy(e => e.Physicianid).ToList();
+        }
+
+        public List<Physiciannotification> getSelectedPhyNotification(int[] ints)
+        {
+            return _context.Physiciannotifications.Where(e => ints.Any(f => f == e.Pysicianid)).ToList();
+        }
+
+        public List<Physiciannotification> getNotSelectedPhyNotification(int[] ints)
+        {
+            return _context.Physiciannotifications.Where(e => ints.Any(f => f != e.Pysicianid)).ToList();
+        }
+
+
+        public void updatePhyNotificationTable(Physiciannotification notification)
+        {
+            _context.Physiciannotifications.Update(notification);
+            _context.SaveChanges();
+        }
+
+        public Physiciannotification getPhyNotificationByPhyID(int pysicianid)
+        {
+            return _context.Physiciannotifications.FirstOrDefault(e => e.Pysicianid == pysicianid);
         }
     }
 }

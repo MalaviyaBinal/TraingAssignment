@@ -1,7 +1,5 @@
 ﻿
 using HalloDocWebEntity.Data;
-using HalloDocWebEntity.ViewModel;
-using HalloDocWebRepo.Interface;
 using HalloDocWebServices.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;

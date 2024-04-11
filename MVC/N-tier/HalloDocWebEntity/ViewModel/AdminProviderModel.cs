@@ -33,6 +33,7 @@ namespace HalloDocWebEntity.ViewModel
         public string? Email { get; set; }
         public string? PhotoName { get; set; }
         public string? SignatureName { get; set; }
+        public bool isProviderEdit { get; set; }    
         public IFormFile AgreementDoc { get; set; }
         public IFormFile backgroundDoc { get; set; }
         public IFormFile TrainingDoc { get; set; }

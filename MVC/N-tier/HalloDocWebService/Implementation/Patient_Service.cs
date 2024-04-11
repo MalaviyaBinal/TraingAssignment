@@ -30,9 +30,9 @@ namespace HalloDocWebServices.Implementation
 
         public bool ValidateUser(string usarname, string passwordhash)
         {
-           
-            return  _repository.ValidateUser(usarname, passwordhash);
-           
+
+            return _repository.ValidateUser(usarname, passwordhash);
+
         }
 
         void IPatient_Service.editProfile(PatientRequest model, string username)
@@ -75,7 +75,7 @@ namespace HalloDocWebServices.Implementation
             return _repository.getReqWiseFile(requestid);
         }
 
-        Dictionary<int,int> IPatient_Service.GetCount(string email)
+        Dictionary<int, int> IPatient_Service.GetCount(string email)
         {
             var user = _repository.getUserByEmail(email);
             var users = _repository.RequestRepo(user.Userid);
@@ -98,16 +98,16 @@ namespace HalloDocWebServices.Implementation
             profile.Request = userData;
             profile.User = profileUserData;
             profile.dob = DateTime.Today;
-            
+
 
             return (profile);
         }
 
         void IPatient_Service.uploadFile(IFormFile fileToUpload, int id)
         {
-             var FileNameOnServer = "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\";
+            var FileNameOnServer = "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\";
             FileNameOnServer += fileToUpload.FileName;
-           
+
             using var stream = System.IO.File.Create(FileNameOnServer);
             fileToUpload.CopyTo(stream);
 
@@ -116,7 +116,7 @@ namespace HalloDocWebServices.Implementation
 
             Requestwisefile reqclient = new Requestwisefile
             {
-                Requestid =id,
+                Requestid = id,
                 Filename = fileToUpload.FileName,
                 Createddate = DateTime.Now,
             };
@@ -141,7 +141,7 @@ namespace HalloDocWebServices.Implementation
         {
             var userid = _repository.getUserByEmail(email);
 
-           Request req = new Request
+            Request req = new Request
             {
                 Requesttypeid = 2,
                 Userid = userid.Userid,
@@ -157,7 +157,7 @@ namespace HalloDocWebServices.Implementation
 
             };
             _repository.addRequestTable(req);
-            
+
             Requestclient reqclient = new Requestclient
             {
                 Requestid = req.Requestid,
@@ -171,7 +171,7 @@ namespace HalloDocWebServices.Implementation
                 Regionid = 1
             };
             _repository.addRequestClientTable(reqclient);
-            
+
         }
 
         public void saveDataForSomeone(RequestForMe info, string? email)
@@ -194,7 +194,7 @@ namespace HalloDocWebServices.Implementation
 
 
             };
-             _repository.addRequestTable(req);
+            _repository.addRequestTable(req);
 
 
             Requestclient reqclient = new Requestclient
@@ -216,7 +216,7 @@ namespace HalloDocWebServices.Implementation
         void IPatient_Service.createPatientByBusiness(BusinessPatientRequest info)
         {
             var userid = _repository.getUserByEmail(info.email);
-            
+
             if (info.password != null)
             {
                 Aspnetuser aspuser = new Aspnetuser
@@ -231,7 +231,7 @@ namespace HalloDocWebServices.Implementation
 
                 };
                 _repository.addAspnetuserTable(aspuser);
-                
+
                 User user = new User
                 {
 
@@ -299,7 +299,7 @@ namespace HalloDocWebServices.Implementation
         {
 
             var userid = _repository.getUserByEmail(info.email);
-           
+
             if (info.password != null)
             {
                 Aspnetuser aspuser = new Aspnetuser
@@ -462,7 +462,7 @@ namespace HalloDocWebServices.Implementation
 
         public void createPatient(PatientRequest info)
         {
-             var userid = _repository.getUserByEmail(info.email_user);
+            var userid = _repository.getUserByEmail(info.email_user);
             if (info.password != null)
             {
                 Aspnetuser aspuser = new Aspnetuser
@@ -618,7 +618,7 @@ namespace HalloDocWebServices.Implementation
 
         public void sendMailForCreateAccount(string email)
         {
-           
+
             Random random = new Random();
 
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -631,7 +631,7 @@ namespace HalloDocWebServices.Implementation
             var subject = "Review Agreement";
             var message = "Review Your Agreement:https://localhost:44380/Home/CreateAccount?token=" + token;
 
-           
+
 
             var mailclient = new SmtpClient("smtp.office365.com", 587)
             {
@@ -639,7 +639,7 @@ namespace HalloDocWebServices.Implementation
                 Credentials = new NetworkCredential(mail, password)
             };
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
-           
+
 
             mailclient.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
             TokenRegister tokenRegister = new TokenRegister();
@@ -652,10 +652,10 @@ namespace HalloDocWebServices.Implementation
         {
             loginModel model = new loginModel();
             TokenRegister tokenRegister = _repository.getTokenRegisterByToken(token);
-            if(tokenRegister != null)
+            if (tokenRegister != null)
             {
                 Requestclient client = _repository.getRequestClientByEmail(tokenRegister.Email);
-                if(client != null)
+                if (client != null)
                 {
                     model.Usarname = tokenRegister.Email;
                 }
@@ -664,16 +664,16 @@ namespace HalloDocWebServices.Implementation
                     model.Usarname = null;
                 }
             }
-            
+
             return model;
         }
 
         public void createAccountSaveData(loginModel info)
         {
-            if(info != null)
+            if (info != null)
             {
                 Requestclient client = _repository.getRequestClientByEmail(info.Usarname);
-                
+
                 if (client != null)
                 {
                     Aspnetuser aspnetuser = new Aspnetuser
@@ -681,21 +681,22 @@ namespace HalloDocWebServices.Implementation
                         Usarname = info.Usarname,
                         Passwordhash = info.Passwordhash,
                         Phonenumber = client.Phonenumber,
-                        Createddate = DateTime.Now, 
+                        Createddate = DateTime.Now,
                         Email = info.Usarname
                     };
                     _repository.addAspnetuserTable(aspnetuser);
                     User user = new User
                     {
                         Aspnetuserid = aspnetuser.Id,
-                        Firstname= client.Firstname, Lastname= client.Lastname,
+                        Firstname = client.Firstname,
+                        Lastname = client.Lastname,
                         Email = info.Usarname,
-                        Mobile= client.Phonenumber,
+                        Mobile = client.Phonenumber,
                         Street = client.Street,
                         State = client.State,
                         Zip = client.Zipcode,
                         City = client.City,
-                        Createddate= DateTime.Now,
+                        Createddate = DateTime.Now,
                     };
                     _repository.addUserTable(user);
 
@@ -705,7 +706,7 @@ namespace HalloDocWebServices.Implementation
 
                 }
             }
-           
+
         }
     }
 }

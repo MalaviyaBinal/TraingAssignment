@@ -16,6 +16,7 @@ namespace HalloDocWebEntity.ViewModel
         public List<Role> roles { get; set; }
         public int regionid { get; set; }
         public int roleid { get; set; }
+        public bool isAdminProfile { get; set; }
 
     }
 }

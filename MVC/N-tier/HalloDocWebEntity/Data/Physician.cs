@@ -141,4 +141,7 @@ public partial class Physician
     [InverseProperty("Physicians")]
     [JsonIgnore]
     public virtual Region? Region { get; set; }
+
+    [InverseProperty("Physician")]
+    public virtual ICollection<Shift> Shifts { get; set; } = new List<Shift>();
 }

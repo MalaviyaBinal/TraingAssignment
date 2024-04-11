@@ -12,10 +12,10 @@ namespace HalloDocWebService.Utils
 {
     public class SessionUtils
     {
-        private readonly IAdmin_Repository _repo ;
+        private readonly IAdmin_Repository _repo;
         public SessionUtils(IAdmin_Repository repo)
         {
-            _repo = repo; 
+            _repo = repo;
         }
 
         public static void SetLoggedUsers(ISession session, Aspnetuser u)

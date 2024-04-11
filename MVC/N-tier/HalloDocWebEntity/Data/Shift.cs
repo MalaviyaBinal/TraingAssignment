@@ -41,6 +41,10 @@ public partial class Shift
     [StringLength(20)]
     public string? Ip { get; set; }
 
+    [ForeignKey("Physicianid")]
+    [InverseProperty("Shifts")]
+    public virtual Physician Physician { get; set; } = null!;
+
     [InverseProperty("Shift")]
     public virtual ICollection<Shiftdetail> Shiftdetails { get; set; } = new List<Shiftdetail>();
 }

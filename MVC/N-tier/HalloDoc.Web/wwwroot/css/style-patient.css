@@ -219,7 +219,9 @@ nav {
     border-bottom: 3px solid #54d4d3 !important;
     --bs-nav-link-color: #54d4d3 !important;
 }
-
+.month_default_loading + div{
+    display:none !important;
+}
 .nav-item a {
     color: black;
     text-decoration: none;

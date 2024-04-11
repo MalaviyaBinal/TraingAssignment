@@ -37,7 +37,7 @@ namespace HalloDocWebRepo.Implementation
 
         public void addConciergeTable(Concierge con)
         {
-           _context.Concierges.Add(con);
+            _context.Concierges.Add(con);
             _context.SaveChanges();
         }
 
@@ -101,12 +101,12 @@ namespace HalloDocWebRepo.Implementation
         public Requestwisefile getRequestWiseFile(int id)
         {
             return _context.Requestwisefiles.Find(id);
-            
+
         }
 
         public List<Requestwisefile> getRequestWiseFileTolist(int id)
         {
-           return _context.Requestwisefiles.Where(u => u.Requestid == id).ToList();
+            return _context.Requestwisefiles.Where(u => u.Requestid == id).ToList();
         }
 
         public TokenRegister getTokenRegisterByToken(string token)
@@ -126,14 +126,15 @@ namespace HalloDocWebRepo.Implementation
 
         public void updateRequestTable(Request req)
         {
-           _context.Requests.Update(req);
+            _context.Requests.Update(req);
             _context.SaveChanges();
         }
 
         public bool ValidateUser(string usarname, string passwordhash)
         {
-            Aspnetuser user = _context.Aspnetusers.FirstOrDefault(u => u.Email == usarname && u.Passwordhash == passwordhash );
-            if (user == null) { 
+            Aspnetuser user = _context.Aspnetusers.FirstOrDefault(u => u.Email == usarname && u.Passwordhash == passwordhash);
+            if (user == null)
+            {
                 return false;
             }
             else
@@ -144,7 +145,7 @@ namespace HalloDocWebRepo.Implementation
 
         void IPatient_Repository.addRequestFileTable(Requestwisefile reqclient)
         {
-             _context.Requestwisefiles.Add(reqclient);
+            _context.Requestwisefiles.Add(reqclient);
         }
 
         Request IPatient_Repository.getFirstRequestTable(int id)
@@ -155,7 +156,7 @@ namespace HalloDocWebRepo.Implementation
         List<Requestwisefile> IPatient_Repository.getPatientDocument(int? id)
         {
             return _context.Requestwisefiles.Where(m => m.Requestid == id && m.Isdeleted == null).ToList();
-                         
+
         }
 
         int IPatient_Repository.getReqWiseFile(int requestid)

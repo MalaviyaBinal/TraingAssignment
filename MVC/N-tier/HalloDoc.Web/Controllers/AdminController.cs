@@ -66,10 +66,11 @@ namespace HalloDoc.Web.Controllers
         #endregion
 
         //[CustomAuthorize("Admin")]
-        public IActionResult AdminDashboardMyProfile()
+        public IActionResult AdminDashboardMyProfile(int id)
         {
-            AdminProfile model = _service.getAdminProfileData(HttpContext.Request.Cookies["userEmail"]);
-            return View(model);
+            if (id == 0)
+                return View(_service.getAdminProfileData(HttpContext.Request.Cookies["userEmail"]));
+            else return View(_service.getAdminData(id));
         }
         public IActionResult UserAccess()
         {
@@ -86,10 +87,10 @@ namespace HalloDoc.Web.Controllers
             //return View(_service.getHealthProfessionalList());
         }
 
-         public IActionResult ShowDeleteModal(int id, string acntType)
+        public IActionResult ShowDeleteModal(int id, string acntType)
         {
-            
-            return PartialView("_DeleteAccountModal",_service.openDeleteModal(id,acntType));
+
+            return PartialView("_DeleteAccountModal", _service.openDeleteModal(id, acntType));
         }
 
 
@@ -106,7 +107,7 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult DeleteAccessRole(int id)
         {
-            _service.deleteAccessRole(id); 
+            _service.deleteAccessRole(id);
             return RedirectToAction(nameof(AdminDashboardAccess));
         }
         public IActionResult DeletePhysician(int id)
@@ -150,11 +151,11 @@ namespace HalloDoc.Web.Controllers
         public IActionResult AdminDashboardRecords(AdminRecordsModel model)
         {
             model.ReqType = _service.GetRequestTypes();
-            
+
             return View(model);
         }
 
-        
+
         [HttpPost]
         public IActionResult _SearchRecordsTable(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr)
         {
@@ -318,7 +319,7 @@ namespace HalloDoc.Web.Controllers
             return RedirectToAction(nameof(AdminDashboard));
         }
 
-     
+
         public IActionResult CreateRole(int check)
         {
 
@@ -426,7 +427,7 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public ActionResult DashboardTables(int id, int check, string searchValue, int searchRegion, int pagesize, int pagenumber = 1)
         {
-                List<AdminDashboardTableModel> tabledata1 = _service.getDashboardTables(id, check);
+            List<AdminDashboardTableModel> tabledata1 = _service.getDashboardTables(id, check);
             AdminDashboardDataWithRegionModel model = new AdminDashboardDataWithRegionModel();
             model.physicians = _service.getPhysicianList();
             model.regions = _service.getRegionList();
@@ -459,7 +460,7 @@ namespace HalloDoc.Web.Controllers
             }
             switch (id)
             {
-               
+
                 case 2: return PartialView("_Pending", model);
                 case 3: return PartialView("_Active", model);
                 case 4: return PartialView("_Conclude", model);
@@ -585,10 +586,10 @@ namespace HalloDoc.Web.Controllers
             return RedirectToAction(nameof(AdminDashboardMyProfile));
         }
 
-        public IActionResult EditProviderDetail(int id)
+        public IActionResult EditProviderDetail(int id,string username)
         {
 
-            return View(_service.getProviderByAdmin(id));
+            return View(_service.getProviderByAdmin(id,username));
         }
         public ActionResult SendLink(AdminDashboardDataWithRegionModel info)
         {
@@ -671,7 +672,7 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult EmailLogs()
         {
-   
+
             return View();
         }
 
@@ -684,7 +685,7 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult SMSLogs()
         {
-          
+
             return View();
         }
         [HttpGet]
@@ -711,7 +712,7 @@ namespace HalloDoc.Web.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult _BlockHistoryTable()
+        public IActionResult _BlockHistoryTable(string searchstr, string date, string email)
         {
 
             return View(_service.getBlockHistoryData());
@@ -753,6 +754,31 @@ namespace HalloDoc.Web.Controllers
         {
             _service.UpdateShiftDetailsStatus(id);
             return RedirectToAction(nameof(ProviderSchedulingDayWise));
+        }
+        public IActionResult ShiftForReview(int reg = 0)
+        {
+
+            return View(_service.getReviewShiftData(reg));
+        }
+        public IActionResult DeleteShift(string[] selectedShifts)
+        {
+            _service.DeletShift(selectedShifts);
+            return RedirectToAction(nameof(ProviderSchedulingDayWise));
+        }
+        public IActionResult ApproveShift(string[] selectedShifts)
+        {
+            _service.ApproveShift(selectedShifts);
+            return RedirectToAction(nameof(ProviderSchedulingDayWise));
+        }
+        public IActionResult ProviderOnCall(int reg = 0)
+        {
+
+            return View(_service.getProviderOnCall(reg));
+        }
+        public IActionResult SaveNotificationStatus(string[] phyList)
+        {
+            _service.SaveNotificationStatus(phyList);
+            return RedirectToAction(nameof(AdminDashboardProviders));
         }
     }
 }

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using HalloDocWebService.Authentication;
-using HalloDocWebService.Utils;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 using HalloDocWebServices.Implementation;
@@ -22,14 +21,14 @@ namespace HalloDoc.Web.Controllers
             _service = service;
             _jwtservice = jwtservice;
         }
-        public async Task< IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
         public IActionResult Profile()
         {
             var profile = _service.ReturnRequest(HttpContext.Request.Cookies["userEmail"]);
-           
+
             return View(profile);
         }
         public IActionResult SubmitPatientRequest()
@@ -60,13 +59,13 @@ namespace HalloDoc.Web.Controllers
             _service.sendMail(info);
             return View();
         }
-        [CustomAuthorize("patient") ]
+        [CustomAuthorize("patient")]
         public async Task<IActionResult> PatientDashboard()
         {
             var request = HttpContext.Request;
             var jwt = request.Cookies["jwt"];
             _jwtservice.ValidateToken(jwt, out JwtSecurityToken jwtToken);
-           Claim claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "userEmail");
+            Claim claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "userEmail");
             if (claim.Value != null)
             {
                 var profile = _service.ReturnRequest(claim.Value);
@@ -76,26 +75,27 @@ namespace HalloDoc.Web.Controllers
             }
             return Problem("Entityset Aspnetuser is NULL");
         }
-        [CustomAuthorize("LoginStr") ]
+        [CustomAuthorize("LoginStr")]
         public IActionResult PatientLogin()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult  PatientLogin(loginModel user)
+        public IActionResult PatientLogin(loginModel user)
         {
             //var u = new AuthManager().Login(user.Usarname, user.Passwordhash);
-                bool isRegistered = _service.ValidateUser(user.Usarname, user.Passwordhash);
-                if (isRegistered) {
-                    //SessionUtils.SetLoggedUsers(HttpContext.Session, u);
-                    var userobj = _service.getAspnetuserByEmail(user.Usarname);
-                    var jwttoken = _jwtservice.GenerateToken(userobj);
-                    //Response.Cookies.Append("jwt", jwttoken);
-                    Response.Cookies.Append("jwt", jwttoken ,new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
-                    Response.Cookies.Append("userName", userobj.Usarname, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
-                    Response.Cookies.Append("userEmail", userobj.Email, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
-                    return RedirectToAction(nameof(AdminController.AdminDashboard),"Admin");
-                }
+            bool isRegistered = _service.ValidateUser(user.Usarname, user.Passwordhash);
+            if (isRegistered)
+            {
+                //SessionUtils.SetLoggedUsers(HttpContext.Session, u);
+                var userobj = _service.getAspnetuserByEmail(user.Usarname);
+                var jwttoken = _jwtservice.GenerateToken(userobj);
+                //Response.Cookies.Append("jwt", jwttoken);
+                Response.Cookies.Append("jwt", jwttoken, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
+                Response.Cookies.Append("userName", userobj.Usarname, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
+                Response.Cookies.Append("userEmail", userobj.Email, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
+                return RedirectToAction(nameof(AdminController.AdminDashboard), "Admin");
+            }
             return View();
         }
         public IActionResult PatientViewDocument(int? Id = 0)
@@ -107,7 +107,7 @@ namespace HalloDoc.Web.Controllers
         public IActionResult CreateAccount(string token)
         {
             loginModel model = _service.createAccountService(token);
-            if(model.Usarname == null)
+            if (model.Usarname == null)
                 return Problem("Invalid request");
             return View(model);
         }
@@ -123,11 +123,11 @@ namespace HalloDoc.Web.Controllers
             if (fileToUpload != null && fileToUpload.Length > 0)
             {
                 _service.uploadFile(fileToUpload, (int)HttpContext.Session.GetInt32("req_id"));
-              
+
             }
-           
-                return RedirectToAction(nameof(PatientViewDocument), new {Id = (int)HttpContext.Session.GetInt32("req_id") });
-           
+
+            return RedirectToAction(nameof(PatientViewDocument), new { Id = (int)HttpContext.Session.GetInt32("req_id") });
+
         }
         [Route("/Home/RequestPatient/{email}")]
         [Route("/Home/RequestBusiness/{email}")]
@@ -137,7 +137,7 @@ namespace HalloDoc.Web.Controllers
         public IActionResult CheckEmailExists(string email)
         {
             var emailExists = _service.getAspnetUserAny(email);
-            if(emailExists == false)
+            if (emailExists == false)
             {
                 _service.sendMailForCreateAccount(email);
             }
@@ -145,7 +145,7 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> CreatePatientByBusiness(BusinessPatientRequest info)
         {
-            _service.createPatientByBusiness(info);            
+            _service.createPatientByBusiness(info);
             return RedirectToAction(nameof(SubmitPatientRequest));
         }
         public async Task<IActionResult> CreatePatientByConierge(ConciergePatientRequest info)

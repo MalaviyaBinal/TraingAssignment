@@ -15,7 +15,7 @@ namespace HalloDocWebRepo.Interface
         public void addConciergeTable(Concierge con);
         public void addRequestBusinessTable(Requestbusiness reqbusiness);
         public void addRequestClientTable(Requestclient reqclient);
-         public void addRequestConciergeTable(Requestconcierge reqCon);
+        public void addRequestConciergeTable(Requestconcierge reqCon);
         public void addRequestFileTable(Requestwisefile reqclient);
         public void addRequestTable(Request req);
         void addTokenRegister(TokenRegister tokenRegister);
@@ -38,6 +38,6 @@ namespace HalloDocWebRepo.Interface
         void updateRequestTable(Request req);
         public void updateUserTable(User user);
         public bool ValidateUser(string usarname, string passwordhash);
-        
+
     }
 }

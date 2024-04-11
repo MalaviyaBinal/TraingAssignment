@@ -1,197 +1,89 @@
-﻿@*@model HalloDocWebEntity.ViewModel.SchedulingViewModel
-@using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor Accessor
+﻿@model HalloDocWebEntity.ViewModel.ShiftDetailsModel
 @{
-    ViewBag.tab = "partners";
+    Layout = "_AdminHeader";
+    bool flag = false;
+    bool flag1 = false;
 }
-
-<div class="p-3 boxshadow">
+<div class="container ">
     <div class="row">
+        <div class="col-12 p-0">
+            <div class="d-flex justify-content-between mt-3">
+                <h4 class="mt-3">MDs On Call</h4>
+                <a class="text-start text-info text-decoration-none " asp-action="ProviderSchedulingDayWise" asp-controller="Admin">
+                    <button class="btn btn-white  text-info border-info rounded ">
+                        <i class="fa-solid  fa-less-than"></i> Back
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="row align-items-center justify-content-between my-3">
+            <div class="col-md-4 col-sm-12 p-0 mb-3">
+                <select class="form-select form-select-lg" id="Regions">
+                    <option selected><i class="fa fa-search text-muted position-absolute" style="padding-top:10px; padding-left:10px;"></i>All Regions</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-6 text-end">
+                 <a  asp-action="ProviderSchedulingDayWise" asp-controller="Admin"><button class="btn btn-info text-white me-1">Calender View</button></a>
+                <a asp-action="ShiftForReview" asp-controller="Admin"><button class="btn btn-info text-white">Shifts for Review</button></a>
+            </div>
+        </div>
+        <div class="container bg-white shadow-lg rounded-2">
+            <div class="row">
 
-        @{
-            bool flag = false;
-        }
-        <span id="dis" class="h4 mb-2">MD'S On Call</span>
-        @for (int i = 0; i < Model.MDsOnCall.Count(); i++)
-        {
-
-            if (@Model.MDsOnCall[i].IsBusy)
-            {
-
-                <div class="d-flex col-4 align-items-center mb-2">
-                    @{
-                        var path = "D:\\Projects\\HalloDoc_Application\\MVC\\HalloDoc\\wwwroot\\PhyFiles\\" + @Model.MDsOnCall[i].PhysicianId + "\\ProfilePhoto.png";
-                    }
-                    @if (File.Exists(path))
+                <div class="h5 my-4">MD's On Call</div>
+                @foreach (var i in Model.physicians)
+                {
+                    foreach (var s in i.Shifts)
                     {
-                        <div> <img width="50px" height="50px" src="~/PhyFiles/@Model.MDsOnCall[i].PhysicianId/ProfilePhoto.png" /></div>
+
+                        if (s.Shiftdetails.Count() != 0)
+                        {
+                            flag = true;
+                        }
 
                     }
-                    else
+                    if (flag)
                     {
-                        <div> <img width="50px" height="50px" src="~/PhyFiles/images.png" /></div>
+                        var str = i.Photo != null ? "/PhysicianDoc/" + i.Physicianid + "/" + i.Photo : "/PhysicianDoc/" + "userLogo.png";
+                        <div class="col-sm-12 col-md-4 mb-3 ">
+                            <img src=@str style="height : 50px;width : 50px" />
+                            <span>@i.Firstname  @i.Lastname</span>
+                        </div>
                     }
-                    <div class="mx-1 my-1"> Dr.@Model.MDsOnCall[i].PhysicianName </div>
+                    flag = false;
+                }
 
-                </div>
-                flag = true;
-            }
-            <div id="msg" class="col-10"></div>
+                <div class="h5 my-4">Physician Off Duty</div>
+                @foreach (var i in Model.physicians)
+                {
+                    if (i.Shifts.Count() == 0)
+                        flag1 = true;
 
-        }
-
-        @{
-            bool flag1 = false;
-        }
-        <span class="h4 mb-2">MD'S Off Duty </span>
-        @for (int i = 0; i < Model.MDsOnCall.Count(); i++)
-        {
-
-            if (@Model.MDsOnCall[i].IsBusy == false)
-            {
-
-                <div class="d-flex col-4 align-items-center mb-2">
-                    @{
-                        var path = "D:\\Projects\\HalloDoc_Application\\MVC\\HalloDoc\\wwwroot\\PhyFiles\\" + @Model.MDsOnCall[i].PhysicianId + "\\ProfilePhoto.png";
-                    }
-                    @if (File.Exists(path))
+                    foreach (var s in i.Shifts)
                     {
-                        <div> <img width="50px" height="50px" src="~/PhyFiles/@Model.MDsOnCall[i].PhysicianId/ProfilePhoto.png" /></div>
+                        if (s.Shiftdetails.Count() != 0)
+                        {
+                            flag1 = false;
+                            break;
+                        }
+                        else flag1 = true;
 
                     }
-                    else
+                    if (flag1)
                     {
-                        <div> <img width="50px" height="50px" src="~/PhyFiles/images.png" /></div>
+                        var str = i.Photo != null ? "/PhysicianDoc/" + i.Physicianid + "/" + i.Photo : "/PhysicianDoc/" + "userLogo.png";
+                        <div class="col-sm-12 col-md-4 mb-3">
+                            <img src=@str style="height : 50px;width : 50px" />
+                            <span>@i.Firstname  @i.Lastname</span>
+                        </div>
                     }
-                    <div class="mx-1 my-1"> Dr.@Model.MDsOnCall[i].PhysicianName </div>
+                    flag1 = false;
+                }
+            </div>
 
-                </div>
-                flag1 = true;
-
-            }
-
-
-        }
-        <div id="msg1" class="col-10"></div>
-
-
-    </div>
-
-    <div>
+        </div>
     </div>
 </div>
-
-
-
-
 <script>
-    if (@flag.ToString().ToLower()) {
-        document.getElementById('dis').style.display = "block";
-    }
-    else {
-        // document.getElementById('dis').style.display = "none";
-        document.getElementById('msg').innerHTML = "!NO anyone Doctor are on duty now";
-
-    }
-    if (@flag1.ToString().ToLower()) {
-        document.getElementById('dis').style.display = "block";
-    }
-    else {
-        // document.getElementById('dis').style.display = "none";
-        document.getElementById('msg1').innerHTML = "!NO anyone Doctor are off duty now";
-
-    }
-    function oncheck() {
-
-
-        var check = document.getElementById('checkall').checked;
-        if (check) {
-            var len = document.getElementsByClassName('checkboxes');
-            for (var i = 0; i < len.length; i++) {
-                len[i].checked = true;
-            }
-        } else {
-            var len = document.getElementsByClassName('checkboxes');
-            for (var i = 0; i < len.length; i++) {
-                len[i].checked = false;
-            }
-        }
-        console.log(check);
-    }
-
-    function ApproveShifts() {
-        debugger;
-        var shifts = [];
-        var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
-        console.log(checkboxes);
-
-
-        checkboxes.forEach(function (checkbox) {
-            shifts.push(checkbox.getAttribute('data-shiftid'));
-        });
-
-        if (shifts.length > 0) {
-
-
-            $.ajax({
-                url: "/Admin/ApproveShifts",
-                data: { shifts: shifts },
-                method: "POST",
-                success: function () {
-
-
-                    location.reload();
-
-                    //window.onload(getLocation());
-                },
-                error: function () {
-                    alert("No Projects Found");
-
-                }
-            });
-        }
-        else {
-            alert("Please Select The Shift")
-        }
-    };
-
-    function DeleteShifts() {
-        debugger;
-        var shifts = [];
-        var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
-        console.log(checkboxes);
-
-
-        checkboxes.forEach(function (checkbox) {
-            shifts.push(checkbox.getAttribute('data-shiftid'));
-        });
-
-        if (shifts.length > 0) {
-
-
-            $.ajax({
-                url: "/Admin/DeleteShifts",
-                data: { shifts: shifts },
-                method: "POST",
-                success: function () {
-
-
-                    location.reload();
-
-                    //window.onload(getLocation());
-                },
-                error: function () {
-                    alert("No Projects Found");
-
-                }
-            });
-        }
-        else {
-            alert("Please Select The Shift")
-        }
-    };
+    document.getElementById("provider1").classList.add("active");
 </script>
-
-
-
-*@

@@ -1,0 +1,181 @@
+﻿@model HalloDocWebEntity.ViewModel.ShiftDetailsModel
+@{
+    Layout = "_AdminHeader";
+}
+<style>
+    .form-check-input:checked {
+        background-color: #0dcaf0 !important;
+        border-color: #0dcaf0 !important;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h4 class="mt-3 heading">Requested Shifts</h4>
+                <a class="text-start text-info text-decoration-none " asp-action="ProviderSchedulingDayWise" asp-controller="Admin">
+                    <button class="btn btn-white  text-info border-info rounded ">
+                        <i class="fa-solid  fa-less-than"></i> Back
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="border rounded shadow bg-white p-3">
+
+        <div class="d-md-flex justify-content-between align-items-center mb-3">
+            <form role="search" class="d-flex align-items-center border border-rounded rounded border-info bg-white mb-3">
+                <i type="search" class="bi bi-search px-2"></i>
+                <select asp-for=RegionId class="form-select border-0"  onchange="ShiftReview(this.value)" id="RegionDropdown">
+                    <option  value="0">All Region</option>
+                    @foreach(var i in Model.regions)
+                    {
+                        <option  value=@i.Regionid>@i.Name</option>
+                    }
+
+                </select>
+            </form>
+            <div class="justify-content-between">
+                <a asp-action="" asp-controller=Admin type="button" class="btn btn-success ms-1">
+                    <span class="d-md-block d-none">View Current Month Shifts</span>
+                    <span class="d-block d-md-none"><i class="bi bi-plus text-info fs-4"></i></span>
+                </a>
+
+                <button type="button" class="btn btn-success ms-1" id="approveBtn" onclick="approveShifts()">
+                    <span class="d-md-block d-none">Approve Selected</span>
+                    <span class="d-block d-md-none"><i class="bi bi-plus text-info fs-4"></i></span>
+                </button>
+
+                <button type="button" class="btn btn-danger ms-1" id="deleteBtn" onclick="deleteshifts()">
+                    <span class="d-md-block d-none">Delete Selected</span>
+                    <span class="d-block d-md-none"><i class="bi bi-plus text-info fs-4"></i></span>
+                </button>
+            </div>
+        </div>
+
+
+        <div class="table-responsive d-lg-block d-none">
+            <table class="table">
+                <thead class="bg-body-tertiary">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <input type="checkbox" id="mainCheckbox" style="width:20px;height:20px" onclick="selectAllCheckboxes()" />
+
+                        </th>
+                        <th>
+                            Staff
+                        </th>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Region</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                        @foreach (var details in Model.shiftdetail)
+                        {
+                        <input type="hidden" id="countcheckbox" value="@Model.shiftdetail.Count" />
+                        <tr class="align-middle">
+
+                            <td>
+                                <input type="checkbox" class="Subcheckbox" style="width:20px;height:20px" onclick="checkAllCheckboxes()"  value="@details.Shiftdetailid">
+
+                            </td>
+                            <td>
+                                    @details.Shift.Physician.Firstname @details.Shift.Physician.Lastname
+                            </td>
+
+
+                            <td>
+                                    @details.Shiftdate.ToString("MMM dd,yyyy")
+                            </td>
+
+                            <td>
+                                    @details.Starttime - @details.Endtime
+                            </td>
+                            <td>@details.Shift.Physician.Region.Name</td>
+                        </tr>
+                            
+                        }
+
+                </tbody>
+
+            </table>
+        </div>
+      
+    </div>
+</div>
+
+<script>
+    function selectAllCheckboxes() {
+        var mainCheckbox = document.querySelector('#mainCheckbox'); // Replace with your actual main checkbox ID
+        var checkboxes = document.querySelectorAll('.Subcheckbox'); // Replace with your checkbox class
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = mainCheckbox.checked;
+        });
+    }
+    function checkAllCheckboxes() {
+        var count = document.getElementById("countcheckbox").value;
+        console.log(count);
+        var all = 0;
+        for (var i = 0; i < count; i++) {
+            if (document.getElementById("subchk_" + i).checked) {
+                all++;
+            } else {
+                break;
+            }
+        }
+        if (all == count) {
+            document.getElementById("mainCheckbox").checked = true;
+        }
+        else {
+            document.getElementById("mainCheckbox").checked = false;
+        }
+    }
+
+    function approveShifts() {
+        var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
+        var shifts = [];
+        checkboxes.forEach(function (checkbox) {
+            shifts.push(parseInt(checkbox.getAttribute('value')));
+        });
+        if (shifts.length > 0) {
+            window.location.href = "/Admin/ApproveShift?selectedShifts=" + shifts;
+
+        }
+        else {
+            Swal.fire('Please select atleast one shift to  approve.');
+        }
+
+    }
+
+
+
+    function deleteshifts() {
+        var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
+        var shifts = [];
+        checkboxes.forEach(function (checkbox) {
+            shifts.push(parseInt(checkbox.getAttribute('value')));
+        });
+
+        if (shifts.length > 0) {
+            window.location.href = "/Admin/DeleteShift?selectedShifts=" + shifts;
+
+        }
+        else {
+            Swal.fire('Please select atleast one shift to delete.');
+        }
+
+    }
+    
+    function ShiftReview(regionid) {
+  
+        window.location.href = "/Admin/ShiftForReview?reg=" + regionid;
+    }
+
+</script>
+<script>
+    document.getElementById("provider1").classList.add("active");
+</script>
