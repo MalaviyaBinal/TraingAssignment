@@ -59,7 +59,7 @@ namespace HalloDoc.Web.Controllers
             _service.sendMail(info);
             return View();
         }
-        [CustomAuthorize("patient")]
+        [CustomAuthorize("Patient")]
         public async Task<IActionResult> PatientDashboard()
         {
             var request = HttpContext.Request;

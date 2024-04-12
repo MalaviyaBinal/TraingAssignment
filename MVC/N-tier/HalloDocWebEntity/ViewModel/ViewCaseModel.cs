@@ -6,7 +6,7 @@ namespace HalloDocWebEntity.ViewModel
     public class ViewCaseModel
     {
         public string Notes { get; set; }
-
+        public int requestId { get; set; }
         public string FName { get; set; }
         public string LName { get; set; }
         public DateTime DOB { get; set; }

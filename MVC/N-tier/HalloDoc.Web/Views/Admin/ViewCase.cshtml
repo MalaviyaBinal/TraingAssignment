@@ -1,5 +1,4 @@
-﻿
-@model HalloDocWebEntity.ViewModel.ViewCaseModel
+﻿@model HalloDocWebEntity.ViewModel.ViewCaseModel
 
 @{
     Layout = "_AdminHeader";
@@ -15,95 +14,118 @@
     }
 </style>
 
-    <div class="container ">
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-between mt-3">
-                    <h4 class="mt-3">New Request</h4>
-                
+<div class="container ">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between mt-3">
+                <h4 class="mt-3">New Request</h4>
+
                 <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
-                  
-                        <button  class="btn btn-white  text-info border-info rounded ">
-                            <i class="fa-solid  fa-less-than"></i> Back
-                        </button>
-                    </a>
-                </div>
-                <form method="post" id="enable">
-                    <div class="container rounded bg-white shadow py-3">
-                        <h5 class="mb-3">Patient Information</h5>
-                        <div class="text-muted">Confirmation Number</div>
-                        <div class="text-info mb-3">Number545454</div>
-                        <div class="row">
-                            <div class="form-floating mb-3 text-muted">
+
+                    <button class="btn btn-white  text-info border-info rounded ">
+                        <i class="fa-solid  fa-less-than"></i> Back
+                    </button>
+                </a>
+            </div>
+            <form method="post" id="enable">
+                <div class="container rounded bg-white shadow py-3">
+                    <h5 class="mb-3">Patient Information</h5>
+                    <div class="text-muted">Confirmation Number</div>
+                    <div class="text-info mb-3">Number545454</div>
+                    <div class="row">
+                        <div class="form-floating mb-3 text-muted">
                             <textarea class="form-control" id="floatingTextarea2" style="height: 100px">@Model.Notes</textarea>
-                                <label for="floatingTextarea2" class="ps-4">Patient Notes</label>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <label for="floatingTextarea2" class="ps-4">Patient Notes</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input value="@Model.FName" name="first_name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Firstname">
-                                <label for="exampleFormControlInput1" class="form-label ps-4">Firstname</label>
-                                <span class="text-danger"></span>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Firstname</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input value="@Model.LName" name="last_name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Lastname">
-                                <label for="exampleFormControlInput1" class="form-label ps-4">Lastname</label>
-                                <span class="text-danger"></span>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Lastname</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input value="@Model.DOB" type="date" name="dob" class="form-control" id="dob" placeholder="Date Of Birth">
-                                <label for="exampleFormControlInput1" class="form-label ps-4">Date Of Birth</label>
-                               
-                            </div>
-                            <div class="col-sm-10 col-md-4 col-xl-5 col-9 form-floating mb-3 text-muted">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Date Of Birth</label>
+
+                        </div>
+                        <div class="col-sm-10 col-md-4 col-xl-5 col-9 form-floating mb-3 text-muted">
                             <input value="@Model.Phonenumber" id="phone" class="form-control inp2" type="tel" placeholder="Phone Number">
-                            </div>
-                            <div class=" col-sm-2 col-md-2 col-xl-1 col-1 mb-3 ">
-                                <button class="border-0 bg-white">
-                                    <div class="rounded p-2" style="border: solid thin #4dd2ff;">
-                                        <i class="fa-solid fa-phone fa-lg rounded " style="color: #4ddfff; padding-top:20px !important;"></i>
-                                    </div>
-                                </button>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                        </div>
+                        <div class=" col-sm-2 col-md-2 col-xl-1 col-1 mb-3 ">
+                            <button class="border-0 bg-white">
+                                <div class="rounded p-2" style="border: solid thin #4dd2ff;">
+                                    <i class="fa-solid fa-phone fa-lg rounded " style="color: #4ddfff; padding-top:20px !important;"></i>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input value="@Model.Email" name="email" type="email" class="form-control" id="email" placeholder="Email">
-                                <label for="email" class="form-label ps-4">Email</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 h5 mb-3">
-                                Location Information
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" value="@Model.RegionName" name="Address-1" class="form-control" id="Address-1" placeholder="Address 1">
-                                <label for="exampleFormControlInput1" class="form-label ps-4">Region</label>
-                            </div>
-                            <div class="col-sm-10 col-md-4 col-xl-5 col-9 form-floating mb-3 text-muted">
-                            <input type="text" value="@Model.Address" name="Address-2" class="form-control" id="Address-2" placeholder="Address 2">
-                                <label for="exampleFormControlInput1" class="form-label ps-4">Address</label>
-                            </div>
-                            <div class="col-sm-2 col-md-2 col-xl-1 col-1 mb-3 ">
-                                <button class="border-0 bg-white">
-                                    <div class="rounded p-2" style="border: solid thin #4dd2ff;">
-                                        <i class="fa-solid fa-location-dot fa-xl" style="color: #4ddfff; padding-top:20px !important;"></i>
-                                    </div>
-                                </button>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                                <input type="text" name="city" class="form-control" id="city" placeholder="City">
-                                <label for="exampleFormControlInput1" class="form-label ps-4">Room #</label>
-                            </div>
-                        </div>
-                        <div class="text-end pb-3">
-                        <button class="btn btn-info text-white" onclick="assigncase(this)" value="@Model" type="button">Assign</button>
-                            <button class="btn btn-info text-white" onclick="enbledata()" type="button">View Notes</button>
-                            <button class="btn btn-danger text-white" onclick="enbledata()" type="button">Cancel</button>
+                            <label for="email" class="form-label ps-4">Email</label>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="row">
+                        <div class="col-12 h5 mb-3">
+                            Location Information
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input type="text" value="@Model.RegionName" name="Address-1" class="form-control" id="Address-1" placeholder="Address 1">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Region</label>
+                        </div>
+                        <div class="col-sm-10 col-md-4 col-xl-5 col-9 form-floating mb-3 text-muted">
+                            <input type="text" value="@Model.Address" name="Address-2" class="form-control" id="Address-2" placeholder="Address 2">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Address</label>
+                        </div>
+                        <div class="col-sm-2 col-md-2 col-xl-1 col-1 mb-3 ">
+                            <button class="border-0 bg-white">
+                                <div class="rounded p-2" style="border: solid thin #4dd2ff;">
+                                    <i class="fa-solid fa-location-dot fa-xl" style="color: #4ddfff; padding-top:20px !important;"></i>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
+                            <input type="text" name="city" class="form-control" id="city" placeholder="City">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Room #</label>
+                        </div>
+                    </div>
+                    <div class="text-end pb-3 justify-content-end">
+                        <button class="btn btn-info text-white" onclick="assigncase(this)" value="@Model.requestId" type="button">Assign</button>
+                        <a  asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@Model.requestId"><button class="btn btn-info text-white" type="button">View Notes</button></a>
+                        <a class="text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);"><button class="btn btn-danger text-white" onclick="enbledata()" type="button">Cancel</button></a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+<div id="modalpopup">
+</div>
 
+<script>
+    function assigncase(element) {
 
+        var id = element.value;
+        console.log(id);
+        $.ajax({
+            url: "/Admin/AssignCaseModal",
+            data: { 'id': id, 'regid': 0 },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modalpopup").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
+</script>
 <script>
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");

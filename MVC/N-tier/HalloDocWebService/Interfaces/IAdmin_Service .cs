@@ -88,7 +88,7 @@ namespace HalloDocWebServices.Interfaces
         SchedulingViewModel openShiftModel(int regionid);
         void CreateShift(SchedulingViewModel info);
         ShiftDetailsModel getSchedulingData(int reg);
-        AdminRecordsModel getBlockHistoryData();
+        AdminRecordsModel getBlockHistoryData(string searchstr, DateTime date, string email, string mobile);
         void unblockRequest(int id, string email);
         void deleteRequest(int id);
         List<PatientHistoryTable> PatientHistoryTable(string? fname, string? lname, string? email, string? phone);
@@ -105,5 +105,6 @@ namespace HalloDocWebServices.Interfaces
         void DTYSupportRequest(string notes);
         void AddVendor(SendOrderModel model);
         SendOrderModel getVenderData();
+        int getRequestTypeByRequestID(int id);
     }
 }

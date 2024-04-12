@@ -4,7 +4,9 @@ using HalloDocWebEntity.ViewModel;
 using HalloDocWebRepo.Interface;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections;
+using System.Globalization;
 using System.Numerics;
 using System.Xml.Linq;
 
@@ -608,26 +610,30 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges(true);
         }
 
-        public List<Blockrequest> getBlockData(string searchstr, string date, string email, string mobile)
+        public List<Blockrequest> getBlockData(string searchstr, DateTime date, string email, string mobile)
         {
-            var tabledata= _context.Blockrequests.Include(e => e.Request).ThenInclude(m => m.Requestclients);
+            IQueryable<Blockrequest> tabledata = _context.Blockrequests.Include(e => e.Request).ThenInclude(m => m.Requestclients); 
             
-            //if (!string.IsNullOrEmpty(searchstr))
-            //{
-            //    tabledata = tabledata.Where(e => e.Request.Requestclients.First().Firstname.ToLower().Contains(searchstr.ToLower()));
-            //}
-            //if (!string.IsNullOrEmpty(lname))
-            //{
-            //    tabledata = tabledata.Where(e => e.Lastname.ToLower().Contains(lname.ToLower()));
-            //}
-            //if (!string.IsNullOrEmpty(email))
-            //{
-            //    tabledata = tabledata.Where(e => e.Email.ToLower().Contains(email.ToLower()));
-            //}
-            //if (!string.IsNullOrEmpty(phone))
-            //{
-            //    tabledata = tabledata.Where(e => e.phone.Contains(phone));
-            //}
+           
+            if (date != DateTime.MinValue && tabledata != null)
+            {
+
+                tabledata = tabledata.Where(x => DateOnly.FromDateTime(x.Createddate.Value) == DateOnly.FromDateTime(date));
+
+            }
+            if (!string.IsNullOrEmpty(email) && tabledata != null)
+            {
+                tabledata = tabledata.Where(e => e.Email.ToLower().Contains(email.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(mobile) && tabledata != null)
+            {
+                tabledata = tabledata.Where(e => e.Phonenumber.Contains(mobile));
+            }
+            if (!string.IsNullOrEmpty(searchstr) && tabledata != null)
+            {
+                tabledata = tabledata.Where(e => e.Request.Requestclients.First().Firstname.ToLower().Contains(searchstr.ToLower()) || e.Request.Requestclients.First().Lastname.ToLower().Contains(searchstr.ToLower()));
+            }
+
             return tabledata.ToList();
         }
 
@@ -745,22 +751,22 @@ namespace HalloDocWebRepo.Implementation
 
         public List<ShiftDetailsModel> getshiftDetail(int reg)
         {
-            if(reg == 0)
-             return _context.Shiftdetails.Where(e => e.Isdeleted != new BitArray(1, true))
-                .Include(e => e.Shift)
-                .ThenInclude(e => e.Physician).ThenInclude(e => e.Region).Select(e =>
-                    new ShiftDetailsModel
-                    {
-                        PhysicianName = e.Shift.Physician.Firstname + " " + e.Shift.Physician.Lastname,
-                        Physicianid = e.Shift.Physician.Physicianid,
-                        RegionName = e.Shift.Physician.Region.Name,
-                        Status = e.Status,
-                        Starttime = e.Starttime,
-                        Endtime = e.Endtime,
-                        Shiftdate = e.Shiftdate,
-                        Shiftdetailid = e.Shiftdetailid,
-                    }
-                ).ToList();
+            if (reg == 0)
+                return _context.Shiftdetails.Where(e => e.Isdeleted != new BitArray(1, true))
+                   .Include(e => e.Shift)
+                   .ThenInclude(e => e.Physician).ThenInclude(e => e.Region).Select(e =>
+                       new ShiftDetailsModel
+                       {
+                           PhysicianName = e.Shift.Physician.Firstname + " " + e.Shift.Physician.Lastname,
+                           Physicianid = e.Shift.Physician.Physicianid,
+                           RegionName = e.Shift.Physician.Region.Name,
+                           Status = e.Status,
+                           Starttime = e.Starttime,
+                           Endtime = e.Endtime,
+                           Shiftdate = e.Shiftdate,
+                           Shiftdetailid = e.Shiftdetailid,
+                       }
+                   ).ToList();
             else
                 return _context.Shiftdetails.Where(e => e.Isdeleted != new BitArray(1, true) && e.Regionid == reg)
                 .Include(e => e.Shift)
@@ -802,7 +808,7 @@ namespace HalloDocWebRepo.Implementation
         }
         public IQueryable<PatientHistoryTable> GetPatientHistoryTable(string? fname, string? lname, string? email, string? phone)
         {
-            IQueryable<PatientHistoryTable> tabledata =_context.Users.Select(u =>
+            IQueryable<PatientHistoryTable> tabledata = _context.Users.Select(u =>
                                                          new PatientHistoryTable
                                                          {
                                                              aspId = u.Userid,

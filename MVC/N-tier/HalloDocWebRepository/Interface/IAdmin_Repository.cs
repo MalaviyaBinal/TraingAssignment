@@ -82,7 +82,7 @@ namespace HalloDocWebRepo.Interface
         void updateHealthProfessionalTable(Healthprofessional vender);
         Role getAccessroleById(int id);
         void updateRoleTable(Role role);
-        List<Blockrequest> getBlockData();
+        List<Blockrequest> getBlockData(string searchstr, DateTime date, string email, string mobile);
         List<Requesttype> getRequestTypeList();
         List<Requestclient> getRequestClientList();
         List<Requestnote> getREquestNotesList();

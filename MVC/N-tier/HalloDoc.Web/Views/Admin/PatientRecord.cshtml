@@ -21,7 +21,12 @@
         <div class="col-12">
             <div class="container mt-5 ps-1 w-100 d-flex justify-content-between">
                 <h4 class="mt-3">Patient History</h4>
-                <a class="btn bg-transparent border-info text-info" asp-action="PatientHistory" asp-controller="Admin">< Back</a>
+
+                <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
+                    <button class="btn btn-white  text-info border-info rounded ">
+                        <i class="fa-solid  fa-less-than"></i> Back
+                    </button>
+                </a>
             </div>
             <div class="container  rounded bg-white shadow py-3 mb-5 mt-3">
                 <div class="table-responsive w-100">

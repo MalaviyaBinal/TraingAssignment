@@ -64,7 +64,7 @@
     });
     
         $("#RegionSelect").change(function () {
-            
+        $(".modal-backdrop").remove()
             var regionid = $('#RegionSelect').val()
             var reqid = '@TempData["reqid"]';
             console.log(regionid);

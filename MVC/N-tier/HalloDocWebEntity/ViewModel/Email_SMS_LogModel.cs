@@ -15,5 +15,6 @@ namespace HalloDocWebEntity.ViewModel
         public string sent { get; set; }
         public string sentTries { get; set; }
         public string ConfirmationNum { get; set; }
+        public int LogID { get; set; }
     }
 }

@@ -535,6 +535,7 @@ namespace HalloDocWebServices.Implementation
             model.Phonenumber = data.Phonenumber;
             model.Email = data.Email;
             model.RegionName = region.Name;
+            model.requestId = id;
             model.Address = data.Street + " " + data.City + " " + data.State + " " + data.Zipcode;
             return model;
         }
@@ -1428,6 +1429,7 @@ namespace HalloDocWebServices.Implementation
                 string storedName = log.Emailtemplate.Substring(startIndex, endIndex - startIndex);
                 Email_SMS_LogModel emaillog = new Email_SMS_LogModel
                 {
+                    LogID = log.Emaillogid,
                     Receipient = storedName,
                     Actions = log.Action,
                     RoleName = log.Roleid.ToString(),
@@ -1456,6 +1458,7 @@ namespace HalloDocWebServices.Implementation
                 string storedName = log.Smstemplate.Substring(startIndex, endIndex - startIndex);
                 Email_SMS_LogModel emaillog = new Email_SMS_LogModel
                 {
+                    LogID = log.Smslogid,
                     Receipient = storedName,
                     Actions = log.Action,
                     RoleName = log.Roleid.ToString(),
@@ -1599,7 +1602,7 @@ namespace HalloDocWebServices.Implementation
             return model;
         }
 
-        public AdminRecordsModel getBlockHistoryData(string searchstr, string date, string email, string mobile)
+        public AdminRecordsModel getBlockHistoryData(string searchstr, DateTime date, string email, string mobile)
         {
             AdminRecordsModel model = new();
             model.blockRequests = _repository.getBlockData(searchstr, date, email, mobile);
@@ -1847,6 +1850,12 @@ namespace HalloDocWebServices.Implementation
             SendOrderModel model = new();
             model.professions = _repository.getVenderDetail();
             return model;
+        }
+
+        public int getRequestTypeByRequestID(int id)
+        {
+            var req = _repository.getRequestByID(id);
+            return req.Requesttypeid;
         }
     }
 }

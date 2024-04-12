@@ -125,7 +125,7 @@ namespace HalloDoc.Web.Controllers
         {
             return View(_service.getPhysicianLocation());
         }
-        [HttpGet]
+
         public async Task<IActionResult> SendOrder(int id, int profId = 0, int businessId = 0)
         {
             SendOrderModel model = _service.getOrderModel(id, profId, businessId);
@@ -224,6 +224,7 @@ namespace HalloDoc.Web.Controllers
         {
             var user = _service.getRequestClientByID(id);
             TempData["reqid"] = id;
+            ViewBag.reqType = _service.getRequestTypeByRequestID(id);
             return PartialView("_SendAgreement", user);
         }
         public IActionResult ClearCaseModal(int id)
@@ -711,10 +712,10 @@ namespace HalloDoc.Web.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult _BlockHistoryTable(string searchstr, string date, string email)
+        public IActionResult _BlockHistoryTable(string searchstr, DateTime date, string email, string mobile)
         {
 
-            return View(_service.getBlockHistoryData());
+            return View(_service.getBlockHistoryData(searchstr, date, email, mobile));
         }
         public IActionResult DeleteRequest(int id)
         {
@@ -755,6 +756,10 @@ namespace HalloDoc.Web.Controllers
             return RedirectToAction(nameof(ProviderSchedulingDayWise));
         }
         public IActionResult ShiftForReview(int reg = 0)
+        {
+
+            return View(_service.getReviewShiftData(reg));
+        } public IActionResult _ShiftForReview(int reg = 0)
         {
 
             return View(_service.getReviewShiftData(reg));

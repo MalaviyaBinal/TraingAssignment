@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -45,7 +46,7 @@ namespace HalloDocWebService.Authentication
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
-        {
+         {
             var jwtService = context.HttpContext.RequestServices.GetService<IJWT_Service>();
 
             if (jwtService == null)
@@ -58,10 +59,29 @@ namespace HalloDocWebService.Authentication
             var token = request.Cookies["jwt"];
             if (_role == "LoginStr")
             {
-                if (token != null && jwtService.ValidateToken(token, out JwtSecurityToken jwtTokenforLogin))
+                if (token == null)
                 {
-                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "PatientDashboard" }));
                     return;
+                }
+                if (!jwtService.ValidateToken(token, out JwtSecurityToken jwtTokenforLogin))
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Index" }));
+                    return;
+                }
+
+                Claim roleClaim = jwtTokenforLogin.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+                switch (roleClaim.Value)
+                {
+                    case "Patient":
+                        context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "PatientDashboard" }));
+                        return;
+                    case "Admin":
+                        context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "AdminDashboard" }));
+                        return;
+                    //case "Provider":
+                    //    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Provider", action = "PatientDashboard" }));
+                    //    return;
+
                 }
             }
             else

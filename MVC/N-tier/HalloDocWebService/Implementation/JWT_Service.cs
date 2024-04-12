@@ -2,6 +2,8 @@
 using HalloDocWebEntity.Data;
 using HalloDocWebServices.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections;
@@ -25,13 +27,26 @@ namespace HalloDocWebServices.Implementation
 
         public string GenerateToken(Aspnetuser user)
         {
+            string rolename = "";
+            switch (user.Role)
+            {
+                case 2:
+                    rolename = "Patient";
+                    break;
+                case 1:
+                    rolename = "Admin";
+                    break;
+                case 3:
+                    rolename = "Provider";
+                    break;
+            }
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim("passwordClaim",user.Passwordhash),
                 new Claim("userEmail",user.Email),
                 new Claim("userName",user.Usarname),
-                new Claim(ClaimTypes.Role,"patient"),
+                new Claim(ClaimTypes.Role,rolename),
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

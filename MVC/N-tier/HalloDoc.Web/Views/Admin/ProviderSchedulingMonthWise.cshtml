@@ -102,10 +102,25 @@
             }
         });
     };
+    function ModalofShift() {
+
+        $.ajax({
+            url: "/Admin/OpenAddShiftModal",
+
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
 </script>
 <script>
-    debugger;
-    console.log("hello");
+  
     @{
         JsonSerializerOptions options = new JsonSerializerOptions
             {

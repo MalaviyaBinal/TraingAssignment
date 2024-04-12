@@ -1,0 +1,51 @@
+﻿@model HalloDocWebEntity.ViewModel.ShiftDetailsModel
+
+<div class="table-responsive d-lg-block d-none">
+    <table class="table">
+        <thead class="bg-body-tertiary">
+        <thead>
+            <tr>
+                <th scope="col">
+                    <input type="checkbox" id="mainCheckbox" style="width:20px;height:20px" onclick="selectAllCheckboxes()" />
+
+                </th>
+                <th>
+                    Staff
+                </th>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+
+        <tbody>
+                @foreach (var details in Model.shiftdetail)
+                {
+                <input type="hidden" id="countcheckbox" value="@Model.shiftdetail.Count" />
+                <tr class="align-middle">
+
+                    <td>
+                        <input type="checkbox" class="Subcheckbox" style="width:20px;height:20px" onclick="checkAllCheckboxes()" value="@details.Shiftdetailid">
+
+                    </td>
+                    <td>
+                            @details.Shift.Physician.Firstname @details.Shift.Physician.Lastname
+                    </td>
+
+
+                    <td>
+                            @details.Shiftdate.ToString("MMM dd,yyyy")
+                    </td>
+
+                    <td>
+                            @details.Starttime - @details.Endtime
+                    </td>
+                    <td>@details.Shift.Physician.Region.Name</td>
+                </tr>
+
+                }
+
+        </tbody>
+
+    </table>
+</div>
