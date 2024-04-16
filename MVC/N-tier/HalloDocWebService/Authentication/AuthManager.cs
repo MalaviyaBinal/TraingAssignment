@@ -78,9 +78,9 @@ namespace HalloDocWebService.Authentication
                     case "Admin":
                         context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "AdminDashboard" }));
                         return;
-                    //case "Provider":
-                    //    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Provider", action = "PatientDashboard" }));
-                    //    return;
+                    case "Provider":
+                        context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Provider", action = "ProviderDashboard" }));
+                        return;
 
                 }
             }

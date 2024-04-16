@@ -1,4 +1,5 @@
 ﻿using HalloDocWebEntity.ViewModel;
+using HalloDocWebEntity.ViewModel;
 using HalloDocWebServices.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
@@ -21,8 +22,7 @@ namespace HalloDoc.Web.Controllers
         //[CustomAuthorize("Admin")]
         public IActionResult AdminDashboard()
         {
-            var request = HttpContext.Request;
-            var token = request.Cookies["Isheader"];
+           
             var count = _service.setAdminDashboardCount();
             AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.adminCount = count;
@@ -461,15 +461,26 @@ namespace HalloDoc.Web.Controllers
             }
             model.tabledata = tabledata1;
             var count = tabledata1.Count();
+            model.TotalRecord = count;
             if (count > 0)
             {
                 tabledata1 = tabledata1.Skip((pagenumber - 1) * 3).Take(3).ToList();
                 model.tabledata = tabledata1;
+                model.FromRec = (pagenumber - 1) * 3;
+                model.ToRec = model.FromRec + 3;
+                if (model.ToRec > model.TotalRecord)
+                {
+                    model.ToRec = model.TotalRecord;
+                }
+                model.FromRec += 1;
                 model.TotalPages = (int)Math.Ceiling((double)count / 3);
                 model.CurrentPage = pagenumber;
                 model.PreviousPage = pagenumber > 1;
                 model.NextPage = pagenumber < model.TotalPages;
             }
+
+            
+
             switch (id)
             {
 
@@ -798,12 +809,12 @@ namespace HalloDoc.Web.Controllers
         public IActionResult ShiftForReview(int reg = 0)
         {
 
-            return View(_service.getReviewShiftData(reg,false));
+            return View(_service.getReviewShiftData(reg,false,1));
         } 
-        public IActionResult _ShiftForReview(int reg = 0,bool isCurrentMonth = false)
+        public IActionResult _ShiftForReview(int reg = 0,bool isCurrentMonth = false,int pagenumber = 1)
         {
 
-            return View(_service.getReviewShiftData(reg,isCurrentMonth));
+            return View(_service.getReviewShiftData(reg,isCurrentMonth,pagenumber));
         }
         public IActionResult DeleteShift(string[] selectedShifts)
         {

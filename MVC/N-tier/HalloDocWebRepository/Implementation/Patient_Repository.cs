@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace HalloDocWebRepo.Implementation
 {
+
     public class Patient_Repository : IPatient_Repository
     {
         private readonly ApplicationContext _context;
@@ -39,6 +40,12 @@ namespace HalloDocWebRepo.Implementation
         public void addConciergeTable(Concierge con)
         {
             _context.Concierges.Add(con);
+            _context.SaveChanges();
+        }
+
+        public void addEmailLogTable(Emaillog emaillog)
+        {
+           _context.Emaillogs.Add(emaillog);
             _context.SaveChanges();
         }
 

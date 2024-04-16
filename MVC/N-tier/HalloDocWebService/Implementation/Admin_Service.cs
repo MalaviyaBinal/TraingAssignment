@@ -409,6 +409,11 @@ namespace HalloDocWebServices.Implementation
             Request req = _repository.getRequestByID(id);
             req.Status = 4;
             _repository.updateRequest(req);
+            TokenRegister token = _repository.getTokenRegisterById(id);
+            token.IsDeleted = new BitArray(1, true);
+            token.IsVerified = new BitArray(1, true);
+            _repository.updateTokenRegisterTable(token);
+
         }
         public void sendAgreementMail(int id, string email)
         {
@@ -420,6 +425,7 @@ namespace HalloDocWebServices.Implementation
 
             TokenRegister tokenRegister = new TokenRegister();
             tokenRegister.Email = client.Email;
+            tokenRegister.Requestid = id;
             tokenRegister.TokenValue = token;
             _repository.addTokenRegister(tokenRegister);
 
@@ -449,6 +455,7 @@ namespace HalloDocWebServices.Implementation
                 Smstemplate = message,
                 Mobilenumber = client.Phonenumber,
                 Createdate = DateTime.Now,
+                Adminid = admin.Adminid,
                 Sentdate = DateTime.Now,
                 Senttries = 1
             };
@@ -845,7 +852,7 @@ namespace HalloDocWebServices.Implementation
                 Subjectname = "Make Your Appointment",
                 Emailid = info.Email,
                 Roleid = 1,
-                Adminid = admin.Adminid,
+                Adminid = admin.Aspnetuserid,
                 Createdate = DateTime.Now,
                 Sentdate = DateTime.Now,
                 Isemailsent = new BitArray(1, true),
@@ -1557,7 +1564,7 @@ namespace HalloDocWebServices.Implementation
                     sentDate = log.Createdate.ToString("MMM dd, yyyy"),
                     sent = log.Issmssent[0].ToString(),
                     sentTries = log.Senttries.ToString(),
-                    ConfirmationNum = log.Confirmationnumber,
+                    ConfirmationNum = log.Confirmationnumber != null ? log.Confirmationnumber : "--",
                 };
                 smsLogs.Add(smslog);
             }
@@ -1873,7 +1880,7 @@ namespace HalloDocWebServices.Implementation
             _repository.UpdateShiftDetailTable(sd);
         }
 
-        public ShiftDetailsModel getReviewShiftData(int reg, bool isCurrentMonth)
+        public ShiftDetailsModel getReviewShiftData(int reg, bool isCurrentMonth, int pagenumber)
         {
             ShiftDetailsModel model = new ShiftDetailsModel();
             model.regions = _repository.getRegions();
@@ -1881,6 +1888,23 @@ namespace HalloDocWebServices.Implementation
             model.shiftdetail = _repository.getShiftDetailByRegion(reg);
             if (isCurrentMonth) {
                 model.shiftdetail = model.shiftdetail.Where(e => e.Shiftdate.Month == DateTime.Now.Month).ToList();
+            }
+            var count = model.shiftdetail.Count();
+            model.TotalRecord = count;
+
+            if (count > 0)
+            {
+                model.shiftdetail = model.shiftdetail.Skip((pagenumber - 1) * 3).Take(3).ToList();
+                model.FromRec = (pagenumber-1) * 3;
+                model.ToRec = model.FromRec + 3;
+                if(model.ToRec > model.TotalRecord) {
+                    model.ToRec = model.TotalRecord;
+                }
+                model.FromRec += 1;
+                model.TotalPages = (int)Math.Ceiling((double)count / 3);
+                model.CurrentPage = pagenumber;
+                model.PreviousPage = pagenumber > 1;
+                model.NextPage = pagenumber < model.TotalPages;
             }
             return model;
         }

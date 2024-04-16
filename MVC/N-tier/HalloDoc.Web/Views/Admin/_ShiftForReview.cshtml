@@ -49,3 +49,32 @@
 
     </table>
 </div>
+<div class="d-flex justify-content-between " aria-label="Page navigation">
+    <div class=" mt-4">@Model.FromRec - @Model.ToRec of @Model.TotalRecord</div>
+    <ul class="pagination justify-content-center mt-3">
+        @if (Model.TotalPages >= 1)
+        {
+            <!-- Previous page -->
+            <li class="page-item border-0 @(Model.PreviousPage ? " " : "disabled")">
+                <a class="page-link" href="javascript:void(0)" onclick="ShiftReview(@Model.CurrentPage-1)" aria-label="Previous">
+                    <span aria-hidden="true"><i class="bi bi-caret-left-fill text-info"></i> </span>
+                </a>
+            </li>
+
+            <!-- Page numbers -->
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(Model.CurrentPage == i ? "active" : " ")">
+                    <a class="page-link" id="plink-@i" href="javascript:void(0)" onclick="ShiftReview(@i)">@i</a>
+                </li>
+            }
+
+            <!-- Next page -->
+            <li class="page-item @(Model.NextPage ? " " : "disabled")">
+                <a class="page-link" href="javascript:void(0)" onclick="ShiftReview(@Model.CurrentPage+1)" aria-label="Next">
+                    <span aria-hidden="true"> <i class="bi bi-caret-right-fill text-info"></i> </span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

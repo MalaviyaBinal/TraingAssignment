@@ -628,8 +628,8 @@ namespace HalloDocWebServices.Implementation
             var mail = "tatva.dotnet.binalmalaviya@outlook.com";
             var password = "binal@2002";
             var receiver = "binalmalaviya2002@gmail.com";
-            var subject = "Review Agreement";
-            var message = "Review Your Agreement:https://localhost:44380/Home/CreateAccount?token=" + token;
+            var subject = "Create Your Account";
+            var message = "Hello Click Here to Create Account:https://localhost:44380/Home/CreateAccount?token=" + token;
 
 
 
@@ -642,6 +642,19 @@ namespace HalloDocWebServices.Implementation
 
 
             mailclient.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
+            Emaillog emaillog = new Emaillog
+            {
+                Emailtemplate = message,
+                Subjectname = subject,
+                Emailid = email,
+                Roleid = 2,
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Isemailsent = new BitArray(1, true),
+                Action = 1
+            };
+            _repository.addEmailLogTable(emaillog);
+
             TokenRegister tokenRegister = new TokenRegister();
             tokenRegister.Email = email;
             tokenRegister.TokenValue = token;

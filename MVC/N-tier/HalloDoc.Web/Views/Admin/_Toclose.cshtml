@@ -280,7 +280,8 @@
     }
 </div>
 
-<div aria-label="Page navigation">
+<div class="d-flex justify-content-between " aria-label="Page navigation">
+    <div class=" mt-4">@Model.FromRec - @Model.ToRec of @Model.TotalRecord</div>
     <ul class="pagination justify-content-center mt-3">
         @if (Model.TotalPages >= 1)
         {

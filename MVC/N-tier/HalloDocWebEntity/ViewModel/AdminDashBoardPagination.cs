@@ -18,6 +18,9 @@ namespace HalloDocWebEntity.ViewModel
         public string Fname { get; set; }
         public string Lname { get; set; }
         public string Notes { get; set; }
+        public int TotalRecord { get; set; }
+        public int FromRec { get; set; }
+        public int ToRec { get; set; }
 
     }
 }

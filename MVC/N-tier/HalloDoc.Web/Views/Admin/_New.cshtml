@@ -210,8 +210,9 @@
     }
 <</div>
 
-    <div aria-label="Page navigation">
-        <ul class="pagination justify-content-center mt-3">
+<div class="d-flex justify-content-between " aria-label="Page navigation">
+    <div class=" mt-4">@Model.FromRec - @Model.ToRec of @Model.TotalRecord</div>
+    <ul class="pagination justify-content-center mt-3">
             @if (Model.TotalPages >= 1)
             {
                 <!-- Previous page -->
@@ -301,108 +302,5 @@
             }
         });
     };
-     //$("#regionSelect").change(function () {
-     //       alert("jkhdsagbcuysdabgc");
-     //       var regionid = $('#regionSelect').val()           
-     //       console.log(regionid);
-     //       $.ajax({
-     //           url: "/Admin/getDashboardTablesWithRegion",
-     //           data : {'id' : reqid , 'check' : 0, 'region' : regionid},
-     //           type: "POST",
-            
-     //           success: function (result) {
-     //                $("#tableContent").html(result);
-                    
-     //           },
-     //           error: function () {
-     //               alert("No Projects Found");
-     //           }
-     //       });
-     //   });
-      //$(document).ready(function () {  
-        
-      //  $('#allrecord').click(function () {
-      //      check = 0;
-           
-      //      $.ajax({
-      //          url: "/Admin/DashboardTables",
-      //          data: { 'id' : 1 ,'check' : 0},
-      //          type: "POST",
-      //          dataType: "html",
-      //          success: function (data) {
-      //              $("#tableContent").html(data);
-      //          },
-      //          error: function () {
-      //              alert("No Projects Found");
-      //              $("#tableContent").html('An error has occurred');
-      //          }
-      //      });
-      //  });
-      //  $('#patientrecord').click(function () {
-      //     check =2;
-      //      $.ajax({
-      //           url: "/Admin/DashboardTables",
-      //          data: { 'id' : 1 ,'check' : 2},
-      //          type: "POST",
-      //          dataType: "html",
-      //          success: function (data) {
-      //              $("#tableContent").html(data);
-      //          },
-      //          error: function () {
-      //              alert("No Projects Found");
-      //              $("#tableContent").html('An error has occurred');
-      //          }
-      //      });
-      //  });
-      //  $('#frdrecord').click(function () {
-      //     check = 3;
-      //      $.ajax({
-      //           url: "/Admin/DashboardTables",
-      //          data: { 'id' : 1 ,'check' : 3},
-      //          type: "POST",
-      //          dataType: "html",
-      //          success: function (data) {
-      //              $("#tableContent").html(data);
-      //          },
-      //          error: function () {
-      //              alert("No Projects Found");
-      //              $("#tableContent").html('An error has occurred');
-      //          }
-      //      });
-      //  });
-      //  $('#businessrecord').click(function () {
-      //     check = 1;
-      //      $.ajax({
-      //          url: "/Admin/DashboardTables",
-      //          data: { 'id' : 1 ,'check' : 1},
-      //          type: "POST",
-      //          dataType: "html",
-      //          success: function (data) {
-      //              $("#tableContent").html(data);
-      //          },
-      //          error: function () {
-      //              alert("No Projects Found");
-      //              $("#tableContent").html('An error has occurred');
-      //          }
-      //      });
-      //  });
-      //    $('#conciergerecord').click(function () {
-      //          check = 4;
-      //        $.ajax({
-      //             url: "/Admin/DashboardTables",
-      //          data: { 'id' : 1 ,'check' : 4},
-      //            type: "POST",
-      //            dataType: "html",
-      //            success: function (data) {
-      //                $("#tableContent").html(data);
-      //            },
-      //            error: function () {
-      //                alert("No Projects Found");
-      //                $("#tableContent").html('An error has occurred');
-      //            }
-      //        });
-      //    });
-
-          
-      //  });
+    
   </script>

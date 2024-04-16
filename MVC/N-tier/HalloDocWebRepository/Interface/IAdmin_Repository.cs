@@ -50,7 +50,7 @@ namespace HalloDocWebRepo.Interface
         void addBlockRequestTable(Blockrequest blockrequest);
         public Admin getAdminTableDataByEmail(string? email);
         public List<Adminregion> getAdminRegionByAdminId(int adminid);
-        Request getRequestClientByToken(string token);
+        TokenRegister getRequestClientByToken(string token);
         EncounterForm getEncounterTable(int id);
         void updateEncounterForm(EncounterForm model);
         List<AdminDashboardTableModel> GetExportAllData();
@@ -113,5 +113,7 @@ namespace HalloDocWebRepo.Interface
         List<Physician> getUnscheduledPhysicianList(int[] data);
         void addHealthProfessionTable(Healthprofessional business);
         void addTokenRegister(TokenRegister tokenRegister);
+        TokenRegister getTokenRegisterById(int id);
+        void updateTokenRegisterTable(TokenRegister token);
     }
 }

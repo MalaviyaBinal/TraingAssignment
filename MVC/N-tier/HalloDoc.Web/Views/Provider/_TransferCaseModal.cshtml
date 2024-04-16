@@ -1,0 +1,44 @@
+﻿@model HalloDocWebEntity.Data.Request
+<script>
+    $(document).ready(function () {
+        var myModalAssign = new bootstrap.Modal(document.getElementById('Transfercase'));
+        myModalAssign.show();
+    });
+    $('#cancelbtn').click(function (e) {
+        $("#modalpopup").remove();
+        $(".modal-backdrop").remove();
+        location.reload();
+    });
+    
+</script>
+<div class="modal fade" id="Transfercase" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Transfer Request</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col text-muted">
+                        This request will be transfered to admin.
+                    </div>
+                </div>
+                <form id="transfercase" method="post">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="notes" style="height: 100px"></textarea>
+                                <label for="floatingTextarea2">Description</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info text-white">Submit</button>
+                        <button type="button" id="cancelbtn" class="btn btn-white border-info text-info" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

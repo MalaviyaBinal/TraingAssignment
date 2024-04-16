@@ -13,5 +13,11 @@ namespace HalloDocWebEntity.ViewModel
         public string Usarname { get; set; }
         public string? Phonenumber { get; set; }
         public string? role { get; set; }
+
+        public List<Role> AccessRoles { get; set; }
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
+        public bool PreviousPage { get; set; }
+        public bool NextPage { get; set; }
     }
 }

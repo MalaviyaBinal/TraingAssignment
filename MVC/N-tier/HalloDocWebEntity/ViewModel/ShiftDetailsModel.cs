@@ -24,5 +24,12 @@ namespace HalloDocWebEntity.ViewModel
         public TimeOnly Endtime { get; set; }
         public int Shiftdetailid { get; set; }
         public int SelectedRegion { get; set; }
+        public int TotalRecord { get; set; }
+        public int FromRec { get; set; }
+        public int ToRec { get; set; }
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
+        public bool PreviousPage { get; set; }
+        public bool NextPage { get; set; }
     }
 }

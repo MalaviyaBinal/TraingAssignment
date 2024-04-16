@@ -97,7 +97,7 @@ namespace HalloDocWebServices.Interfaces
         void UpdateShiftDetailData(ShiftDetailsModel model, string email);
         void DeleteShiftDetails(int id);
         void UpdateShiftDetailsStatus(int id);
-        ShiftDetailsModel getReviewShiftData(int reg, bool isCurrentMonth);
+        ShiftDetailsModel getReviewShiftData(int reg, bool isCurrentMonth, int pagenumber);
         void DeletShift(string[] selectedShifts);
         void ApproveShift(string[] selectedShifts);
         ShiftDetailsModel getProviderOnCall(int reg);

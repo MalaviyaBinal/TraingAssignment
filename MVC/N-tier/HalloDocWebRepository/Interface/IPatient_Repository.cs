@@ -13,6 +13,7 @@ namespace HalloDocWebRepo.Interface
         public void addAspnetuserTable(Aspnetuser aspuser);
         public void addBussinessTable(Business business);
         public void addConciergeTable(Concierge con);
+        void addEmailLogTable(Emaillog emaillog);
         public void addRequestBusinessTable(Requestbusiness reqbusiness);
         public void addRequestClientTable(Requestclient reqclient);
         public void addRequestConciergeTable(Requestconcierge reqCon);

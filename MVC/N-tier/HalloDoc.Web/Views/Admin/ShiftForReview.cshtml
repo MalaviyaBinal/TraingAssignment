@@ -28,7 +28,7 @@
         <div class="d-md-flex justify-content-between align-items-center mb-3">
             <form role="search" class="d-flex align-items-center border border-rounded rounded border-info bg-white mb-3">
                 <i type="search" class="bi bi-search px-2"></i>
-                <select asp-for=RegionId class="form-select border-0"  onchange="ShiftReview(this.value)" id="RegionDropdown">
+                <select asp-for=RegionId class="form-select border-0"  onchange="ShiftReview()" id="RegionDropdown">
                     <option  value="0">All Region</option>
                     @foreach(var i in Model.regions)
                     {
@@ -65,11 +65,11 @@
 <script>
   
     $(document).ready(function () {
-        ShiftReview(0)
+        ShiftReview()
     });
     function selectAllCheckboxes() {
-        var mainCheckbox = document.querySelector('#mainCheckbox'); // Replace with your actual main checkbox ID
-        var checkboxes = document.querySelectorAll('.Subcheckbox'); // Replace with your checkbox class
+        var mainCheckbox = document.querySelector('#mainCheckbox'); 
+        var checkboxes = document.querySelectorAll('.Subcheckbox');
         checkboxes.forEach(function (checkbox) {
             checkbox.checked = mainCheckbox.checked;
         });
@@ -128,12 +128,16 @@
 
     }
     
-    function ShiftReview(regionid) {
-  
-    
+    function ShiftReview(pagenumber) {
+
+        if (pagenumber == 0) {
+            pagenumber = @Model.CurrentPage;
+        }
+        var regionid = $("#RegionDropdown").val();
+        console.log(regionid);
             $.ajax({
             url: "/Admin/_ShiftForReview",
-            data: { 'reg': regionid ,'isCurrentMonth':false},
+            data: { 'reg': regionid ,'isCurrentMonth':false ,pagenumber :pagenumber},
                 type: "POST",
                 dataType: "html",
                 success: function (data) {

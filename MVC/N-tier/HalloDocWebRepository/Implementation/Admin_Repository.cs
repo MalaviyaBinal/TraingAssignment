@@ -367,9 +367,9 @@ namespace HalloDocWebRepo.Implementation
             return _context.Adminregions.Where(r => r.Adminid == adminid).ToList();
         }
 
-        public Request getRequestClientByToken(string token)
+        public TokenRegister getRequestClientByToken(string token)
         {
-            return _context.Requests.FirstOrDefault(m => m.Ip == token);
+            return _context.TokenRegisters.FirstOrDefault(m => m.TokenValue == token);
         }
 
         public EncounterForm getEncounterTable(int id)
@@ -983,6 +983,17 @@ namespace HalloDocWebRepo.Implementation
         public void addTokenRegister(TokenRegister tokenRegister)
         {
             _context.TokenRegisters.Add(tokenRegister);
+            _context.SaveChanges();
+        }
+
+        public TokenRegister getTokenRegisterById(int id)
+        {
+            return _context.TokenRegisters.First(e => e.Requestid == id);
+        }
+
+        public void updateTokenRegisterTable(TokenRegister token)
+        {
+            _context.TokenRegisters.Update(token);
             _context.SaveChanges();
         }
     }

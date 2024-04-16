@@ -12,6 +12,8 @@ builder.Services.AddScoped<IPatient_Service, Patient_Service>();
 builder.Services.AddScoped<IAdmin_Service, Admin_Service>();
 builder.Services.AddScoped<IPatient_Repository, Patient_Repository>();
 builder.Services.AddScoped<IAdmin_Repository, Admin_Repository>();
+builder.Services.AddScoped<IProvider_Repository, Provider_Repository>();
+builder.Services.AddScoped<IProvider_Service, Provider_Service>();
 builder.Services.AddScoped<IJWT_Service, JWT_Service>();
 
 builder.Services.AddDbContext<ApplicationContext>();
