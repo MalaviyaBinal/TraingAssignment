@@ -6,42 +6,7 @@
     Layout = "_AdminHeader";
 }
 
-<!-- Send Link Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ">
-        <div class="modal-content">
-            <div class="modal-header bg-info text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Send Mail to patient for submitting request</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form asp-action="SendLink" asp-controller="Admin">
-                    <div class=" form-floating mb-3 text-muted">
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Firstname">
-                        <label for="exampleFormControlInput1" class="form-label">Firstname</label>
-                        <span class="text-danger"></span>
-                    </div>
-                    <div class="form-floating mb-3 text-muted">
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Lastname">
-                        <label for="exampleFormControlInput1" class="form-label">Lastname</label>
-                        <span class="text-danger"></span>
-                    </div>
-                    <div class=" form-floating mb-3 text-muted">
-                        <input id="phone" class="form-control inp2" type="tel" placeholder="Phone Number">
-                    </div>
-                    <div class=" form-floating mb-3 text-muted">
-                        <input asp-for="Email"  name="Email" type="email" class="form-control" id="Email" placeholder="Email">
-                        <label for="Email" class="form-label">Email</label>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-info text-white">Send</button>
-                        <button type="button" class="btn btn-white text-info border-info" data-bs-dismiss="modal">cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 <!-- DIY support Modal -->
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
@@ -252,7 +217,7 @@
                     <div class="text-end d-md-flex  justify-content-md-end pb-3">
                         <h6 style="position:absolute !important; left:10px !important;">Patients (<span id="statusValue"></span>)</h6>
                         
-                        <button class="btn btn-info ms-2 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"><i class="fa-regular fa-paper-plane"></i>Send Link</button>
+                        <button class="btn btn-info ms-2 text-white"  onclick="openSendLinkModal()" type="button"><i class="fa-regular fa-paper-plane"></i>Send Link</button>
                         <a asp-action="PatientRequestAdmin" asp-controller="Admin"><button class="btn btn-info text-white ms-2 border-info" type="button"><i class="fa-regular fa-note-sticky"></i> Requests</button></a>
                         <button class="btn btn-info ms-2 text-white" onclick="exportfile()" type="button"><i class="fa fa-share-square" aria-hidden="true"></i>Export</button>
                         <a asp-action="ExportAll" asp-controller="Admin"><button class="btn btn-info text-white ms-2 border-info" type="button"><i class="fa fa-share-square" aria-hidden="true"></i>Export All</button></a>
@@ -305,9 +270,28 @@
    
              </div>
 </div>
+<div id="modalpopup"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     document.getElementById("dashbrd").classList.add("active");
+     function openSendLinkModal() {
+        
+        console.log(id);
+        $.ajax({
+            url: "/Admin/_SendLinkModal",
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+               
+                $("#modalpopup").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
    function SearchChange(){
             searchValue = document.getElementById("searchPatient").value;
              MyAjax();

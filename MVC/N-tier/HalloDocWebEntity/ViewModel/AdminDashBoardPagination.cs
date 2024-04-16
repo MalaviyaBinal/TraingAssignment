@@ -14,6 +14,9 @@ namespace HalloDocWebEntity.ViewModel
         public bool NextPage { get; set; }
         public AdminDashboard adminCount { get; set; }
         public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Fname { get; set; }
+        public string Lname { get; set; }
         public string Notes { get; set; }
 
     }

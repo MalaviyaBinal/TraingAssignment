@@ -38,10 +38,11 @@
                 </select>
             </form>
             <div class="justify-content-between">
-                <a asp-action="" asp-controller=Admin type="button" class="btn btn-success ms-1">
+                
+                <button type="button" class="btn btn-success ms-1" id="approveBtn" onclick="ViewCurrentMonthShift()">
                     <span class="d-md-block d-none">View Current Month Shifts</span>
                     <span class="d-block d-md-none"><i class="bi bi-plus text-info fs-4"></i></span>
-                </a>
+                </button>
 
                 <button type="button" class="btn btn-success ms-1" id="approveBtn" onclick="approveShifts()">
                     <span class="d-md-block d-none">Approve Selected</span>
@@ -62,7 +63,7 @@
 </div>
 
 <script>
-
+  
     $(document).ready(function () {
         ShiftReview(0)
     });
@@ -122,7 +123,7 @@
 
         }
         else {
-            Swal.fire('Please select atleast one shift to delete.');
+            alert('Please select atleast one shift to delete.');
         }
 
     }
@@ -132,7 +133,7 @@
     
             $.ajax({
             url: "/Admin/_ShiftForReview",
-            data: { 'reg': regionid },
+            data: { 'reg': regionid ,'isCurrentMonth':false},
                 type: "POST",
                 dataType: "html",
                 success: function (data) {
@@ -143,7 +144,27 @@
                 $("#tableContent").html('An error has occurred');
                 }
             });
-        });
+        
+
+        //window.location.href = "/Admin/ShiftForReview?reg=" + regionid;
+    }
+      function ViewCurrentMonthShift() {
+        var regionid = document.getElementById("RegionDropdown").value
+    
+            $.ajax({
+            url: "/Admin/_ShiftForReview",
+            data: { 'reg': regionid ,'isCurrentMonth':true},
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                $("#tableContent").html(data);
+                },
+                error: function () {
+                    alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+                }
+            });
+        
 
         //window.location.href = "/Admin/ShiftForReview?reg=" + regionid;
     }

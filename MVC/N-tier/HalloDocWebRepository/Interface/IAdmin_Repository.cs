@@ -24,7 +24,7 @@ namespace HalloDocWebRepo.Interface
         public List<AdminDashboardTableModel> getDashboardTables(int id, int check);
         public List<AdminDashboardTableModel> getDashboardTablesWithoutcheck(int id);
         List<Healthprofessional> getHealthProfessional(int businessId);
-        public List<Healthprofessionaltype> getVenderDetail();
+        public List<Healthprofessionaltype> getVenderDetail(int reg, string searchstr);
         public List<Healthprofessional> getHealthProfessionalList();
         List<Healthprofessionaltype> getHealthProfessionalTypeList();
         List<Healthprofessionaltype> getHealthProfessionalType(int profId);
@@ -112,5 +112,6 @@ namespace HalloDocWebRepo.Interface
         public int[] GetUnscheduledPhysicanID();
         List<Physician> getUnscheduledPhysicianList(int[] data);
         void addHealthProfessionTable(Healthprofessional business);
+        void addTokenRegister(TokenRegister tokenRegister);
     }
 }

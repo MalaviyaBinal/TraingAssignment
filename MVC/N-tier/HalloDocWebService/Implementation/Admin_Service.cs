@@ -16,6 +16,7 @@ using System.Net;
 using System.Net.Mail;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
+using Twilio.TwiML.Voice;
 
 namespace HalloDocWebServices.Implementation
 {
@@ -409,35 +410,56 @@ namespace HalloDocWebServices.Implementation
             req.Status = 4;
             _repository.updateRequest(req);
         }
-        public void sendAgreementMail(int id)
+        public void sendAgreementMail(int id, string email)
         {
             Requestclient client = _repository.getRequestClientById(id);
             Random random = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var token = new string(Enumerable.Repeat(chars, 8)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
-            var mail = "tatva.dotnet.binalmalaviya@outlook.com";
-            var password = "binal@2002";
-            var receiver = "binalmalaviya2002@gmail.com";
+
+            TokenRegister tokenRegister = new TokenRegister();
+            tokenRegister.Email = client.Email;
+            tokenRegister.TokenValue = token;
+            _repository.addTokenRegister(tokenRegister);
+
+            var receiver =client.Email;
             var subject = "Review Agreement";
-            var message = "Review Your Agreement:https://localhost:44380/Admin/SendAgreement?token=" + token;
-            Request req = _repository.getRequestByID(id);
-            req.Ip = token;
-            _repository.updateRequest(req);
-            var mailclient = new SmtpClient("smtp.office365.com", 587)
+            var message = "Hello "+ client.Firstname +" "+client.Lastname+",Review Your Agreement:https://localhost:44380/Admin/SendAgreement?token=" + token;
+
+            SendEmail(receiver, message, subject);
+            var admin = _repository.getAdminTableDataByEmail(email);
+            Emaillog emaillog = new Emaillog
             {
-                EnableSsl = true,
-                Credentials = new NetworkCredential(mail, password)
+                Emailtemplate = message,
+                Subjectname = "Make Your Appointment",
+                Emailid = client.Email,
+                Roleid = 1,
+                Adminid = admin.Adminid,
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Isemailsent = new BitArray(1, true),
+                Action = 1
             };
-            var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
-            mailclient.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
+            _repository.addEmailLogTable(emaillog);
+
+            SendSMS(client.Phonenumber, message);
+            Smslog smslog = new Smslog
+            {
+                Smstemplate = message,
+                Mobilenumber = client.Phonenumber,
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Senttries = 1
+            };
+            _repository.addSmsLogTable(smslog);
         }
         public Requestclient sendAgreementService(string token)
         {
             var data = _repository.getRequestClientByToken(token);
             return _repository.getRequestClientById(data.Requestid);
         }
-        public void SendEmail(int id, string[] filenames)
+        public void SendEmail(int id, string[] filenames,string email)
         {
             List<Requestwisefile> files = new();
             foreach (var filename in filenames)
@@ -447,7 +469,7 @@ namespace HalloDocWebServices.Implementation
             Request request = _repository.getRequestByID(id);
             var receiver = "binalmalaviya2002@gmail.com";
             var subject = "Documents of Request ";
-            var message = "Find the Files uploaded for your request in below:";
+            var message = "Hello "+request.Firstname +" "+request.Lastname+",Find the Files uploaded for your request in below:";
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
             foreach (var file in files)
             {
@@ -477,6 +499,20 @@ namespace HalloDocWebServices.Implementation
                 Credentials = new NetworkCredential(mail, password)
             };
             client.SendMailAsync(mailMessage);
+            var admin = _repository.getAdminTableDataByEmail(email);
+            Emaillog emaillog = new Emaillog
+            {
+                Emailtemplate = message,
+                Subjectname = "Make Your Appointment",
+                Emailid = request.Email,
+                Roleid = 1,
+                Adminid = admin.Adminid,
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Isemailsent = new BitArray(1, true),
+                Action = 1
+            };
+            _repository.addEmailLogTable(emaillog);
         }
         public void sendOrder(SendOrderModel info)
         {
@@ -788,13 +824,13 @@ namespace HalloDocWebServices.Implementation
             model.Modifieddate = DateTime.Now;
             _repository.updateAdmin(model);
         }
-        public void sendLinkAdminDashboard(AdminDashBoardPagination info)
+        public void sendLinkAdminDashboard(AdminDashBoardPagination info,string email)
         {
             var mail = "tatva.dotnet.binalmalaviya@outlook.com";
             var password = "binal@2002";
             var receiver = "binalmalaviya2002@gmail.com";
             var subject = "Make Your Appointment";
-            var message = "You are invited to visit :https://localhost:44380/";
+            var message = "Hello "+info.Fname +" " + info.Lname+",You are invited to visit :https://localhost:44380/";
             var mailclient = new SmtpClient("smtp.office365.com", 587)
             {
                 EnableSsl = true,
@@ -802,6 +838,33 @@ namespace HalloDocWebServices.Implementation
             };
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
             //mailclient.SendMailAsync(mailMessage);
+            var admin = _repository.getAdminTableDataByEmail(email);
+            Emaillog emaillog = new Emaillog
+            {
+                Emailtemplate = message,
+                Subjectname = "Make Your Appointment",
+                Emailid = info.Email,
+                Roleid = 1,
+                Adminid = admin.Adminid,
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Isemailsent = new BitArray(1, true),
+                Action = 1
+            };
+            _repository.addEmailLogTable(emaillog);
+
+            //sms 
+            SendSMS(info.PhoneNumber, message);
+            Smslog smslog = new Smslog
+            {
+                Smstemplate = message,
+                Mobilenumber = info.PhoneNumber,
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Senttries = 1
+            };
+            _repository.addSmsLogTable(smslog);
+            
         }
         public AdminProviderModel getProviderDataForAdmin(int id)
         {
@@ -887,7 +950,7 @@ namespace HalloDocWebServices.Implementation
         {
             return _repository.getPhysicianById(id);
         }
-        public void SendSMS(string phonenumber,string message)
+        public void SendSMS(string phonenumber, string message)
         {
             //string accountSid = "ACf3e07eb694877aff1ffd392934bdb764";
             //string authToken = "fe03fccadb7d42d562d8f9879bb50ece";
@@ -912,7 +975,7 @@ namespace HalloDocWebServices.Implementation
             Console.WriteLine(message);
 
         }
-        public void SendEmail(string email,string msg,string sub)
+        public void SendEmail(string email, string msg, string sub)
         {
             var mail = "tatva.dotnet.binalmalaviya@outlook.com";
             var password = "binal@2002";
@@ -927,7 +990,7 @@ namespace HalloDocWebServices.Implementation
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
             mailclient.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
         }
-        public void ContactProviderSendMessage(string email,string phone, string note, int selected)
+        public void ContactProviderSendMessage(string email, string phone, string note, int selected)
         {
             switch (selected)
             {
@@ -935,7 +998,7 @@ namespace HalloDocWebServices.Implementation
                     SendSMS(phone, note);
                     break;
                 case 2:
-                    SendEmail(email, note,"Alert!!!");
+                    SendEmail(email, note, "Alert!!!");
                     break;
                 case 3:
                     SendEmail(email, note, "Alert!!!");
@@ -944,7 +1007,7 @@ namespace HalloDocWebServices.Implementation
 
             }
 
-           
+
         }
         public AdminProviderModel getProviderByAdmin(int id, string u)
         {
@@ -1275,10 +1338,25 @@ namespace HalloDocWebServices.Implementation
             return _repository.getPhysicianLocationList();
         }
 
-        public List<Healthprofessionaltype> getVenderDetail()
+        public AdminPartnersModel getVenderDetail(int profession, int pagenumber, string searchstr)
         {
 
-            return _repository.getVenderDetail();
+            AdminPartnersModel model = new();
+            model.vendorList =_repository.getVenderDetail(profession, searchstr);
+            model.professions = _repository.getHealthProfessionalTypeList();
+            model.SelectedRegion = profession;
+            var count = model.vendorList.Count();
+            if (count > 0)
+            {
+                model.vendorList = model.vendorList.Skip((pagenumber - 1) * 3).Take(3).ToList();
+
+                model.TotalPages = (int)Math.Ceiling((double)count / 3);
+                model.CurrentPage = pagenumber;
+                model.PreviousPage = pagenumber > 1;
+                model.NextPage = pagenumber < model.TotalPages;
+            }
+            return model;
+
         }
 
 
@@ -1416,7 +1494,7 @@ namespace HalloDocWebServices.Implementation
             _repository.addSmsLogTable(smslog);
         }
 
-        public List<Email_SMS_LogModel> GetEmailLogs(int roleid, string name, string email, string createdDate, string sentDate)
+        public Email_SMS_LogModel GetEmailLogs(int roleid, string name, string email, string createdDate, string sentDate, int pagenumber)
         {
             List<Emaillog> emaillogtable = _repository.GetAllEmailLogs(roleid, name, email, createdDate, sentDate);
             List<Email_SMS_LogModel> emailLogs = new List<Email_SMS_LogModel>();
@@ -1442,13 +1520,25 @@ namespace HalloDocWebServices.Implementation
                 };
                 emailLogs.Add(emaillog);
             }
-            return emailLogs;
+            Email_SMS_LogModel model = new Email_SMS_LogModel();
+            var count = emailLogs.Count();
+            if (count > 0)
+            {
+                emailLogs = emailLogs.Skip((pagenumber - 1) * 3).Take(3).ToList();
+
+                model.TotalPages = (int)Math.Ceiling((double)count / 3);
+                model.CurrentPage = pagenumber;
+                model.PreviousPage = pagenumber > 1;
+                model.NextPage = pagenumber < model.TotalPages;
+            }
+            model.Logs = emailLogs;
+            return model;
         }
 
-        public List<Email_SMS_LogModel> GetSmsLogs(int roleid, string name, string mobile, string createdDate, string sentDate)
+        public Email_SMS_LogModel GetSmsLogs(int roleid, string name, string mobile, string createdDate, string sentDate, int pagenumber)
         {
             List<Smslog> smslogtable = _repository.GetAllSmsLogs(roleid, name, mobile, createdDate, sentDate);
-            List<Email_SMS_LogModel> emailLogs = new List<Email_SMS_LogModel>();
+            List<Email_SMS_LogModel> smsLogs = new List<Email_SMS_LogModel>();
             foreach (Smslog log in smslogtable)
             {
                 //Aspnetuser aspnetuser = _repository.GetAspNetUserByEmail(log.Emailid);
@@ -1456,7 +1546,7 @@ namespace HalloDocWebServices.Implementation
                 int startIndex = log.Smstemplate.IndexOf("Hello ") + "Hello ".Length;
                 int endIndex = log.Smstemplate.IndexOf(",", startIndex);
                 string storedName = log.Smstemplate.Substring(startIndex, endIndex - startIndex);
-                Email_SMS_LogModel emaillog = new Email_SMS_LogModel
+                Email_SMS_LogModel smslog = new Email_SMS_LogModel
                 {
                     LogID = log.Smslogid,
                     Receipient = storedName,
@@ -1469,9 +1559,21 @@ namespace HalloDocWebServices.Implementation
                     sentTries = log.Senttries.ToString(),
                     ConfirmationNum = log.Confirmationnumber,
                 };
-                emailLogs.Add(emaillog);
+                smsLogs.Add(smslog);
             }
-            return emailLogs;
+            Email_SMS_LogModel model = new Email_SMS_LogModel();
+            var count = smsLogs.Count();
+            if (count > 0)
+            {
+                smsLogs = smsLogs.Skip((pagenumber - 1) * 3).Take(3).ToList();
+
+                model.TotalPages = (int)Math.Ceiling((double)count / 3);
+                model.CurrentPage = pagenumber;
+                model.PreviousPage = pagenumber > 1;
+                model.NextPage = pagenumber < model.TotalPages;
+            }
+            model.Logs = smsLogs;
+            return model;
         }
 
         public SchedulingViewModel openShiftModel(int regionid)
@@ -1602,10 +1704,21 @@ namespace HalloDocWebServices.Implementation
             return model;
         }
 
-        public AdminRecordsModel getBlockHistoryData(string searchstr, DateTime date, string email, string mobile)
+        public AdminRecordsModel getBlockHistoryData(string searchstr, DateTime date, string email, string mobile, int pagenumber)
         {
             AdminRecordsModel model = new();
             model.blockRequests = _repository.getBlockData(searchstr, date, email, mobile);
+            var count = model.blockRequests.Count();
+            if (count > 0)
+            {
+                model.blockRequests = model.blockRequests.Skip((pagenumber - 1) * 3).Take(3).ToList();
+
+                model.TotalPages = (int)Math.Ceiling((double)count / 3);
+                model.CurrentPage = pagenumber;
+                model.PreviousPage = pagenumber > 1;
+                model.NextPage = pagenumber < model.TotalPages;
+            }
+
             return model;
         }
 
@@ -1639,16 +1752,28 @@ namespace HalloDocWebServices.Implementation
 
         }
 
-        public List<PatientHistoryTable> PatientHistoryTable(string? fname, string? lname, string? email, string? phone)
+        public PatientHistoryTable PatientHistoryTable(string? fname, string? lname, string? email, string? phone, int pagenumber)
         {
             IQueryable<PatientHistoryTable> tabledata = _repository.GetPatientHistoryTable(fname, lname, email, phone);
-            return tabledata.ToList();
+            PatientHistoryTable model = new PatientHistoryTable();
+
+            var count = tabledata.Count();
+            if (count > 0)
+            {
+                tabledata = tabledata.Skip((pagenumber - 1) * 3).Take(3);
+
+                model.TotalPages = (int)Math.Ceiling((double)count / 3);
+                model.CurrentPage = pagenumber;
+                model.PreviousPage = pagenumber > 1;
+                model.NextPage = pagenumber < model.TotalPages;
+            }
+            model.patientHistoryData = tabledata.ToList();
+            return model;
         }
 
-        public List<PatientRecordModel> PatientRecord(int id)
+        public PatientRecordModel PatientRecord(int id, int pagenumber)
         {
-            List<Request> requests = _repository.GetAllRequestsByAid(id)
-;
+            List<Request> requests = _repository.GetAllRequestsByAid(id);
             List<PatientRecordModel> records = new List<PatientRecordModel>();
             foreach (Request request in requests)
             {
@@ -1670,7 +1795,19 @@ namespace HalloDocWebServices.Implementation
                 };
                 records.Add(record);
             }
-            return records;
+            PatientRecordModel model = new PatientRecordModel();
+            var count = records.Count();
+            if (count > 0)
+            {
+                records = records.Skip((pagenumber - 1) * 3).Take(3).ToList();
+
+                model.TotalPages = (int)Math.Ceiling((double)count / 3);
+                model.CurrentPage = pagenumber;
+                model.PreviousPage = pagenumber > 1;
+                model.NextPage = pagenumber < model.TotalPages;
+            }
+            model.records = records;
+            return model;
         }
 
         public ShiftDetailsModel getViewShiftData(int id, int regid)
@@ -1736,15 +1873,16 @@ namespace HalloDocWebServices.Implementation
             _repository.UpdateShiftDetailTable(sd);
         }
 
-        public ShiftDetailsModel getReviewShiftData(int reg)
+        public ShiftDetailsModel getReviewShiftData(int reg, bool isCurrentMonth)
         {
-            return new ShiftDetailsModel
-            {
-                regions = _repository.getRegions(),
-                shiftdetail = _repository.getShiftDetailByRegion(reg),
-                RegionId = reg
-            };
-
+            ShiftDetailsModel model = new ShiftDetailsModel();
+            model.regions = _repository.getRegions();
+            model.RegionId = reg;
+            model.shiftdetail = _repository.getShiftDetailByRegion(reg);
+            if (isCurrentMonth) {
+                model.shiftdetail = model.shiftdetail.Where(e => e.Shiftdate.Month == DateTime.Now.Month).ToList();
+            }
+            return model;
         }
 
         public void DeletShift(string[] selectedShifts)
@@ -1803,26 +1941,35 @@ namespace HalloDocWebServices.Implementation
             }
         }
 
-        public void DTYSupportRequest(string notes)
+        public void DTYSupportRequest(string notes,string email)
         {
             var data = _repository.GetUnscheduledPhysicanID();
             var phy = _repository.getUnscheduledPhysicianList(data);
             foreach (var i in phy)
             {
-                var mail = "tatva.dotnet.binalmalaviya@outlook.com";
-                var password = "binal@2002";
-                var receiver = "binalmalaviya2002@gmail.com";
-                var subject = "Make Your Appointment";
-                var message = "You are invited to visit :https://localhost:44380/";
-                var mailclient = new SmtpClient("smtp.office365.com", 587)
+                
+                var receiver = i.Email;
+                var subject = "DTY Support Request";
+                var message = "We are short on coverage and needs additional support On Call to respond to Requests.::"+notes;
+                SendEmail(receiver, message, subject);
+
+                var admin = _repository.getAdminTableDataByEmail(email);
+                Emaillog emaillog = new Emaillog
                 {
-                    EnableSsl = true,
-                    Credentials = new NetworkCredential(mail, password)
+                    Emailtemplate = message,
+                    Subjectname = "Make Your Appointment",
+                    Emailid = i.Email,
+                    Roleid = 1,
+                    Adminid = admin.Adminid,
+                    Createdate = DateTime.Now,
+                    Sentdate = DateTime.Now,
+                    Isemailsent = new BitArray(1, true),
+                    Action = 1
                 };
-                var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
-                //mailclient.SendMailAsync(mailMessage);
+                _repository.addEmailLogTable(emaillog);
             }
         }
+
 
         public void AddVendor(SendOrderModel model)
         {
@@ -1848,7 +1995,8 @@ namespace HalloDocWebServices.Implementation
         public SendOrderModel getVenderData()
         {
             SendOrderModel model = new();
-            model.professions = _repository.getVenderDetail();
+            model.professions = _repository.getVenderDetail(0,null);
+            
             return model;
         }
 

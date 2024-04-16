@@ -85,8 +85,16 @@
       "PackagePath": "staticwebassets\\UploadedFiles\\Fig43. Patient history.jpg"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Fig7. Admin dashboard in Conclude state.jpg",
+      "PackagePath": "staticwebassets\\UploadedFiles\\Fig7. Admin dashboard in Conclude state.jpg"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\HalloDoc - DB.xlsx",
       "PackagePath": "staticwebassets\\UploadedFiles\\HalloDoc - DB.xlsx"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\LesfImage.png",
+      "PackagePath": "staticwebassets\\UploadedFiles\\LesfImage.png"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\MVC.pdf",

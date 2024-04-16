@@ -1,4 +1,5 @@
-﻿@{
+﻿@model HalloDocWebEntity.ViewModel.Email_SMS_LogModel
+@{
     Layout = "_AdminHeader";
 }
 <style>
@@ -7,7 +8,7 @@
         padding-bottom: .625rem;
     }
 </style>
-<div>
+<div class="m-3 ">
     <div class="row" style="--bs-gutter-x: 0rem;">
         <div class="col-12">
             <div class="container mt-5 ps-1">
@@ -53,7 +54,7 @@
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-4 col-sm-6 mt-1 pe-2 text-end">
-                        <button type="button" class="btn btn-info text-white p-2" onclick="filter()">Search</button>
+                        <button type="button" class="btn btn-info text-white p-2" onclick="getEmailLog()">Search</button>
                         <button type="button" class="btn border-info text-info p-2" onclick="document.location.reload(true)">Cancel</button>
                     </div>
                 </div>
@@ -79,7 +80,7 @@
         $.ajax({
             url: "/Admin/EmailLogTable",
             type: "GET",
-            data: { roleid: 0, name: null, email: null, createdDate: null, sentDate: null },
+            data: { roleid: 0, name: null, email: null, createdDate: null, sentDate: null ,pagenumber: 1 },
             dataType: "html",
             success: function (data) {
                 $("#tableContent").html(data);
@@ -92,7 +93,11 @@
     });
 </script>
 <script>
-    function filter() {
+    function getEmailLog(pagenumber) {
+
+        if (pagenumber == 0) {
+            pagenumber = @Model.CurrentPage;
+        }
         let rid = document.getElementById('RoleSelect').value;
         let name = document.getElementById('name').value;
         let email = document.getElementById('email').value;
@@ -103,7 +108,7 @@
         $.ajax({
             url: "/Admin/EmailLogTable",
             type: "GET",
-            data: { roleid: rid, name: name, email: email, createdDate: createdDate, sentDate: sentDate },
+            data: { roleid: rid, name: name, email: email, createdDate: createdDate, sentDate: sentDate, pagenumber: pagenumber },
             dataType: "html",
             success: function (data) {
                 $("#tableContent").html(data);

@@ -1,4 +1,4 @@
-﻿
+﻿@model HalloDocWebEntity.ViewModel.PatientHistoryTable
 @{
     Layout = "_AdminHeader";
 }
@@ -31,7 +31,7 @@
                 <div class="row mt-3 me-3">
                     <div class="col text-end">
                         <button class="btn btn-outline-info me-2" onclick="document.location.reload(true)">Clear</button>
-                        <button class=" btn btn-info text-white" onclick="filter()">Search</button>
+                        <button class=" btn btn-info text-white" onclick="getPatientHistory()">Search</button>
                     </div>
                 </div>
                 <div id="tableContent" class="w-100">
@@ -41,20 +41,13 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    const navLinks = document.querySelectorAll('.nav-link');
-    const provider = document.getElementById("Records-tab");
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-    });
-    provider.classList.add('active');
-</script>
+
 <script>
     $(document).ready(function () {
         $.ajax({
             url: "/Admin/PatientHistoryTable",
             type: "GET",
-            data: { fname: null, lname: null, email: null, phone: null },
+            data: { fname: null, lname: null, email: null, phone: null, pagenumber: 1 },
             dataType: "html",
             success: function (data) {
                 $("#tableContent").html(data);
@@ -67,7 +60,12 @@
     });
 </script>
 <script>
-    function filter() {
+    function getPatientHistory(pagenumber) {
+
+        if (pagenumber == 0) {
+            pagenumber = @Model.CurrentPage;
+        }
+
         let fname = document.getElementById('fname').value;
         let lname = document.getElementById('lname').value;
         let email = document.getElementById('email').value;
@@ -75,7 +73,7 @@
         $.ajax({
             url: "/Admin/PatientHistoryTable",
             type: "GET",
-            data: { fname: fname, lname: lname, email: email, phone: phone },
+            data: { fname: fname, lname: lname, email: email, phone: phone, pagenumber: pagenumber },
             dataType: "html",
             success: function (data) {
                 $("#tableContent").html(data);

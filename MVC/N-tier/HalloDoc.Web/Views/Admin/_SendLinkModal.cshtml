@@ -1,0 +1,43 @@
+﻿@model HalloDocWebEntity.ViewModel.AdminDashBoardPagination
+<div class="modal fade" id="SendLinkModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Send Mail to patient for submitting request</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="SendLink" asp-controller="Admin">
+                    <div class=" form-floating mb-3 text-muted">
+                        <input name="Fname" type="text" class="form-control"  placeholder="Firstname">
+                        <label for="exampleFormControlInput1" class="form-label">Firstname</label>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3 text-muted">
+                        <input name="Lname" type="text" class="form-control"  placeholder="Lastname">
+                        <label for="exampleFormControlInput1" class="form-label">Lastname</label>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class=" form-floating mb-3 text-muted">
+                        <input name="PhoneNumber" id="phone" class="form-control inp2" type="tel" placeholder="Phone Number">
+                    </div>
+                    <div class=" form-floating mb-3 text-muted">
+                        <input name="Email" type="email" class="form-control" id="Email" placeholder="Email">
+                        <label for="Email" class="form-label">Email</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info text-white">Send</button>
+                        <button type="button" class="btn btn-white text-info border-info" data-bs-dismiss="modal">cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var myModalblock = new bootstrap.Modal(document.getElementById('SendLinkModal'));
+        myModalblock.show();
+    });
+
+</script>

@@ -1,5 +1,32 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminRecordsModel
-<div class="table-responsive">
+<script>
+
+    $("#cancelbtn").click(function () {
+        $("#modalpopup").remove();
+        $(".modal-backdrop").remove()
+        location.reload();
+    });
+    function deleteRequest(element) {
+        debugger;
+        var id = element.value;
+        $.ajax({
+            url: "/Admin/ShowDeleteModal",
+            data: { 'id': id, 'acntType': "Request" },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modalpopup").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+
+            }
+        });
+    };
+</script>
+<div class="table-responsive hideOnMobile">
     <table class="table ">
         <thead>
             <tr class="bg-light text-muted h-100">
@@ -132,7 +159,7 @@
         </tbody>
     </table>
 </div>
-<div class="accordion accordion-flush showonmobile d-md-none mt-3" id="accordionFlushExample">
+<div class="accordion accordion-flush showOnMobile hide d-md-none mt-3" id="accordionFlushExample">
     @foreach (var item in Model.Data)
     {
 
@@ -375,24 +402,8 @@
                     <div class="d-flex justify-content-center">
                         <div class="w-50">
                             <a asp-action="ViewCase" asp-route-id="@item.Request.Requestid" class="d-block btn btn-light border-info text-info bg-transparent my-2">View Case</a>
-                            <a class="d-block btn btn-light border-danger text-danger bg-transparent" onclick="DeleteAccount(@item.Request.Requestid)">Delete Permanently</a>
-                            <div class="modal fade" id="a-@item.Request.Requestid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5 text-danger" id="exampleModalLabel">Delete Account</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Are you sure want to delete the account?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                            <a asp-action="DeleteAccountRecord" asp-route-id="@item.Request.Requestid" class="btn btn-danger">Yes,Delete</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <a class="d-block btn btn-light border-danger text-danger bg-transparent" onclick="deleteRequest(this)" value="@item.Request.Requestid">Delete Permanently</a>
+                           
                         </div>
                     </div>
                 </div>
@@ -400,31 +411,35 @@
         </div>
     }
 </div>  
-<div id="modalpopup"></div>
-<script>
-   
-    $("#cancelbtn").click(function () {
-        $("#modalpopup").remove();
-        $(".modal-backdrop").remove()
-        location.reload();
-    });
-    function deleteRequest(element) {
-        debugger;
-        var id = element.value;
-        $.ajax({
-            url: "/Admin/ShowDeleteModal",
-            data: { 'id': id, 'acntType': "Request" },
-            type: "GET",
-            dataType: "html",
-            success: function (data) {
 
-                $("#modalpopup").html(data);
+<div aria-label="Page navigation">
+    <ul class="pagination justify-content-center mt-3">
+        @if (Model.TotalPages >= 1)
+        {
+            <!-- Previous page -->
+            <li class="page-item @(Model.PreviousPage ? " " : "disabled")">
+                <a class="page-link" href="javascript:void(0)" onclick="getRecords(@Model.CurrentPage-1)" aria-label="Previous">
+                    <span aria-hidden="true"><i class="bi bi-caret-left-fill text-info"></i> </span>
+                </a>
+            </li>
 
-            },
-            error: function () {
-                alert("No Projects Found");
-
+            <!-- Page numbers -->
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(Model.CurrentPage == i ? "active" : " ")">
+                    <a class="page-link" id="plink-@i" href="javascript:void(0)" onclick="getRecords(@i)">@i</a>
+                </li>
             }
-        });
-    };
-</script>
+
+            <!-- Next page -->
+            <li class="page-item @(Model.NextPage ? " " : "disabled")">
+                <a class="page-link" href="javascript:void(0)" onclick="getRecords(@Model.CurrentPage+1)" aria-label="Next">
+                    <span aria-hidden="true"> <i class="bi bi-caret-right-fill text-info"></i> </span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>  
+
+<div id="modalpopup"></div>
+

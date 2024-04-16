@@ -1,4 +1,4 @@
-﻿
+﻿@model HalloDocWebEntity.ViewModel.AdminRecordsModel
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor Accessor
 @{
@@ -60,7 +60,7 @@
         // var searchstr = document.getElementById("searchstr").value
         $.ajax({
             url: "/Admin/_BlockHistoryTable",
-            // data: { profid: profid, searchstr: searchstr },
+            data: { pagenumber: 1 },
             type: "POST",
             success: function (result) {
                 $("#tableContent").html(result)
@@ -71,9 +71,10 @@
             }
         });
     });
-    function getBlockHistoryData(element) {
-        debugger;
-
+    function getBlockHistoryData(pagenumber) {
+        if (pagenumber == 0) {
+            pagenumber = @Model.CurrentPage;
+        }
         var searchstr = document.getElementById("PatientName").value
         var date = document.getElementById("date").value
         var email = document.getElementById("Email").value
@@ -82,7 +83,7 @@
 
         $.ajax({
             url: "/Admin/_BlockHistoryTable",
-            data: { searchstr: searchstr, date: date, email: email, mobile: mobile },
+            data: { searchstr: searchstr, date: date, email: email, mobile: mobile, pagenumber: pagenumber },
             type: "POST",
             success: function (result) {
                 $("#tableContent").html(result)

@@ -92,6 +92,11 @@
                                                 </div>
                                                 <small class="text-muted mb-2"> @Html.DisplayFor(modelItem => item.Createddate)</small>
                                                 <a asp-action="DownloadFile" asp-controller="Home" asp-route-id="@item.Requestwisefileid"><button class="theme-btn-header px-1 "><i class="fa-solid fa-cloud-arrow-down" style="color: #54B4D3;"></i></button></a>
+                                          @*      @if (true)
+                                                {
+                                                    var str = "/UploadedFiles/" + @item.Filename;
+                                                    <a href=@str target="_blank"><button class="theme-btn-header px-1 " name=""><i class="fa-solid fa-eye" style="color: #54B4D3;"></i></button></a>
+                                                }*@
                                             </div>
                                     </tr>
                                     <hr />

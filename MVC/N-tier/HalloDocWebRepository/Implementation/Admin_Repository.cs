@@ -219,10 +219,22 @@ namespace HalloDocWebRepo.Implementation
             return _context.Healthprofessionals.Where(m => m.Profession == businessId).ToList();
         }
 
-        public List<Healthprofessionaltype> getVenderDetail()
+        public List<Healthprofessionaltype> getVenderDetail(int reg, string searchstr)
         {
-
-            return _context.Healthprofessionaltypes.Include(e => e.Healthprofessionals).ToList();
+            if (reg == 0)
+            {
+                if (searchstr == null)
+                    return _context.Healthprofessionaltypes.Include(e => e.Healthprofessionals).ToList();
+                else
+                    return _context.Healthprofessionaltypes.Include(e => e.Healthprofessionals.Where(f => f.Vendorname.ToLower().Contains(searchstr.ToLower()))).ToList();
+            }
+            else
+            {
+                if (searchstr == null)
+                    return _context.Healthprofessionaltypes.Include(e => e.Healthprofessionals.Where(f => f.Profession == reg)).ToList();
+                else
+                    return _context.Healthprofessionaltypes.Include(e => e.Healthprofessionals.Where(f => f.Profession == reg && f.Vendorname.ToLower().Contains(searchstr.ToLower()))).ToList();
+            }
         }
 
         public List<Healthprofessional> getHealthProfessionalList()
@@ -612,9 +624,9 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Blockrequest> getBlockData(string searchstr, DateTime date, string email, string mobile)
         {
-            IQueryable<Blockrequest> tabledata = _context.Blockrequests.Include(e => e.Request).ThenInclude(m => m.Requestclients); 
-            
-           
+            IQueryable<Blockrequest> tabledata = _context.Blockrequests.Include(e => e.Request).ThenInclude(m => m.Requestclients);
+
+
             if (date != DateTime.MinValue && tabledata != null)
             {
 
@@ -965,6 +977,12 @@ namespace HalloDocWebRepo.Implementation
         public void addHealthProfessionTable(Healthprofessional business)
         {
             _context.Healthprofessionals.Add(business);
+            _context.SaveChanges();
+        }
+
+        public void addTokenRegister(TokenRegister tokenRegister)
+        {
+            _context.TokenRegisters.Add(tokenRegister);
             _context.SaveChanges();
         }
     }

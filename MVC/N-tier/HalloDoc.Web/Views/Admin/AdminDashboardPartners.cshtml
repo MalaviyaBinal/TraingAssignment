@@ -1,4 +1,4 @@
-﻿@model List<HalloDocWebEntity.Data.Healthprofessionaltype>
+﻿@model HalloDocWebEntity.ViewModel.AdminPartnersModel
 @{
     Layout = "_AdminHeader";
 }
@@ -10,68 +10,58 @@
     </div>
     <div class="container bg-white rounded shadow">
         <div class="row">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="row">
-                </div>
-                <div class="mt-3">
-                    <a asp-action="AddVendor" class="btn border border-info text-info">
-                        <i class="bi bi-plus-lg"></i>Add Business
-                    </a>
-                </div>
+            <div class="col-sm-12 col-md-4 col-xl-4 my-3 form-floating  text-muted">
+                <input name="VendorName" type="text" class="form-control" id="VendorName" placeholder="Patient Name">
+                <label for="VendorName" class="form-label ms-2">Search Vendor</label>
             </div>
-        </div>
-        <div class="table-responsive mt-4 mb-4">
-            <table class="table table-hover d-md-table d-none">
-                <thead class="table-light text-muted">
-                    <tr>
-                        <th scope="col">Profession</th>
-                        <th scope="col">Business Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Fax Number</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Business Contact</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                 
-                    @foreach (var i in Model)
+            <div class=" col-sm-12 col-md-4 col-xl-4  my-3 ">
+                <select class="form-select p-3" id="RegionSelect" aria-label="form-select-lg example" onchange="GetVendorData()" asp-for=SelectedRegion>
+                    <option value="0">All</option>
+                    @foreach (var i in Model.professions)
                     {
-                        @foreach( var item in i.Healthprofessionals)
-                        {
-                            <tr>
-                                <td scope="row">
-                                    @i.Professionname
-                                </td>
-                                <td scope="row">@item.Vendorname</td>
-                                <td scope="row">@item.Email</td>
-                                <td scope="row">@item.Faxnumber</td>
-                                <td scope="row">@item.Phonenumber</td>
-                                <td scope="row">@item.Businesscontact</td>
-                                <td scope="row">
-                                    <div class="d-flex">
-                                        <a asp-action="EditBusiness" asp-route-id="@item.Vendorid" class="btn btn-outline-info rounded me-2">Edit</a>
-                                        <button type="button" onclick="deleteaccess(this)" value="@item.Vendorid" class="btn btn-outline-info">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                        
+                        <option value="@i.Healthprofessionalid">@i.Professionname</option>
                     }
-                    
-                </tbody>
-            </table>
+                </select>
+
+            </div>
+            <div class=" col-sm-12 col-md-4 col-xl-4 text-end  my-4">
+                <a asp-action="AddVendor" class="btn border border-info text-info">
+                    <i class="fa-solid fa-plus" style="color: #74C0FC;"></i>Add Business
+                </a>
+            </div>
+
         </div>
+        <div id="tableContent"></div>
     </div>
 </div>
 <div id="modalpopup">
 </div>
 <script>
     document.getElementById("partners").classList.add("active");
+    $("#VendorName").change(function (e) {
+        var reg = $("#VendorName").val();
+        var searchstr = document.getElementById("VendorName").value
+        MyAJax(reg, 1, searchstr);
+    })
+    function MyAJax(reg, pagenumber, searchstr) {
+        $.ajax({
+            url: "/Admin/_VendorList",
+            type: "GET",
+            data: { reg: reg, pagenumber: pagenumber, searchstr: searchstr },
+            dataType: "html",
+            success: function (data) {
+                $("#tableContent").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    }
     function deleteaccess(element) {
 
         var id = element.value;
-        console.log(id);
+
         $.ajax({
             url: "/Admin/ShowDeleteModal",
             data: { 'id': id, 'acntType': "Vender" },
@@ -88,4 +78,20 @@
             }
         });
     };
+</script>
+<script>
+    $(document).ready(function () {
+        MyAJax(0, 1, null);
+    });
+</script>
+<script>
+    function GetVendorData(pagenumber) {
+
+        if (pagenumber == 0) {
+            pagenumber = @Model.CurrentPage;
+        }
+        var reg = $("#RegionSelect").val();
+
+        MyAJax(reg, pagenumber);
+    }
 </script>
