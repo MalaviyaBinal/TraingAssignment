@@ -1,15 +1,49 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminDashBoardPagination
+<script>
+    function EncounterCase(element) {
+
+        console.log(element);
+        $.ajax({
+            url: "/Provider/_CallTypeModal",
+            data: { 'id': element },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
+    function EncouterFinalize(element) {
+        var id = element.value;
+        console.log(id);
+        $.ajax({
+            url: "/Provider/_EncounterModal",
+            data: { 'id': id },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
+</script>
+<div id="modalpopup"></div>
 <table id="adminTable" class="table table-responsive caption-top mt-4 hideOnMobile">
     <thead>
         <tr class="text-muted">
             <th scope="col">Name</th>
-            @*<th scope="col">Date Of Birth</th>*@
-            <th scope="col">Requestor</th>
-            <th scope="col">Physician Name</th>
-            <th scope="col">Date of Service</th>
+
             <th scope="col">Phone</th>
             <th scope="col">Address</th>
-            <th scope="col">Notes</th>
+            <th scope="col">status</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -42,21 +76,6 @@
                 <td>
                     @item.Name
                 </td>
-
-                @*<td >
-            @item.Strmonth
-            </td>*@
-                <td>
-                    @item.Requestor
-                </td>
-
-                <td>
-                    @item.physician
-                </td>
-                <td>
-                    @item.Requesteddate
-                </td>
-                <td>
                 <td class="font">
                     <a href="tel:@item.Phonenumber" class="text-decoration-none f">
                         <button class="btn btn-outline-light d-flex">
@@ -64,12 +83,20 @@
                         </button>
                     </a>
                 </td>
-                </td>
                 <td>
                     @item.Address
                 </td>
                 <td>
-                    @item.Notes
+                    @if (@item.Status == 5)
+                    {
+                        <a asp-action="HouseCallToConclude" asp-controller="Provider" asp-route-id="@item.Requestid">
+
+                            <button class="btn btn-info text-white">
+                                House Call
+                            </button>
+                        </a>
+                    }
+                    else { }
                 </td>
 
                 <td>
@@ -78,13 +105,30 @@
                             Action
                         </button>
 
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="fa-solid fa-file-invoice me-3"></i>View Case</a></li>
-                            <li><a class="dropdown-item" asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-arrow-up me-3"></i>View Uploads</a></li>
 
-                            <li><a class="dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-journals me-3"></i>View Notes</a></li>
-                            <li><a class="dropdown-item" asp-action="SendOrder" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-check-fill me-3"></i>Orders</a></li>
-                            <li><a class="dropdown-item" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-text me-3"></i>Encounter</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" asp-action="ViewCase" asp-route-id="@item.Requestid"><i class="fa-solid fa-file-invoice me-3"></i>View Case</a></li>
+                            <li><a class="dropdown-item" asp-action="ViewDocument" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-arrow-up me-3"></i>View Uploads</a></li>
+
+                            <li><a class="dropdown-item" asp-action="ViewNotes" asp-route-id="@item.Requestid"><i class="bi bi-journals me-3"></i>View Notes</a></li>
+                            <li><a class="dropdown-item" asp-action="SendOrder" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-check-fill me-3"></i>Orders</a></li>
+                            <li>
+                                @if (item.Status == 4)
+                                {
+                                //modal with 2 nbutton
+                                    <a class="dropdown-item" onclick="EncounterCase(@item.Requestid)" value=""><i class="bi bi-file-earmark-text me-3"></i>Encounter</a>
+                                }
+                                else if (item.Status == 5 && (item.IsFinalize == null || item.IsFinalize[0] == false))
+                                {
+                                    //encounter form
+                                    <a class="dropdown-item" asp-action="EncounterForm" asp-controller="Provider" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-text me-3"></i>Encounter</a>
+                                }
+                                else if (item.Status == 5 && (item.IsFinalize[0] == true))
+                                {
+                                //modal with  download  button
+                                    <a class="dropdown-item" onclick="EncouterFinalize(@item.Requestid)" value=""><i class="bi bi-file-earmark-text me-3"></i>Encounter</a>
+                                }
+                            </li>
                         </ul>
                     </div>
                 </td>
@@ -144,7 +188,7 @@
                 <hr class="m-0 p-0 text-muted" />
                 <div id="collapse_@i" class="accordion-collapse collapse" style="background-color: #00bae920;" aria-labelledby="flush-heading" data-bs-parent="#accordionExample">
                     <div class="d-flex justify-content-end">
-                        <a role="button" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.Requestid" class="btn bg-white rounded-pill border-secondary text-dark z-3 mx-3" style="position: relative;bottom: 20px;right: 5px; z-index: 1050;" type="button">
+                        <a role="button" asp-action="ViewCase" asp-route-id="@item.Requestid" class="btn bg-white rounded-pill border-secondary text-dark z-3 mx-3" style="position: relative;bottom: 20px;right: 5px; z-index: 1050;" type="button">
                             View
                             Case
                         </a>
@@ -181,7 +225,7 @@
 
 
                             <div class="col-6 mb-2">
-                                <a asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.Requestid">
+                                <a asp-action="ViewNotes" asp-route-id="@item.Requestid">
                                     <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
                                         <small>View Notes</small>
                                     </button>
@@ -189,21 +233,21 @@
                             </div>
 
                             <div class="col-6 mb-2">
-                                <a asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.Requestid">
+                                <a asp-action="ViewDocument" asp-route-id="@item.Requestid">
                                     <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
                                         <small>View Uploads</small>
                                     </button>
                                 </a>
                             </div>
                             <div class="col-6 mb-2">
-                                <a asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.Requestid">
+                                <a asp-action="EncounterForm" asp-route-id="@item.Requestid">
                                     <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
                                         <small> Encounter</small>
                                     </button>
                                 </a>
                             </div>
                             <div class="col-6 mb-2">
-                                <a class="dropdown-item" asp-action="SendOrder" asp-controller="Admin" asp-route-id="@item.Requestid">
+                                <a class="dropdown-item" asp-action="SendOrder" asp-route-id="@item.Requestid">
                                     <button class="btn text-white rounded-pill 2px w-100" style="background-color:#EE9125;" id="clearcase">
                                         <small>Orders</small>
                                     </button>

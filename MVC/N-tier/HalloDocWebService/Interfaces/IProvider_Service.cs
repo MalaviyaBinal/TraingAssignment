@@ -25,5 +25,26 @@ namespace HalloDocWebServices.Interfaces
         int getRequestTypeByRequestID(int id);
         void sendAgreementMail(int id, string? v);
         Request GetRequestData(int id);
+        void TransferConfirm(Request reg, string? v);
+        AdminViewUpload getPatientDocument(int? v);
+        Dictionary<int, string> GetExtension(int v);
+        void deleteAllFile(int id, string[] filenames);
+        void uploadFileAdmin(IFormFile fileToUpload, int v1, string? v2);
+        MemoryStream downloadFile(string[] filenames);
+        SendOrderModel getOrderModel(int id, int profId, int businessId);
+        void sendOrder(SendOrderModel info);
+        void ConsultCall(int id);
+        void HouseCall(int id);
+        void EncounterFinalize(int id);
+        Encounterformmodel EncounterProvider(int id);
+        void saveEncounterForm(Encounterformmodel info);
+        void deleteFile(int id);
+        void SendEmail(int id, string[] filenames, string? v);
+        void HouseCallToConclude(int id);
+        AdminViewUpload ConcludeCare(int id);
+        void ConcludeFinal(AdminViewUpload model, string? v);
+        AdminProviderModel getPhyProfileData(string? v);
+        void UpdateProfileRequest(string? v, string? adminnotes);
+        void savePhysicianPassword(AdminProviderModel info);
     }
 }

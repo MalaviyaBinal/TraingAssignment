@@ -1,0 +1,27 @@
+﻿﻿
+<div class="modal fade" id="Encounter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Select Type Of Care</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a asp-action="HouseCall" asp-controller="Provider" asp-route-id="@ViewBag.reqid"><button class="btn btn-white text-info border-info me-md-2" type="button">Housecall</button></a>
+                    <a asp-action="ConsultCall" asp-controller="Provider" asp-route-id="@ViewBag.reqid"><button class="btn btn-white text-info border-info" type="button">Consult</button></a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info text-white">Save</button>
+                <button type="button" class="btn btn-white text-info border-info" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var myModalAssign = new bootstrap.Modal(document.getElementById('Encounter'));
+        myModalAssign.show();
+    });
+</script>

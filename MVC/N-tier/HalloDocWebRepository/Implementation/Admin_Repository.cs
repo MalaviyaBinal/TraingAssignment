@@ -156,8 +156,8 @@ namespace HalloDocWebRepo.Implementation
                     RegionID = item.Requestclients.FirstOrDefault().Regionid,
                     RequestTypeName = item.Requesttype.Name,
                     RequestorPhonenumber = item.Phonenumber,
-                    Status = item.Status
-
+                    Status = item.Status,
+                    IsFinalize = item.Completedbyphysician
                 });
             });
             return model;
@@ -208,7 +208,8 @@ namespace HalloDocWebRepo.Implementation
                     RegionID = item.Requestclients.FirstOrDefault().Regionid,
                     RequestTypeName = item.Requesttype.Name,
                     RequestorPhonenumber = item.Phonenumber,
-                    Status = item.Status
+                    Status = item.Status,
+                    IsFinalize= item.Completedbyphysician
                 });
             });
             return model;

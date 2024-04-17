@@ -1,14 +1,9 @@
 ﻿using HalloDocWebEntity.ViewModel;
-using HalloDocWebEntity.ViewModel;
+
 using HalloDocWebServices.Interfaces;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using ClosedXML.Excel;
+
 using HalloDocWebEntity.Data;
-using System.Security.Claims;
-using System.Collections.Generic;
-using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace HalloDoc.Web.Controllers
 {
@@ -80,7 +75,7 @@ namespace HalloDoc.Web.Controllers
 
                 case 2: return PartialView("_Pending", model);
                 case 3: return PartialView("_Active", model);
-                case 4: return PartialView("_Conclude", model);              
+                case 4: return PartialView("_Conclude", model);
                 default: return PartialView("_New", model);
             }
 
@@ -137,7 +132,7 @@ namespace HalloDoc.Web.Controllers
         public ActionResult sendMailAgreement(int id)
         {
             _service.sendAgreementMail(id, HttpContext.Request.Cookies["userEmail"]);
-            return RedirectToAction(nameof(AdminDashboard));
+            return RedirectToAction(nameof(ProviderDashboard));
         }
         public async Task<IActionResult> TransferCaseModal(int id)
         {
@@ -146,7 +141,156 @@ namespace HalloDoc.Web.Controllers
             return PartialView("_TransferCaseModal", _service.GetRequestData(id));
         }
 
+        public async Task<IActionResult> TransferConfirm(Request reg)
+        {
+            _service.TransferConfirm(reg, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(ProviderDashboard));
+        }
+        public IActionResult ViewDocument(int id)
+        {
+            if (id != 0)
+                HttpContext.Session.SetInt32("req_id", (int)id);
+            AdminViewUpload data = _service.getPatientDocument(HttpContext.Session.GetInt32("req_id"));
+            Dictionary<int, string> requestIdCounts = _service.GetExtension((int)HttpContext.Session.GetInt32("req_id"));
 
+            ViewBag.fileExtensions = requestIdCounts;
+            return View(data);
+        }
+        public async Task<ActionResult> DeleteAll(int id, string[] filenames)
+        {
+            _service.deleteAllFile(id, filenames);
+            return RedirectToAction(nameof(ViewDocument), (int)HttpContext.Session.GetInt32("req_id"));
+        }
+        [HttpPost]
+        public IActionResult UploadFileProvider(IFormFile fileToUpload)
+        {
+
+            if (fileToUpload != null && fileToUpload.Length > 0)
+            {
+                _service.uploadFileAdmin(fileToUpload, (int)HttpContext.Session.GetInt32("req_id"), HttpContext.Request.Cookies["userEmail"]);
+
+                return RedirectToAction(nameof(ViewDocument), (int)HttpContext.Session.GetInt32("req_id"));
+            }
+            else
+            {
+
+                return RedirectToAction(nameof(ViewDocument));
+            }
+
+        }
+        
+        [HttpPost]
+        public ActionResult DownloadFiles([FromBody] string[] filenames)
+        {
+            MemoryStream zipStream = _service.downloadFile(filenames);
+            return File(zipStream.ToArray(), "application/zip", "selected_files.zip");
+        }
+        public async Task<IActionResult> SendOrder(int id, int profId = 0, int businessId = 0)
+        {
+            SendOrderModel model = _service.getOrderModel(id, profId, businessId);
+            return View(model);
+        }
+        public async Task<IActionResult> SendOrderDetail(SendOrderModel info)
+        {
+            _service.sendOrder(info);
+            return RedirectToAction(nameof(AdminDashboard));
+        }
+        public async Task<IActionResult> _CallTypeModal(int id)
+        {
+            //var data = _service.opencancelmodel(id);
+            ViewBag.reqid = id;
+            return View();
+        }
+        public async Task<IActionResult> _EncounterModal(int id)
+        {
+            //var data = _service.opencancelmodel(id);
+            ViewBag.reqid = id;
+            return View();
+        }
+        public ActionResult ConsultCall(int id)
+        {
+            _service.ConsultCall(id);
+            return RedirectToAction(nameof(ProviderDashboard));
+        }
+        public ActionResult HouseCall(int id)
+        {
+            _service.HouseCall(id);
+            return RedirectToAction(nameof(ProviderDashboard));
+        }
+        public ActionResult EncounterFinalize(int id)
+        {
+            _service.EncounterFinalize(id);
+            return RedirectToAction(nameof(ProviderDashboard));
+        }
+        public IActionResult EncounterForm(int id)
+        {
+            return View(_service.EncounterProvider(id));
+        }
+        public ActionResult SaveEncounterForm(Encounterformmodel info)
+        {
+            _service.saveEncounterForm(info);
+            return RedirectToAction(nameof(ProviderDashboard));
+        }
+        public async Task<ActionResult> DeleteFile(int id)
+        {
+            _service.deleteFile(id);
+            return RedirectToAction(nameof(ViewDocument), (int)HttpContext.Session.GetInt32("req_id"));
+        }
+        public async Task<ActionResult> SendMail(int id, string[] filenames)
+        {
+            _service.SendEmail(id, filenames, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(ViewDocument), (int)HttpContext.Session.GetInt32("req_id"));
+        }
+        public ActionResult HouseCallToConclude(int id)
+        {
+            _service.HouseCallToConclude(id);
+            return RedirectToAction(nameof(ProviderDashboard));
+        }
+        public IActionResult ConcludeCare(int id)
+        {
+            ViewBag.id = id;
+            Dictionary<int, string> requestIdCounts = _service.GetExtension(id);
+
+            ViewBag.fileExtensions = requestIdCounts;
+            AdminViewUpload model = _service.ConcludeCare(id);
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult ConcludeUploadFileProvider(IFormFile fileToUpload)
+        {
+
+            if (fileToUpload != null && fileToUpload.Length > 0)
+            {
+                _service.uploadFileAdmin(fileToUpload, (int)HttpContext.Session.GetInt32("req_id"), HttpContext.Request.Cookies["userEmail"]);
+
+                return RedirectToAction(nameof(ConcludeCare), (int)HttpContext.Session.GetInt32("req_id"));
+            }
+            else
+            {
+
+                return RedirectToAction(nameof(ConcludeCare));
+            }
+
+        }
+        public IActionResult ConcludeFinal(AdminViewUpload model)
+        {
+            _service.ConcludeFinal(model, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(ProviderDashboard));
+        }
+        public IActionResult MyProfile()
+            {
+            return View(_service.getPhyProfileData(HttpContext.Request.Cookies["userEmail"]));
+        }
+        public IActionResult UpdateProfileRequest(AdminProviderModel model)
+        {
+            _service.UpdateProfileRequest(HttpContext.Request.Cookies["userEmail"], model.Adminnotes);
+            return RedirectToAction(nameof(MyProfile));
+        }
+        public ActionResult SavePhysicianPassword(AdminProviderModel info)
+        {
+            _service.savePhysicianPassword(info);
+            return RedirectToAction(nameof(MyProfile));
+        }
         #endregion
     }
 }

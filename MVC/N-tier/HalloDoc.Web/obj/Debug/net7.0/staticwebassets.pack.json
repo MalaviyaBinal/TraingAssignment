@@ -9,6 +9,14 @@
       "PackagePath": "staticwebassets\\PhysicianDoc\\1\\AgreementDoc.pdf"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Profile.jpg",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\1\\Profile.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Signature.jpg",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\1\\Signature.jpg"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\2\\AgreementDoc.pdf",
       "PackagePath": "staticwebassets\\PhysicianDoc\\2\\AgreementDoc.pdf"
     },
@@ -81,8 +89,20 @@
       "PackagePath": "staticwebassets\\UploadedFiles\\ExportedData (2).xlsx"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Fig4. Admin dashboard in New state.jpg",
+      "PackagePath": "staticwebassets\\UploadedFiles\\Fig4. Admin dashboard in New state.jpg"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Fig43. Patient history.jpg",
       "PackagePath": "staticwebassets\\UploadedFiles\\Fig43. Patient history.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Fig65.Patient Create New Request.jpg",
+      "PackagePath": "staticwebassets\\UploadedFiles\\Fig65.Patient Create New Request.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Fig66.Submit Information me.jpg",
+      "PackagePath": "staticwebassets\\UploadedFiles\\Fig66.Submit Information me.jpg"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Fig7. Admin dashboard in Conclude state.jpg",

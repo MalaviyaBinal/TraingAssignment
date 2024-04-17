@@ -10,6 +10,7 @@
             @*<th scope="col">Date Of Birth</th>*@
             <th scope="col">Requestor</th>
             <th scope="col">Requested Date</th>
+            <th></th>
             <th scope="col">Phone</th>
             <th scope="col">Address</th>
             <th scope="col">Notes</th>
@@ -56,7 +57,15 @@
                     @item.Requesteddate
                 </td>
                 <td>
-
+                    @if (true)
+                    {
+                        var str1 = "mailto:" + item.Email;
+                        <a href=@str1><i class="fa-regular fa-envelope" style="color: #ffffff;"></i></a>
+                    }
+                </td>
+                <td>
+                    
+                   
                     <button class="btn btn-outline-light"> @item.Phonenumber</button>
 
                 </td>

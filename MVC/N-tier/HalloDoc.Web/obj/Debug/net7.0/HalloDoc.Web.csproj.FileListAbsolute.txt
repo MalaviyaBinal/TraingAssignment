@@ -405,6 +405,7 @@ D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\staticwebassets.de
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\scopedcss\Views\Shared\_AdminHeader.cshtml.rz.scp.css
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\scopedcss\Views\Shared\_MyLayout.cshtml.rz.scp.css
+D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\scopedcss\Views\Shared\_ProviderHeader.cshtml.rz.scp.css
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\scopedcss\bundle\HalloDoc.Web.styles.css
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\scopedcss\projectbundle\HalloDoc.Web.bundle.scp.css
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\HalloDoc.Web.csproj.CopyComplete
@@ -413,4 +414,3 @@ D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\refint\HalloDoc.We
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\HalloDoc.Web.pdb
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\HalloDoc.Web.genruntimeconfig.cache
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\ref\HalloDoc.Web.dll
-D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\scopedcss\Views\Shared\_ProviderHeader.cshtml.rz.scp.css

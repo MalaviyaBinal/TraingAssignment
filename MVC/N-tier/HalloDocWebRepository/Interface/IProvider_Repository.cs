@@ -31,5 +31,27 @@ namespace HalloDocWebRepo.Interface
         List<Requeststatuslog> getRequestStatusLog(int id);
         Physician getPhysicianById(int? physicianid);
         void updateRequestNoteTable(Requestnote reqnotes);
+        void addRequestStatusLogTable(Requeststatuslog statuslog);
+        void addTokenRegister(TokenRegister tokenRegister);
+        List<Requestwisefile> getPatientDocument(int? id);
+        Requestwisefile getRequestWiseFileByName(string filename, int id);
+        void updateRequestWiseFile(Requestwisefile file);
+        Aspnetuser getAspnetuserByEmail(string email);
+        void addRequestWiseFile(Requestwisefile reqclient);
+        List<Healthprofessional> getHealthProfessionalList();
+        List<Healthprofessional> getHealthProfessional(int profId);
+        Healthprofessional getHealthProfessionalDetail(int businessId);
+        List<Healthprofessionaltype> getHealthProfessionalTypeList();
+        void addOrderDetailTable(Orderdetail orderdetail);
+        void updateEncounterForm(EncounterForm info);
+        EncounterForm getEncounterTable(int id);
+        Requestwisefile getRequestWiseFile(int id);
+        Requestwisefile getRequesWiseFileList(int id, string filename);
+        void addEncounterTable(EncounterForm model);
+        List<Requestwisefile> getRequestWiseFileList(int id);
+        Aspnetuser getAspnetuserByID(int? aspnetuserid);
+        List<Physicianregion> getPhysicianRegionByPhy(int physicianid);
+        List<Admin> getAdminList();
+        void updateAspnetUser(Aspnetuser aspnetuser);
     }
 }

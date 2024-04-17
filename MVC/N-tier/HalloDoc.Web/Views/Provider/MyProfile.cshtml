@@ -1,0 +1,392 @@
+﻿@using System.Collections
+@model HalloDocWebEntity.ViewModel.AdminProviderModel
+@{
+    Layout = "_ProviderHeader";
+}
+<style>
+    .iti {
+        width: 100%;
+    }
+
+    #phone, #phone1 {
+        height: 58px;
+    }
+</style>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Request To Administrator</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col text-muted">
+                        Need To Send Message To Edit..
+                    </div>
+                </div>
+                <form asp-action="UpdateProfileRequest" asp-controller="Provider" method="post">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating">
+                                <textarea class="form-control" name="Adminnotes" placeholder="Leave a comment here" id="notes" style="height: 100px"></textarea>
+                                <label for="floatingTextarea2">Message</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info text-white">Send</button>
+                        <button type="button" id="cancelbtn" class="btn btn-white border-info text-info" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between mt-3">
+                <h4 class="mt-3">My Profile</h4>
+            </div>
+            <div class="container rounded bg-white shadow py-3">
+                <form asp-action="SavePhysicianPassword" asp-controller="Provider" method="post">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="mb-3 h5">Account Information</div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button class="btn btn-white text-info border-info" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button">Request To Admin</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <input type="hidden" asp-for="@Model.aspnetuser.Id" />
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=aspnetuser.Usarname type="text" class="form-control" id="exampleFormControlInput1" placeholder="Firstname" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">User Name</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input name="Passwordhash" type="text" class="form-control" id="Passwordhash" placeholder="Lastname" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Password </label>
+                        </div>
+                    </div>
+                    <div class="text-end pb-3">
+                        <button class="btn btn-white text-info border-info" onclick="EditData2()" id="reset" type="button">Reset password</button>
+                        <button class="btn btn-info text-white" id="save2" type="submit" style="display:none;">Save</button>
+                        <button class="btn btn-white text-info border-info" onclick="disableData2()" id="cancel2" type="button" style="display:none;">Cancel</button>
+                    </div>
+                </form>
+                <form asp-action="SavePhysicianInfo" asp-controller="Provider" id="enable">
+                    <input type="hidden" asp-for=physician.Physicianid />
+                    <div class="row">
+                        <div class="col-12 h5 mb-3">
+                            Physician Information
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Firstname value="@Model.Firstname" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Firstname" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Firstname</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Lastname value="@Model.Lastname" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Lastname" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Lastname</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Email value="@Model.Email" type="email" class="form-control" id="email" placeholder="Email" disabled>
+                            <label for="email" class="form-label ps-4">Email</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Mobile value="@Model.Mobile" id="phone" class="form-control inp2" type="tel" placeholder="Phone Number" disabled>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Medicallicense value="@Model.Medicallicense" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Lastname" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Medical Licence</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Npinumber value="@Model.Npinumber" type="text" class="form-control" id="exampleFormControlInput1" placeholder="NPI Number" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">NPI Number</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 mb-3 text-muted">
+                            @if (Model.regions != null)
+                            {
+                                @foreach (var item in Model.regions)
+                                {
+                                    @if (Model.regions.Any(x => x.Regionid == item.Regionid))
+                                    {
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input checkboxes" type="checkbox" name="SelectedReg" value="@item.Regionid" checked disabled>
+                                            <label class="form-check-label text6" for="inlineCheckbox1">@item.Name</label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input checkboxes" type="checkbox" name="SelectedReg" value="@item.Regionid" disabled>
+                                            <label class="form-check-label text6" for="inlineCheckbox1">@item.Name</label>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </form>
+                <form asp-action="SavePhysicianBillingInfo" asp-controller="Provider" id="enable1">
+                    <input type="hidden" asp-for=physician.Physicianid />
+                    <div class="row">
+                        <div class="col-12 h5 mb-3">
+                            Mailing & Billing Information
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Address1 value="@Model.Address1" type="text" class="form-control" id="Address-1" placeholder="Address 1" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Address 1</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Address2 value="@Model.Address2" type="text" class="form-control" id="Address-2" placeholder="Address 2" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Address 2</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
+                            <input asp-for=City type="text" value="@Model.City" class="form-control" id="city" placeholder="City" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">City</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
+                            <input type="text" class="form-control" id="state" placeholder="State" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">State</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
+                            <input asp-for=Zip type="text" value="@Model.Zip" class="form-control" id="zipcode" placeholder="Zip Code" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Zip Code</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Altphone value="@Model.Altphone" id="phone1" class="form-control inp2" type="tel" placeholder="Phone Number" disabled>
+                        </div>
+                    </div>
+                </form>
+                <form id="enable1">
+                    <div class="row">
+                        <div class="col-12 h5 mb-3">
+                            Provider Profile
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Businessname value="@Model.Businessname" type="text" class="form-control" id="Address-1" placeholder="Business Name" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Business Name</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Businesswebsite value="@Model.Businesswebsite" type="text" class="form-control" id="Address-2" placeholder="Business Website" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Business Website</label>
+                        </div>
+                        <fieldset id="upload" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <div class="input-group mb-3 ">
+                                <input type="file" class="form-control" disabled id="inputGroupFile02">
+                                <label class="input-group-text text-muted p-0" for="inputGroupFile02">
+                                    <label class="btn btn-info text-white mx-0">
+                                        <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
+                                        Upload
+                                    </label>
+
+                                </label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="upload" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <div class="input-group mb-3 ">
+                                <input type="file" class="form-control" disabled id="inputGroupFile02">
+                                <label class="input-group-text text-muted p-0" for="inputGroupFile02">
+                                    <label class="btn btn-info text-white mx-0">
+                                        <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
+                                        Upload
+                                    </label>
+
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        @if (Model.Signature != null)
+                        {
+                            <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                                <img src="/PhysicianDoc/@Model.physician.Physicianid/@Model.Signature" class="w-25 " height="150px" width="50px" />
+                            </div>
+                        }
+                    </div>
+                    <hr />
+                </form>
+                <form id="enable1" method="post" enctype="multipart/form-data" asp-action="SavePhysicianProfile" asp-controller="Provider">
+                    <input type="hidden" asp-for=physician.Physicianid  />
+                    <div class="row">
+                        <div class="col-12 h5 mb-3">
+                            Onboarding
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="form-check  col-5 m-2">
+                                    <label class="form-check-label" for="1">
+                                        Independent Contractor Agreement
+                                    </label>
+                                </div>
+                                @if (@Model.Isagrementdoc[0])
+                                {
+                                    <button class="btn btn-info col-1 text-white" type="button" onclick="viewdoc('AgreementDoc')">View</button>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="form-check col-5 m-2">
+                                    <label class="form-check-label " for="2">
+                                        Background Check
+                                    </label>
+                                </div>
+                                @if (@Model.IsbackgroundDoc[0])
+                                {
+                                    <button class="btn btn-info col-1 text-white" type="button" onclick="viewdoc('BackgroundDoc')">View</button>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="form-check col-5 m-2">
+                                    <label class="form-check-label" for="3">
+                                        HIPAA Compilance
+                                    </label>
+                                </div>
+                                @if (@Model.IsTrainingDoc[0])
+                                {
+                                    <button class="btn btn-info col-1 text-white" type="button" onclick="viewdoc('HIPAA')">View</button>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="form-check col-5 m-2">
+                                    <label class="form-check-label" for="4">
+                                        Non-Disclosure Agreement
+                                    </label>
+                                </div>
+                                @if (@Model.IsNonDisclosure[0])
+                                {
+                                    <button class="btn btn-info col-1 text-white" type="button" onclick="viewdoc('NonDisclosureDoc')">View</button>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="form-check m-2 col-4">
+                                    <label class="form-check-label" for="5">
+                                        Licence Document
+                                    </label>
+                                </div>
+                                @if (@Model.IsLisenceDoc[0])
+                                {
+
+                                    <button class="btn btn-info col-1 text-white" type="button" onclick="viewdoc('LicenseDoc')">View</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalpopup">
+</div>
+<script>
+    function viewdoc(str) {
+        window.open("/PhysicianDoc/" + @Model.physician.Physicianid+"/" + str + ".jpg");
+    }
+    function deleteaccess(element) {
+
+        var id = element.value;
+        console.log(id);
+        $.ajax({
+            url: "/Provider/ShowDeleteModal",
+            data: { 'id': id, 'acntType': "Physician" },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modalpopup").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+
+            }
+        });
+    };
+    function EditData2() {
+        document.getElementById("reset").style.display = "none";
+        document.getElementById("cancel2").style.display = "inline";
+        document.getElementById("save2").style.display = "inline";
+        document.getElementById("Passwordhash").disabled = false;
+    }
+    function disableData2() {
+        document.getElementById("Passwordhash").disabled = true;
+        document.getElementById("reset").style.display = "inline";
+        document.getElementById("cancel2").style.display = "none";
+        document.getElementById("save2").style.display = "none";
+    }
+    function disableData() {
+        document.getElementById("save1").style.display = "none";
+        document.getElementById("cancel1").style.display = "none";
+        document.getElementById("edit1").style.display = "inline";
+        var formelements = document.getElementById("enable1").elements;
+        for (var i = 0; i < formelements.length; i++) {
+            if (i == 7)
+                continue;
+            formelements[i].disabled = true;
+        }
+    }
+    function disableData1() {
+        document.getElementById("save").style.display = "none";
+        document.getElementById("cancel").style.display = "none";
+        document.getElementById("edit").style.display = "inline";
+        var formelements = document.getElementById("enable").elements;
+        for (var i = 0; i < formelements.length; i++) {
+            if (i == 10)
+                continue;
+            formelements[i].disabled = true;
+        }
+    }
+    function EditData() {
+        document.getElementById("save").style.display = "inline";
+        document.getElementById("cancel").style.display = "inline";
+        document.getElementById("edit").style.display = "none";
+        var formelements = document.getElementById("enable").elements;
+        for (var i = 0; i < formelements.length; i++) {
+            formelements[i].disabled = false;
+        }
+    }
+    function EditData1() {
+        document.getElementById("save1").style.display = "inline";
+        document.getElementById("cancel1").style.display = "inline";
+        document.getElementById("edit1").style.display = "none";
+        var formelements = document.getElementById("enable1").elements;
+        for (var i = 0; i < formelements.length; i++) {
+            formelements[i].disabled = false;
+        }
+    }
+    // document.getElementById("save").style.display = "inline";
+    // document.getElementById("cancel").style.display = "inline";
+    // document.getElementById("edit").style.display = "none";
+    const input = document.querySelector("#phone");
+    const input2 = document.querySelector("#phone1");
+    const button = document.querySelector("#btn");
+    const errorMsg = document.querySelector("#error-msg");
+    const validMsg = document.querySelector("#valid-msg");
+
+    // here, the index maps to the error code returned from getValidationError - see readme
+    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    // initialise plugin
+    const iti = window.intlTelInput(input, {
+        initialCountry: "us",
+        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    });
+    const iti1 = window.intlTelInput(input2, {
+        initialCountry: "us",
+        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    });
+</script>
+<script>
+    document.getElementById("profile").classList.add("active");
+</script>

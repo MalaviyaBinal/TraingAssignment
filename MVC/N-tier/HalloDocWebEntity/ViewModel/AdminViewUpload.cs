@@ -15,6 +15,7 @@ namespace HalloDocWebEntity.ViewModel
         public DateOnly? DOB { get; set; }
         public string? phone { get; set; }
         public string? email { get; set; }
+        public string? phyNotes { get; set; }
 
     }
 }

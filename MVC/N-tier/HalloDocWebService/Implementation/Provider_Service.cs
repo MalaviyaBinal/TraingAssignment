@@ -370,6 +370,463 @@ namespace HalloDocWebServices.Implementation
         {
             return _repository.getRequestByReqID(id);
         }
+
+        public void TransferConfirm(Request reg, string? email)
+        {
+            Physician phy = _repository.GetPhyByEmail(email);
+            Request data = _repository.getRequestByReqID(reg.Requestid);
+            data.Physicianid = null;
+            data.Status = 1;
+            _repository.updateRequestTable(data);
+            Requeststatuslog statuslog = new Requeststatuslog
+            {
+                Requestid = data.Requestid,
+                Transtoadmin = new BitArray(1, true),
+                Notes = reg.Casetag,
+                Status = 1,
+                Createddate = DateTime.Now,
+                Physicianid = phy.Physicianid,
+
+            };
+            _repository.addRequestStatusLogTable(statuslog);
+        }
+        public AdminViewUpload getPatientDocument(int? id)
+        {
+            AdminViewUpload model = new();
+            model.FileList = _repository.getPatientDocument(id);
+            model.patientData = _repository.getRequestClientById(id);
+            model.confirmationDetail = _repository.getRequestByReqID((int)id);
+            return model;
+        }
+        public Dictionary<int, string> GetExtension(int id)
+        {
+            var fileList = _repository.getPatientDocument(id);
+            Dictionary<int, string> requestIdCounts = new Dictionary<int, string>();
+            foreach (var file in fileList)
+            {
+                var extension = Path.GetExtension(file.Filename);
+                requestIdCounts.Add(file.Requestwisefileid, extension);
+            }
+            return requestIdCounts;
+        }
+        public void deleteAllFile(int id, string[] filenames)
+        {
+            List<Requestwisefile> files = new();
+            foreach (var filename in filenames)
+            {
+                files.Add(_repository.getRequestWiseFileByName(filename, id));
+            }
+            foreach (var file in files)
+            {
+                file.Isdeleted = new BitArray(1, true);
+                _repository.updateRequestWiseFile(file);
+            }
+        }
+        public void uploadFileAdmin(IFormFile fileToUpload, int id, string email)
+        {
+            Aspnetuser admin = _repository.getAspnetuserByEmail(email);
+            string FileNameOnServer = "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\";
+            FileNameOnServer += fileToUpload.FileName;
+            using var stream = System.IO.File.Create(FileNameOnServer);
+            fileToUpload.CopyTo(stream);
+            var userobj = _repository.getRequestByReqID(id);
+            Requestwisefile reqclient = new Requestwisefile
+            {
+                Requestid = id,
+                Filename = fileToUpload.FileName,
+                Createddate = DateTime.Now,
+                Adminid = admin.Id
+            };
+            _repository.addRequestWiseFile(reqclient);
+        }
+        public MemoryStream downloadFile(string[] filenames)
+        {
+            string repositoryPath = @"D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\wwwroot\UploadedFiles\";
+            using (MemoryStream zipStream = new MemoryStream())
+            {
+                using (ZipArchive zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+                {
+                    foreach (string filename in filenames)
+                    {
+                        string filePath = Path.Combine(repositoryPath, filename);
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            zipArchive.CreateEntryFromFile(filePath, filename);
+                        }
+                    }
+                }
+                zipStream.Seek(0, SeekOrigin.Begin);
+                return zipStream;
+            }
+        }
+        public SendOrderModel getOrderModel(int id, int profId, int businessId)
+        {
+            SendOrderModel model = new();
+            if (businessId == 0)
+            {
+                model.business = _repository.getHealthProfessionalList();
+                Healthprofessional healthprofessional = new();
+                healthprofessional.Businesscontact = string.Empty;
+                healthprofessional.Email = string.Empty;
+                healthprofessional.Faxnumber = string.Empty;
+                model.businessDetail = healthprofessional;
+            }
+            else
+            {
+                model.business = _repository.getHealthProfessional(profId);
+                model.businessDetail = _repository.getHealthProfessionalDetail(businessId);
+            }
+            model.professions = _repository.getHealthProfessionalTypeList();
+            model.req_id = id;
+            return model;
+        }
+        public void sendOrder(SendOrderModel info)
+        {
+            Orderdetail orderdetail = new Orderdetail
+            {
+                Vendorid = info.BusinessSelect,
+                Requestid = info.req_id,
+                Faxnumber = info.FaxNumber,
+                Email = info.email,
+                Businesscontact = info.businesscontact,
+                Prescription = info.prescription,
+                Noofrefill = info.noOfRetail,
+                Createddate = DateTime.Now
+            };
+            _repository.addOrderDetailTable(orderdetail);
+        }
+        public void EncounterFinalize(int id)
+        {
+            var data = _repository.getRequestByReqID(id);
+            data.Completedbyphysician = new BitArray(1, true);
+            _repository.updateRequestTable(data);
+            EncounterForm info = _repository.getEncounterTable(id);
+            info.IsFinalized = new BitArray(1, true);
+            _repository.updateEncounterForm(info);
+        }
+
+        public void ConsultCall(int id)
+        {
+            var data = _repository.getRequestByReqID(id);
+            data.Status = 6;
+            data.Calltype = 2; 
+            _repository.updateRequestTable(data);
+        }
+        public void HouseCall(int id)
+        {
+            var data = _repository.getRequestByReqID(id);
+            data.Status = 5;
+            data.Calltype = 1; // HouseCall Will Get 1
+            _repository.updateRequestTable(data);
+        }
+        public Encounterformmodel EncounterProvider(int id)
+        {
+            var patientData = _repository.getRequestClientById(id);
+            Encounterformmodel model = new();
+            model.patientData = patientData;
+            model.confirmationDetail = _repository.getRequestByReqID(id);
+            model.DOB = DateOnly.Parse(DateTime.Parse(model.patientData.Intdate + model.patientData.Strmonth + model.patientData.Intyear).ToString("yyyy-MM-dd"));
+            var info = _repository.getEncounterTable(id);
+            if (info != null)
+            {
+                
+                model.Requestid = info.Requestid;
+                model.Abd = info.Abd;
+                model.Skin = info.Skin;
+                model.Hr = info.Hr;
+                model.O2 = info.O2;
+                model.Rr = info.Rr;
+                model.Cv = info.Cv;
+                model.BpS = info.BpS;
+                model.BpD = info.BpD;
+                model.Temp = info.Temp;
+                model.Allergies = info.Allergies;
+                model.Chest = info.Chest;
+                model.Date = info.Date;
+                model.Diagnosis = info.Diagnosis;
+                model.Extr = info.Extr;
+                model.Heent = info.Heent;
+                model.FollowUp = info.FollowUp;
+                model.HistoryIllness = info.HistoryIllness;
+                model.MedicalHistory = info.MedicalHistory;
+                model.Medications = info.Medications;
+                model.Procedures = info.Procedures;
+                model.MedicationDispensed = info.MedicationDispensed;
+                model.Neuro = info.Neuro;
+                model.Pain = info.Pain;
+                model.Other = info.Other;
+                model.TreatmentPlan = info.TreatmentPlan;
+            }
+            return model;
+        }
+
+
+
+        public void saveEncounterForm(Encounterformmodel info)
+        {
+            EncounterForm model1 = _repository.getEncounterTable(info.confirmationDetail.Requestid);
+            if (model1 == null)
+            {
+                EncounterForm model = new EncounterForm();
+                //var model = _repository.getEncounterTable(info.Requestid);
+                model.Requestid = info.confirmationDetail.Requestid;
+                model.Abd = info.Abd;
+                model.Skin = info.Skin;
+                model.Hr = info.Hr;
+                model.O2 = info.O2;
+                model.Rr = info.Rr;
+                model.Cv = info.Cv;
+                model.BpS = info.BpS;
+                model.BpD = info.BpD;
+                model.Temp = info.Temp;
+                model.Allergies = info.Allergies;
+                model.Chest = info.Chest;
+                model.Date = info.Date;
+                model.Diagnosis = info.Diagnosis;
+                model.Extr = info.Extr;
+                model.Heent = info.Heent;
+                model.FollowUp = info.FollowUp;
+                model.HistoryIllness = info.HistoryIllness;
+                model.MedicalHistory = info.MedicalHistory;
+                model.Medications = info.Medications;
+                model.Procedures = info.Procedures;
+                model.MedicationDispensed = info.MedicationDispensed;
+                model.TreatmentPlan = info.TreatmentPlan;
+                model.Neuro = info.Neuro;
+                model.Pain = info.Pain;
+                model.Other = info.Other;
+                _repository.addEncounterTable(model);
+            }
+            else
+            {
+
+                //var model = _repository.getEncounterTable(info.Requestid);
+
+                model1.Abd = info.Abd;
+                model1.Skin = info.Skin;
+                model1.Hr = info.Hr;
+                model1.O2 = info.O2;
+                model1.Rr = info.Rr;
+                model1.Cv = info.Cv;
+                model1.BpS = info.BpS;
+                model1.BpD = info.BpD;
+                model1.Temp = info.Temp;
+                model1.Allergies = info.Allergies;
+                model1.Chest = info.Chest;
+                model1.Date = info.Date;
+                model1.Diagnosis = info.Diagnosis;
+                model1.Extr = info.Extr;
+                model1.Heent = info.Heent;
+                model1.FollowUp = info.FollowUp;
+                model1.HistoryIllness = info.HistoryIllness;
+                model1.MedicalHistory = info.MedicalHistory;
+                model1.Medications = info.Medications;
+                model1.Procedures = info.Procedures;
+                model1.MedicationDispensed = info.MedicationDispensed;
+                model1.TreatmentPlan = info.TreatmentPlan;
+                model1.Neuro = info.Neuro;
+                model1.Pain = info.Pain;
+                model1.Other = info.Other;
+                _repository.updateEncounterForm(model1);
+            }
+        }
+
+        public void deleteFile(int id)
+        {
+            Requestwisefile file = _repository.getRequestWiseFile(id);
+            file.Isdeleted = new BitArray(1, true);
+            _repository.updateRequestWiseFile(file);
+        }
+        public void SendEmail(int id, string[] filenames, string email)
+        {
+            List<Requestwisefile> files = new();
+            foreach (var filename in filenames)
+            {
+                files.Add(_repository.getRequesWiseFileList(id, filename));
+            }
+            Request request = _repository.getRequestByReqID(id);
+            var receiver = "binalmalaviya2002@gmail.com";
+            var subject = "Documents of Request ";
+            var message = "Hello " + request.Firstname + " " + request.Lastname + ",Find the Files uploaded for your request in below:";
+            var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
+            foreach (var file in files)
+            {
+                var filePath = "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\" + file.Filename;
+                if (File.Exists(filePath))
+                {
+                    byte[] fileContent;
+                    using (var fileStream = File.OpenRead(filePath))
+                    {
+                        fileContent = new byte[fileStream.Length];
+                        fileStream.Read(fileContent, 0, (int)fileStream.Length);
+                    }
+                    var attachment = new Attachment(new MemoryStream(fileContent), file.Filename);
+                    mailMessage.Attachments.Add(attachment);
+                }
+                else
+                {
+                    Console.WriteLine($"File not found: {filePath}");
+                }
+            }
+            var mail = "tatva.dotnet.binalmalaviya@outlook.com";
+            var password = "binal@2002";
+            var client = new SmtpClient("smtp.office365.com")
+            {
+                Port = 587,
+                EnableSsl = true,
+                Credentials = new NetworkCredential(mail, password)
+            };
+            client.SendMailAsync(mailMessage);
+            var phy = _repository.GetPhyByEmail(email);
+            Emaillog emaillog = new Emaillog
+            {
+                Emailtemplate = message,
+                Subjectname = "Make Your Appointment",
+                Emailid = request.Email,
+                Roleid = 1,
+                Physicianid = phy.Physicianid,
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Isemailsent = new BitArray(1, true),
+                Action = 1
+            };
+            _repository.addEmailLogTable(emaillog);
+        }
+        public void HouseCallToConclude(int id)
+        {
+            var data = _repository.getRequestByReqID(id);
+            data.Status = 6;
+            _repository.updateRequestTable(data);
+        }
+        public AdminViewUpload ConcludeCare(int id)
+        {
+            AdminViewUpload model = new();
+
+            model.patientData = _repository.getRequestClientById(id); 
+
+            var note = _repository.getREquestNotes(id);
+            DateOnly date = DateOnly.Parse(DateTime.Parse(model.patientData.Intdate + model.patientData.Strmonth +model. patientData.Intyear).ToString("yyyy-MM-dd"));
+         
+            model.confirmationDetail = _repository.getRequestByReqID(id);
+            model.FileList = _repository.getRequestWiseFileList(id);
+            model.DOB = date;
+            model.phyNotes = note != null && note.Physiciannotes != null ? note.Physiciannotes : "--";
+            return model;
+        }
+
+        public void ConcludeFinal(AdminViewUpload model, string? email)
+        {
+            Request req = _repository.getRequestByReqID(model.confirmationDetail.Requestid);
+            Physician phy = _repository.GetPhyByEmail(email);
+            req.Status = 8;
+            req.Modifieddate = DateTime.Now;
+            _repository.updateRequestTable(req);
+            var reqnotes = _repository.getREquestNotes(model.confirmationDetail.Requestid);
+            if (reqnotes != null)
+            {
+                reqnotes.Physiciannotes = model.phyNotes;
+                reqnotes.Modifieddate = DateTime.Now;
+                _repository.updateRequestNoteTable(reqnotes);
+            }
+            else
+            {
+                Requestnote addreq = new Requestnote
+                {
+                    Requestid = model.confirmationDetail.Requestid,
+                    Physiciannotes = model.phyNotes,
+                    Createdby = phy.Aspnetuserid.ToString(),
+                    Createddate = DateTime.Now,
+                };
+                _repository.addRequestNotesTAble(addreq);
+            }
+        }
+
+        public AdminProviderModel getPhyProfileData(string? email)
+        {
+            Physician phy = _repository.GetPhyByEmail(email);
+            Aspnetuser asp = _repository.getAspnetuserByID(phy.Aspnetuserid);
+            AdminProviderModel model = new AdminProviderModel();
+            model.regions = _repository.getRegions();
+            model.phyregions = _repository.getPhysicianRegionByPhy(phy.Physicianid);
+            model.physician = phy;
+            model.aspnetuser = asp;
+            model.Firstname = "Dr" + phy.Firstname;
+            model.Lastname = phy.Lastname;
+            model.Email = phy.Email;
+            model.Mobile = phy.Mobile;
+            model.Medicallicense = phy.Medicallicense;
+            model.Npinumber = phy.Npinumber;
+            model.Syncemailaddress = phy.Syncemailaddress;
+            model.Address1 = phy.Address1;
+            model.Address2 = phy.Address2;
+            model.City = phy.City;
+            model.Zip = phy.Zip;
+            model.Adminnotes = phy.Adminnotes;
+            model.Altphone = phy.Altphone;
+            model.Businessname = phy.Businessname;
+            model.Businesswebsite = phy.Businesswebsite;
+            model.Isagrementdoc = phy.Isagreementdoc;
+            model.IsbackgroundDoc = phy.Isbackgrounddoc;
+            model.IsLisenceDoc = phy.Islicensedoc;
+            model.IsNonDisclosure = phy.Isnondisclosuredoc;
+           
+            model.IsTrainingDoc = phy.Istrainingdoc;
+            model.isPhoto = phy.Photo != null ? true : false;
+            model.isSignature = phy.Signature != null ? true : false;
+            model.PhotoName = phy.Photo != null ? phy.Photo : null;
+            model.SignatureName = phy.Signature != null ? phy.Signature : null;
+
+            return model;
+        }
+
+        public void UpdateProfileRequest(string? email, string? adminnotes)
+        {
+            List<Admin> admins = _repository.getAdminList();
+            var mail = "tatva.dotnet.binalmalaviya@outlook.com";
+            var password = "binal@2002";
+            var phy = _repository.GetPhyByEmail(email);
+            foreach (Admin admin in admins)
+            {
+                var receiver = "binalmalaviya2002@gmail.com";//admin.Email
+                var subject = "Request for Update Profile";
+                var message = adminnotes + "\nclick here to update My Profile : https://localhost:44327/Admin/EditPhysicianAccount?id=" + phy.Physicianid;
+                var mailMessage = new MailMessage(from: "chaityamehta522003@gmail.com", to: receiver, subject, message);
+
+                var client = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(mail, password)
+                };
+                client.SendMailAsync(mailMessage);
+                
+                Emaillog emaillog = new Emaillog
+                {
+                    Emailtemplate = message,
+                    Subjectname = "Make Your Appointment",
+                    Emailid = admin.Email,
+                    Roleid = 1,
+                    Physicianid = phy.Aspnetuserid,
+                    Createdate = DateTime.Now,
+                    Sentdate = DateTime.Now,
+                    Isemailsent = new BitArray(1, true),
+                    Action = 1
+                };
+                _repository.addEmailLogTable(emaillog);
+
+            }
+        }
+        public void savePhysicianPassword(AdminProviderModel info)
+        {
+            var aspnetuser = _repository.getAspnetuserByID(info.aspnetuser.Id);
+            if (info.Passwordhash != null)
+            {
+                aspnetuser.Passwordhash = info.Passwordhash;
+            }
+
+
+            aspnetuser.Modifieddate = DateTime.Now;
+            _repository.updateAspnetUser(aspnetuser);
+        }
     }
 }
 

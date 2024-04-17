@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace HalloDocWebEntity.ViewModel
 {
@@ -23,6 +24,7 @@ namespace HalloDocWebEntity.ViewModel
         public DateTime? Dateofservice { get; set; }
         public int RegionID { get; set; }
         public string RequestTypeName { get; set; }
-        
+        public BitArray IsFinalize { get; set; }
+
     }
 }

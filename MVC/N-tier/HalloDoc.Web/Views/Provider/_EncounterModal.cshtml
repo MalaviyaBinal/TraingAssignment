@@ -1,0 +1,28 @@
+﻿﻿<div class="modal fade" id="Encounter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Encounter Form</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col text-muted">
+                        Encounter Form Is Finalize Successfully.
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-info text-white">
+                        Download
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var myModalAssign = new bootstrap.Modal(document.getElementById('Encounter'));
+        myModalAssign.show();
+    });
+</script>

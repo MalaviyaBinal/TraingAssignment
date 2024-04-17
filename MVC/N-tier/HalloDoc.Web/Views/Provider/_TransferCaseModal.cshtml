@@ -24,11 +24,12 @@
                         This request will be transfered to admin.
                     </div>
                 </div>
-                <form id="transfercase" method="post">
+                <form id="transfercase" asp-action="TransferConfirm" method="post">
+                    <input type="hidden" asp-for="Requestid" />
                     <div class="row">
                         <div class="col">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="notes" style="height: 100px"></textarea>
+                                <textarea class="form-control" placeholder="Leave a comment here" name="Casetag" id="notes" style="height: 100px"></textarea>
                                 <label for="floatingTextarea2">Description</label>
                             </div>
                         </div>

@@ -1,0 +1,225 @@
+﻿@model HalloDocWebEntity.ViewModel.Encounterformmodel
+@{
+    ViewData["Title"] = "Encounter Page";
+    Layout = "_ProviderHeader";
+}
+<style>
+    .iti {
+        width: 100%;
+    }
+
+    #phone, #phone1 {
+        height: 58px;
+    }
+</style>
+<div class="container ">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between mt-3">
+                <h4 class="mt-3">Encounter Form</h4>
+                <a class="text-start text-info text-decoration-none " asp-action="ProviderDashboard" asp-controller="Provider">
+                    <button class="btn btn-white  text-info border-info rounded ">
+                        <i class="fa-solid  fa-less-than"></i> Back
+                    </button>
+                </a>
+            </div>
+            <form method="post" asp-action="SaveEncounterForm" asp-controller="Provider">
+
+                <div class="container rounded bg-white shadow py-3">
+                    <h3 class="mb-3 text-center text-info">Medical Report-Confidential</h3>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input name="first_name" type="text" value="@Model.patientData.Firstname" class="form-control" id="exampleFormControlInput1" placeholder="Firstname">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Firstname</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input name="last_name" type="text" value="@Model.patientData.Lastname" class="form-control" id="exampleFormControlInput1" placeholder="Lastname">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Lastname</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-12 form-floating mb-3 text-muted">
+                            <input name="Location" type="text" value="@Model.patientData.Street,@Model.patientData.City,@Model.patientData.State " class="form-control" id="exampleFormControlInput1" placeholder="Location">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Location</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input type="date" asp-format="{0:yyyy-MM-dd}" asp-for="DOB" name="DOB" class="form-control" id="dob" placeholder="Date Of Birth">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Date Of Birth</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Date type="date" name="Date" class="form-control" id="Date" placeholder="Date">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Date</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input id="phone" class="form-control inp2" type="tel" value="@Model.patientData.Phonenumber" placeholder="Phone Number">
+                        </div>
+                        <input type="hidden" asp-for=confirmationDetail.Requestid value="@Model.confirmationDetail.Requestid" />
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input name="email" value="@Model.patientData.Email" type="email" class="form-control" id="email" placeholder="Email">
+                            <label for="email" class="form-label ps-4">Email</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=HistoryIllness name="HistoryIllness" type="text" class="form-control" id="exampleFormControlInput1" placeholder="History Of present illness or Injury">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">History Of present illness or Injury</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating  mb-3 text-muted">
+                            <input asp-for=MedicalHistory name="MedicalHistory" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Medical History">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Medical History</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Medications name="Medications" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Medications">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Medications</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6 form-floating mb-3 text-muted">
+                            <input asp-for=Allergies name="Allergies" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Allergies">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Allergies</label>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-4 col-6 form-floating mb-3 text-muted">
+                            <input asp-for=Temp name="Temp" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Temp">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Temp</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-4 col-6 form-floating mb-3 text-muted">
+                            <input asp-for=Hr name="Hr" type="text" class="form-control" id="exampleFormControlInput1" placeholder="HR">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">HR</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-xl-4 col-6 form-floating mb-3 text-muted">
+                            <input asp-for=Rr name="Rr" type="text" class="form-control" id="exampleFormControlInput1" placeholder="RR">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">RR</label>
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="col-sm-6 col-md-2 col-xl-2 col-6 form-floating mb-3 text-muted">
+                            <input asp-for=BpS name="BpS" type="text" class="form-control" id="exampleFormControlInput1" placeholder="FirsBlood pressuretname">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Blood pressure</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6 col-md-2 col-xl-2 col-6 form-floating mb-3 text-muted">
+                            <input asp-for=BpD name="BpD" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Blood pressure">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Blood pressure</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-xl-4 col-6 form-floating mb-3 text-muted">
+                            <input asp-for=O2 name="O2" type="text" class="form-control" id="exampleFormControlInput1" placeholder="O2">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">O2</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-xl-4 col-6 form-floating mb-3 text-muted">
+                            <input asp-for=Pain name="Pain" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Pain">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Pain</label>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
+                            <input asp-for=Heent name="Heent" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Heent">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Heent</label>
+
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Cv name="Cv" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Cv">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Cv</label>
+
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Chest name="Chest" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Chest">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Chest</label>
+
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Abd name="Abd" type="text" class="form-control" id="exampleFormControlInput1" placeholder="ABD">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">ABD</label>
+
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Extr name="Extr" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Extr">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Extr</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating  mb-3 text-muted">
+                            <input asp-for=Skin name="Skin" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Skin">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Skin</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Neuro name="Neuro" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Neuro">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Neuro</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Other name="Other" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Other">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Other</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Diagnosis name="Diagnosis" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Diagnosis">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Diagnosis</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating  mb-3 text-muted">
+                            <input asp-for=TreatmentPlan name="TreatmentPlan" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Treatment Plan">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Treatment Plan</label>
+
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=MedicationDispensed name="MedicationDispensed" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Medications Dispensed">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Medications Dispensed</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input asp-for=Procedures name="Procedures" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Procedures">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Procedures</label>
+                        </div>
+                        <div class="form-floating mb-3 text-muted">
+                            <input asp-for=FollowUp name="FollowUp" type="text" class="form-control" id="exampleFormControlInput1" placeholder="FollowUp">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">FollowUp</label>
+
+                        </div>
+                    </div>
+                    <div class="text-end pb-3">
+                        @* <button class="btn btn-info text-white" id="edit" type="button" onclick="EditData()">Edit</button> *@
+                        <button class="btn btn-info text-white" id="save" type="submit">Save</button>
+                        <a asp-action="EncounterFinalize" asp-controller="Provider" asp-route-id=@Model.Requestid class="btn text-white px-1" style="background-color:blueviolet;" type="button">Finalize</a>
+                        <button class="btn btn-white text-info border-info" id="cancel" type="button">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function enbledata() {
+        document.getElementById("email"). = false;
+        document.getElementById("phone"). = false;
+    }
+    const input = document.querySelector("#phone");
+    const input2 = document.querySelector("#phone1");
+    const button = document.querySelector("#btn");
+    const errorMsg = document.querySelector("#error-msg");
+    const validMsg = document.querySelector("#valid-msg");
+
+    // here, the index maps to the error code returned from getValidationError - see readme
+    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    // initialise plugin
+    const iti = window.intlTelInput(input, {
+        initialCountry: "us",
+        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    });
+    const iti1 = window.intlTelInput(input2, {
+        initialCountry: "us",
+        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    });
+    function EditData() {
+        document.getElementById("save").style.display = "inline";
+        document.getElementById("cancel").style.display = "inline";
+        document.getElementById("edit").style.display = "none";
+        var formelements = document.getElementById("enable").elements;
+        for (var i = 4; i < formelements.length; i++) {
+            if (i == 7 || i == 9) {
+                continue;
+            }
+            else {
+                formelements[i]. = false;
+            }
+
+        }
+    }
+</script>
+<script>
+    document.getElementById("Dashboard").classList.add("active");
+</script>

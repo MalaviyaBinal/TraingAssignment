@@ -3,8 +3,7 @@
     <thead>
         <tr class="text-muted">
             <th scope="col">Name</th>
-            @*<th scope="col">Date Of Birth</th>*@
-            <th scope="col">Physician Name</th>
+            
             <th scope="col">Date of Service</th>
             <th scope="col">Phone</th>
             <th scope="col">Address</th>
@@ -42,13 +41,7 @@
                     @item.Name
                 </td>
 
-                @*<td >
-            @item.Strmonth
-            </td>*@
-               
-                <td>
-                    @item.physician
-                </td>
+              
                 <td>
                     @item.Dateofservice
                 </td>
@@ -70,14 +63,27 @@
                         <button class="btn text-light bg-transparent border border-white  " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
                         </button>
-                   
-                         <ul class="dropdown-menu position-fixed" aria-labelledby="dropdownMenuButton1">
-                             <li><a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="fa-solid fa-file-invoice me-3"></i>View Case</a></li>
-                            <li><a class="dropdown-item" asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-arrow-up me-3"></i>View Uploads</a></li>
-                             <li><a class="dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-journals me-3"></i>View Notes</a></li>
-                            <li><a class="dropdown-item" asp-action="SendOrder" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-check-fill me-3"></i>Orders</a></li>
-                            <li><a class="dropdown-item" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-text me-3"></i>Encounter</a></li>
-                         </ul>
+
+                        <ul class="dropdown-menu position-fixed" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" asp-action="ConcludeCare" asp-controller="Provider" asp-route-id="@item.Requestid"><i class="fa-solid fa-heart-pulse me-3" style="color: #000000;"></i>Conclude Care</a></li>
+                            <li><a class="dropdown-item" asp-action="ViewCase" asp-route-id="@item.Requestid"><i class="fa-solid fa-file-invoice me-3"></i>View Case</a></li>
+                            <li><a class="dropdown-item" asp-action="ViewDocument" asp-controller="Provider" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-arrow-up me-3"></i>View Uploads</a></li>
+
+                            <li><a class="dropdown-item" asp-action="ViewNotes" asp-controller="Provider"><i class="bi bi-journals me-3"></i>View Notes</a></li>
+                            <li>
+                                @if (item.Status == 6 && (item.IsFinalize == null || item.IsFinalize[0] == false))
+                                {
+                                 
+                                    <a class="dropdown-item" asp-action="Encounterform" asp-controller="Provider" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-text me-3"></i>Encounter</a>
+                                }
+                                else if (item.Status == 6 && (item.IsFinalize[0] == true))
+                                {
+                         
+                                    <a class="dropdown-item" onclick="EncouterFinalize(@item.Requestid)" value=""><i class="bi bi-file-earmark-text me-3"></i>Encounter</a>
+                                }
+                            </li>
+                        </ul>
+                       
                     </div>
                 </td>
 
@@ -251,6 +257,22 @@
 
   
   <script>
-     
+    function EncouterFinalize(element) {
+        var id = element.value;
+        console.log(id);
+        $.ajax({
+            url: "/Provider/_EncounterModal",
+            data: { 'id': id },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
      
   </script>

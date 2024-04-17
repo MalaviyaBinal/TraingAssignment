@@ -113,7 +113,7 @@ namespace HalloDocWebServices.Implementation
         }
         public void deleteFile(int id)
         {
-            var file = _repository.getRequestWiseFile(id);
+            Requestwisefile file = _repository.getRequestWiseFile(id);
             file.Isdeleted = new BitArray(1, true);
             _repository.updateRequestWiseFile(file);
         }
@@ -551,7 +551,7 @@ namespace HalloDocWebServices.Implementation
         }
         public void uploadFileAdmin(IFormFile fileToUpload, int id, string email)
         {
-            var admin = _repository.getAspnetuserByEmail(email);
+            Aspnetuser admin = _repository.getAspnetuserByEmail(email);
             string FileNameOnServer = "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\";
             FileNameOnServer += fileToUpload.FileName;
             using var stream = System.IO.File.Create(FileNameOnServer);

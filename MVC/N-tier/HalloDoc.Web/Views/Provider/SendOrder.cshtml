@@ -1,0 +1,108 @@
+﻿@model HalloDocWebEntity.ViewModel.SendOrderModel
+@{
+    Layout = "_ProviderHeader";
+}
+
+<div class="container ">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between mt-3">
+                <h4 class="mt-3">Send Order</h4>
+
+                <a class="text-start text-info text-decoration-none " asp-action="ProviderDashboard" >
+                    <button class="btn btn-white  text-info border-info rounded ">
+                        <i class="fa-solid  fa-less-than"></i> Back
+                    </button>
+                </a>
+            </div>
+            <form asp-action="SendOrderDetail"  method="post">
+                <div class="container rounded bg-white shadow py-3">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="ProfessionSelect" name="ProfessionSelect">
+                                    @foreach (var item in Model.professions)
+                                    {
+                                        <option value="@item.Healthprofessionalid">@item.Professionname</option>
+                                    }
+
+                                </select>
+                                <label for="ProfessionSelect">Select Profession</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="BusinessSelect" name="BusinessSelect">
+                                    @foreach (var item in Model.business)
+                                    {
+                                        <option value="@item.Vendorid">
+                                            @item.Vendorname
+                                        </option>
+                                    }
+
+                                </select>
+                                <label for="BusinessSelect">Business</label>
+                            </div>
+                        </div>
+                        <input type="hidden" name="req_id" value="@Model.req_id" />
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input value="@Model.businessDetail.Businesscontact" name="businesscontact" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Business contact">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Business contact</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input value="@Model.businessDetail.Email" name="email" type="email" class="form-control" id="email" placeholder="Email">
+                            <label for="email" class="form-label ps-4">Email</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <input value="@Model.businessDetail.Faxnumber" name="FaxNumber" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Fax Number">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Fax Number</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-floating mb-3 text-muted">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="prescription" name="prescription" style="height: 100px"></textarea>
+                            <label for="floatingTextarea2" class="ps-4">Prescription or Order Detail</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="noOfRetail" name="noOfRetail" aria-label="Floating label select example">
+                                    <option selected>Not Required</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <label for="floatingSelect">Number Of Retail</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end pb-3">
+                        <button class="btn btn-info me-2 text-white" type="submit">Submit</button>
+                        <a  asp-action="ProviderDashboard" ><button class="btn btn-white text-info border-info">Cancel</button></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="hello">
+
+</div>
+<script>
+    document.getElementById("dashbrd").classList.add("active");
+    $("#BusinessSelect").change(function () {
+        var $this = $(this);
+        var $id = @Model.req_id;
+        var url = "?id=" + $id + "&businessId=" + $this.val() + "&profId=" + $('#ProfessionSelect').val();
+        window.location.href = url;
+        console.log(url);
+       
+    });
+    $("#ProfessionSelect").change(function () {
+        var $this = $(this);
+        var $id = @Model.req_id;
+        var url = "?id=" + $id + "&businessId=" + $('#BusinessSelect').val() + "&profId=" + $this.val();
+        window.location.href = url;
+        console.log(url);
+       
+    });
+</script>

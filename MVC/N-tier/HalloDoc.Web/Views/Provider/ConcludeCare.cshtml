@@ -1,0 +1,148 @@
+﻿@model HalloDocWebEntity.ViewModel.AdminViewUpload
+@{
+    Layout = "_ProviderHeader";
+}
+<div class="container ">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between mt-3 mb-3">
+                <h4>Conclude Care</h4>
+                <a class="text-start text-info text-decoration-none " asp-action="ProviderDashboard" asp-controller="Provider">
+                    <button class="btn btn-white  text-info border-info rounded ">
+                        <i class="fa-solid  fa-less-than"></i> Back
+                    </button>
+                </a>
+            </div>
+            <div class="container rounded bg-white shadow p-5 ">
+                <h6 class="mb-3 text-muted">Patient Name</h6>
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="h5 text-info">
+                        @Model.patientData.Firstname @Model.patientData.Lastname
+                        <span class="text-muted">(@Model.confirmationDetail.Confirmationnumber)</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 h4 mb-3">
+                        Encounter Forms
+                    </div>
+                    <div class="col-12">
+                        <form method="post" asp-action="ConcludeUploadFileByProvider" enctype="multipart/form-data">
+                            <div class="form-group row">
+                                <div class="col">
+                                    <p>
+                                        <button style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                            <i class="fa-solid fa-cloud-arrow-up"
+                                               style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                        </button>
+                                        <input type="File" class="form-control input-placeholder " name="fileToUpload" id="fileToUpload"
+                                               placeholder="Select File">
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12 bg-white">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr class="">
+                                    <th>Documents</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.FileList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @switch (@ViewBag.fileExtensions[item.Requestwisefileid])
+                                            {
+                                                case ".docx":
+                                                case ".doc":
+                                                    <i class="fa-solid fa-file-word" style="color: #0f5fff;"> </i>
+                                                    break;
+                                                case ".xlsx":
+                                                case ".xls":
+                                                    <i class="fa-solid fa-file-excel" style="color: #4ac926;"> </i>
+                                                    break;
+                                                case ".jpg":
+                                                case ".jpeg":
+                                                case ".png":
+                                                    <i class="fa-regular fa-image" style="color: #74C0FC;"> </i>
+                                                    break;
+                                                case ".pdf":
+                                                    <i class="fa-solid fa-file-pdf" style="color: #ff0000;"> </i>
+                                                    break;
+                                                default:
+                                                    <i class="bi bi-file-earmark-text-fill"> </i>
+                                                    break;
+                                            }
+                                            @item.Filename
+                                        </td>
+                                        <td class="text-end">
+                                            <a asp-action="DownloadFile" asp-controller="Admin" asp-route-id="@item.Requestwisefileid"><button class="btn btn-outline-info me-2"><i class="fa-solid fa-cloud-arrow-down" style="color: #54B4D3;"></i></button></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <form asp-action="ConcludeFinal" asp-controller="Provider">
+                        <input type="hidden" asp-for=confirmationDetail.Requestid />
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6 class="text-muted">Provider Notes</h6>
+                                <div class="form-floating bg-white rounded-4">
+                                    <textarea asp-for="@Model.phyNotes" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                                    <label for="floatingTextarea2" class="ps-2">Provider Notes</label>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                @if (Model.confirmationDetail.Completedbyphysician == null || (Model.confirmationDetail.Completedbyphysician[0] == false))
+                                {
+                                    <button class="btn btn-info text-white" type="button" disabled>Conclude Care</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-info text-white" type="submit">Conclude Care</button>
+                                }
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function enbledata() {
+        document.getElementById("email").disabled = false;
+        document.getElementById("phone").disabled = false;
+    }
+    function selectAllCheckboxes() {
+        var mainCheckbox = document.querySelector('#mainCheckbox');
+        var checkboxes = document.querySelectorAll('.Subcheckbox');
+        mainCheckbox.addEventListener('click', function () {
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = mainCheckbox.checked;
+            });
+        });
+    }
+    const input = document.querySelector("#phone");
+    const input2 = document.querySelector("#phone1");
+    const button = document.querySelector("#btn");
+    const errorMsg = document.querySelector("#error-msg");
+    const validMsg = document.querySelector("#valid-msg");
+    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+    const iti = window.intlTelInput(input, {
+        initialCountry: "us",
+        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    });
+    const iti1 = window.intlTelInput(input2, {
+        initialCountry: "us",
+        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    });
+</script>
+<script>
+    document.getElementById("Dashboard").classList.add("active");
+</script>
