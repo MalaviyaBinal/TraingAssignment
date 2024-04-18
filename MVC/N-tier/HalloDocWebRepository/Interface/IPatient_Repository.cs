@@ -34,7 +34,7 @@ namespace HalloDocWebRepo.Interface
         public User getUserByEmail(string? email);
         public User ProfileUser(string? username);
         public List<Request> RequestRepo(int? id);
-        public void saveDbChanges();
+      
         public void updateAspnetuserTable(Aspnetuser asp);
         void updateRequestTable(Request req);
         public void updateUserTable(User user);

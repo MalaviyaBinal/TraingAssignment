@@ -106,5 +106,6 @@ namespace HalloDocWebServices.Interfaces
         void AddVendor(SendOrderModel model);
         SendOrderModel getVenderData();
         int getRequestTypeByRequestID(int id);
+        void saveAdminPassword(AdminProfile info);
     }
 }

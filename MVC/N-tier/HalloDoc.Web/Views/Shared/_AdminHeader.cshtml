@@ -33,6 +33,9 @@
         <ul class="sideBar shadow d-md-none d-lg-none d-xl-none">
 
             <li>
+                <p class="p-3 m-2 ">Wellcome : <b><small>@Accessor.HttpContext.Request.Cookies["userName"]</small></b></p>
+            </li>
+            <li>
                 <a class="text-decoration-none " asp-controller="Admin" asp-action="AdminDashboard">Dashboard</a>
             </li>
             <li>
@@ -52,7 +55,7 @@
                         <li><a class="navbar-dropdown-item dropdown-item" href="#">Invoicing</a></li>
                     </ul>
                 </div>
-                @*<a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboardProviders">Providers</a>*@
+               
             </li>
             <li>
                 <a class="text-decoration-none" asp-controller="Admin" asp-action="AdminDashboardPartners">Partners</a>
@@ -171,7 +174,7 @@
 
 
 
-    <main id="content" role="main" class="pb-3">
+    <main id="content" role="main" class="p-3">
         @RenderBody()
     </main>
 

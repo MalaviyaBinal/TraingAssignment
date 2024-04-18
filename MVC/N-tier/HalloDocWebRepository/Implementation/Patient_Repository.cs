@@ -130,6 +130,7 @@ namespace HalloDocWebRepo.Implementation
         public void updateAspnetuserTable(Aspnetuser asp)
         {
             _context.Aspnetusers.Update(asp);
+            _context.SaveChanges();
         }
 
         public void updateRequestTable(Request req)
@@ -154,6 +155,7 @@ namespace HalloDocWebRepo.Implementation
         void IPatient_Repository.addRequestFileTable(Requestwisefile reqclient)
         {
             _context.Requestwisefiles.Add(reqclient);
+            _context.SaveChanges();
         }
 
         Request IPatient_Repository.getFirstRequestTable(int id)
@@ -182,14 +184,10 @@ namespace HalloDocWebRepo.Implementation
             return _context.Requests.Where(m => m.Userid == id && m.Status != 10).ToList();
         }
 
-        void IPatient_Repository.saveDbChanges()
-        {
-            _context.SaveChanges();
-        }
-
         void IPatient_Repository.updateUserTable(User user)
         {
             _context.Users.Update(user);
+            _context.SaveChanges();
         }
     }
 }

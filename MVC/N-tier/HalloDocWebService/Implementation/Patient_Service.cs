@@ -41,28 +41,23 @@ namespace HalloDocWebServices.Implementation
             var asp = _repository.getAspnetUser(user.Aspnetuserid);
 
             user.Firstname = model.first_name;
-            user.Lastname = model.last_name;
-            user.Email = username;
+            user.Lastname = model.last_name;            
             user.Mobile = model.phone;
             user.Street = model.street;
             user.City = model.city;
             user.State = model.state;
             user.Zip = model.zip_code;
-
+            user.Intdate = model.dob.Value.Day;
+            user.Intyear = model.dob.Value.Year;
+            user.Strmonth = System.String.Format("{0:MMM}", model.dob);
             _repository.updateUserTable(user);
-            //_context.Users.Update(user);
-            _repository.saveDbChanges();
-            //_context.SaveChanges();
-
+       
             asp.Usarname = model.first_name;
-            asp.Email = model.email_user;
+            
             asp.Phonenumber = model.phone;
 
             _repository.updateAspnetuserTable(asp);
-            //_context.Aspnetusers.Update(asp);
-
-            _repository.saveDbChanges();
-            //_context.SaveChanges();
+            
         }
 
         List<Requestwisefile> IPatient_Service.getPatientDocument(int? id)
@@ -97,8 +92,7 @@ namespace HalloDocWebServices.Implementation
             Profile profile = new();
             profile.Request = userData;
             profile.User = profileUserData;
-            profile.dob = DateTime.Today;
-
+            profile.dob = DateOnly.Parse(DateTime.Parse(profileUserData.Intyear + profileUserData.Strmonth + profileUserData.Intdate).ToString("yyyy-MM-dd"));
 
             return (profile);
         }
@@ -122,14 +116,21 @@ namespace HalloDocWebServices.Implementation
             };
 
             _repository.addRequestFileTable(reqclient);
-            //_context.Requestwisefiles.Add(reqclient);
-            _repository.saveDbChanges();
-            //_context.SaveChanges();
+          
         }
 
-        public User getUserByEmail(string? email)
+        public RequestForMe getUserByEmail(string? email)
         {
-            return _repository.getUserByEmail(email);
+            var user =  _repository.getUserByEmail(email);
+            RequestForMe model = new RequestForMe
+            {
+                first_name = user.Firstname,
+                last_name = user.Lastname,
+                dob = DateOnly.Parse(DateTime.Parse(user.Intdate + user.Strmonth + user.Intyear).ToString("dd-MM-yyyy")),
+                email =user.Email,
+                phonenumber = user.Mobile
+            };
+            return model;
         }
 
         Aspnetuser IPatient_Service.getAspnetuserByEmail(string usarname)
@@ -137,7 +138,7 @@ namespace HalloDocWebServices.Implementation
             return _repository.getAspnetUserByEmail(usarname);
         }
 
-        void IPatient_Service.saveDataRequestForMe(RequestForMe info, string email)
+        void IPatient_Service.saveDataForSomeone(RequestForMe info, string email)
         {
             var userid = _repository.getUserByEmail(email);
 
@@ -153,8 +154,6 @@ namespace HalloDocWebServices.Implementation
                 Relationname = info.relation,
                 Createddate = DateTime.Now,
                 Isurgentemailsent = new BitArray(1, false)
-
-
             };
             _repository.addRequestTable(req);
 
@@ -165,20 +164,27 @@ namespace HalloDocWebServices.Implementation
                 Lastname = info.last_name,
                 Phonenumber = info.phonenumber,
                 Email = info.email,
-
                 Location = info.street + "," + info.city + "," + info.state + " ," + info.zipcode,
-
                 Regionid = 1
             };
             _repository.addRequestClientTable(reqclient);
-
+            var file = info.fileToUpload;
+            var uniqueFileName = Path.GetFileName(file.FileName);
+            var uploads = @"D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\wwwroot\UploadedFiles\";
+            var filePath = Path.Combine(uploads, uniqueFileName);
+            file.CopyTo(new FileStream(filePath, FileMode.Create));
+            var addrequestfile = new Requestwisefile
+            {
+                Createddate = DateTime.Now,
+                Filename = uniqueFileName,
+                Requestid = req.Requestid
+            };
+            _repository.addRequestFileTable(addrequestfile);
         }
 
-        public void saveDataForSomeone(RequestForMe info, string? email)
+        public void saveDataRequestForMe(RequestForMe info, string? email)
         {
             var user = _repository.getUserByEmail(email);
-            //var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == HttpContext.Session.GetString("userEmail"));
-
             Request req = new Request
             {
                 Requesttypeid = 2,
@@ -188,11 +194,8 @@ namespace HalloDocWebServices.Implementation
                 Phonenumber = info.phonenumber,
                 Email = info.email,
                 Status = 1,
-
                 Createddate = DateTime.Now,
                 Isurgentemailsent = new BitArray(1, false)
-
-
             };
             _repository.addRequestTable(req);
 
@@ -210,7 +213,18 @@ namespace HalloDocWebServices.Implementation
                 Regionid = 1
             };
             _repository.addRequestClientTable(reqclient);
-
+            var file = info.fileToUpload;
+            var uniqueFileName = Path.GetFileName(file.FileName);
+            var uploads = @"D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\wwwroot\UploadedFiles\";
+            var filePath = Path.Combine(uploads, uniqueFileName);
+            file.CopyTo(new FileStream(filePath, FileMode.Create));
+            var addrequestfile = new Requestwisefile
+            {
+                Createddate = DateTime.Now,
+                Filename = uniqueFileName,
+                Requestid = req.Requestid
+            };
+            _repository.addRequestFileTable(addrequestfile);
         }
 
         void IPatient_Service.createPatientByBusiness(BusinessPatientRequest info)
@@ -432,7 +446,7 @@ namespace HalloDocWebServices.Implementation
 
             var file = info.fileToUpload;
             var uniqueFileName = Path.GetFileName(file.FileName);
-            var uploads = "D:\\Projects\\HelloDOC\\MVC\\Hallodoc - Copy\\wwwroot\\UploadedFiles\\";
+            var uploads = @"D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\wwwroot\UploadedFiles\";
             var filePath = Path.Combine(uploads, uniqueFileName);
             file.CopyTo(new FileStream(filePath, FileMode.Create));
             var addrequestfile = new Requestwisefile
@@ -532,7 +546,7 @@ namespace HalloDocWebServices.Implementation
 
             var file = info.fileToUpload;
             var uniqueFileName = Path.GetFileName(file.FileName);
-            var uploads = "D:\\Projects\\HelloDOC\\MVC\\Hallodoc - Copy\\wwwroot\\UploadedFiles\\";
+            var uploads = @"D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\wwwroot\UploadedFiles\";
             var filePath = Path.Combine(uploads, uniqueFileName);
             file.CopyTo(new FileStream(filePath, FileMode.Create));
             var addrequestfile = new Requestwisefile
@@ -577,20 +591,6 @@ namespace HalloDocWebServices.Implementation
                 return zipStream;
             }
 
-            //var filesRow = _repository.getRequestWiseFileTolist(id);
-            //MemoryStream ms = new MemoryStream();
-            //using (ZipArchive zip = new ZipArchive(ms, ZipArchiveMode.Create, true))
-            //    filesRow.ForEach(file =>
-            //    {
-            //        var path = "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\" + Path.GetFileName(file.Filename);
-            //        ZipArchiveEntry zipEntry = zip.CreateEntry(file.Filename);
-            //        using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            //        using (Stream zipEntryStream = zipEntry.Open())
-            //        {
-            //            fs.CopyTo(zipEntryStream);
-            //        }
-            //    });
-            //return ms;
         }
 
         public void sendMail(ForgotPwdModel info)
@@ -721,5 +721,7 @@ namespace HalloDocWebServices.Implementation
             }
 
         }
+
+        
     }
 }

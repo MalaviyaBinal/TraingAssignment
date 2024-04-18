@@ -10,6 +10,8 @@ using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 using HalloDocWebServices.Implementation;
 using System.IdentityModel.Tokens.Jwt;
+using DocumentFormat.OpenXml.InkML;
+
 namespace HalloDoc.Web.Controllers
 {
     public class HomeController : Controller
@@ -22,6 +24,10 @@ namespace HalloDoc.Web.Controllers
             _jwtservice = jwtservice;
         }
         public async Task<IActionResult> Index()
+        {
+            return View();
+        }
+        public IActionResult PatientForgotPwd()
         {
             return View();
         }
@@ -83,20 +89,52 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult PatientLogin(loginModel user)
         {
-            //var u = new AuthManager().Login(user.Usarname, user.Passwordhash);
-            bool isRegistered = _service.ValidateUser(user.Usarname, user.Passwordhash);
-            if (isRegistered)
+            if (ModelState.IsValid)
             {
-                //SessionUtils.SetLoggedUsers(HttpContext.Session, u);
                 var userobj = _service.getAspnetuserByEmail(user.Usarname);
-                var jwttoken = _jwtservice.GenerateToken(userobj);
-                //Response.Cookies.Append("jwt", jwttoken);
-                Response.Cookies.Append("jwt", jwttoken, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
-                Response.Cookies.Append("userName", userobj.Usarname, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
-                Response.Cookies.Append("userEmail", userobj.Email, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
-                return RedirectToAction(nameof(AdminController.AdminDashboard), "Admin");
+                if (userobj != null)
+                {
+                    if (userobj.Passwordhash == user.Passwordhash)
+                    {
+                        var jwttoken = _jwtservice.GenerateToken(userobj);
+                        Response.Cookies.Append("jwt", jwttoken, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
+                        Response.Cookies.Append("userName", userobj.Usarname, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
+                        Response.Cookies.Append("userEmail", userobj.Email, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
+                        var isvalid = _jwtservice.ValidateToken(jwttoken, out JwtSecurityToken jwtToken);
+                        if (isvalid)
+                        {
+                            Claim roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+                            switch (roleClaim.Value)
+                            {
+                                case "Patient":
+                                    return RedirectToAction(nameof(PatientDashboard));
+
+                                case "Admin":
+                                    return RedirectToAction(nameof(AdminController.AdminDashboard), "Admin");
+
+                                case "Provider":
+                                    return RedirectToAction("ProviderDashboard", "Provider");
+
+
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Passwordhash", "Incorrect Password");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("Usarname", "Incorrect Username");
+                }
+
+
             }
             return View();
+
+
         }
         public IActionResult PatientViewDocument(int? Id = 0)
         {
@@ -122,6 +160,7 @@ namespace HalloDoc.Web.Controllers
         {
             if (fileToUpload != null && fileToUpload.Length > 0)
             {
+                
                 _service.uploadFile(fileToUpload, (int)HttpContext.Session.GetInt32("req_id"));
 
             }
@@ -169,18 +208,25 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> PatientDashboardRequestForMe()
         {
-            var user = _service.getUserByEmail(HttpContext.Request.Cookies["userEmail"]);
-            //var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == HttpContext.Request.Cookies["userEmail"]);
-            return View(user);
+            
+           
+            return View(_service.getUserByEmail(HttpContext.Request.Cookies["userEmail"]));
         }
         public async Task<IActionResult> RequestForsSomeone(RequestForMe info)
         {
-            _service.saveDataRequestForMe(info, HttpContext.Request.Cookies["userEmail"]);
+            if (!ModelState.IsValid)
+            {
+                return View("PatientDashboardRequestForSomeone", info);
+            }
+            _service.saveDataForSomeone(info, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(PatientDashboard));
         }
         public async Task<IActionResult> SubmitRequestOnMe(RequestForMe info)
         {
-            _service.saveDataForSomeone(info, HttpContext.Request.Cookies["userEmail"]);
+            if(!ModelState.IsValid){
+                return View("PatientDashboardRequestForMe", info);
+            }
+            _service.saveDataRequestForMe(info, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(PatientDashboard));
         }
         [HttpPost]
@@ -188,7 +234,7 @@ namespace HalloDoc.Web.Controllers
         {
             _service.editProfile(model, HttpContext.Request.Cookies["userEmail"]);
             Response.Cookies.Append("userName", model.first_name, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
-            return RedirectToAction(nameof(PatientDashboard));
+            return RedirectToAction(nameof(Profile));
         }
         public async Task<IActionResult> DownloadFile(int id)
         {

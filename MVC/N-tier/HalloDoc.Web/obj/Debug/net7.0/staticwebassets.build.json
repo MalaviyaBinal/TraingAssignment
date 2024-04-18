@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/Y7QbOHmSFUs6+JPjVZjMhKQXmiN8estmYXD8LclFao=",
+  "Hash": "VEoGrehRa+9v4+aFY7RqZkFWfrkZFbwBHgNBDQ7QAYg=",
   "Source": "HalloDoc.Web",
   "BasePath": "_content/HalloDoc.Web",
   "Mode": "Default",
@@ -1970,6 +1970,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\UploadedFiles\\Fig4. Admin dashboard in New state.jpg"
+    },
+    {
+      "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Fig42.Edit business page.png",
+      "SourceId": "HalloDoc.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\",
+      "BasePath": "_content/HalloDoc.Web",
+      "RelativePath": "UploadedFiles/Fig42.Edit business page.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\UploadedFiles\\Fig42.Edit business page.png"
     },
     {
       "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\Fig43. Patient history.jpg",

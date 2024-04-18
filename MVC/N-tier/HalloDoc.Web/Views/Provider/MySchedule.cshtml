@@ -1,0 +1,204 @@
+﻿@using System.Text.Json
+@using System.Text.Json.Serialization
+@model HalloDocWebEntity.ViewModel.ShiftDetailsModel
+@{
+    Layout = "_ProviderHeader";
+}
+<style>
+
+    .scheduler_default_corner_inner + div {
+        display: none;
+    }
+
+    .month_default_loading + div {
+        display: none;
+    }
+
+    .scheduler_default_cell {
+        background-color: rgb(255, 255, 255) !important;
+    }
+
+    .month_default_cell_header {
+        background-color: #eabae9 !important;
+    }
+</style>
+<script src="~/js/daypilot-all.min.js"></script>
+<div class="container ">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between mt-3">
+                <h4 class="mt-3"> My Schedule</h4>
+
+            </div>
+
+            <div class=" container rounded bg-white shadow py-3 ">
+               
+                <div>
+                    <div class="h5  heading"> <span id="dateValue"></span> Monday,Dec 4 2023</div>
+                </div>
+                <div class="text-end mb-3">
+                    <i class="bi bi-square-fill" style="color: #EEACD0;"></i>
+                    <span class="me-2">Pending Shifts</span>
+                    <i class="bi bi-square-fill" style="color: #A1D0A2;"></i>
+                    <span>Approved Shifts</span>
+                </div>
+                <div>
+                    <div class="h5 heading" id="picker">Date</div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="javascript:dp.startDate = dp.startDate.addMonths(-1); dp.update();" class="text-decoration-none">
+                            <i class="fa-solid fa-less-than text-white p-2" style="background-color:#1ad1ff;border-radius:20px;"></i>
+                        </a>
+                        <span style="height:20px;" id="change"><i class="bi bi-calendar3"></i> </span>
+                        <a href="javascript:dp.startDate = dp.startDate.addMonths(1); dp.update();">
+                            <i class="fa-solid fa-greater-than text-white p-2 me-2" style="background-color:#1ad1ff;border-radius:20px;"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <button class="btn btn-success text-white me-1" onclick="ModalofShift()">Add New Shift</button>
+                    </div>
+                </div>
+            </div>
+            <span id="start" class="hide"></span>
+            <div class="main">
+                <div id="dp"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalpopup" class="pb-3">
+</div>
+<script>
+
+    function ModalofShift() {
+
+        $.ajax({
+            url: "/Provider/_AddShiftModal",
+
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
+</script>
+<script>
+  
+    @{
+        JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+        string listJson = System.Text.Json.JsonSerializer.Serialize(Model.physicians, options);
+        string eventsJson = System.Text.Json.JsonSerializer.Serialize(Model.shiftDetails, options);
+    }
+
+            const resourcess = @Html.Raw(listJson);
+    const eventss = @Html.Raw(eventsJson);
+    const picker = new DayPilot.DatePicker({
+        target: 'start',
+        pattern: 'yyyy-MM-dd',
+        resetTarget: true,
+        onTimeRangeSelected: args => {
+            dp.update({
+                startDate: args.start
+            });
+        }
+    });
+    const dp = new DayPilot.Month("dp", {
+        locale: "en-us",
+        viewType: "Month",
+        eventHeight: 50,
+        showWeekend: true,
+        timeRangeSelectedHandling: "Disabled",
+        eventDeleteHandling: "Disabled",
+        eventMoveHandling: "Disabled",
+        eventResizeHandling: "Disabled",
+        eventClickHandling: "Enabled",
+        onEventClicked: (args) => {
+            $.ajax({
+                url: "/Provider/_ViewShiftModal",
+                data: { 'id': args.e.data.id, 'regid': args.e.data.regionid },
+                type: "GET",
+                dataType: "html",
+                success: function (data) {
+                    $("#modalpopup").html(data);
+                },
+                error: function () {
+                    alert("No Projects Found");
+                    $("#tableContent").html('An error has occurred');
+                }
+            });
+        },
+        eventHoverHandling: "Disabled",
+    });
+    dp.events.list = [];
+    dp.init();
+    const app = {
+        elements: {
+            previous: document.getElementById("previous"),
+            next: document.getElementById("next"),
+            start: document.querySelector("#start"),
+            change: document.querySelector("#change")
+        },
+        loadData() {
+            const events = []
+            console.log(eventss['$values']);
+            for (let i = 0; i < eventss['$values'].length; ++i) {
+                let obj = {
+                    id: eventss['$values'][i].Shiftdetailid,
+                    text: `${new DayPilot.Date(eventss['$values'][i].Shiftdate.split("T")[0] + "T" + eventss['$values'][i].Starttime).toString("h:mm tt")} - ${new DayPilot.Date(eventss['$values'][i].Shiftdate.split("T")[0] + "T" + eventss['$values'][i].Endtime).toString("h:mm tt")} `,
+                    start: eventss['$values'][i].Shiftdate.split("T")[0] + "T" + eventss['$values'][i].Starttime,
+                    end: eventss['$values'][i].Shiftdate.split("T")[0] + "T" + eventss['$values'][i].Endtime,
+                    // resource: eventss['$values'][i].Physicianid,
+                    regionid: eventss['$values'][i].RegionName,
+                    backColor: eventss['$values'][i].Status == 0 ? "#EEACD0" : "#A1D0A2"
+                }
+                events.push(obj)
+            }
+            console.log(events)
+            dp.update({ events });
+            // let start = DayPilot.Date.today().firstDayOfMonth();
+            // for (let i = 0; i < 15; i++) {
+            //     const add = Math.floor(Math.random() * 2);
+            //     // const add = 1;
+            //     start = start.addDays(add);
+            //     if (start.getDayOfWeek() === 6) {
+            //         start = start.addDays(2);
+            //     }
+            //     if (start.getDayOfWeek() === 0) {
+            //         start = start.addDays(1);
+            //     }
+            //     events.push({
+            //         start: start,
+            //         end: start.addDays(1),
+            //         id: DayPilot.guid(),
+            //         barColor: app.barColor(i),
+            //         text: "Event " + (i + 1)
+            //     });
+            // }
+            // dp.update({ events });
+        },
+        
+        init() {
+            this.addEventHandlers();
+            this.loadData();
+        },
+        addEventHandlers() {
+            this.elements.change.addEventListener("click", (ev) => {
+                ev.preventDefault();
+                picker.show();
+            });
+        }
+    };
+    app.init();
+</script>
+<script>
+    document.getElementById("mySchedule").classList.add("active");
+</script>

@@ -337,5 +337,56 @@ namespace HalloDocWebRepo.Implementation
             _context.Aspnetusers.Update(aspnetuser);
             _context.SaveChanges();
         }
+        public List<ShiftDetailsModel> getshiftDetail(int phyid)
+        {
+          
+                return _context.Shiftdetails.Where(e => e.Isdeleted != new BitArray(1, true))
+                   .Include(e => e.Shift)
+                   .ThenInclude(e => e.Physician).ThenInclude(e => e.Region).Where(e => e.Shift.Physicianid == phyid).Select(e =>
+                       new ShiftDetailsModel
+                       {
+                           PhysicianName = e.Shift.Physician.Firstname + " " + e.Shift.Physician.Lastname,
+                           Physicianid = e.Shift.Physician.Physicianid,
+                           RegionName = e.Shift.Physician.Region.Name,
+                           Status = e.Status,
+                           Starttime = e.Starttime,
+                           Endtime = e.Endtime,
+                           Shiftdate = e.Shiftdate,
+                           Shiftdetailid = e.Shiftdetailid,
+                       }
+                   ).ToList();
+           
+        }
+        public Shiftdetail getShiftDetailByShiftDetailId(int id)
+        {
+            return _context.Shiftdetails.FirstOrDefault(e => e.Shiftdetailid == id);
+        }
+
+        public Shift getShiftByID(int shiftid)
+        {
+            return _context.Shifts.FirstOrDefault(e => e.Shiftid == shiftid);
+        }
+        public void AddShiftTable(Shift shift)
+        {
+            _context.Shifts.Add(shift);
+            _context.SaveChanges();
+        }
+
+        public void AddShiftDetails(List<Shiftdetail> shiftdetails)
+        {
+            shiftdetails.ForEach(item =>
+            {
+                _context.Shiftdetails.Add(item);
+            });
+            _context.SaveChanges();
+
+        }
+        public void UpdateShiftDetailTable(Shiftdetail sd)
+        {
+            _context.Shiftdetails.Update(sd);
+            _context.SaveChanges();
+        }
+
     }
+
 }

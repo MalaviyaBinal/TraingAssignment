@@ -181,6 +181,7 @@ namespace HalloDocWebServices.Implementation
             profile.adminuser = _repository.getAspnetuserByEmail(email);
             profile.regions = _repository.getRegions();
             profile.adminregion = adminRegion;
+            profile.roles = _repository.getRoleList();
             profile.isAdminProfile = true;
             return profile;
         }
@@ -193,6 +194,7 @@ namespace HalloDocWebServices.Implementation
             profile.adminuser = _repository.getAspnetuserByID(admin.Aspnetuserid);
             profile.regions = _repository.getRegions();
             profile.adminregion = adminRegion;
+            profile.roles = _repository.getRoleList();
             profile.isAdminProfile = false;
             return profile;
         }
@@ -877,6 +879,7 @@ namespace HalloDocWebServices.Implementation
         {
             AdminProviderModel model = new AdminProviderModel();
             model.regions = _repository.getRegions();
+            model.roles = _repository.getRoleList();
             if (id == 0)
             {
                 model.physicians = _repository.getPhysicianList();
@@ -2028,6 +2031,19 @@ namespace HalloDocWebServices.Implementation
         {
             var req = _repository.getRequestByID(id);
             return req.Requesttypeid;
+        }
+
+        public void saveAdminPassword(AdminProfile info)
+        {
+            var aspnetuser = _repository.getAspnetuserByID(info.adminuser.Id);
+            if (info.Passwordhash != null)
+            {
+                aspnetuser.Passwordhash = info.Passwordhash;
+            }
+
+
+            aspnetuser.Modifieddate = DateTime.Now;
+            _repository.updateAspnetUser(aspnetuser);
         }
     }
 }

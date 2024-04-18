@@ -277,8 +277,10 @@ namespace HalloDoc.Web.Controllers
             _service.ConcludeFinal(model, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(ProviderDashboard));
         }
+        #endregion
+        #region My Profile
         public IActionResult MyProfile()
-            {
+        {
             return View(_service.getPhyProfileData(HttpContext.Request.Cookies["userEmail"]));
         }
         public IActionResult UpdateProfileRequest(AdminProviderModel model)
@@ -292,5 +294,37 @@ namespace HalloDoc.Web.Controllers
             return RedirectToAction(nameof(MyProfile));
         }
         #endregion
+
+        #region Scheduling
+       
+        public IActionResult MySchedule(int reg)
+        {
+            return View(_service.getSchedulingData(HttpContext.Request.Cookies["userEmail"]));
+        }
+        public IActionResult _ViewShiftModal(int id, int regid)
+        {
+
+            return View(_service.getViewShiftData(id, regid));
+        }
+        public async Task<IActionResult> _AddShiftModal(int regionid)
+        {
+            return View( _service.openShiftModel(regionid));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateShift(SchedulingViewModel info)
+        {
+            _service.CreateShift(info, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(MySchedule));
+        }
+        public IActionResult DeleteShiftDetails(int id)
+        {
+            _service.DeleteShiftDetails(id);
+            return RedirectToAction(nameof(MySchedule));
+        }
+        #endregion
+
+
+
     }
 }

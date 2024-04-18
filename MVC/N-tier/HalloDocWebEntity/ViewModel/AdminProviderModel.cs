@@ -12,6 +12,7 @@ namespace HalloDocWebEntity.ViewModel
         public List<Region> regions { get; set; }
         public List<Physicianregion> phyregions { get; set; }
         public List<Physician> physicians{ get; set; }
+        public List<Role> roles{ get; set; }
         public List<int>? SelectedReg { get; set; }
         public Aspnetuser aspnetuser { get; set; }
         public Physician physician { get; set; }    

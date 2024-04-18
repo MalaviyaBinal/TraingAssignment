@@ -35,15 +35,15 @@ namespace HalloDocWebServices.Implementation
 
         public AdminDashboard setProviderDashboardCount(string email)
         {
-            Physician physician=_repository.GetPhyByEmail(email);
+            Physician physician = _repository.GetPhyByEmail(email);
             var viewmodel = new AdminDashboard
             {
-                NewCount = _repository.getcount(1,physician.Physicianid),
-                PendingCount = _repository.getcount(2,physician.Physicianid),
-                ActiveCount = _repository.getcount(3,physician.Physicianid),
-                ConcludeCount = _repository.getcount(4,physician.Physicianid),
-                TocloseCount = _repository.getcount(5,physician.Physicianid),
-                UnpaidCount = _repository.getcount(6,physician.Physicianid),
+                NewCount = _repository.getcount(1, physician.Physicianid),
+                PendingCount = _repository.getcount(2, physician.Physicianid),
+                ActiveCount = _repository.getcount(3, physician.Physicianid),
+                ConcludeCount = _repository.getcount(4, physician.Physicianid),
+                TocloseCount = _repository.getcount(5, physician.Physicianid),
+                UnpaidCount = _repository.getcount(6, physician.Physicianid),
             };
             return viewmodel;
         }
@@ -53,7 +53,7 @@ namespace HalloDocWebServices.Implementation
             List<AdminDashboardTableModel> tabledata;
             if (check == 0)
             {
-                return _repository.getDashboardTablesWithoutcheck(id,physician.Physicianid);
+                return _repository.getDashboardTablesWithoutcheck(id, physician.Physicianid);
             }
             else
             {
@@ -68,18 +68,18 @@ namespace HalloDocWebServices.Implementation
         {
             User user = _repository.getUserByEmail(info.email);
             var createdby = _repository.GetPhyByEmail(email);
-           
+
             Request req = new Request
             {
                 Requesttypeid = 2,
-              
+
                 Firstname = info.first_name,
                 Lastname = info.last_name,
                 Phonenumber = info.phonenumber,
                 Email = info.email,
                 Status = 1,
                 Createddate = DateTime.Now,
-                
+
                 Isurgentemailsent = new BitArray(1, false)
             };
             if (user != null)
@@ -191,11 +191,11 @@ namespace HalloDocWebServices.Implementation
             Requeststatuslog statuslog = new Requeststatuslog
             {
                 Requestid = id,
-                Notes = phy.Firstname + " " + phy.Lastname +"has Accepted The request",
+                Notes = phy.Firstname + " " + phy.Lastname + "has Accepted The request",
                 Status = 1,
                 Createddate = DateTime.Now,
                 Physicianid = phy.Physicianid,
-                
+
             };
             _repository.addRequestStatusLogTable(statuslog);
         }
@@ -297,7 +297,7 @@ namespace HalloDocWebServices.Implementation
 
         public Requestclient getRequestClientByID(int id)
         {
-           return _repository.getRequestClientById(id);
+            return _repository.getRequestClientById(id);
         }
         public int getRequestTypeByRequestID(int id)
         {
@@ -509,7 +509,7 @@ namespace HalloDocWebServices.Implementation
         {
             var data = _repository.getRequestByReqID(id);
             data.Status = 6;
-            data.Calltype = 2; 
+            data.Calltype = 2;
             _repository.updateRequestTable(data);
         }
         public void HouseCall(int id)
@@ -529,7 +529,7 @@ namespace HalloDocWebServices.Implementation
             var info = _repository.getEncounterTable(id);
             if (info != null)
             {
-                
+
                 model.Requestid = info.Requestid;
                 model.Abd = info.Abd;
                 model.Skin = info.Skin;
@@ -702,11 +702,11 @@ namespace HalloDocWebServices.Implementation
         {
             AdminViewUpload model = new();
 
-            model.patientData = _repository.getRequestClientById(id); 
+            model.patientData = _repository.getRequestClientById(id);
 
             var note = _repository.getREquestNotes(id);
-            DateOnly date = DateOnly.Parse(DateTime.Parse(model.patientData.Intdate + model.patientData.Strmonth +model. patientData.Intyear).ToString("yyyy-MM-dd"));
-         
+            DateOnly date = DateOnly.Parse(DateTime.Parse(model.patientData.Intdate + model.patientData.Strmonth + model.patientData.Intyear).ToString("yyyy-MM-dd"));
+
             model.confirmationDetail = _repository.getRequestByReqID(id);
             model.FileList = _repository.getRequestWiseFileList(id);
             model.DOB = date;
@@ -769,7 +769,7 @@ namespace HalloDocWebServices.Implementation
             model.IsbackgroundDoc = phy.Isbackgrounddoc;
             model.IsLisenceDoc = phy.Islicensedoc;
             model.IsNonDisclosure = phy.Isnondisclosuredoc;
-           
+
             model.IsTrainingDoc = phy.Istrainingdoc;
             model.isPhoto = phy.Photo != null ? true : false;
             model.isSignature = phy.Signature != null ? true : false;
@@ -798,7 +798,7 @@ namespace HalloDocWebServices.Implementation
                     Credentials = new NetworkCredential(mail, password)
                 };
                 client.SendMailAsync(mailMessage);
-                
+
                 Emaillog emaillog = new Emaillog
                 {
                     Emailtemplate = message,
@@ -827,6 +827,154 @@ namespace HalloDocWebServices.Implementation
             aspnetuser.Modifieddate = DateTime.Now;
             _repository.updateAspnetUser(aspnetuser);
         }
+        public ShiftDetailsModel getSchedulingData(string email)
+        {
+            var phy = _repository.GetPhyByEmail(email);
+            ShiftDetailsModel model = new();
+            model.physicians = _repository.getPhysicianList();
+            model.regions = _repository.getRegions();
+            model.shiftDetails = _repository.getshiftDetail(phy.Physicianid);
+           
+            return model;
+        }
+        public ShiftDetailsModel getViewShiftData(int id, int regid)
+        {
+            ShiftDetailsModel model = new ShiftDetailsModel();
+            Shiftdetail sd = _repository.getShiftDetailByShiftDetailId(id);
+
+            Shift s = _repository.getShiftByID(sd.Shiftid);
+
+            DateOnly date = DateOnly.Parse(sd.Shiftdate.ToString("yyyy-MM-dd"));
+            model.regions = _repository.getRegions();
+            model.Shiftdate = date;
+            model.Physicianid = s.Physicianid;
+            model.shiftData = s;
+            model.ShiftDetailData = sd;
+            model.RegionId = (int)sd.Regionid;
+            model.physicians = _repository.getPhysicianList();
+
+
+            return model;
+        }
+        public SchedulingViewModel openShiftModel(int regionid)
+        {
+            SchedulingViewModel model = new();
+
+            var region = _repository.getRegions();
+            model.regions = region;
+
+            return model;
+        }
+        public void CreateShift(SchedulingViewModel model,string email)
+        {
+            var phy = _repository.GetPhyByEmail(email);
+            var weekdays = "";
+            if(model.daylist != null)
+            {
+                foreach (var i in model.daylist)
+                {
+                    weekdays += i;
+                }
+            }
+           
+            var shift = new Shift
+            {
+                Physicianid = phy.Physicianid,
+                Startdate = model.ShiftDate,
+                Isrepeat = new BitArray(1, model.IsRepeat),
+                Weekdays = weekdays,
+                Createdby = "Admin",
+                Createddate = DateTime.Now,
+                Repeatupto = model.RepeatCount
+            };
+            _repository.AddShiftTable(shift);
+
+
+            List<Shiftdetail> shiftdetails = new();
+
+            Shiftdetail shiftdetail = new()
+            {
+                Shiftid = shift.Shiftid,
+                Shiftdate = model.ShiftDate,
+                Regionid = model.RegionId,
+                Starttime = model.StartTime,
+                Endtime = model.EndTime,
+                Status = 0,
+                Isdeleted = new BitArray(1, false),
+            };
+            shiftdetails.Add(shiftdetail);
+
+            if (model.IsRepeat)
+            {
+
+                List<DateOnly> days = new();
+                days.Add(model.ShiftDate);
+                for (var i = 0; i < model.RepeatCount; i++)
+                {
+                    for (int j = 0; j < model.daylist.Count; j++)
+                    {
+                        int temp;
+                        switch (model.daylist[j])
+                        {
+                            case 0:
+                                temp = (int)DayOfWeek.Sunday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 1:
+                                temp = (int)DayOfWeek.Monday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 2:
+                                temp = (int)DayOfWeek.Tuesday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 3:
+                                temp = (int)DayOfWeek.Wednesday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 4:
+                                temp = (int)DayOfWeek.Thursday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            case 5:
+                                temp = (int)DayOfWeek.Friday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                            default:
+                                temp = (int)DayOfWeek.Saturday - (int)DateTime.Parse(days.Last().ToString()).DayOfWeek;
+                                break;
+                        }
+                        if (temp <= 0)
+                        {
+                            temp += 7;
+                        }
+                        days.Add(days.Last().AddDays(temp));
+                    }
+                }
+                foreach (var day in days)
+                {
+                    Shiftdetail shiftdetail1 = new()
+                    {
+                        Shiftid = shift.Shiftid,
+                        Shiftdate = day,
+                        Regionid = model.RegionId,
+                        Starttime = model.StartTime,
+                        Endtime = model.EndTime,
+                        Status = 1,
+                        Isdeleted = new BitArray(1, false),
+                    };
+                    if (days[0] == shiftdetail1.Shiftdate)
+                    {
+                        continue;
+                    }
+                    shiftdetails.Add(shiftdetail1);
+                }
+            }
+            _repository.AddShiftDetails(shiftdetails);
+        }
+        public void DeleteShiftDetails(int id)
+        {
+            Shiftdetail sd = _repository.getShiftDetailByShiftDetailId(id);
+            sd.Isdeleted = new BitArray(1, true);
+            sd.Modifieddate = DateTime.Now;
+            _repository.UpdateShiftDetailTable(sd);
+        }
+
+
     }
 }
 

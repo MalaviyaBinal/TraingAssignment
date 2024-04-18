@@ -25,3 +25,50 @@
         myModalAssign.show();
     });
 </script>
+
+            <div class="modal fade" id="typeofcare" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <div class="modal-title text-light" id="exampleModalLongTitle">Select Type Of Care</div>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="">
+                <input type="hidden" name="" id="redirect-value" value="ProviderHouseHoldSelect">
+                <div class="modal-body">
+                   
+                    <div class="modal-flex text-center mt-3">
+                        <div class="btn btn-info common-btn cancel-btn create-request-active" onclick="toggleButton(this,'ProviderHouseHoldSelect')">HouseCall</div>
+                        <div class="btn common-btn cancel-btn" onclick="toggleButton(this,'ProviderConsultSelect')">Consult</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info continue-btn" onclick="redirect()">Continue</button>
+                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+    const toggleButton = (curr_btn, redirect_page) => {
+        const buttons = document.getElementsByClassName("common-btn")
+        for (let i = 0; i < buttons.length; ++i) {
+            if (buttons[i] != curr_btn) {
+                buttons[i].classList.remove('btn-info')
+            } else {
+                buttons[i].classList.add('btn-info')
+            }
+        }
+        // document.getElementById("redirect-value").value = 'SubmitForMePatient';
+        document.getElementById("redirect-value").value = redirect_page;
+    }
+
+    const redirect = () => {
+        window.location.assign(`./Provider/${document.getElementById("redirect-value").value}?id=` + @Model.RequestId);
+    }
+</script>

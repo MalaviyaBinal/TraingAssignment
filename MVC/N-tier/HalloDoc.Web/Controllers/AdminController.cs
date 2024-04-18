@@ -565,8 +565,7 @@ namespace HalloDoc.Web.Controllers
         {
             Response.Cookies.Delete("jwt");
             Response.Cookies.Delete("userName");
-            Response.Cookies.Delete("juserEmailwt");
-            Response.Cookies.Delete("Isheader");
+            Response.Cookies.Delete("userEmail");
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction(nameof(HomeController.PatientLogin), "Home");
         }
@@ -628,6 +627,12 @@ namespace HalloDoc.Web.Controllers
         {
             _service.savePhysicianPassword(info);
             return RedirectToAction(nameof(EditProviderDetail), new { id = info.physician.Physicianid });
+        }
+        [HttpPost]
+        public ActionResult UpdateAdminPassword(AdminProfile info)
+        {
+            _service.saveAdminPassword(info);
+            return RedirectToAction(nameof(AdminDashboardMyProfile));
         }
         [HttpPost]
         public ActionResult SavePhysicianInfo(AdminProviderModel info)

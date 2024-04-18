@@ -53,5 +53,11 @@ namespace HalloDocWebRepo.Interface
         List<Physicianregion> getPhysicianRegionByPhy(int physicianid);
         List<Admin> getAdminList();
         void updateAspnetUser(Aspnetuser aspnetuser);
+        List<ShiftDetailsModel> getshiftDetail(int reg);
+        Shiftdetail getShiftDetailByShiftDetailId(int id);
+        Shift getShiftByID(int shiftid);
+        void AddShiftTable(Shift shift);
+        void AddShiftDetails(List<Shiftdetail> shiftdetails);
+        void UpdateShiftDetailTable(Shiftdetail sd);
     }
 }

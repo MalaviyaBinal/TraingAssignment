@@ -7,6 +7,6 @@ namespace HalloDocWebEntity.ViewModel
     {
         public List<Request>? Request { get; set; }
         public User? User { get; set; }
-        public DateTime? dob { get; set; } 
+        public DateOnly? dob { get; set; } 
     }
 }

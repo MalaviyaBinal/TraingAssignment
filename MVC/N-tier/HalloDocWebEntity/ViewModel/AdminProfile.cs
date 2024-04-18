@@ -17,6 +17,7 @@ namespace HalloDocWebEntity.ViewModel
         public int regionid { get; set; }
         public int roleid { get; set; }
         public bool isAdminProfile { get; set; }
+        public string Passwordhash { get; set; }
 
     }
 }

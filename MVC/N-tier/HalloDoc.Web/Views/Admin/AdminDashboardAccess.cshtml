@@ -11,7 +11,7 @@
         </div>
     </div>
 </div>
-<div class="container hideonmobile bg-white rounded shadow mt-3 p-0">
+<div class="container  bg-white rounded shadow ">
     <div class="row pt-3 ps-2 pb-3">
         <div class="col text-end">
             <a asp-action="CreateRole" asp-controller="Admin">
@@ -21,7 +21,7 @@
             </a>
         </div>
     </div>
-    <table class="table">
+    <table class="table hideOnMobile">
         <thead>
             <tr class="bg-light text-muted h-100">
                 <th scope="col">Name</th>
@@ -60,7 +60,42 @@
 
         </tbody>
     </table>
+    <div class="d-md-none border-bottom">
+
+        @foreach (var item in Model)
+        {
+            <div class="border-bottom px-2" id="accordiancolor">
+
+                <div class="my-2">
+                    <div class="my-1">Name: <strong>@item.Name</strong></div>
+                    <div class="my-1">
+                        Account Type:
+                        @switch (item.Accounttype)
+                        {
+                            case 1:
+                                <span>Admin</span>
+                                break;
+                            case 2:
+                                <span>Physician</span>
+                                break;
+                            case 0:
+                                <span>All</span>
+                                break;
+
+                        }
+                    </div>
+                    <div class="my-1">
+                        <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Roleid"><button type="button" class="btn btn-outline-info">Edit</button></a>
+                        <button type="button" onclick="deleteaccess(this)" value="@item.Roleid" class="btn btn-outline-info">Delete</button>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
 </div>
+
 <div id="modalpopup">
 </div>
 <script>

@@ -46,5 +46,10 @@ namespace HalloDocWebServices.Interfaces
         AdminProviderModel getPhyProfileData(string? v);
         void UpdateProfileRequest(string? v, string? adminnotes);
         void savePhysicianPassword(AdminProviderModel info);
+        ShiftDetailsModel getSchedulingData(string email);
+        ShiftDetailsModel getViewShiftData(int id, int regid);
+        SchedulingViewModel openShiftModel(int regionid);
+        void CreateShift(SchedulingViewModel info,string email);
+        void DeleteShiftDetails(int id);
     }
 }

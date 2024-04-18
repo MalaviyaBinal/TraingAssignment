@@ -1,0 +1,137 @@
+﻿@model HalloDocWebEntity.ViewModel.SchedulingViewModel
+<script>
+    $(document).ready(function () {
+        var myModalblock = new bootstrap.Modal(document.getElementById('create-shift'));
+        myModalblock.show();
+    });
+   
+    $('#switchCheck').change(function (e) {
+        var check = document.getElementById("switchCheck")
+        
+        if (check.checked){
+            //document.getElementById("day1").removeAttribute("disabled");
+            for(var i=1 ; i<=7 ; i++){
+                document.getElementById("day"+i.toString()).removeAttribute("disabled");
+            }
+            
+        } else {
+            for (var i = 1; i <= 7; i++) {
+                document.getElementById("day" + i.toString()).setAttribute("disabled", "");
+            }
+        }
+    });
+
+</script>
+<div class="modal fade" id="create-shift" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content create-shift-scale">
+            <div class="modal-header bg-info text-white">
+                <h3 class="modal-title fs-5 " id="staticBackdropLabel">Create Shift</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="CreateShift" asp-controller="Provider">
+                    <div class="col-12">
+                        <div class="form-floating mb-3 inp">
+                            <select asp-for=RegionId id="Allregion" class="form-control form-select input-2 view-shift-inp">
+                                <option value="0">select</option>
+                                @foreach (var item in Model.regions)
+                                {
+                                    <option value="@item.Regionid">@item.Name</option>
+                                }
+                            </select>
+                            <label for="Allregion" class="view-shift-label">Region</label>
+                        </div>
+
+                        <div class="col-12">
+                           
+
+                            <div class="col-12">
+                                <div class="form-floating mb-3 inp custom-date-input">
+                                    <input type="date" class="form-control input-1 view-shift-inp" id="floatingInput-4" asp-for="ShiftDate" asp-format="{0: yyyy-MM-dd}" placeholder="ShiftDate" autocomplete="off">
+                                    <label for="floatingInput-4" asp-for="ShiftDate" class="view-shift-label">Shift Date</label>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-floating mb-3 inp custom-clock-input">
+                                        <input type="time" class="form-control input-1 view-shift-inp" asp-for="StartTime" id="floatingInput-4"
+                                               placeholder="Start" autocomplete="off">
+                                        <label for="floatingInput-4" class="view-shift-label">Start</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-floating mb-3 inp custom-clock-input">
+                                        <input type="time" class="form-control input-1 view-shift-inp" asp-for="EndTime" id="floatingInput-4"
+                                               placeholder="End" autocomplete="off">
+                                        <label for="floatingInput-4" class="view-shift-label">End</label>
+                                    </div>
+                                </div>
+                                <span id="startTimeSpan" class="text-danger hide">Start Time & End Time Cannot be Same!!!</span>
+                            </div>
+                            <div class="form-check form-switch">
+                                <label class="form-check-label" for="flexSwitchCheckChecked" asp-for="IsRepeat">Repeat</label>
+                                <input class="form-check-input" type="checkbox" role="switch" asp-for="IsRepeat" id="switchCheck" >
+                            </div>
+                            <fieldset class="my-3" id="daysSection">
+                                Repeat Days
+                                <div class="row my-2 row-cols-1 row-cols-sm-2 row-cols-md-3" id="dayCheckBox" >
+
+                                    <div class="col my-1">
+                                        <input class="form-check-input" id="day1" disabled value="0" type="checkbox" name="daylist" />
+                                        <span class="form-check-label" for="day1" > Every Sunday </span>
+                                    </div>
+                                    <div class="col my-1">
+                                        <input class="form-check-input " id="day2" disabled value="1" type="checkbox" name="daylist" />
+                                        <span class="form-check-label" for="day2"> Every Monday </span>
+                                    </div>
+                                    <div class="col my-1">
+                                        <input class="form-check-input " id="day3" disabled value="2" type="checkbox" name="daylist" />
+                                        <span class="form-check-label" for="day3"> Every Tuesday </span>
+                                    </div>
+                                    <div class="col my-1 text-nowrap">
+                                        <input class="form-check-input " id="day4" disabled value="3" type="checkbox" name="daylist" />
+                                        <span class="form-check-label" for="day4"> Every Wednesday </span>
+                                    </div>
+                                    <div class="col my-1">
+                                        <input class="form-check-input " id="day5" disabled value="4" type="checkbox" name="daylist" />
+                                        <span class="form-check-label" for="day5"> Every Thursday </span>
+                                    </div>
+                                    <div class="col my-1">
+                                        <input class="form-check-input " id="day6" disabled  value="5" type="checkbox" name="daylist" />
+                                        <span class="form-check-label" for="day6"> Every Friday </span>
+                                    </div>
+                                    <div class="col my-1">
+                                        <input class="form-check-input " id="day7" disabled value="6" type="checkbox" name="daylist" />
+                                        <span class="form-check-label" for="day7">  Every Saturday </span>
+                                    </div>
+                                </div>
+                                <span class="text-danger hide" id="repeatDaysSpan">Atleast One Day is Required!!!</span>
+                                <input type="hidden" asp-for="RepeatDays" id="repeatDays" />
+                                <span asp-validation-for="RepeatDays" class="text-danger"></span>
+                                <div class="col-12 mt-3">
+                                    <div class="form-floating mb-3 inp">
+                                        <select id="floatingInput-5" class="form-control form-select input-2 view-shift-inp" asp-for="RepeatCount">
+                                            <option value="2" selected>2-times</option>
+                                            <option value="3">3-times</option>
+                                            <option value="4">4-times</option>
+                                            <option value="5">5-times</option>
+                                        </select>
+                                        <label for="floatingInput-5" class="view-shift-label">Repeat End</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="modal-footer create-shift-footer">
+                        <button type="submit" class="btn btn-info text-white">Save</button>
+                        <button type="button" class="btn btn-white text-info border-info" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

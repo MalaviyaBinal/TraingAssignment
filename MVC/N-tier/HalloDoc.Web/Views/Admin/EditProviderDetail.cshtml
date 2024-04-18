@@ -23,9 +23,9 @@
 
                 @if (Model.isProviderEdit)
                 {
-                    
+
                     <script>
-                       
+
                         document.getElementById("provider1").classList.add("active");
                     </script>
 
@@ -264,7 +264,9 @@
                         <div class="col-12 h5 mb-3">
                             Onboarding
                         </div>
-                        <div class="form-check mb-3 pt-4 col-6 mb-3">
+                    </div>
+                    <div class="row p-3">
+                        <div class="form-check mb-3 col-sm-12 pt-4 col-md-6 col-lg-6 mb-3">
                             <input class="form-check-input" type="checkbox" id="1" asp-for="@Model.Isagrementdoc[0]">
 
                             <span class="form-check-label" for="1">
@@ -289,10 +291,11 @@
 
                         @if (@Model.Isagrementdoc[0])
                         {
-                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('AgreementDoc')">View</button>
+                            <button class="btn btn-info  col-md-1 col-lg-1text-white mb-4 mt-4" type="button" onclick="viewdoc('AgreementDoc')">View</button>
                         }
-
-                        <div class="form-check mb-3 pt-4 col-6 mb-3">
+                    </div>
+                    <div class="row p-3"> 
+                        <div class="form-check mb-3 pt-4 col-sm-12 col-md-6 col-lg-6 mb-3">
                             <input class="form-check-input" type="checkbox" id="2" asp-for="@Model.IsbackgroundDoc[0]">
                             <span class="form-check-label" for="2">
                                 Background Check
@@ -318,11 +321,11 @@
 
                         @if (@Model.IsbackgroundDoc[0])
                         {
-                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('BackgroundDoc')">View</button>
+                            <button class="btn btn-info col-sm-12 col-md-1 col-lg-1text-white mb-4 mt-4" type="button" onclick="viewdoc('BackgroundDoc')">View</button>
                         }
-
-
-                        <div class="form-check mb-3 pt-4 col-6 mb-3">
+                    </div>
+                    <div class="row p-3">
+                        <div class="form-check mb-3 pt-4 col-sm-12 col-md-6 col-lg-6 mb-3">
                             <input class="form-check-input" type="checkbox" id="3" asp-for="@Model.IsTrainingDoc[0]">
                             <span class="form-check-label" for="3">
                                 HIPAA Compilance
@@ -345,9 +348,11 @@
                         </div>
                         @if (@Model.IsTrainingDoc[0])
                         {
-                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('HIPAA')">View</button>
+                            <button class="btn btn-info col-sm-12 col-md-1 col-lg-1text-white mb-4 mt-4" type="button" onclick="viewdoc('HIPAA')">View</button>
                         }
-                        <div class="form-check mb-3 pt-4 col-6 mb-3">
+                    </div>
+                    <div class="row p-3">
+                        <div class="form-check mb-3 pt-4 col-sm-12 col-md-6 col-lg-6 mb-3">
                             <input class="form-check-input" type="checkbox" id="4" asp-for="@Model.IsNonDisclosure[0]">
                             <span class="form-check-label" for="4">
                                 Non-Disclosure Agreement
@@ -371,9 +376,11 @@
 
                         @if (@Model.IsNonDisclosure[0])
                         {
-                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('NonDisclosureDoc')">View</button>
+                            <button class="btn btn-info col-sm-12 col-md-1 col-lg-1text-white mb-4 mt-4" type="button" onclick="viewdoc('NonDisclosureDoc')">View</button>
                         }
-                        <div class="form-check mb-3 pt-4 col-6">
+                    </div>
+                    <div class="row p-3">
+                        <div class="form-check mb-3 pt-4 col-sm-12 col-md-6 col-lg-6">
 
                             <input class="form-check-input" type="checkbox" id="5" asp-for="@Model.IsLisenceDoc[0]">
                             <span class="form-check-label" for="5">
@@ -398,9 +405,10 @@
                         @if (@Model.IsLisenceDoc[0])
                         {
 
-                            <button class="btn btn-info col-1 text-white mb-4 mt-4" type="button" onclick="viewdoc('LicenseDoc')">View</button>
+                            <button class="btn btn-info col-sm-12 col-md-1 col-lg-1text-white mb-4 mt-4" type="button" onclick="viewdoc('LicenseDoc')">View</button>
                         }
                     </div>
+
 
 
                     <hr />

@@ -24,10 +24,11 @@
                     <script>
                         document.getElementById("myProfile").classList.add("active");
                     </script>
-                   
+
                 }
                 else
-                {<span></span>
+                {
+                    <span></span>
                     <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
                         <button class="btn btn-white  text-info border-info rounded ">
                             <i class="fa-solid  fa-less-than"></i> Back
@@ -37,21 +38,20 @@
                         document.getElementById("access1").classList.add("active");
                     </script>
                 }
-                
+
             </div>
 
             <div class="container rounded bg-white shadow py-3">
-     @*           <form asp-action="SaveAdminPassword" asp-controller="Admin" method="post">
-                    <input type="hidden" asp-for=admin.Adminid value="@Model.admin.Adminid" />
-                    <input type="hidden" asp-for=admin.Aspnetuserid value="@Model.admin.Aspnetuserid" />
+                <form asp-action="UpdateAdminPassword" asp-controller="Admin" id="" method="post">
+                    <input type="hidden" asp-for="adminuser.Id" />
                     <h5 class="mb-3">Account Information</h5>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for="@Model.adminuser.Usarname" type="text" class="form-control" id="exampleFormControlInput1" disabled>
+                            <input value="@Model.adminuser.Usarname" name="first_name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Firstname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ps-4">User Name</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input name="Password" type="text" class="form-control" id="password" disabled>
+                            <input name="Passwordhash" name="last_name" type="text" class="form-control"  id="password" placeholder="Lastname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ps-4">Password </label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
@@ -66,7 +66,7 @@
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
                             <div class="mb-3 border border-light rounded-5">
-                                <select class="form-select text-muted p-3 pla1" asp-for=roleid aria-label=" form-select-lg example" disabled>
+                                <select class="form-select text-muted p-3 pla1" asp-for=admin.Roleid aria-label=" form-select-lg example" disabled>
 
                                     @foreach (var item in Model.roles)
                                     {
@@ -79,45 +79,10 @@
                         </div>
                     </div>
                     <div class="text-end pb-3">
-                        <button class="btn btn-white text-info border-info" onclick="EditData2()" id="reset" type="button">Reset password</button>
-                        <button class="btn btn-info text-white" id="save2" type="submit" style="display:none;">Save</button>
-                        <button class="btn btn-white text-info border-info" onclick="disableData2()" id="cancel2" type="button" style="display:none;">Cancel</button>
+                        <button class="btn btn-outline-info" type="button" onclick="enablePwd()" id="resetbtn">Reset password</button>
+                        <button class="btn btn-outline-info" type="button" onclick="disablePwd()" style="display :none;" id="cancelbtn">Cancel</button>
+                        <button class="btn btn-info text-white  " type="submit" id="savebtn" style="display :none;">Save</button>
                     </div>
-                </form>*@
-                
-
-                
-                <form asp-action="" asp-controller="Admin" method="post">
-                <h5 class="mb-3">Account Information</h5>
-                <div class="row">
-                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                <input value="@Model.adminuser.Usarname" name="first_name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Firstname" disabled>
-                <label for="exampleFormControlInput1" class="form-label ps-4">User Name</label>
-                </div>
-                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                <input value="@Model.adminuser.Passwordhash" name="last_name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Lastname" disabled>
-                <label for="exampleFormControlInput1" class="form-label ps-4">Password </label>
-                </div>
-                <div class="col-sm-12 col-md-6 col-xl-6">
-                <div class="mb-3 border border-light rounded-5">
-                <select class="form-select p-3 pla1" aria-label="form-select-lg example" disabled>
-                <option selected value="1">Mobile</option>
-                <option value="2">Email</option>
-                </select>
-                </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-xl-6">
-                <div class="mb-3 border border-light rounded-5">
-                <select class="form-select p-3 pla1" aria-label="form-select-lg example" disabled>
-                <option selected value="1">Mobile</option>
-                <option value="2">Email</option>
-                </select>
-                </div>
-                </div>
-                </div>
-                <div class="text-end pb-3">
-                <button class="btn btn-white text-info border-info" type="button">Reset password</button>
-                </div>
                 </form>
                 <form asp-action="UpdateAdminProfile" id="enable" asp-controller="Admin">
                     <input type="hidden" asp-for=admin.Adminid value="@Model.admin.Adminid" />
@@ -162,7 +127,7 @@
                                     {
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input checkboxes" type="checkbox" name="SelectedReg" value="@item.Regionid" disabled>
-                                            <span    class="form-check-label text6" for="inlineCheckbox1">@item.Name</span>
+                                            <span class="form-check-label text6" for="inlineCheckbox1">@item.Name</span>
                                         </div>
                                     }
                                 }
@@ -262,17 +227,17 @@
             formelements[i].disabled = false;
         }
     }
-    function EditData2() {
-        document.getElementById("reset").style.display = "none";
-        document.getElementById("cancel2").style.display = "inline";
-        document.getElementById("save2").style.display = "inline";
-        document.getElementById("password").disabled = false;
-    }
-    function disableData2() {
+    function disablePwd() {
+        document.getElementById("resetbtn").style.display = "inline";
+        document.getElementById("cancelbtn").style.display = "none";
+        document.getElementById("savebtn").style.display = "none";
         document.getElementById("password").disabled = true;
-        document.getElementById("reset").style.display = "inline";
-        document.getElementById("cancel2").style.display = "none";
-        document.getElementById("save2").style.display = "none";
+    }
+    function enablePwd() {
+        document.getElementById("password").disabled = false;
+        document.getElementById("savebtn").style.display = "inline";
+        document.getElementById("cancelbtn").style.display = "inline";
+        document.getElementById("resetbtn").style.display = "none";
     }
     // document.getElementById("save").style.display = "inline";
     // document.getElementById("cancel").style.display = "inline";
