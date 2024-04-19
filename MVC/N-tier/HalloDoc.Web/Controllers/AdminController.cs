@@ -160,7 +160,7 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult _SearchRecordsTable(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr , int pagenumber)
         {
-            //_service.SendSms("+918320056504", "sample message");
+            _service.SendSms("+918320056504", "sample message");
             model = _service.getSearchRecordData(model);
             if (!string.IsNullOrWhiteSpace(searchstr))
             {

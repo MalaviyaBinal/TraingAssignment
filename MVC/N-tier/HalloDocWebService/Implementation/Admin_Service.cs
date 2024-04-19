@@ -1476,9 +1476,9 @@ namespace HalloDocWebServices.Implementation
         }
         public void SendSms(string receiverPhoneNumber = "+9183200566504", string message = "this is testing")
         {
-            string accountSid = "ACf3e07eb694877aff1ffd392934bdb764";
-            string authToken = "fe03fccadb7d42d562d8f9879bb50ece";
-            string twilioPhoneNumber = "+12676139096";
+            //string accountSid = "ACf3e07eb694877aff1ffd392934bdb764";
+            //string authToken = "fe03fccadb7d42d562d8f9879bb50ece";
+            //string twilioPhoneNumber = "+12676139096";
 
             //TwilioClient.Init(accountSid, authToken);
 

@@ -112,26 +112,26 @@ namespace HalloDocWebServices.Implementation
         }
         public void SendSMS(string phonenumber, string message)
         {
-            //string accountSid = "ACf3e07eb694877aff1ffd392934bdb764";
-            //string authToken = "fe03fccadb7d42d562d8f9879bb50ece";
-            //string twilioPhoneNumber = "+12676139096";
+            string accountSid = "ACf3e07eb694877aff1ffd392934bdb764";
+            string authToken = "fe03fccadb7d42d562d8f9879bb50ece";
+            string twilioPhoneNumber = "+12676139096";
 
-            //TwilioClient.Init(accountSid, authToken);
+            TwilioClient.Init(accountSid, authToken);
 
-            //try
-            //{
-            //    var smsMessage = MessageResource.Create(
-            //        body: message,
-            //        from: new Twilio.Types.PhoneNumber(twilioPhoneNumber),
-            //        to: new Twilio.Types.PhoneNumber(phonenumber)
-            //    );
+            try
+            {
+                var smsMessage = MessageResource.Create(
+                    body: message,
+                    from: new Twilio.Types.PhoneNumber(twilioPhoneNumber),
+                    to: new Twilio.Types.PhoneNumber(phonenumber)
+                );
 
-            //    Console.WriteLine("SMS sent successfully. SID: " + smsMessage.Sid);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine("An error occurred while sending the SMS: " + ex.Message);
-            //}
+                Console.WriteLine("SMS sent successfully. SID: " + smsMessage.Sid);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while sending the SMS: " + ex.Message);
+            }
             Console.WriteLine(message);
 
         }
