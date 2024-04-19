@@ -3,11 +3,11 @@
     <thead>
         <tr class="text-muted">
             <th scope="col">Name</th>
+            <th></th>
             
-            <th scope="col">Date of Service</th>
             <th scope="col">Phone</th>
             <th scope="col">Address</th>
-            <th scope="col">Chat With</th>
+          
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -40,24 +40,24 @@
                 <td>
                     @item.Name
                 </td>
-
-              
                 <td>
-                    @item.Dateofservice
+                    @if (true)
+                    {
+                        var str1 = "mailto:" + item.Email;
+                        <a href=@str1><i class="fa-regular fa-envelope" style="color: #ffffff;"></i></a>
+                    }
                 </td>
-
-                <td>
-
-                    <button class="btn btn-outline-light"> @item.Phonenumber</button>
-
+                <td class="font">
+                    <a href="tel:@item.Phonenumber" class="text-decoration-none f">
+                        <button class="btn btn-outline-light d-flex">
+                            <i class="fa-solid fa-phone"></i>@item.Phonenumber
+                        </button>
+                    </a>
                 </td>
                 <td>
                     @item.Address
                 </td>
                 
-                <td>
-                    <button class="btn btn-outline-light" type="button"><i class="fa-solid fa-user-doctor me-1"></i>Provider</button>
-                </td>
                 <td>
                     <div class="dropdown">
                         <button class="btn text-light bg-transparent border border-white  " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -149,32 +149,18 @@
                         </a>
                     </div>
                     <div class="accordion-body container-fluid pt-0 pb-0">
-                        <p class="mb-1"> <i class="fa-regular fa-calendar-days me-1 circlefa"></i>Date of Birth : </p>
+                       
                         <p class="mb-1"><i class="fa-regular fa-envelope me-1 circlefa"></i>Email : @item.Email</p>
                         <p class="mb-1"><i class="fa-solid fa-phone me-1 circlefa"></i>Patient : @item.Phonenumber</p>
-                        <p class="mb-1"><i class="fa-regular fa-calendar-days me-1 circlefa"></i>Date of Service : @item.Dateofservice</p>
-                        <p class="mb-1">
-                            <i class="fa-solid fa-user-doctor me-1 circlefa"></i>Physician :
-                            @if (item.physician != null)
-                            {
-                                @foreach (var a in Model.physicians)
-                                {
-                                    @if (item.physician == a.Physicianid)
-                                    {
-                                        <td class="font1">
-                                            @a.Firstname @a.Lastname
-                                        </td>
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                <td class="font1">
-                                    --
-                                </td>
-                            }
-                        </p>
+                       
                         <div class="row">
+                            <div class="col-6 mb-2 ">
+                                <a class="dropdown-item" asp-action="ConcludeCare" asp-controller="Provider" asp-route-id="@item.Requestid">
+                                    <button class="btn btn-danger  rounded-pill 2px w-100" >
+                                        <small>Conclude Care</small>
+                                    </button>
+                                </a>
+                            </div>
                             <div class="col-6 mb-2">
                                 <a asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.Requestid">
                                     <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
@@ -196,18 +182,17 @@
                                     </button>
                                 </a>
                             </div>
-                            <div class="col-6 mb-2 ">
-                                <a asp-action="SendOrder" asp-controller="Admin" asp-route-id="@item.Requestid">
-                                    <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #EE9125;">
-                                        <small>Orders</small>
-                                    </button>
-                                </a>
-                            </div>
-                            <div class="col-6 mb-2">
-                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
-                                    <small>Email</small>
-                                </button>
-                            </div>
+                            @if (true)
+                            {
+                                var str1 = "mailto:" + item.Email;
+                                <div class="col-6 mb-2">
+                                    <a href=@str1>
+                                        <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
+                                            <small>Email</small>
+                                        </button>
+                                    </a>
+                                </div>
+                            }
                             <hr class="mb-1 p-0 text-muted" />
                         </div>
                         <div class="text-end d-md-flex justify-content-md-end pb-3">
@@ -258,7 +243,7 @@
   
   <script>
     function EncouterFinalize(element) {
-        var id = element.value;
+        var id = element;
         console.log(id);
         $.ajax({
             url: "/Provider/_EncounterModal",

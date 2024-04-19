@@ -31,6 +31,7 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
+        
         public IActionResult Profile()
         {
             var profile = _service.ReturnRequest(HttpContext.Request.Cookies["userEmail"]);
@@ -184,21 +185,37 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> CreatePatientByBusiness(BusinessPatientRequest info)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(RequestBusiness), info);
+            }
             _service.createPatientByBusiness(info);
             return RedirectToAction(nameof(SubmitPatientRequest));
         }
         public async Task<IActionResult> CreatePatientByConierge(ConciergePatientRequest info)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(RequestConcierge), info);
+            }
             _service.createPatientByConcierge(info);
             return RedirectToAction("SubmitPatientRequest", "Home");
         }
         public async Task<IActionResult> CreatePatientByFamilyFrd(FamilyFrdPatientRequest info)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(RequestFrdFamily), info);
+            }
             _service.createPatientByFamilyFrd(info);
             return RedirectToAction("SubmitPatientRequest", "Home");
         }
         public async Task<IActionResult> CreatePatient(PatientRequest info)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(RequestPatient), info);
+            }
             _service.createPatient(info);
             return RedirectToAction("SubmitPatientRequest", "Home");
         }

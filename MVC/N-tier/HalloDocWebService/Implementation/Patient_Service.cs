@@ -16,6 +16,7 @@ using System.Collections;
 using System.IO.Compression;
 using System.Net.Mail;
 using System.Net;
+using OfficeOpenXml.Drawing.Slicer.Style;
 
 namespace HalloDocWebServices.Implementation
 {
@@ -41,7 +42,7 @@ namespace HalloDocWebServices.Implementation
             var asp = _repository.getAspnetUser(user.Aspnetuserid);
 
             user.Firstname = model.first_name;
-            user.Lastname = model.last_name;            
+            user.Lastname = model.last_name;
             user.Mobile = model.phone;
             user.Street = model.street;
             user.City = model.city;
@@ -51,13 +52,13 @@ namespace HalloDocWebServices.Implementation
             user.Intyear = model.dob.Value.Year;
             user.Strmonth = System.String.Format("{0:MMM}", model.dob);
             _repository.updateUserTable(user);
-       
+
             asp.Usarname = model.first_name;
-            
+
             asp.Phonenumber = model.phone;
 
             _repository.updateAspnetuserTable(asp);
-            
+
         }
 
         List<Requestwisefile> IPatient_Service.getPatientDocument(int? id)
@@ -116,18 +117,18 @@ namespace HalloDocWebServices.Implementation
             };
 
             _repository.addRequestFileTable(reqclient);
-          
+
         }
 
         public RequestForMe getUserByEmail(string? email)
         {
-            var user =  _repository.getUserByEmail(email);
+            var user = _repository.getUserByEmail(email);
             RequestForMe model = new RequestForMe
             {
                 first_name = user.Firstname,
                 last_name = user.Lastname,
                 dob = DateOnly.Parse(DateTime.Parse(user.Intdate + user.Strmonth + user.Intyear).ToString("dd-MM-yyyy")),
-                email =user.Email,
+                email = user.Email,
                 phonenumber = user.Mobile
             };
             return model;
@@ -229,61 +230,48 @@ namespace HalloDocWebServices.Implementation
 
         void IPatient_Service.createPatientByBusiness(BusinessPatientRequest info)
         {
-            var userid = _repository.getUserByEmail(info.email);
-
-            if (info.password != null)
+            var user = _repository.getUserByEmail(info.p_email);
+            var reqid = 0;
+            if (user == null)
             {
-                Aspnetuser aspuser = new Aspnetuser
+                Request req1 = new Request
                 {
-
-                    Usarname = info.p_first_name,
-                    Passwordhash = info.password,
-                    Email = info.p_email,
-                    Phonenumber = info.p_phone,
-                    Createddate = DateTime.Now,
-                    Modifieddate = DateTime.Now
-
-                };
-                _repository.addAspnetuserTable(aspuser);
-
-                User user = new User
-                {
-
-                    Firstname = info.p_first_name,
-                    Lastname = info.p_last_name,
-                    Email = info.p_email,
-                    Mobile = info.p_phone,
-                    Street = info.p_street,
-                    City = info.p_city,
-                    State = info.p_state,
-                    Zip = info.p_zip_code,
-                    Aspnetuserid = aspuser.Id,
-                    Createdby = info.first_name,
+                    Requesttypeid = 2,
+                    Firstname = info.first_name,
+                    Lastname = info.last_name,
+                    Phonenumber = info.phone,
+                    Email = info.email,
+                    Status = 1,
                     Createddate = info.Createddate,
+                    Isurgentemailsent = new BitArray(1, false)
+
 
                 };
-                _repository.addUserTable(user);
-                userid.Userid = user.Userid;
+                _repository.addRequestTable(req1);
+                reqid = req1.Requestid;
             }
-
-            Request req = new Request
+            else
             {
-                Requesttypeid = 2,
-                Userid = userid.Userid,
-                Firstname = info.first_name,
-                Lastname = info.last_name,
-                Phonenumber = info.phone,
-                Email = info.email,
-                Status = 1,
-                Createddate = info.Createddate,
-                Isurgentemailsent = new BitArray(1, false)
+                Request req = new Request
+                {
+                    Requesttypeid = 2,
+                    Userid = user.Userid,
+                    Firstname = info.first_name,
+                    Lastname = info.last_name,
+                    Phonenumber = info.phone,
+                    Email = info.email,
+                    Status = 1,
+                    Createddate = info.Createddate,
+                    Isurgentemailsent = new BitArray(1, false)
 
 
-            };
-            _repository.addRequestTable(req);
+                };
+                _repository.addRequestTable(req);
+                reqid = req.Requestid;
+            }
             Requestclient reqclient = new Requestclient
             {
-                Requestid = req.Requestid,
+                Requestid = reqid,
                 Firstname = info.p_first_name,
                 Lastname = info.p_last_name,
                 Phonenumber = info.phone,
@@ -302,7 +290,7 @@ namespace HalloDocWebServices.Implementation
             _repository.addBussinessTable(business);
             Requestbusiness reqbusiness = new Requestbusiness
             {
-                Requestid = req.Requestid,
+                Requestid = reqid,
                 Businessid = business.Businessid
             };
             _repository.addRequestBusinessTable(reqbusiness);
@@ -312,56 +300,50 @@ namespace HalloDocWebServices.Implementation
         public void createPatientByConcierge(ConciergePatientRequest info)
         {
 
-            var userid = _repository.getUserByEmail(info.email);
-
-            if (info.password != null)
+            var user = _repository.getUserByEmail(info.p_email);
+            var reqid = 0;
+            if (user == null)
             {
-                Aspnetuser aspuser = new Aspnetuser
+                Request req1 = new Request
                 {
+                    Requesttypeid = 2,
 
-                    Usarname = info.p_first_name,
-                    Passwordhash = info.password,
-                    Email = info.p_email,
-                    Phonenumber = info.p_phone,
-                    Createddate = DateTime.Now,
-                    Modifieddate = DateTime.Now
-
-                };
-                _repository.addAspnetuserTable(aspuser);
-                User user = new User
-                {
-
-                    Firstname = info.p_first_name,
-                    Lastname = info.p_last_name,
-                    Email = info.p_email,
-                    Mobile = info.p_phone,
-                    Aspnetuserid = aspuser.Id,
-                    Createdby = info.first_name,
+                    Firstname = info.first_name,
+                    Lastname = info.last_name,
+                    Phonenumber = info.phone,
+                    Email = info.email,
+                    Status = 1,
                     Createddate = info.Createddate,
+                    Isurgentemailsent = new BitArray(1, false)
+
 
                 };
-                _repository.addUserTable(user);
-                userid.Userid = user.Userid;
+                _repository.addRequestTable(req1);
+
+                reqid = req1.Requestid;
             }
-            Request req = new Request
+            else
             {
-                Requesttypeid = 2,
-                Userid = 1,
-                Firstname = info.first_name,
-                Lastname = info.last_name,
-                Phonenumber = info.phone,
-                Email = info.email,
-                Status = 1,
-                Createddate = info.Createddate,
-                Isurgentemailsent = new BitArray(1, false)
+                Request req = new Request
+                {
+                    Requesttypeid = 2,
+                    Userid = user.Userid,
+                    Firstname = info.first_name,
+                    Lastname = info.last_name,
+                    Phonenumber = info.phone,
+                    Email = info.email,
+                    Status = 1,
+                    Createddate = info.Createddate,
+                    Isurgentemailsent = new BitArray(1, false)
 
 
-            };
-            _repository.addRequestTable(req);
-
+                };
+                _repository.addRequestTable(req);
+                reqid = req.Requestid;
+            }
             Requestclient reqclient = new Requestclient
             {
-                Requestid = req.Requestid,
+                Requestid = reqid,
                 Firstname = info.p_first_name,
                 Lastname = info.p_last_name,
                 Phonenumber = info.p_phone,
@@ -386,7 +368,7 @@ namespace HalloDocWebServices.Implementation
 
             Requestconcierge reqCon = new Requestconcierge
             {
-                Requestid = req.Requestid,
+                Requestid = reqid,
                 Conciergeid = con.Conciergeid,
             };
             _repository.addRequestConciergeTable(reqCon);
@@ -394,56 +376,46 @@ namespace HalloDocWebServices.Implementation
 
         public void createPatientByFamilyFrd(FamilyFrdPatientRequest info)
         {
-            var userid = _repository.getUserByEmail(info.email);
-            if (info.password != null)
+            var user = _repository.getUserByEmail(info.p_email);
+            var reqid = 0;
+            if (user == null)
             {
-                Aspnetuser aspuser = new Aspnetuser
+                Request req1 = new Request
                 {
-
-                    Usarname = info.first_name,
-                    Passwordhash = info.password,
-                    Email = info.email,
-                    Phonenumber = info.phone,
-                    Createddate = DateTime.Now,
-                    Modifieddate = DateTime.Now
-
-                };
-                _repository.addAspnetuserTable(aspuser);
-                User user = new User
-                {
-
+                    Requesttypeid = 2,
                     Firstname = info.first_name,
                     Lastname = info.last_name,
+                    Phonenumber = info.phone,
                     Email = info.email,
-                    Mobile = info.phone,
-                    Street = info.p_street,
-                    City = info.p_city,
-                    State = info.p_state,
-                    Aspnetuserid = aspuser.Id,
-                    Createdby = info.first_name,
+                    Status = 1,
                     Createddate = info.Createddate,
+                    Relationname = info.relation_with,
+                    Isurgentemailsent = new BitArray(1, false)
+
 
                 };
-                _repository.addUserTable(user);
-                userid.Userid = user.Userid;
+                _repository.addRequestTable(req1);
+                reqid = req1.Requestid;
             }
-            Request req = new Request
+            else
             {
-                Requesttypeid = 2,
-                Userid = userid.Userid,
-                Firstname = info.first_name,
-                Lastname = info.last_name,
-                Phonenumber = info.phone,
-                Email = info.email,
-                Status = 1,
-                Createddate = info.Createddate,
-                Relationname = info.relation_with,
-                Isurgentemailsent = new BitArray(1, false)
+                Request req = new Request
+                {
+                    Requesttypeid = 2,
+                    Userid = user.Userid,
+                    Firstname = info.first_name,
+                    Lastname = info.last_name,
+                    Phonenumber = info.phone,
+                    Email = info.email,
+                    Status = 1,
+                    Createddate = info.Createddate,
+                    Relationname = info.relation_with,
+                    Isurgentemailsent = new BitArray(1, false)
 
 
-            };
-            _repository.addRequestTable(req);
-
+                };
+                _repository.addRequestTable(req);
+            }
             var file = info.fileToUpload;
             var uniqueFileName = Path.GetFileName(file.FileName);
             var uploads = @"D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\wwwroot\UploadedFiles\";
@@ -453,12 +425,12 @@ namespace HalloDocWebServices.Implementation
             {
                 Createddate = DateTime.Now,
                 Filename = uniqueFileName,
-                Requestid = req.Requestid
+                Requestid = reqid
             };
             _repository.addRequestFileTable(addrequestfile);
             Requestclient reqclient = new Requestclient
             {
-                Requestid = req.Requestid,
+                Requestid = reqid,
                 Firstname = info.first_name,
                 Lastname = info.last_name,
                 Phonenumber = info.phone,
@@ -476,60 +448,48 @@ namespace HalloDocWebServices.Implementation
 
         public void createPatient(PatientRequest info)
         {
-            var userid = _repository.getUserByEmail(info.email_user);
-            if (info.password != null)
+            var user = _repository.getUserByEmail(info.email_user);
+            var reqid = 0;
+            if (user == null)
             {
-                Aspnetuser aspuser = new Aspnetuser
+                Request req1 = new Request
                 {
-
-                    Usarname = info.first_name,
-                    Passwordhash = info.password,
-                    Email = info.email_user,
-                    Phonenumber = info.phone,
-                    Createddate = DateTime.Now,
-                    Modifieddate = DateTime.Now
-
-                };
-                _repository.addAspnetuserTable(aspuser);
-                User user = new User
-                {
-
+                    Requesttypeid = 2,
+                    Userid = user.Userid,
                     Firstname = info.first_name,
                     Lastname = info.last_name,
+                    Phonenumber = info.phone,
                     Email = info.email_user,
-                    Mobile = info.phone,
-                    Street = info.street,
-                    City = info.city,
-                    State = info.state,
-                    Aspnetuserid = aspuser.Id,
-                    Createdby = info.first_name,
+                    Status = 1,
                     Createddate = info.Createddate,
+                    Isurgentemailsent = new BitArray(1, false)
+
 
                 };
-
-                userid = user;
-                _repository.addUserTable(user);
-
+                _repository.addRequestTable(req1);
+                reqid = req1.Requestid;
             }
-            Request req = new Request
+            else
             {
-                Requesttypeid = 2,
-                Userid = userid.Userid,
-                Firstname = info.first_name,
-                Lastname = info.last_name,
-                Phonenumber = info.phone,
-                Email = info.email_user,
-                Status = 1,
-                Createddate = info.Createddate,
-                Isurgentemailsent = new BitArray(1, false)
+                Request req = new Request
+                {
+                    Requesttypeid = 2,
+                    Firstname = info.first_name,
+                    Lastname = info.last_name,
+                    Phonenumber = info.phone,
+                    Email = info.email_user,
+                    Status = 1,
+                    Createddate = info.Createddate,
+                    Isurgentemailsent = new BitArray(1, false)
 
 
-            };
-            _repository.addRequestTable(req); ;
-
+                };
+                _repository.addRequestTable(req);
+                reqid = req.Requestid;
+            }
             Requestclient reqclient = new Requestclient
             {
-                Requestid = req.Requestid,
+                Requestid = reqid,
                 Firstname = info.first_name,
                 Lastname = info.last_name,
                 Phonenumber = info.phone,
@@ -553,7 +513,7 @@ namespace HalloDocWebServices.Implementation
             {
                 Createddate = DateTime.Now,
                 Filename = uniqueFileName,
-                Requestid = req.Requestid
+                Requestid = reqid
             };
             _repository.addRequestFileTable(addrequestfile);
         }
@@ -722,6 +682,6 @@ namespace HalloDocWebServices.Implementation
 
         }
 
-        
+
     }
 }

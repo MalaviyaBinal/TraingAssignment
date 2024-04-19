@@ -13,9 +13,16 @@ namespace HalloDocWebEntity.ViewModel
         public bool PreviousPage  { get; set; }
         public bool NextPage { get; set; }
         public AdminDashboard adminCount { get; set; }
+        [Required(ErrorMessage ="Required.")]
+        [EmailAddress(ErrorMessage ="Provide Valid Email")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Phone Number is Required.")]
+        [RegularExpression(@"^\+[0-9\-\(\)\/\.]{6,15}[0-9]$", ErrorMessage = "Enter a valid phone number with country code.")]
+
         public string PhoneNumber { get; set; }
+        [Required(ErrorMessage = "First name Required....")]
         public string Fname { get; set; }
+        [Required(ErrorMessage = "Last name Required....")]
         public string Lname { get; set; }
         public string Notes { get; set; }
         public int TotalRecord { get; set; }

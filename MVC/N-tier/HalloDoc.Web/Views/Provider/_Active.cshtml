@@ -18,7 +18,7 @@
         });
     };
     function EncouterFinalize(element) {
-        var id = element.value;
+        var id = element;
         console.log(id);
         $.ajax({
             url: "/Provider/_EncounterModal",
@@ -40,7 +40,7 @@
     <thead>
         <tr class="text-muted">
             <th scope="col">Name</th>
-
+            <th></th>
             <th scope="col">Phone</th>
             <th scope="col">Address</th>
             <th scope="col">status</th>
@@ -75,6 +75,13 @@
 
                 <td>
                     @item.Name
+                </td>
+                <td>
+                    @if (true)
+                    {
+                        var str1 = "mailto:" + item.Email;
+                        <a href=@str1><i class="fa-regular fa-envelope" style="color: #ffffff;"></i></a>
+                    }
                 </td>
                 <td class="font">
                     <a href="tel:@item.Phonenumber" class="text-decoration-none f">
@@ -194,33 +201,9 @@
                         </a>
                     </div>
                     <div class="accordion-body container-fluid pt-0 pb-0">
-                        <p class="mb-1"> <i class="fa-regular fa-calendar-days me-1 circlefa"></i>Date of Birth : </p>
                         <p class="mb-1"><i class="fa-regular fa-envelope me-1 circlefa"></i>Email : @item.Email</p>
                         <p class="mb-1"><i class="fa-solid fa-phone me-1 circlefa"></i>Patient : @item.Phonenumber</p>
-                        <p class="mb-1"><i class="fa-solid fa-book me-1 circlefa"></i>Transfer Notes : </p>
-                        <p class="mb-1"><i class="fa-regular fa-calendar-days me-1 circlefa"></i>Date of Service : @item.Dateofservice</p>
-                        <p class="mb-1">
-                            <i class="fa-solid fa-user-doctor me-1 circlefa"></i>Physician :
-                            @if (item.physician != null)
-                            {
-                                @foreach (var a in Model.physicians)
-                                {
-                                    @if (item.physician == a.Physicianid)
-                                    {
-                                        <td class="font1">
-                                            @a.Firstname @a.Lastname
-                                        </td>
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                <td class="font1">
-                                    --
-                                </td>
-                            }
-                        </p>
-                        <p class="mb-1"><i class="fa-regular fa-user me-1 circlefa"></i>Requestor : @item.Requestor</p>
+
                         <div class="row">
 
 
@@ -253,11 +236,30 @@
                                     </button>
                                 </a>
                             </div>
-                            <div class="col-6 mb-2">
-                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
-                                    <small>Email</small>
-                                </button>
-                            </div>
+                            @if (true)
+                            {
+                                var str1 = "mailto:" + item.Email;
+                                <div class="col-6 mb-2">
+                                    <a href=@str1>
+                                        <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
+                                            <small>Email</small>
+                                        </button>
+                                    </a>
+                                </div>
+                            }
+                            @if (@item.Status == 5)
+                            {
+                                <div class="col-6 mb-2">
+                                    <a class="dropdown-item" asp-action="HouseCallToConclude" asp-controller="Provider" asp-route-id="@item.Requestid">
+
+                                        <button class="btn btn-info text-white rounded-pill 2px w-100">
+                                            <small>House Call</small>
+                                        </button>
+
+                                    </a>
+                                </div>
+                            }
+                            else { }
                             <hr class="mb-1 p-0 text-muted" />
                         </div>
 

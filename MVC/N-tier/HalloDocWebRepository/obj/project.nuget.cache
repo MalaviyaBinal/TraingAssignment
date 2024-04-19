@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "aVbAdNhQwsiyEQQSeQNw4touyhUBF/h/WgU0UHcWq9gwiVC4VWXUsaLteQVkjsBWrESKkcQ8Oh1XU6lsbowGDg==",
+  "dgSpecHash": "1fGCzbo3N56Q79v07yOAI+juJ25LO1y+wm92cvIV7J0ItPX9ltqvKKrBewwBKBQFFTH2Vt42b6oV0V01T9xiqg==",
   "success": true,
   "projectFilePath": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDocWebRepository\\HalloDocWebRepository.csproj",
   "expectedPackageFiles": [
@@ -40,6 +40,7 @@
     "C:\\Users\\pce83\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\npgsql\\7.0.6\\npgsql.7.0.6.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\7.0.11\\npgsql.entityframeworkcore.postgresql.7.0.11.nupkg.sha512",
+    "C:\\Users\\pce83\\.nuget\\packages\\rotativa.aspnetcore\\1.3.2\\rotativa.aspnetcore.1.3.2.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.4.0\\system.identitymodel.tokens.jwt.7.4.0.nupkg.sha512",

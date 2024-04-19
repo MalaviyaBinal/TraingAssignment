@@ -42,7 +42,7 @@
                         </form>
                     </div>
                     <div class="col-12 bg-white">
-                        <table class="table table-hover">
+                        <table class="table table-hover hideOnMobile ">
                             <thead class="table-light">
                                 <tr class="">
                                     <th>Documents</th>
@@ -81,6 +81,57 @@
                                         <td class="text-end">
                                             <a asp-action="DownloadFile" asp-controller="Admin" asp-route-id="@item.Requestwisefileid"><button class="btn btn-outline-info me-2"><i class="fa-solid fa-cloud-arrow-down" style="color: #54B4D3;"></i></button></a>
                                         </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <table class="table  showOnMobile hide">
+                            <tbody>
+                                @foreach (var item in Model.FileList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <div class="d-flex mb-3">
+                                                    <input type="checkbox" class="Subcheckbox checkboxes me-3" data-filename="@item.Filename" />
+                                                    @switch (@ViewBag.fileExtensions[item.Requestwisefileid])
+                                                    {
+                                                        case ".docx":
+                                                        case ".doc":
+                                                            <i class="fa-solid fa-file-word" style="color: #0f5fff;"> </i>
+                                                            break;
+                                                        case ".xlsx":
+                                                        case ".xls":
+                                                            <i class="fa-solid fa-file-excel" style="color: #4ac926;"> </i>
+                                                            break;
+                                                        case ".jpg":
+                                                        case ".jpeg":
+                                                        case ".png":
+                                                            <i class="fa-regular fa-image" style="color: #74C0FC;"> </i>
+                                                            break;
+                                                        case ".pdf":
+                                                            <i class="fa-solid fa-file-pdf" style="color: #ff0000;"> </i>
+                                                            break;
+                                                        default:
+                                                            <i class="bi bi-file-earmark-text-fill"> </i>
+                                                            break;
+                                                    }
+                                                    @*<i class="fa-solid fa-file-pdf" style="color: #ff0000;"></i>*@
+                                                    <small class="ms-2 me-2 text-muted">@Html.DisplayFor(modelItem => item.Filename)</small>
+                                                </div>
+                                                <small class="text-muted mb-2"> @Html.DisplayFor(modelItem => item.Createddate)</small>
+                                                <div>
+                                                    <a class="text-decoration-none" asp-action="DeleteFile" asp-controller="Admin" asp-route-id="@item.Requestwisefileid">
+                                                        <button class="theme-btn-header px-1 "><i class="fa-solid fa-trash" style="color: #54B4D3;"></i></button>
+                                                    </a>
+                                                    @if (true)
+                                                    {
+                                                        var str = "/UploadedFiles/" + @item.Filename;
+                                                        <a href=@str target="_blank"><button class="theme-btn-header px-1 " name=""><i class="fa-solid fa-eye" style="color: #54B4D3;"></i></button></a>
+                                                    }
+                                                    <a asp-action="DownloadFile" asp-controller="Admin" asp-route-id="@item.Requestwisefileid"><button class="theme-btn-header px-1 "><i class="fa-solid fa-cloud-arrow-down" style="color: #54B4D3;"></i></button></a>
+                                                </div>
+                                            </div>
                                     </tr>
                                 }
                             </tbody>

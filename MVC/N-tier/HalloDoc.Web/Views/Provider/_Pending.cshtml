@@ -1,52 +1,4 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminDashBoardPagination
-<!-- Modal Transfer Case To Patient In Pending State-->
-<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-info text-white">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Transfer Request</h1>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="col text-muted">
-                        To Transfer this request,search and select another Physician.
-                    </div>
-                </div>
-                <div class="form-floating mb-3">
-                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                        <option selected>Maryland</option>
-                        <option value="1">Surat</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                    <label for="floatingSelect">Narrow Search By Region</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                        <option selected>Dr Agola</option>
-                        <option value="1">Dr Agola</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                    <label for="floatingSelect">Select physician</label>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                            <label for="floatingTextarea2">Description</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info text-white">Submit</button>
-                <button type="button" class="btn btn-white border-info text-info" data-bs-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div id="modalpopup">
 
@@ -57,14 +9,10 @@
     <thead>
         <tr class="text-muted">
             <th scope="col">Name</th>
-            @*<th scope="col">Date Of Birth</th>*@
-            <th scope="col">Requestor</th>
-            <th scope="col">Physician Name</th>
-            <th scope="col">Date of Service</th>
+           <th></th>
             <th scope="col">Phone</th>
             <th scope="col">Address</th>
-            <th scope="col">Notes</th>
-            <th scope="col">Chat With</th>
+           
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -95,34 +43,25 @@
                     @item.Name
                 </td>
 
-                @*<td >
-            @item.Strmonth
-            </td>*@
                 <td>
-                     @item.Requestor
-                </td>
-               
-                <td>
-                    @item.physician
-                </td>
-                <td>
-                    @item.Dateofservice
+                    @if (true)
+                    {
+                        var str1 = "mailto:" + item.Email;
+                        <a href=@str1><i class="fa-regular fa-envelope" style="color: #ffffff;"></i></a>
+                    }
                 </td>
 
-                <td>
-
-                    <button class="btn btn-outline-light"> @item.Phonenumber</button>
-
+                <td class="font">
+                    <a href="tel:@item.Phonenumber" class="text-decoration-none f">
+                        <button class="btn btn-outline-light d-flex">
+                            <i class="fa-solid fa-phone"></i>@item.Phonenumber
+                        </button>
+                    </a>
                 </td>
                 <td>
                     @item.Address
                 </td>
-                <td>
-                    @item.Notes
-                </td>
-                <td>
-                    <button class="btn btn-outline-light" type="button"><i class="fa-solid fa-user-doctor me-1"></i>Provider</button>
-                </td>
+                
                 <td>
                     <div class="dropdown">
                         <button class="btn text-light bg-transparent border border-white  " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -201,34 +140,10 @@
                         </a>
                     </div>
                     <div class="accordion-body container-fluid pt-0 pb-0">
-                        <p class="mb-1"> <i class="fa-regular fa-calendar-days me-1 circlefa"></i>Date of Birth : </p>
+                        
                         <p class="mb-1"><i class="fa-regular fa-envelope me-1 circlefa"></i>Email : @item.Email</p>
                         <p class="mb-1"><i class="fa-solid fa-phone me-1 circlefa"></i>Patient : @item.Phonenumber</p>
-                        <p class="mb-1"><i class="fa-solid fa-book me-1 circlefa"></i>Transfer Notes : </p>
-                        <p class="mb-1"><i class="fa-regular fa-calendar-days me-1 circlefa"></i>Date of Service : @item.Dateofservice</p>
-                        <p class="mb-1">
-                            <i class="fa-solid fa-user-doctor me-1 circlefa"></i>Physician :
-                            @if (item.physician != null)
-                            {
-                                @foreach (var a in Model.physicians)
-                                {
-                                    @if (item.physician == a.Physicianid)
-                                    {
-                                        <td class="font1">
-                                            @a.Firstname @a.Lastname
-                                        </td>
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                <td class="font1">
-                                    --
-                                </td>
-                            }
-                        </p>
-                       
-                        <p class="mb-1"><i class="fa-regular fa-user me-1 circlefa"></i>Requestor : @item.Requestor</p>
+                     
                         <div class="row">
                             <div class="col-6 mb-2">
                                 <a>
@@ -246,13 +161,7 @@
                                     </button>
                                 </a>
                             </div>
-                            <div class="col-6 mb-2">
-                                <a>
-                                    <button class="btn btn-info  text-white rounded-pill 2px w-100" onclick="transfercase(this)" value="@item.Requestid" id="transfercase">
-                                        <small>Transfer</small>
-                                    </button>
-                                </a>
-                            </div>
+                            
                             <div class="col-6 mb-2">
                                 <a asp-action="ViewDocument"  asp-route-id="@item.Requestid">
                                     <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
@@ -260,24 +169,22 @@
                                     </button>
                                 </a>
                             </div>
-                            <div class="col-6 mb-2">
-                                <button class="btn text-white rounded-pill 2px w-100" style="background-color:#EE9125;" onclick="clearcase(this)" value="@item.Requestid" id="clearcase">
-                                    <small>Clear Case</small>
-                                </button>
-                            </div>
-                            <div class="col-6 mb-2">
-                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
-                                    <small>Email</small>
-                                </button>
-                            </div>
+
+                            @if (true)
+                            {
+                                var str1 = "mailto:" + item.Email;
+                                <div class="col-6 mb-2">
+                                    <a href=@str1>
+                                        <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
+                                            <small>Email</small>
+                                        </button>
+                                    </a>
+                                </div>
+                            }
                             <hr class="mb-1 p-0 text-muted" />
                         </div>
 
-                        <div class="text-end d-md-flex justify-content-md-end pb-3">
-                            <span>Chat With:</span>
-                            <button class="btn btn-info text-white me-md-1" type="button"><i class="fa-regular fa-user me-1"></i><small>Patient</small> </button>
-                            <button class="btn btn-info  text-white" type="button"><i class="fa-solid fa-user-doctor me-1 "></i><small>Provider</small></button>
-                        </div>
+                       
                     </div>
                 </div>
             </div>

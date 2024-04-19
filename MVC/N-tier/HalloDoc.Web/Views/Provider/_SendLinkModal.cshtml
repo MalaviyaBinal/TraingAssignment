@@ -1,4 +1,7 @@
-﻿@model HalloDocWebEntity.ViewModel.AdminDashBoardPagination
+﻿
+@model HalloDocWebEntity.ViewModel.AdminDashBoardPagination
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <div class="modal fade" id="SendLinkModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
@@ -9,21 +12,24 @@
             <div class="modal-body">
                 <form asp-action="SendLink" asp-controller="Provider">
                     <div class=" form-floating mb-3 text-muted">
-                        <input name="Fname" type="text" class="form-control"  placeholder="Firstname">
+                        <input asp-for="Fname" type="text" class="form-control needs-validation" placeholder="Firstname" required>
                         <label for="exampleFormControlInput1" class="form-label">Firstname</label>
-                        <span class="text-danger"></span>
+                        <span asp-validation-for=Fname class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3 text-muted">
-                        <input name="Lname" type="text" class="form-control"  placeholder="Lastname">
+                        <input asp-for="Lname" type="text" class="form-control"  placeholder="Lastname">
                         <label for="exampleFormControlInput1" class="form-label">Lastname</label>
-                        <span class="text-danger"></span>
+                        <span asp-validation-for=Lname class="text-danger"></span>
                     </div>
                     <div class=" form-floating mb-3 text-muted">
-                        <input name="PhoneNumber" id="phone" class="form-control inp2" type="tel" placeholder="Phone Number">
+                        <input asp-for="PhoneNumber" id="phone" class="form-control inp2" type="text" placeholder="Phone Number">
+                        <label for="phone" class="form-label">Phone number</label>
+                        <span asp-validation-for=PhoneNumber class="text-danger"></span>
                     </div>
                     <div class=" form-floating mb-3 text-muted">
-                        <input name="Email" type="email" class="form-control" id="Email" placeholder="Email">
+                        <input asp-for="Email" type="email" class="form-control" id="Email" placeholder="Email">
                         <label for="Email" class="form-label">Email</label>
+                        <span asp-validation-for=Email class="text-danger"></span>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-info text-white">Send</button>
@@ -39,5 +45,26 @@
         var myModalblock = new bootstrap.Modal(document.getElementById('SendLinkModal'));
         myModalblock.show();
     });
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
 
 </script>

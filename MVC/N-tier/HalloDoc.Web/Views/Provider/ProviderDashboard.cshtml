@@ -132,18 +132,16 @@
                         <h6 style="position:absolute !important; left:10px !important;">Patients (<span id="statusValue"></span>)</h6>
                         
                         <button class="btn btn-info ms-2 text-white"  onclick="openSendLinkModal()" type="button"><i class="fa-regular fa-paper-plane"></i>Send Link</button>
-                        <a asp-action="PatientRequestProvider" asp-controller="Provider"><button class="btn btn-info text-white ms-2 border-info" type="button"><i class="fa-regular fa-note-sticky"></i>Creat Requests</button></a>
+                        <a asp-action="PatientRequestProvider" asp-controller="Provider"><button class="btn btn-info text-white ms-2 border-info" type="button"><i class="fa-regular fa-note-sticky"></i>Create Requests</button></a>
                         
                     </div>
                 </DIV>
                 <div class=" hide showOnMobile pe-0">
-                    <div class="text-end d-md-flex justify-content-md-end pb-3">
-                        <h6 style="position:absolute !important; left:10px !important;">Patients (New)</h6>
-                        <button class="btn btn-info ms-2 text-white p-1" type="button"><i class="fa-regular fa-paper-plane"></i></button>
-                        <button class="btn btn-info ms-2 text-white p-1 border-info" type="button"><i class="fa-regular fa-note-sticky"></i> </button>
-                        <button class="btn btn-info ms-2 text-white p-1" type="button"><i class="fa fa-share-square" aria-hidden="true"></i></button>
-                        <button class="btn btn-info ms-2 text-white p-1 border-info" type="button"><i class="fa fa-share-square" aria-hidden="true"></i></button>
-                        <button class="btn btn-info ms-2 text-white p-1" type="button"><i class="fa-regular fa-user"></i></button>
+                    <div class="text-end d-md-flex justify-content-md-end pb-3 pe-3">
+                       <h6 style="position:absolute !important; left:10px !important;">Patients (<span id="statusValue"></span>)</h6>
+                        <button class="btn btn-info p-2 ms-2 text-white p-1"  onclick="openSendLinkModal()" type="button"><i class="fa-regular fa-paper-plane"></i></button>
+                         <a asp-action="PatientRequestProvider" asp-controller="Provider"><button class="btn btn-info ms-2 p-2 text-white p-1 border-info" type="button"><i class="fa-regular fa-note-sticky"></i> </button></a>
+                       
                     </div>
                 </div>
                 

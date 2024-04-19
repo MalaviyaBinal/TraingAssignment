@@ -327,6 +327,10 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> PatientRequestbyAdmin(RequestForMe info)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("PatientRequestAdmin",info);
+            }
             _service.patientRequestByAdmin(info, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(AdminDashboard));
         }

@@ -14,7 +14,17 @@
                         To Assign this request,search and select another Physician.
                     </div>
                 </div>
-                 
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="RegionSelect" aria-label="Floating label select example" asp-for="SelectedRegion">
+                            <option value="0">select Region</option>
+                            @foreach (var item in Model.regions)
+                            {
+                                <option value="@item.Regionid">@item.Name</option>
+                            }
+
+                        </select>
+                        <label for="floatingSelect">Narrow Search By Region</label>
+                    </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="PhysicianSelect" aria-label="Floating label select example">
                         
@@ -26,22 +36,12 @@
                         </select>
                         <label for="floatingSelect">Select Physicion</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <select class="form-select" id="RegionSelect" aria-label="Floating label select example">
-                            <option value="0">select Region</option>
-                            @foreach (var item in Model.regions)
-                            {
-                                <option value="@item.Regionid">@item.Name</option>
-                            }
-                        
-                        </select>
-                        <label for="floatingSelect">Narrow Search By Region</label>
-                    </div>
+                    
                 
                 <div class="row">
                     <div class="col">
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here" id="notes" style="height: 100px"></textarea>
+                            <textarea class="form-control" placeholder="Leave a comment here" id="notes" style="height: 100px" required></textarea>
                             <label for="floatingTextarea2">Description</label>
                         </div>
                     </div>
@@ -110,6 +110,27 @@
             }
         });
     });
-        
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+
+</script>
   
 </script>

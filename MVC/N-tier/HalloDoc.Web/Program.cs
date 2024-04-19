@@ -3,6 +3,7 @@ using HalloDocWebRepo.Implementation;
 using HalloDocWebRepo.Interface;
 using HalloDocWebServices.Implementation;
 using HalloDocWebServices.Interfaces;
+using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +41,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseRotativa();
 app.UseRouting();
 app.UseSession();
 app.UseAuthentication();

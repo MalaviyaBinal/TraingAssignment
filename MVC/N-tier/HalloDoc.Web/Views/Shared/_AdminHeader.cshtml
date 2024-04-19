@@ -33,7 +33,7 @@
         <ul class="sideBar shadow d-md-none d-lg-none d-xl-none">
 
             <li>
-                <p class="p-3 m-2 ">Wellcome : <b><small>@Accessor.HttpContext.Request.Cookies["userName"]</small></b></p>
+                <p class="p-3 m-2 ">Welcome : <b><small>@Accessor.HttpContext.Request.Cookies["userName"]</small></b></p>
             </li>
             <li>
                 <a class="text-decoration-none " asp-controller="Admin" asp-action="AdminDashboard">Dashboard</a>
@@ -99,7 +99,7 @@
             </li>
             <li>
                 <button class="theme-btn-header showOnMobile hide mt-3">
-                    <a asp-controller="Home" asp-action="PatientLogin"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #54B4D3;"></i></a>
+                    <a asp-controller="Admin" asp-action="Logout"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #54B4D3;"></i></a>
                 </button>
             </li>
 

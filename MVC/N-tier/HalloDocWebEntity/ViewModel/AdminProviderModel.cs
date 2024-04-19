@@ -18,12 +18,17 @@ namespace HalloDocWebEntity.ViewModel
         public Physician physician { get; set; }    
         public string Firstname { get; set; }
         public string Lastname { get; set; }
+        [Required(ErrorMessage = "Required...")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$", ErrorMessage = "Password Should contain One Upercase,lowercase letter,one digit special character.")]
+
         public string Passwordhash { get; set; }
         public string Businesswebsite { get; set; }
         public string Businessname { get; set; }
         public string? Altphone { get; set; }
         public string? Adminnotes { get; set; }
         public string? Zip { get; set; }
+        public Decimal? log { get; set; }
+        public Decimal? lat { get; set; }
         public string? City { get; set; }
         public string? Address2 { get; set; }
         public string? Address1 { get; set; }

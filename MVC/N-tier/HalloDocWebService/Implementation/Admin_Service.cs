@@ -42,6 +42,7 @@ namespace HalloDocWebServices.Implementation
             }
             var reg = _repository.getRegions();
             model.regions = reg;
+            model.SelectedRegion = regid;
             return model;
         }
         public void blockConfirm(int id, string notes)
@@ -912,7 +913,20 @@ namespace HalloDocWebServices.Implementation
             model.Istrainingdoc = phy.TrainingDoc != null ? new BitArray(1, true) : new BitArray(1, false);
             model.Isnondisclosuredoc = phy.NonDisclosure != null ? new BitArray(1, true) : new BitArray(1, false);
             model.Photo = phy.Photo.FileName;
+
             _repository.addPhysician(model);
+            Physicianlocation phylocation = new Physicianlocation();
+            phylocation.Longitude = phy.log;
+            phylocation.Latitude = phy.lat;
+            phylocation.Address = phy.Address1 + phy.City + phy.Zip;
+            phylocation.Physicianid = model.Physicianid;
+            phylocation.Createddate = DateTime.Now;
+            phylocation.Physicianname = "Dr" + " " + phy.Firstname;
+            _repository.addPhysicianLocationTable(phylocation);
+            Physiciannotification phynoti = new Physiciannotification();
+            phynoti.Pysicianid = model.Physicianid;
+            phynoti.Isnotificationstopped = new BitArray(1, false);
+            _repository.AddPhysicianNotificationTable(phynoti);
             if (phy.TrainingDoc != null)
             {
                 string filename = "HIPAA" + Path.GetExtension(phy.TrainingDoc?.FileName);

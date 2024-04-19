@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "X+r76E1mZX+fmmdRavcSteZwn3cm6Ttuamj1O5/I+vw+mwJvHMhQi/kMAXnbJBe7nAK/y3AKUWl6Nshsi32JhQ==",
+  "dgSpecHash": "oJmnKVru279mJm3qKKH9QdXcfAdZ+c10GwaggM0hAAr03IsCSFT3yEkv3LqYAue+ScQrsAvwYJ0zjpMAPBo7pA==",
   "success": true,
   "projectFilePath": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\HalloDoc.Web.csproj",
   "expectedPackageFiles": [
@@ -68,6 +68,7 @@
     "C:\\Users\\pce83\\.nuget\\packages\\npgsql\\7.0.6\\npgsql.7.0.6.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\7.0.11\\npgsql.entityframeworkcore.postgresql.7.0.11.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\restsharp\\110.2.0\\restsharp.110.2.0.nupkg.sha512",
+    "C:\\Users\\pce83\\.nuget\\packages\\rotativa.aspnetcore\\1.3.2\\rotativa.aspnetcore.1.3.2.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model HalloDocWebEntity.ViewModel.BusinessPatientRequest
+@{
     Layout = "_MyLayout";
 }
 <!DOCTYPE html>
@@ -7,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta asp-for="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -46,39 +47,43 @@
                         <div class="row">
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
-                                    <input type="text" name="first_name" class="form-control input-placeholder" id="username"
-                                           placeholder="" required>
+                                    <input type="text" asp-for="first_name" class="form-control input-placeholder" id="username"
+                                           placeholder="" >
                                     <label class="label-placeholder">Your First Name</label>
+                                    <span asp-validation-for="first_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
-                                    <input type="text" name="last_name" class="form-control input-placeholder" id="username"
-                                           placeholder="" required>
+                                    <input type="text" asp-for="last_name" class="form-control input-placeholder" id="username"
+                                           placeholder="" >
                                     <label class="label-placeholder">Your Last Name</label>
+                                    <span asp-validation-for="last_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6 pt-3 pb-3">
-                                <input type="tel" name="phone" class="form-control inp" id="phone">
+                                <input type="tel" asp-for="phone" class="form-control inp" id="phone">
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="email" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="email" required>
+                                           placeholder="" asp-for="email" >
                                     <label class="label-placeholder">Your Email</label>
+                                    <span asp-validation-for="email" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="business_name" required>
+                                           placeholder="" asp-for="business_name" >
                                     <label class="label-placeholder">Business/Property Name</label>
+                                    <span asp-validation-for="business_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="case_no" required>
+                                           placeholder="" asp-for="case_no" >
                                     <label class="label-placeholder">Case Number (Optional)</label>
                                 </p>
                             </div>
@@ -90,27 +95,30 @@
 
                         <div class="row">
                             <div class="col-xl-12 col-sm-12 col-md-12 mt-2">
-                                <textarea class="form-control" name="symptoms" placeholder="Enter Brief Details Of Symptoms" rows="5" required></textarea>
+                                <textarea class="form-control" asp-for="symptoms" placeholder="Enter Brief Details Of Symptoms" rows="5" ></textarea>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_first_name" required>
+                                           placeholder="" asp-for="p_first_name" >
                                     <label class="label-placeholder">First Name</label>
+                                    <span asp-validation-for="p_first_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_last_name" required>
+                                           placeholder="" asp-for="p_last_name" >
                                     <label class="label-placeholder">Last Name</label>
+                                    <span asp-validation-for="p_last_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="date" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="dob" required>
+                                           placeholder="" asp-for="dob" >
                                     <label class="label-placeholder">Date Of Birth</label>
+                                    <span asp-validation-for="dob" class="text-danger"></span>
                                 </p>
                             </div>
 
@@ -124,32 +132,20 @@
                             <div class="col-xl-6 col-sm-12 col-md-6">
                                 <p>
                                     <input type="email" class="form-control input-placeholder" id="email"
-                                           placeholder="" name="p_email" onchange="emailExists()" required>
+                                           placeholder="" asp-for="p_email" onchange="emailExists()" >
                                     <label class="label-placeholder"> Email</label>
+                                    <span asp-validation-for="p_email" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-6 col-sm-12 col-md-6">
                                 <p>
                                     <input type="tel" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_phone" required>
+                                           placeholder="" asp-for="p_phone" >
                                     <label class="label-placeholder">(201)555-0123</label>
+                                    <span asp-validation-for="p_phone" class="text-danger"></span>
                                 </p>
                             </div>
-                            <div class="col-xl-6 col-sm-12 col-md-6" id="pwd_div" style="display:none;">
-                                <p>
-                                    <input type="password" class="form-control input-placeholder" id="password"
-                                           placeholder="" name="password">
-                                    <label class="label-placeholder">Password</label>
-                                </p>
-                            </div>
-                            <div class="col-xl-6 col-sm-12 col-md-6" id="con_pwd_div" style="display:none;">
-                                <p>
-                                    <input type="password" class="form-control input-placeholder" id="confirmPassword"
-                                           placeholder="" name="con_password" onchange="checkPwd()">
-                                    <label class="label-placeholder">Confirm Password</label>
-                                </p>
-                                <span class="text-danger " id="errorspan" style="display:none;">confirm password should match</span>
-                            </div>
+                           
                         </div>
 
                         <div class="row">
@@ -160,29 +156,33 @@
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_street" required>
+                                           placeholder="" asp-for="p_street" >
                                     <label class="label-placeholder">Street</label>
+                                    <span asp-validation-for="p_street" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_city" required>
+                                           placeholder="" asp-for="p_city" >
                                     <label class="label-placeholder">City</label>
+                                    <span asp-validation-for="p_city" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_state" required>
+                                           placeholder="" asp-for="p_state" >
                                     <label class="label-placeholder">State</label>
+                                    <span asp-validation-for="p_state" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_zip_code" required>
+                                           placeholder="" asp-for="p_zip_code" >
                                     <label class="label-placeholder">Zip Code</label>
+                                    <span asp-validation-for="p_zip_code" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">

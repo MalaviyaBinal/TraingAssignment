@@ -414,3 +414,4 @@ D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\refint\HalloDoc.We
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\HalloDoc.Web.pdb
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\HalloDoc.Web.genruntimeconfig.cache
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\ref\HalloDoc.Web.dll
+D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\Rotativa.AspNetCore.dll

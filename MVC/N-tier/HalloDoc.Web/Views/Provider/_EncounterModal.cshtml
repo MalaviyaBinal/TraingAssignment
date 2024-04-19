@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button class="btn btn-info text-white">
+                    <button class="btn btn-info text-white" onclick="FinalizeDownload(@ViewBag.reqid)">
                         Download
                     </button>
                 </div>
@@ -25,4 +25,11 @@
         var myModalAssign = new bootstrap.Modal(document.getElementById('Encounter'));
         myModalAssign.show();
     });
+
+
+    function FinalizeDownload(requestid) {
+        event.preventDefault();
+        console.log(requestid)
+        window.location.href = './GeneratePDF?requestid=' + requestid;
+    }
 </script>

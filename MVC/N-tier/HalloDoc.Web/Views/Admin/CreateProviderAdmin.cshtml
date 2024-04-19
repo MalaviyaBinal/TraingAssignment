@@ -2,7 +2,28 @@
 @{
     Layout = "_AdminHeader";
 }
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARrk6kY-nnnSpReeWotnQxCAo_MoI4qbU"></script>
+<script>
+    debugger;
+    function getCoordinates() {
+        debugger;
+        var address = document.getElementById('Address1').value + " " + document.getElementById('city').value + " " + document.getElementById('zipcode').value;
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: address }, function (results, status) {
+            if (status == "OK") {
 
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+                document.getElementById('lat').value = latitude;
+                document.getElementById('long').value = longitude;
+                console.log(latitude);
+                console.log(longitude);
+            } else {
+                console.log("Geocoding failed: " + status);
+            }
+        });
+    }
+</script>
 <style>
     .iti {
         width: 100%;
@@ -92,12 +113,12 @@
                             Mailing & Billing Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Address1 type="text" class="form-control d1class" id="Address-1" placeholder="Address 1">
-                            <label for="exampleFormControlInput1" class="form-label ms-2">Address 1</label>
+                            <input asp-for=Address1 type="text" class="form-control d1class" id="Address1" placeholder="Address 1">
+                            <label for="exampleFormControlInput1" class="form-label ms-2">Address1</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Address2 type="text" class="form-control d1class" id="Address-2" placeholder="Address 2">
-                            <label for="exampleFormControlInput1" class="form-label ms-2">Address 2</label>
+                            <input asp-for=Address2 type="text" class="form-control d1class" id="Address2" placeholder="Address 2">
+                            <label for="exampleFormControlInput1" class="form-label ms-2">Address2</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
                             <input asp-for=City type="text" class="form-control d1class" id="city" placeholder="City">
@@ -108,12 +129,14 @@
                             <label for="exampleFormControlInput1" class="form-label ms-2">State</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input asp-for=Zip type="text" class="form-control d1class" id="zipcode" placeholder="Zip Code">
+                            <input asp-for=Zip type="text" class="form-control d1class" id="zipcode" placeholder="Zip Code" onchange="getCoordinates()">
                             <label for="exampleFormControlInput1" class="form-label ms-2">Zip Code</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Altphone id="phone1" class="form-control inp2 d1class" type="tel" placeholder="Phone Number">
                         </div>
+                        <input type="hidden" asp-for="lat" id="lat">
+                        <input type="hidden" asp-for="log" id="long">
                     </div>
 
                     <div class="row">

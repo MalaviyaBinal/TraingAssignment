@@ -1,5 +1,7 @@
 ﻿@using System.Collections
 @model HalloDocWebEntity.ViewModel.AdminProviderModel
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 @{
     Layout = "_ProviderHeader";
 }
@@ -65,8 +67,9 @@
                             <label for="exampleFormControlInput1" class="form-label ps-4">User Name</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input name="Passwordhash" type="text" class="form-control" id="Passwordhash" placeholder="Lastname" disabled>
+                            <input name="Passwordhash" type="text" class="form-control needs-validation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$" required id="Passwordhash" placeholder="Lastname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ps-4">Password </label>
+                            <span asp-validation-for=Passwordhash class="text-danger"></span>
                         </div>
                     </div>
                     <div class="text-end pb-3">
@@ -389,4 +392,25 @@
 </script>
 <script>
     document.getElementById("myProfile").classList.add("active");
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+
 </script>

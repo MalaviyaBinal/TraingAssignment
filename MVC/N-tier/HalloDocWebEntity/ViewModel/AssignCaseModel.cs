@@ -8,6 +8,7 @@ namespace HalloDocWebEntity.ViewModel
     {
         public List<Physician> physicians { get; set; }
         public List<Region> regions { get; set; }
+        public int SelectedRegion { get; set; }
 
     }
 }

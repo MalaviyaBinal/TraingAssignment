@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta asp-for="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
    
@@ -55,36 +55,40 @@
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="first_name" required>
-                                    <label class="label-placeholder">Your First Name</label>
+                                           placeholder="" asp-for="first_name" >
+                                    <label class="label-placeholder">Your First Name</label> 
+                                    <span asp-validation-for="first_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="last_name" required>
+                                           placeholder="" asp-for="last_name" >
                                     <label class="label-placeholder">Your Last Name</label>
+                                    <span asp-validation-for="last_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="tel" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="phone" required>
+                                           placeholder="" asp-for="phone" >
                                     <label class="label-placeholder">(201)555-0123</label>
+                                    <span asp-validation-for="phone" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="email" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="email" required>
+                                           placeholder="" asp-for="email" >
                                     <label class="label-placeholder">Your Email</label>
+                                    <span asp-validation-for="email" class="text-danger"></span>
                                 </p>
                             </div>
                            
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="relation_with" required>
+                                           placeholder="" asp-for="relation_with" >
                                     <label class="label-placeholder">Relation With Patient</label>
                                 </p>
                             </div>
@@ -96,28 +100,31 @@
 
                         <div class="row">
                             <div class="col-xl-12 col-sm-12 col-md-12 mt-2">
-                                <textarea class="form-control" name="symptoms" placeholder="Enter Brief Details Of Symptoms" rows="5"
-                                          required></textarea>
+                                <textarea class="form-control" asp-for="symptoms" placeholder="Enter Brief Details Of Symptoms" rows="5"
+                                          ></textarea>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_first_name" required>
+                                           placeholder="" asp-for="p_first_name" >
                                     <label class="label-placeholder">First Name</label>
+                                    <span asp-validation-for="p_first_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_last_name" required>
+                                           placeholder="" asp-for="p_last_name" >
                                     <label class="label-placeholder">Last Name</label>
+                                    <span asp-validation-for="p_last_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="date" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_dob" required>
+                                           placeholder="" asp-for="p_dob" >
                                     <label class="label-placeholder">Date Of Birth</label>
+                                    <span asp-validation-for="p_dob" class="text-danger"></span>
                                 </p>
                             </div>
 
@@ -130,32 +137,20 @@
                             <div class="col-xl-6 col-sm-12 col-md-6">
                                 <p>
                                     <input type="email" class="form-control input-placeholder" id="email"
-                                           placeholder="" name="p_email" onchange="emailExists()" required>
+                                           placeholder="" asp-for="p_email" onchange="emailExists()" >
                                     <label class="label-placeholder"> Email</label>
+                                    <span asp-validation-for="p_email" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-6 col-sm-12 col-md-6">
                                 <p>
                                     <input type="tel" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_phone" required>
+                                           placeholder="" asp-for="p_phone" >
                                     <label class="label-placeholder">(201)555-0123</label>
+                                    <span asp-validation-for="p_phone" class="text-danger"></span>
                                 </p>
                             </div>
-                            <div class="col-xl-6 col-sm-12 col-md-6" id="pwd_div" style="display:none;">
-                                <p>
-                                    <input type="password" class="form-control input-placehoalder" id="password"
-                                           placeholder="" name="password">
-                                    <label class="label-placeholder">Password</label>
-                                </p>
-                            </div>
-                            <div class="col-xl-6 col-sm-12 col-md-6" id="con_pwd_div" style="display:none;">
-                                <p>
-                                    <input type="password" class="form-control input-placeholder" id="confirmPassword"
-                                           placeholder="" name="con_password" onchange="checkPwd()">
-                                    <label class="label-placeholder">Confirm Password</label>
-                                </p>
-                                <span class="text-danger " id="errorspan" style="display:none;">confirm password should match</span>
-                            </div>
+                            
                         </div>
 
                         <div class="row">
@@ -166,29 +161,33 @@
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_street" required>
+                                           placeholder="" asp-for="p_street" >
                                     <label class="label-placeholder">Street</label>
+                                    <span asp-validation-for="p_street" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_city" required>
+                                           placeholder="" asp-for="p_city" >
                                     <label class="label-placeholder">City</label>
+                                    <span asp-validation-for="p_city" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_state" required>
+                                           placeholder="" asp-for="p_state" >
                                     <label class="label-placeholder">State</label>
+                                    <span asp-validation-for="p_state" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="p_zip_code" required>
+                                           placeholder="" asp-for="p_zip_code" >
                                     <label class="label-placeholder">Zip Code</label>
+                                    <span asp-validation-for="p_zip_code" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
@@ -210,7 +209,7 @@
                                             <i class="fa-solid fa-cloud-arrow-up"
                                                style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
                                         </span>
-                                        <input type="File" class="form-control input-placeholder " name="fileToUpload" id="fileToUpload"
+                                        <input type="File" class="form-control input-placeholder " asp-for="fileToUpload" id="fileToUpload"
                                                placeholder="Select File">
 
 
@@ -292,13 +291,14 @@
                 .then(data => {
                     console.log(data);
 
+
                     if (!data.exists) {
-                        document.getElementById('pwd_div').style.display = 'block';
-                        document.getElementById('con_pwd_div').style.display = 'block';
+                        document.getElementById('isemailExist').value = "false";
+
                     }
                     else {
-                        document.getElementById('pwd_div').style.display = 'none';
-                        document.getElementById('con_pwd_div').style.display = 'none';
+                        document.getElementById('isemailExist').value = "true";
+
                     }
 
                 })

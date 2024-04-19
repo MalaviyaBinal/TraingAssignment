@@ -4,6 +4,9 @@ using HalloDocWebServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 using HalloDocWebEntity.Data;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Rotativa.AspNetCore;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace HalloDoc.Web.Controllers
 {
@@ -86,6 +89,10 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> PatientRequestbyProvider(RequestForMe info)
         {
+            if (!ModelState.IsValid)
+            {
+                return  View("PatientRequestProvider", info);
+            }
             _service.patientRequestByProvider(info, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(ProviderDashboard));
         }
@@ -95,12 +102,26 @@ namespace HalloDoc.Web.Controllers
         }
         public ActionResult SendLink(AdminDashBoardPagination info)
         {
+           
             _service.sendLinkProviderDashboard(info, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(ProviderDashboard));
         }
         #endregion
 
         #region Provider Dashboard Actions
+        public IActionResult GeneratePDF([FromQuery] int requestid)
+        {
+            var encounterFormView = _service.EncounterProvider(requestid);
+            if (encounterFormView == null)
+            {
+                return NotFound();
+            }
+            return new ViewAsPdf("FinalizeForm", encounterFormView)
+            {
+                FileName = "Encounter_Form.pdf"
+            };
+
+        }
         public ActionResult AcceptConsultRequest(int id)
         {
             _service.AcceptConsultRequest(id, HttpContext.Request.Cookies["userEmail"]);
@@ -220,6 +241,7 @@ namespace HalloDoc.Web.Controllers
         public ActionResult EncounterFinalize(int id)
         {
             _service.EncounterFinalize(id);
+
             return RedirectToAction(nameof(ProviderDashboard));
         }
         public IActionResult EncounterForm(int id)
@@ -290,6 +312,14 @@ namespace HalloDoc.Web.Controllers
         }
         public ActionResult SavePhysicianPassword(AdminProviderModel info)
         {
+            if (!ModelState.IsValid)
+            {
+                var pwd = info.Passwordhash;
+                info = _service.getPhyProfileData(HttpContext.Request.Cookies["userEmail"]);
+                info.Passwordhash = pwd;
+                return View("MyProfile", info);
+            }
+           
             _service.savePhysicianPassword(info);
             return RedirectToAction(nameof(MyProfile));
         }

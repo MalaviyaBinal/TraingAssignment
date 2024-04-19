@@ -997,5 +997,17 @@ namespace HalloDocWebRepo.Implementation
             _context.TokenRegisters.Update(token);
             _context.SaveChanges();
         }
+
+        public void addPhysicianLocationTable(Physicianlocation phylocation)
+        {
+            _context.Physicianlocations.Add(phylocation);
+            _context.SaveChanges();
+        }
+
+        public void AddPhysicianNotificationTable(Physiciannotification phynoti)
+        {
+            _context.Physiciannotifications.Add(phynoti);
+            _context.SaveChanges();
+        }
     }
 }

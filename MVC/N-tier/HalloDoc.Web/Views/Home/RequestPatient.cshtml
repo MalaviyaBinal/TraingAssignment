@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta asp-for="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -47,28 +47,31 @@
 
                         <div class="row">
                             <div class="col-xl-12 col-sm-12 col-md-12 mt-2">
-                                <textarea class="form-control" name="symptoms" placeholder="Enter Brief Details Of Symptoms" rows="5"
-                                          required></textarea>
+                                <textarea class="form-control" asp-for="symptoms" placeholder="Enter Brief Details Of Symptoms" rows="5"
+                                          ></textarea>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="first_name" required>
+                                           placeholder="" asp-for="first_name" >
                                     <label class="label-placeholder">First Name</label>
+                                    <span asp-validation-for="first_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="last_name" required>
+                                           placeholder="" asp-for="last_name" >
                                     <label class="label-placeholder">Last Name</label>
+                                    <span asp-validation-for="last_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="date" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="dob" required>
-                                    <label class="label-placeholder">Date Of Birth</label>
+                                           placeholder="" asp-for="dob" >
+                                    <label class="label-placeholder">Date Of Birth</label>      
+                                    <span asp-validation-for="dob" class="text-danger"></span>
                                 </p>
                             </div>
                             
@@ -80,33 +83,21 @@
                         <div class="row">
                             <div class="col-xl-6 col-sm-12 col-md-6">
                                 <p>
-                                    <input type="email" class="form-control input-placeholder" id="user_email" onchange="emailExists()" placeholder="" name="email_user" required>
+                                    <input type="email" class="form-control input-placeholder" id="user_email" onchange="emailExists()" placeholder="" asp-for="email_user" >
                                     <label class="label-placeholder"> Email</label>
+                                    <span asp-validation-for="email_user" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-6 col-sm-12 col-md-6">
                                 <p>
                                     <input type="tel" class="form-control input-placeholder" id="phone"
-                                           placeholder="" name="phone" required>
+                                           placeholder="" asp-for="phone" >
                                     <label class="label-placeholder">(201)555-0123</label>
+                                    <span asp-validation-for="phone" class="text-danger"></span>
                                 </p>
                             </div>
-                            <div class="col-xl-6 col-sm-12 col-md-6" id="pwd_div" style="display:none;">
-                                <p>
-                                    <input type="password" class="form-control input-placeholder" id="password"
-                                           placeholder="" name="password">
-                                    <label class="label-placeholder">Password</label>
-                                </p>
-                            </div>
-                            <div class="col-xl-6 col-sm-12 col-md-6" id="con_pwd_div" style="display:none;">
-                                <p>
-                                    <input type="password" class="form-control input-placeholder" id="confirmPassword"
-                                           placeholder="" name="con_password" onchange="checkPwd()">
-                                    <label class="label-placeholder" >Confirm Password</label>
-                                </p>
-                                <span class="text-danger" id="errorspan" style="display:none;">confirm password should match</span>
-                            </div>
-                           
+                            
+                                    
                         </div>
 
 
@@ -118,29 +109,33 @@
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="street" required>
+                                           placeholder="" asp-for="street" >
                                     <label class="label-placeholder">Street</label>
+                                    <span asp-validation-for="street" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="city" required>
+                                           placeholder="" asp-for="city" >
                                     <label class="label-placeholder">City</label>
+                                    <span asp-validation-for="city" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="state" required>
+                                           placeholder="" asp-for="state" >
                                     <label class="label-placeholder">State</label>
+                                    <span asp-validation-for="state" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
                                     <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" name="zip_code" required>
+                                           placeholder="" asp-for="zip_code" >
                                     <label class="label-placeholder">Zip Code</label>
+                                    <span asp-validation-for="zip_code" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
@@ -162,7 +157,7 @@
                                             <i class="fa-solid fa-cloud-arrow-up"
                                                style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
                                         </span>
-                                        <input type="File" class="form-control input-placeholder " name="fileToUpload" id="fileToUpload"
+                                        <input type="File" class="form-control input-placeholder " asp-for="fileToUpload" id="fileToUpload"
                                                placeholder="Select File">
 
 
