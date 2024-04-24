@@ -15,6 +15,6 @@ namespace Assignment_Service.Interface
         void EditBookForm(BookFormViewModel model);
         Book GetBookDataByBookId(int id);
         BookFormViewModel getGenereList(int modalType);
-        List<Book> getLibraryRecordTableData();
+        TableDataViewModel getLibraryRecordTableData(string bookname, int pagesize, int pagenumber);
     }
 }

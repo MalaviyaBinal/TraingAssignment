@@ -123,10 +123,41 @@ namespace Assignment_Service.Implementation
 
         }
 
-        public List<Book> getLibraryRecordTableData()
+        public TableDataViewModel getLibraryRecordTableData(string bookname, int pagesize, int pagenumber)
         {
-            List<Book> model = _repository.getLibraryRecordTableData();
+            TableDataViewModel model = new TableDataViewModel();
+            var datalist = _repository.getLibraryRecordTableData();
+            if (bookname != null)
+            {
+
+                datalist = datalist.Where(x => x.Bookname.ToLower().Contains(bookname.ToLower()));
+              
+            }
+            var count = datalist.Count();
+            model.TotalRecord = count;
+            if (count > 0)
+            {
+                datalist = datalist.Skip((pagenumber - 1) * pagesize).Take(pagesize);
+                model.bookList = datalist.ToList();
+                model.FromRec = (pagenumber - 1) * pagesize;
+                model.ToRec = model.FromRec + pagesize;
+                if (model.ToRec > model.TotalRecord)
+                {
+                    model.ToRec = model.TotalRecord;
+                }
+                model.FromRec += 1;
+                model.TotalPages = (int)Math.Ceiling((double)count / pagesize);
+                model.CurrentPage = pagenumber;
+                model.PreviousPage = pagenumber > 1;
+                model.NextPage = pagenumber < model.TotalPages;
+                model.pagesize = pagesize;  
+            }
             return model;
         }
+        //public List<Book> getLibraryRecordTableData()
+        //{
+        //    List<Book> model = _repository.getLibraryRecordTableData();
+        //    return model;
+        //}
     }
 }

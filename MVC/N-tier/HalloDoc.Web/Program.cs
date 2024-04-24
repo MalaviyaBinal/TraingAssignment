@@ -8,7 +8,7 @@ using Rotativa.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); 
 builder.Services.AddScoped<IPatient_Service, Patient_Service>();
 builder.Services.AddScoped<IAdmin_Service, Admin_Service>();
 builder.Services.AddScoped<IPatient_Repository, Patient_Repository>();

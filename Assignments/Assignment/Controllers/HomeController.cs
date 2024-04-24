@@ -19,7 +19,12 @@ namespace Assignment.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            TableDataViewModel model = new TableDataViewModel
+            {
+                CurrentPage = 1,
+                pagesize=3
+            };
+            return View(model);
         }
 
         public IActionResult _BookFormModal(int bookId)
@@ -28,16 +33,21 @@ namespace Assignment.Controllers
         }
         public IActionResult AddOrEditBookForm(BookFormViewModel model)
         {
-            if (model.bookId == 0)
-                _service.AddBookForm(model);
-            else
-                _service.EditBookForm(model);
+            if(ModelState.IsValid)
+            {
+                if (model.bookId == 0)
+                    _service.AddBookForm(model);
+                else
+                    _service.EditBookForm(model);
+
+            }
+            
             return RedirectToAction(nameof(Index));
 
         }
-        public IActionResult _LibraryRecordTable()
+        public IActionResult _LibraryRecordTable(string bookname,int pagesize = 3,int pagenumber=1)
         {
-            return PartialView(_service.getLibraryRecordTableData());
+            return PartialView(_service.getLibraryRecordTableData(bookname,pagesize,pagenumber));
         }
         public IActionResult DeleteRecord(int id)
         {

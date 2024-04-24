@@ -1,4 +1,6 @@
 ﻿@model Assignment_WebEntity.ViewModal.BookFormViewModel
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <!-- Modal -->
 <div class="modal fade" id="bookForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
@@ -14,20 +16,24 @@
                         <div class="row">
                             <input type="hidden" asp-for="bookId" />
                             <div class="col-6 my-2">
-                                <input type="text" asp-for=bookName class="form-control p-3" id="bookName" placeholder="Book Name">
+                                <input type="text" asp-for=bookName class="form-control p-3 needs-validation" id="bookName" placeholder="Book Name">
+                                <span asp-validation-for="bookName" class="text-danger"></span>
                             </div>
                             <div class="col-6 my-2">
-                                <input type="text" asp-for=authorName class="form-control p-3" id="author" placeholder="Author">
+                                <input type="text" asp-for=authorName class="form-control p-3 needs-validation" id="author" placeholder="Author">
+                                <span asp-validation-for="authorName" class="text-danger"></span>
                             </div>
                             <div class="col-6 my-2">
-                                <input type="text" asp-for=borroweName class="form-control p-3" id="borroweName" placeholder="Borrower Name">
+                                <input type="text" asp-for=borroweName class="form-control p-3 needs-validation" id="borroweName" placeholder="Borrower Name">
+                                <span asp-validation-for="borroweName" class="text-danger"></span>
                             </div>
                             <div class="col-6 my-2">
-                                <input type="date" asp-format="{0:yyyy-MM-dd}" asp-for=dateOfIssue class="form-control p-3" id="dateOfIssue" placeholder="Date Of Issue">
+                                <input type="date" asp-format="{0:yyyy-MM-dd}" name="dateOfIssue" class="form-control p-3 needs-validation" id="dateOfIssue" placeholder="Date Of Issue">
+                                <span asp-validation-for="dateOfIssue" class="text-danger"></span>
                             </div>
                             <div class="col-6 my-2">
-                                <select class="form-select p-3" id="genereSelect" asp-for=genereID >
-                                    <option value="0" selected>Genere</option>
+                                <select class="form-select p-3 needs-validation" id="genereSelect" asp-for=genereID >
+                                    
                                     @foreach (var item in Model.genereList)
                                     {
                                         <option value="@item.Id">@item.Generename</option>
@@ -35,9 +41,11 @@
                             
 
                                 </select>
+                                <span asp-validation-for="genereID " class="text-danger "></span>
                             </div>
                             <div class="col-6 my-2">
-                                <input type="text" class="form-control p-3" id="city" asp-for=city placeholder="City">
+                                <input type="text" class="form-control p-3 needs-validation" id="city" asp-for=city placeholder="City">
+                                <span asp-validation-for="city" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -66,4 +74,23 @@
         var myModalblock = new bootstrap.Modal(document.getElementById('bookForm'));
         myModalblock.show();
     });
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
 </script>

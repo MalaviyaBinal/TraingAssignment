@@ -15,7 +15,7 @@ namespace Assignment_Repository.Interface
         Book getBorrowerByName(string? borroweName);
         List<Genere> getGenereList();
         
-        List<Book> getLibraryRecordTableData();
+        IQueryable<Book> getLibraryRecordTableData();
         void updateBookTable(Book book);
     }
 }

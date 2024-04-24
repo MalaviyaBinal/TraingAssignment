@@ -47,9 +47,9 @@ namespace Assignment_Repository.Implementation
 
         
 
-        public List<Book> getLibraryRecordTableData()
+        public IQueryable<Book> getLibraryRecordTableData()
         {
-            return _context.Books.Include(e => e.GenereNavigation).Where(e => e.IsDeleted == false).ToList();
+            return _context.Books.Include(e => e.GenereNavigation).Where(e => e.IsDeleted == false);
         }
 
         public void updateBookTable(Book book)
