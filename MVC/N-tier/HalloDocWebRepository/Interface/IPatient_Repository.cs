@@ -21,6 +21,8 @@ namespace HalloDocWebRepo.Interface
         public void addRequestTable(Request req);
         void addTokenRegister(TokenRegister tokenRegister);
         public void addUserTable(User user);
+        bool checkTokenExists(string token);
+        bool checkUserExists(string? email);
         public Aspnetuser getAspnetUser(int aspnetuserid);
         public bool getAspnetUserAny(string email);
         public Aspnetuser getAspnetUserByEmail(string usarname);
@@ -38,7 +40,7 @@ namespace HalloDocWebRepo.Interface
         public void updateAspnetuserTable(Aspnetuser asp);
         void updateRequestTable(Request req);
         public void updateUserTable(User user);
-        public bool ValidateUser(string usarname, string passwordhash);
+       
 
     }
 }

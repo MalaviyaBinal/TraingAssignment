@@ -1386,6 +1386,19 @@
           "lib/netcoreapp2.1/_._": {}
         }
       },
+      "System.Web.Helpers.Crypto/3.2.3": {
+        "type": "package",
+        "compile": {
+          "lib/net40/System.Web.Helpers.Crypto.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/net40/System.Web.Helpers.Crypto.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "Twilio/7.0.4": {
         "type": "package",
         "dependencies": {
@@ -1415,7 +1428,8 @@
           "Microsoft.EntityFrameworkCore": "7.0.11",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.11",
           "Rotativa.AspNetCore": "1.3.2",
-          "System.IdentityModel.Tokens.Jwt": "7.4.0"
+          "System.IdentityModel.Tokens.Jwt": "7.4.0",
+          "System.Web.Helpers.Crypto": "3.2.3"
         },
         "compile": {
           "bin/placeholder/HalloDocWebEntity.dll": {}
@@ -1435,7 +1449,8 @@
           "Microsoft.EntityFrameworkCore": "7.0.11",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.11",
           "Rotativa.AspNetCore": "1.3.2",
-          "System.IdentityModel.Tokens.Jwt": "7.4.0"
+          "System.IdentityModel.Tokens.Jwt": "7.4.0",
+          "System.Web.Helpers.Crypto": "3.2.3"
         },
         "compile": {
           "bin/placeholder/HalloDocWebRepository.dll": {}
@@ -4222,6 +4237,19 @@
         "version.txt"
       ]
     },
+    "System.Web.Helpers.Crypto/3.2.3": {
+      "sha512": "Kpf+faYrakOcPGMkhyA+jG1D7cyOqIwS9B35cfh8Fc5jf2lVMhxRQpDWhwNGmgZw+PBAQ1TfZMGBRojD1Glp5Q==",
+      "type": "package",
+      "path": "system.web.helpers.crypto/3.2.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/System.Web.Helpers.Crypto.dll",
+        "lib/net40/System.Web.Helpers.Crypto.pdb",
+        "system.web.helpers.crypto.3.2.3.nupkg.sha512",
+        "system.web.helpers.crypto.nuspec"
+      ]
+    },
     "Twilio/7.0.4": {
       "sha512": "1ekY2+q+gMArUJCVGv6bjxCrC/x2vXqvCdnb+MfaJTjQEhPyc1VGsYUhJ/eJKv6zNmGmULJGIzUon1EjvxJh/w==",
       "type": "package",
@@ -4267,6 +4295,7 @@
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 7.0.11",
       "Rotativa.AspNetCore >= 1.3.2",
       "System.IdentityModel.Tokens.Jwt >= 7.4.0",
+      "System.Web.Helpers.Crypto >= 3.2.3",
       "Twilio >= 7.0.4"
     ]
   },
@@ -4364,6 +4393,10 @@
             "target": "Package",
             "version": "[7.4.0, )"
           },
+          "System.Web.Helpers.Crypto": {
+            "target": "Package",
+            "version": "[3.2.3, )"
+          },
           "Twilio": {
             "target": "Package",
             "version": "[7.0.4, )"
@@ -4388,5 +4421,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Web.Helpers.Crypto 3.2.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Web.Helpers.Crypto",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }

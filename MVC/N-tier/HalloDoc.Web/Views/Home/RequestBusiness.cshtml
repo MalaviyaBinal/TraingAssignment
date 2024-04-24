@@ -241,28 +241,11 @@
                 .then(data => {
                     console.log(data);
 
-                    if (!data.exists) {
-                        document.getElementById('pwd_div').style.display = 'block';
-                        document.getElementById('con_pwd_div').style.display = 'block';
-                    }
-                    else {
-                        document.getElementById('pwd_div').style.display = 'none';
-                        document.getElementById('con_pwd_div').style.display = 'none';
-                    }
 
                 })
                 .catch(error => console.error('Error:', error));
         }
-        function checkPwd() {
-            var pwd = document.getElementById('password').value;
-            var con_pwd = document.getElementById('confirmPassword').value;
-            if (pwd != con_pwd)
-                document.getElementById('errorspan').style.display = 'block';
-            else
-                document.getElementById('errorspan').style.display = 'none';
-
-
-        }
+        
     </script>
 
 </body>

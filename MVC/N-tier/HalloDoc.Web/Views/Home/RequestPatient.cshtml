@@ -96,8 +96,23 @@
                                     <span asp-validation-for="phone" class="text-danger"></span>
                                 </p>
                             </div>
-                            
-                                    
+
+                            <div class="col-xl-6 col-sm-12 col-md-6" id="pwd_div" style="display:none;">
+                                <p>
+                                    <input type="password" class="form-control input-placeholder" id="password"
+                                           placeholder="" name="password">
+                                    <label class="label-placeholder">Password</label>
+                                </p>
+                            </div>
+                            <div class="col-xl-6 col-sm-12 col-md-6" id="con_pwd_div" style="display:none;">
+                                <p>
+                                    <input type="password" class="form-control input-placeholder" id="confirmPassword"
+                                           placeholder="" name="con_password" onchange="checkPwd()">
+                                    <label class="label-placeholder">Confirm Password</label>
+                                </p>
+                                <span class="text-danger" id="errorspan" style="display:none;">confirm password should match</span>
+                            </div>
+
                         </div>
 
 

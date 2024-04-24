@@ -16,6 +16,8 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="~/css/style-patient.css">
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </head>
 
 <body>
@@ -37,14 +39,16 @@
                 
                 <h2 class="text-center">Reset Your Password</h2>
 
-                <form method="post" asp-action="" asp-controller="Home">
+                <form method="post" asp-action="ResetPassword" asp-controller="Home">
                     <div class="form-group mt-2 row">
                         <div class="col">
                             <p>
-                                <input type="text" class="form-control input-placeholder" id="username" placeholder="">
-                                <label class="label-placeholder">Username</label>
+                                <input type="email" asp-for=Email class="form-control input-placeholder needs-validation" id="username" placeholder="" required>
+                                <label asp-for=Email class="label-placeholder">Username</label>
                                 <i class="fa-regular fa-circle-user text-secondary"></i>
+
                             </p>
+                            <span asp-validation-for=Email class="text-danger"></span>
                         </div>
 
 
@@ -74,6 +78,25 @@
     </div>
 
     <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
         function changeTheme() {
             if ($('#light-theme').css('display') == 'none') {
                 document.querySelector(".login-bg").style.display = "block";

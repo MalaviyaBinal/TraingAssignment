@@ -226,6 +226,7 @@ namespace HalloDoc.Web.Controllers
         {
             //var data = _service.opencancelmodel(id);
             ViewBag.reqid = id;
+
             return View();
         }
         public ActionResult ConsultCall(int id)

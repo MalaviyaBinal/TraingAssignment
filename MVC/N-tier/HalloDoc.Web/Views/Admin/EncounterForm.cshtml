@@ -1,4 +1,5 @@
 ﻿@model HalloDocWebEntity.ViewModel.Encounterformmodel
+@{
     ViewData["Title"] = "Encounter Page";
     Layout = "_AdminHeader";
 }
@@ -28,7 +29,7 @@
                 </a>
             </div>
             <form method="post" id="enable" asp-action="SaveEncounterForm" >
-                
+                <input type="hidden" asp-for=confirmationDetail.Requestid value="@Model.confirmationDetail.Requestid" />
                 <div class="container rounded bg-white shadow py-3">
                     <h3 class="mb-3 text-center text-info">Medical Report-Confidential</h3>
                     <div class="row">

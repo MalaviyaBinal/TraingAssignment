@@ -26,6 +26,7 @@ namespace HalloDocWebEntity.ViewModel
         public string? state { get; set; }
         [Required(ErrorMessage = "Required.")]
         public string? zip_code { get; set; }
+        public string? password { get; set; }
 
         public DateTime Createddate { get; set; } = DateTime.Now;
 

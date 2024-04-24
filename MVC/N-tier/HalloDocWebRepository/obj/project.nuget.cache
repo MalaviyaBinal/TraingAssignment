@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1fGCzbo3N56Q79v07yOAI+juJ25LO1y+wm92cvIV7J0ItPX9ltqvKKrBewwBKBQFFTH2Vt42b6oV0V01T9xiqg==",
+  "dgSpecHash": "1z6T4poBb49ZWZWKQmxZPb8TLNr/wVn0kyZsmViyC8Rm86N39vo3UhnpiIS5/ECsQ7JbT3aUm91bbUjLoHX26w==",
   "success": true,
   "projectFilePath": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDocWebRepository\\HalloDocWebRepository.csproj",
   "expectedPackageFiles": [
@@ -50,7 +50,19 @@
     "C:\\Users\\pce83\\.nuget\\packages\\system.text.encoding.codepages\\4.5.1\\system.text.encoding.codepages.4.5.1.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\pce83\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
-    "C:\\Users\\pce83\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+    "C:\\Users\\pce83\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
+    "C:\\Users\\pce83\\.nuget\\packages\\system.web.helpers.crypto\\3.2.3\\system.web.helpers.crypto.3.2.3.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Web.Helpers.Crypto 3.2.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Web.Helpers.Crypto",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }

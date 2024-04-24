@@ -86,6 +86,16 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges();
         }
 
+        public bool checkTokenExists(string token)
+        {
+           return _context.TokenRegisters.Any(e=> e.TokenValue.Equals(token) && e.CreatedDate <= e.CreatedDate.Value.AddMinutes(20));  
+        }
+
+        public bool checkUserExists(string? email)
+        {
+            return _context.Aspnetusers.Any(x => x.Email == email);
+        }
+
         public Aspnetuser getAspnetUser(int aspnetuserid)
         {
             return _context.Aspnetusers.FirstOrDefault(u => u.Id == aspnetuserid);
@@ -119,7 +129,7 @@ namespace HalloDocWebRepo.Implementation
 
         public TokenRegister getTokenRegisterByToken(string token)
         {
-            return _context.TokenRegisters.FirstOrDefault(m => m.TokenValue == token);
+            return _context.TokenRegisters.FirstOrDefault(m => m.TokenValue == token && m.CreatedDate <= m.CreatedDate.Value.AddMinutes(20));
         }
 
         public User getUserByEmail(string? email)
@@ -139,18 +149,7 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges();
         }
 
-        public bool ValidateUser(string usarname, string passwordhash)
-        {
-            Aspnetuser user = _context.Aspnetusers.FirstOrDefault(u => u.Email == usarname && u.Passwordhash == passwordhash);
-            if (user == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+      
 
         void IPatient_Repository.addRequestFileTable(Requestwisefile reqclient)
         {

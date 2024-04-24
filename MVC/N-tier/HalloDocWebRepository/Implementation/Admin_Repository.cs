@@ -383,7 +383,11 @@ namespace HalloDocWebRepo.Implementation
             _context.EncounterForms.Update(model);
             _context.SaveChanges();
         }
-
+        public void addEncounterTable(EncounterForm model)
+        {
+            _context.EncounterForms.Add(model);
+            _context.SaveChanges();
+        }
         public List<AdminDashboardTableModel> GetExportAllData()
         {
             var data1 = _context.Requests.Where(r => r.Status != 10).Include(x => x.Requestclients).Include(x => x.Requesttype).ToList();

@@ -142,36 +142,43 @@ namespace HalloDocWebServices.Implementation
         {
             var patientData = _repository.getRequestClientById(id);
             Encounterformmodel model = new();
-            var info = _repository.getEncounterTable(id);
             model.patientData = patientData;
             model.confirmationDetail = _repository.getRequestByID(id);
-            model.Requestid = info.Requestid;
-            model.Abd = info.Abd;
-            model.Skin = info.Skin;
-            model.Hr = info.Hr;
-            model.O2 = info.O2;
-            model.Rr = info.Rr;
-            model.Cv = info.Cv;
-            model.BpS = info.BpS;
-            model.BpD = info.BpD;
-            model.Temp = info.Temp;
-            model.Allergies = info.Allergies;
-            model.Chest = info.Chest;
-            model.Date = info.Date;
-            model.Diagnosis = info.Diagnosis;
-            model.Extr = info.Extr;
-            model.Heent = info.Heent;
-            model.FollowUp = info.FollowUp;
-            model.HistoryIllness = info.HistoryIllness;
-            model.MedicalHistory = info.MedicalHistory;
-            model.Medications = info.Medications;
-            model.Procedures = info.Procedures;
-            model.MedicationDispensed = info.MedicationDispensed;
-            model.Neuro = info.Neuro;
-            model.Pain = info.Pain;
-            model.Other = info.Other;
-            model.TreatmentPlan = info.TreatmentPlan;
+            model.DOB = DateOnly.Parse(DateTime.Parse(model.patientData.Intdate + model.patientData.Strmonth + model.patientData.Intyear).ToString("yyyy-MM-dd"));
+            var info = _repository.getEncounterTable(id);
+            if (info != null)
+            {
+
+                model.Requestid = info.Requestid;
+                model.Abd = info.Abd;
+                model.Skin = info.Skin;
+                model.Hr = info.Hr;
+                model.O2 = info.O2;
+                model.Rr = info.Rr;
+                model.Cv = info.Cv;
+                model.BpS = info.BpS;
+                model.BpD = info.BpD;
+                model.Temp = info.Temp;
+                model.Allergies = info.Allergies;
+                model.Chest = info.Chest;
+                model.Date = info.Date;
+                model.Diagnosis = info.Diagnosis;
+                model.Extr = info.Extr;
+                model.Heent = info.Heent;
+                model.FollowUp = info.FollowUp;
+                model.HistoryIllness = info.HistoryIllness;
+                model.MedicalHistory = info.MedicalHistory;
+                model.Medications = info.Medications;
+                model.Procedures = info.Procedures;
+                model.MedicationDispensed = info.MedicationDispensed;
+                model.Neuro = info.Neuro;
+                model.Pain = info.Pain;
+                model.Other = info.Other;
+                model.TreatmentPlan = info.TreatmentPlan;
+            }
             return model;
+
+
         }
         public AdminProfile getAdminProfileData(string? email)
         {
@@ -432,9 +439,9 @@ namespace HalloDocWebServices.Implementation
             tokenRegister.TokenValue = token;
             _repository.addTokenRegister(tokenRegister);
 
-            var receiver =client.Email;
+            var receiver = client.Email;
             var subject = "Review Agreement";
-            var message = "Hello "+ client.Firstname +" "+client.Lastname+",Review Your Agreement:https://localhost:44380/Admin/SendAgreement?token=" + token;
+            var message = "Hello " + client.Firstname + " " + client.Lastname + ",Review Your Agreement:https://localhost:44380/Admin/SendAgreement?token=" + token;
 
             SendEmail(receiver, message, subject);
             var admin = _repository.getAdminTableDataByEmail(email);
@@ -469,7 +476,7 @@ namespace HalloDocWebServices.Implementation
             var data = _repository.getRequestClientByToken(token);
             return _repository.getRequestClientById(data.Requestid);
         }
-        public void SendEmail(int id, string[] filenames,string email)
+        public void SendEmail(int id, string[] filenames, string email)
         {
             List<Requestwisefile> files = new();
             foreach (var filename in filenames)
@@ -479,7 +486,7 @@ namespace HalloDocWebServices.Implementation
             Request request = _repository.getRequestByID(id);
             var receiver = "binalmalaviya2002@gmail.com";
             var subject = "Documents of Request ";
-            var message = "Hello "+request.Firstname +" "+request.Lastname+",Find the Files uploaded for your request in below:";
+            var message = "Hello " + request.Firstname + " " + request.Lastname + ",Find the Files uploaded for your request in below:";
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
             foreach (var file in files)
             {
@@ -642,34 +649,71 @@ namespace HalloDocWebServices.Implementation
         }
         public void saveEncounterForm(Encounterformmodel info)
         {
-            var model = _repository.getEncounterTable(info.Requestid);
-            model.Requestid = info.Requestid;
-            model.Abd = info.Abd;
-            model.Skin = info.Skin;
-            model.Hr = info.Hr;
-            model.O2 = info.O2;
-            model.Rr = info.Rr;
-            model.Cv = info.Cv;
-            model.BpS = info.BpS;
-            model.BpD = info.BpD;
-            model.Temp = info.Temp;
-            model.Allergies = info.Allergies;
-            model.Chest = info.Chest;
-            model.Date = info.Date;
-            model.Diagnosis = info.Diagnosis;
-            model.Extr = info.Extr;
-            model.Heent = info.Heent;
-            model.FollowUp = info.FollowUp;
-            model.HistoryIllness = info.HistoryIllness;
-            model.MedicalHistory = info.MedicalHistory;
-            model.Medications = info.Medications;
-            model.Procedures = info.Procedures;
-            model.MedicationDispensed = info.MedicationDispensed;
-            model.TreatmentPlan = info.TreatmentPlan;
-            model.Neuro = info.Neuro;
-            model.Pain = info.Pain;
-            model.Other = info.Other;
-            _repository.updateEncounterForm(model);
+            EncounterForm model1 = _repository.getEncounterTable(info.confirmationDetail.Requestid);
+            if (model1 == null)
+            {
+                EncounterForm model = new EncounterForm();
+                //var model = _repository.getEncounterTable(info.Requestid);
+                model.Requestid = info.confirmationDetail.Requestid;
+                model.Abd = info.Abd;
+                model.Skin = info.Skin;
+                model.Hr = info.Hr;
+                model.O2 = info.O2;
+                model.Rr = info.Rr;
+                model.Cv = info.Cv;
+                model.BpS = info.BpS;
+                model.BpD = info.BpD;
+                model.Temp = info.Temp;
+                model.Allergies = info.Allergies;
+                model.Chest = info.Chest;
+                model.Date = info.Date;
+                model.Diagnosis = info.Diagnosis;
+                model.Extr = info.Extr;
+                model.Heent = info.Heent;
+                model.FollowUp = info.FollowUp;
+                model.HistoryIllness = info.HistoryIllness;
+                model.MedicalHistory = info.MedicalHistory;
+                model.Medications = info.Medications;
+                model.Procedures = info.Procedures;
+                model.MedicationDispensed = info.MedicationDispensed;
+                model.TreatmentPlan = info.TreatmentPlan;
+                model.Neuro = info.Neuro;
+                model.Pain = info.Pain;
+                model.Other = info.Other;
+                _repository.addEncounterTable(model);
+            }
+            else
+            {
+
+                //var model = _repository.getEncounterTable(info.Requestid);
+
+                model1.Abd = info.Abd;
+                model1.Skin = info.Skin;
+                model1.Hr = info.Hr;
+                model1.O2 = info.O2;
+                model1.Rr = info.Rr;
+                model1.Cv = info.Cv;
+                model1.BpS = info.BpS;
+                model1.BpD = info.BpD;
+                model1.Temp = info.Temp;
+                model1.Allergies = info.Allergies;
+                model1.Chest = info.Chest;
+                model1.Date = info.Date;
+                model1.Diagnosis = info.Diagnosis;
+                model1.Extr = info.Extr;
+                model1.Heent = info.Heent;
+                model1.FollowUp = info.FollowUp;
+                model1.HistoryIllness = info.HistoryIllness;
+                model1.MedicalHistory = info.MedicalHistory;
+                model1.Medications = info.Medications;
+                model1.Procedures = info.Procedures;
+                model1.MedicationDispensed = info.MedicationDispensed;
+                model1.TreatmentPlan = info.TreatmentPlan;
+                model1.Neuro = info.Neuro;
+                model1.Pain = info.Pain;
+                model1.Other = info.Other;
+                _repository.updateEncounterForm(model1);
+            }
         }
         public byte[] GetBytesForExport(int state)
         {
@@ -834,13 +878,13 @@ namespace HalloDocWebServices.Implementation
             model.Modifieddate = DateTime.Now;
             _repository.updateAdmin(model);
         }
-        public void sendLinkAdminDashboard(AdminDashBoardPagination info,string email)
+        public void sendLinkAdminDashboard(AdminDashBoardPagination info, string email)
         {
             var mail = "tatva.dotnet.binalmalaviya@outlook.com";
             var password = "binal@2002";
             var receiver = "binalmalaviya2002@gmail.com";
             var subject = "Make Your Appointment";
-            var message = "Hello "+info.Fname +" " + info.Lname+",You are invited to visit :https://localhost:44380/";
+            var message = "Hello " + info.Fname + " " + info.Lname + ",You are invited to visit :https://localhost:44380/";
             var mailclient = new SmtpClient("smtp.office365.com", 587)
             {
                 EnableSsl = true,
@@ -874,7 +918,7 @@ namespace HalloDocWebServices.Implementation
                 Senttries = 1
             };
             _repository.addSmsLogTable(smslog);
-            
+
         }
         public AdminProviderModel getProviderDataForAdmin(int id)
         {
@@ -1366,7 +1410,7 @@ namespace HalloDocWebServices.Implementation
         {
 
             AdminPartnersModel model = new();
-            model.vendorList =_repository.getVenderDetail(profession, searchstr);
+            model.vendorList = _repository.getVenderDetail(profession, searchstr);
             model.professions = _repository.getHealthProfessionalTypeList();
             model.SelectedRegion = profession;
             var count = model.vendorList.Count();
@@ -1623,9 +1667,12 @@ namespace HalloDocWebServices.Implementation
         public void CreateShift(SchedulingViewModel model)
         {
             var weekdays = "";
-            foreach (var i in model.daylist)
+            if (model.IsRepeat ==true)
             {
-                weekdays += i;
+                foreach (var i in model.daylist)
+                {
+                    weekdays += i;
+                }
             }
             var shift = new Shift
             {
@@ -1903,7 +1950,8 @@ namespace HalloDocWebServices.Implementation
             model.regions = _repository.getRegions();
             model.RegionId = reg;
             model.shiftdetail = _repository.getShiftDetailByRegion(reg);
-            if (isCurrentMonth) {
+            if (isCurrentMonth)
+            {
                 model.shiftdetail = model.shiftdetail.Where(e => e.Shiftdate.Month == DateTime.Now.Month).ToList();
             }
             var count = model.shiftdetail.Count();
@@ -1912,9 +1960,10 @@ namespace HalloDocWebServices.Implementation
             if (count > 0)
             {
                 model.shiftdetail = model.shiftdetail.Skip((pagenumber - 1) * 3).Take(3).ToList();
-                model.FromRec = (pagenumber-1) * 3;
+                model.FromRec = (pagenumber - 1) * 3;
                 model.ToRec = model.FromRec + 3;
-                if(model.ToRec > model.TotalRecord) {
+                if (model.ToRec > model.TotalRecord)
+                {
                     model.ToRec = model.TotalRecord;
                 }
                 model.FromRec += 1;
@@ -1982,16 +2031,16 @@ namespace HalloDocWebServices.Implementation
             }
         }
 
-        public void DTYSupportRequest(string notes,string email)
+        public void DTYSupportRequest(string notes, string email)
         {
             var data = _repository.GetUnscheduledPhysicanID();
             var phy = _repository.getUnscheduledPhysicianList(data);
             foreach (var i in phy)
             {
-                
+
                 var receiver = i.Email;
                 var subject = "DTY Support Request";
-                var message = "We are short on coverage and needs additional support On Call to respond to Requests.::"+notes;
+                var message = "We are short on coverage and needs additional support On Call to respond to Requests.::" + notes;
                 SendEmail(receiver, message, subject);
 
                 var admin = _repository.getAdminTableDataByEmail(email);
@@ -2036,8 +2085,8 @@ namespace HalloDocWebServices.Implementation
         public SendOrderModel getVenderData()
         {
             SendOrderModel model = new();
-            model.professions = _repository.getVenderDetail(0,null);
-            
+            model.professions = _repository.getVenderDetail(0, null);
+
             return model;
         }
 

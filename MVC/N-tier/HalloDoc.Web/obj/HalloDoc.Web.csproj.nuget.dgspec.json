@@ -95,6 +95,10 @@
               "target": "Package",
               "version": "[7.4.0, )"
             },
+            "System.Web.Helpers.Crypto": {
+              "target": "Package",
+              "version": "[3.2.3, )"
+            },
             "WindowsAzure.ServiceBus": {
               "target": "Package",
               "version": "[7.0.1, )"
@@ -198,6 +202,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[7.4.0, )"
+            },
+            "System.Web.Helpers.Crypto": {
+              "target": "Package",
+              "version": "[3.2.3, )"
             }
           },
           "imports": [
@@ -299,6 +307,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[7.4.0, )"
+            },
+            "System.Web.Helpers.Crypto": {
+              "target": "Package",
+              "version": "[3.2.3, )"
             }
           },
           "imports": [
@@ -411,6 +423,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[7.4.0, )"
+            },
+            "System.Web.Helpers.Crypto": {
+              "target": "Package",
+              "version": "[3.2.3, )"
             },
             "Twilio": {
               "target": "Package",

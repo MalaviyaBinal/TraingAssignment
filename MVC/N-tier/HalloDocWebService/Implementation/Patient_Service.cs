@@ -17,6 +17,8 @@ using System.IO.Compression;
 using System.Net.Mail;
 using System.Net;
 using OfficeOpenXml.Drawing.Slicer.Style;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Web.Helpers;
 
 namespace HalloDocWebServices.Implementation
 {
@@ -29,12 +31,7 @@ namespace HalloDocWebServices.Implementation
             _repository = repository;
         }
 
-        public bool ValidateUser(string usarname, string passwordhash)
-        {
-
-            return _repository.ValidateUser(usarname, passwordhash);
-
-        }
+      
 
         void IPatient_Service.editProfile(PatientRequest model, string username)
         {
@@ -448,48 +445,55 @@ namespace HalloDocWebServices.Implementation
 
         public void createPatient(PatientRequest info)
         {
-            var user = _repository.getUserByEmail(info.email_user);
-            var reqid = 0;
-            if (user == null)
+            Aspnetuser aspuser = new Aspnetuser
             {
-                Request req1 = new Request
-                {
-                    Requesttypeid = 2,
-                    Userid = user.Userid,
-                    Firstname = info.first_name,
-                    Lastname = info.last_name,
-                    Phonenumber = info.phone,
-                    Email = info.email_user,
-                    Status = 1,
-                    Createddate = info.Createddate,
-                    Isurgentemailsent = new BitArray(1, false)
 
+                Usarname = info.first_name,
+                Passwordhash = Crypto.HashPassword(info.password) ,
+                Email = info.email_user,
+                Phonenumber = info.phone,
+                Createddate = DateTime.Now,
+                Modifieddate = DateTime.Now
 
-                };
-                _repository.addRequestTable(req1);
-                reqid = req1.Requestid;
-            }
-            else
+            };
+            _repository.addAspnetuserTable(aspuser);
+            User user = new User
             {
-                Request req = new Request
-                {
-                    Requesttypeid = 2,
-                    Firstname = info.first_name,
-                    Lastname = info.last_name,
-                    Phonenumber = info.phone,
-                    Email = info.email_user,
-                    Status = 1,
-                    Createddate = info.Createddate,
-                    Isurgentemailsent = new BitArray(1, false)
+
+                Firstname = info.first_name,
+                Lastname = info.last_name,
+                Email = info.email_user,
+                Mobile = info.phone,
+                Street = info.street,
+                City = info.city,
+                State = info.state,
+                Aspnetuserid = aspuser.Id,
+                Createdby = info.first_name,
+                Createddate = info.Createddate,
+
+            };
 
 
-                };
-                _repository.addRequestTable(req);
-                reqid = req.Requestid;
-            }
+            Request req1 = new Request
+            {
+                Requesttypeid = 2,
+                Userid = user.Userid,
+                Firstname = info.first_name,
+                Lastname = info.last_name,
+                Phonenumber = info.phone,
+                Email = info.email_user,
+                Status = 1,
+                Createddate = info.Createddate,
+                Isurgentemailsent = new BitArray(1, false)
+
+
+            };
+            _repository.addRequestTable(req1);
+
+
             Requestclient reqclient = new Requestclient
             {
-                Requestid = reqid,
+                Requestid = req1.Requestid,
                 Firstname = info.first_name,
                 Lastname = info.last_name,
                 Phonenumber = info.phone,
@@ -513,7 +517,7 @@ namespace HalloDocWebServices.Implementation
             {
                 Createddate = DateTime.Now,
                 Filename = uniqueFileName,
-                Requestid = reqid
+                Requestid = req1.Requestid
             };
             _repository.addRequestFileTable(addrequestfile);
         }
@@ -618,6 +622,7 @@ namespace HalloDocWebServices.Implementation
             TokenRegister tokenRegister = new TokenRegister();
             tokenRegister.Email = email;
             tokenRegister.TokenValue = token;
+            tokenRegister.CreatedDate = DateTime.Now;
             _repository.addTokenRegister(tokenRegister);
         }
 
@@ -652,7 +657,8 @@ namespace HalloDocWebServices.Implementation
                     Aspnetuser aspnetuser = new Aspnetuser
                     {
                         Usarname = info.Usarname,
-                        Passwordhash = info.Passwordhash,
+                        Passwordhash = Crypto.HashPassword(info.Passwordhash),
+             
                         Phonenumber = client.Phonenumber,
                         Createddate = DateTime.Now,
                         Email = info.Usarname
@@ -682,6 +688,80 @@ namespace HalloDocWebServices.Implementation
 
         }
 
+        public bool checkUserExists(Aspnetuser user)
+        {
+            return _repository.checkUserExists(user.Email);
+        }
 
+        public void SendResetPwdPage(Aspnetuser user)
+        {
+            Random random = new Random();
+            user = _repository.getAspnetUserByEmail(user.Email);
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var token = new string(Enumerable.Repeat(chars, 8)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            var mail = "tatva.dotnet.binalmalaviya@outlook.com";
+            var password = "binal@2002";
+            var receiver = "binalmalaviya2002@gmail.com";  //user.Email;
+            var subject = "Reset Password";
+            var message = "Hello" + user.Usarname + " ,Click Here to reset your password:https://localhost:44380/Home/ResetPassword?token=" + token + "\nLink will be active for 20 minutes only!!!";
+
+
+
+            var mailclient = new SmtpClient("smtp.office365.com", 587)
+            {
+                EnableSsl = true,
+                Credentials = new NetworkCredential(mail, password)
+            };
+            var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
+
+
+            mailclient.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
+            Emaillog emaillog = new Emaillog
+            {
+                Emailtemplate = message,
+                Subjectname = subject,
+                Emailid = user.Email,
+                Roleid = 2,
+                Createdate = DateTime.Now,
+                Sentdate = DateTime.Now,
+                Isemailsent = new BitArray(1, true),
+                Action = 1
+            };
+            _repository.addEmailLogTable(emaillog);
+
+            TokenRegister tokenRegister = new TokenRegister();
+            tokenRegister.Email = user.Email;
+            tokenRegister.TokenValue = token;
+            tokenRegister.Requestid = user.Id;
+            tokenRegister.CreatedDate = DateTime.Now;
+            _repository.addTokenRegister(tokenRegister);
+        }
+
+        public bool checkTokenExists(string token)
+        {
+            return _repository.checkTokenExists(token);
+        }
+
+        public loginModel getAspnetUserByToken(string token)
+        {
+            TokenRegister tokenreg = _repository.getTokenRegisterByToken(token);
+            Aspnetuser user = _repository.getAspnetUser((int)tokenreg.Requestid);
+            loginModel model = new loginModel
+            {
+                Usarname = user.Email,
+            };
+            return model;
+        }
+
+        public void changePassword(loginModel user)
+        {
+            Aspnetuser netuser = _repository.getAspnetUserByEmail(user.Usarname);
+            if (netuser != null)
+            {
+                netuser.Passwordhash = Crypto.HashPassword(user.Passwordhash) ;
+            }
+        }
     }
 }

@@ -11,6 +11,9 @@ using System.Security.Claims;
 using HalloDocWebServices.Implementation;
 using System.IdentityModel.Tokens.Jwt;
 using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.EMMA;
+using System.Web.Helpers;
 
 namespace HalloDoc.Web.Controllers
 {
@@ -31,7 +34,41 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
-        
+        [HttpPost]
+        public IActionResult ResetPassword(Aspnetuser user)
+        {
+            if (!_service.checkUserExists(user))
+            {
+                ModelState.AddModelError("Email", "User Doesn't Exist..");
+                return View("PatientForgotPwd",user);
+            }
+            else
+            {
+                _service.SendResetPwdPage(user);
+            }
+           
+            return View(nameof(Index));
+        }
+        [HttpPost]
+        public IActionResult ChangePassword(loginModel user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ResetPassword", user);
+            }
+            _service.changePassword(user);
+            return View(nameof(Index));
+        }
+        public IActionResult ResetPassword(string token)
+        {
+            if (!_service.checkTokenExists(token))
+            {
+                return Problem("Invalid Request....");
+            }
+            loginModel model = _service.getAspnetUserByToken(token);
+            return View(model);
+        }
+
         public IActionResult Profile()
         {
             var profile = _service.ReturnRequest(HttpContext.Request.Cookies["userEmail"]);
@@ -95,7 +132,9 @@ namespace HalloDoc.Web.Controllers
                 var userobj = _service.getAspnetuserByEmail(user.Usarname);
                 if (userobj != null)
                 {
-                    if (userobj.Passwordhash == user.Passwordhash)
+                    //if (userobj.Passwordhash == user.Passwordhash)
+                    var pwd =Crypto.HashPassword(user.Passwordhash);
+                    if (Crypto.VerifyHashedPassword(userobj.Passwordhash, user.Passwordhash))
                     {
                         var jwttoken = _jwtservice.GenerateToken(userobj);
                         Response.Cookies.Append("jwt", jwttoken, new CookieOptions { MaxAge = TimeSpan.FromDays(1) });
@@ -161,7 +200,7 @@ namespace HalloDoc.Web.Controllers
         {
             if (fileToUpload != null && fileToUpload.Length > 0)
             {
-                
+
                 _service.uploadFile(fileToUpload, (int)HttpContext.Session.GetInt32("req_id"));
 
             }
@@ -225,8 +264,8 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> PatientDashboardRequestForMe()
         {
-            
-           
+
+
             return View(_service.getUserByEmail(HttpContext.Request.Cookies["userEmail"]));
         }
         public async Task<IActionResult> RequestForsSomeone(RequestForMe info)
@@ -240,7 +279,8 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> SubmitRequestOnMe(RequestForMe info)
         {
-            if(!ModelState.IsValid){
+            if (!ModelState.IsValid)
+            {
                 return View("PatientDashboardRequestForMe", info);
             }
             _service.saveDataRequestForMe(info, HttpContext.Request.Cookies["userEmail"]);

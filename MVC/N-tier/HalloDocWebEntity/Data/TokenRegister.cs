@@ -29,4 +29,7 @@ public partial class TokenRegister
 
     [Column("email")]
     public string? Email { get; set; }
+
+    [Column("createdDate", TypeName = "timestamp without time zone")]
+    public DateTime? CreatedDate { get; set; }
 }

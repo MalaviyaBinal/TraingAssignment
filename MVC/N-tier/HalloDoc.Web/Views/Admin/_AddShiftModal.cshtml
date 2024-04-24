@@ -6,6 +6,7 @@
     });
     $('#Allregion').change(function (e) {
         e.preventDefault();
+        $(".modal-backdrop").remove();
         var regions = $('#Allregion').val();
         $.ajax({
             url: "/Admin/OpenAddShiftModal",
@@ -29,11 +30,12 @@
             for(var i=1 ; i<=7 ; i++){
                 document.getElementById("day"+i.toString()).removeAttribute("disabled");
             }
-            
+            document.getElementById("repeatcountSelect").removeAttribute("disabled");
         } else {
             for (var i = 1; i <= 7; i++) {
                 document.getElementById("day" + i.toString()).setAttribute("disabled", "");
             }
+            document.getElementById("repeatcountSelect").setAttribute("disabled", "");
         }
     });
 
@@ -49,7 +51,7 @@
                 <form asp-action="CreateShift" asp-controller="Admin">
                     <div class="col-12">
                         <div class="form-floating mb-3 inp">
-                            <select asp-for=RegionId id="Allregion" class="form-control form-select input-2 view-shift-inp">
+                            <select asp-for=RegionId id="Allregion" class="form-control form-select input-2 ">
                                 <option value="0">select</option>
                                 @foreach (var item in Model.regions)
                                 {
@@ -61,7 +63,7 @@
 
                         <div class="col-12">
                             <div class="form-floating mb-3 inp">
-                                <select asp-for=PhysicianId id="Allphysician" class="form-control form-select input-2 view-shift-inp">
+                                <select asp-for=PhysicianId id="Allphysician" class="form-control form-select input-2 ">
                                     <option value="0">select</option>
                                     @foreach (var item in Model.physics)
                                     {
@@ -73,7 +75,7 @@
 
                             <div class="col-12">
                                 <div class="form-floating mb-3 inp custom-date-input">
-                                    <input type="date" class="form-control input-1 view-shift-inp" id="floatingInput-4" asp-for="ShiftDate" asp-format="{0: yyyy-MM-dd}" placeholder="ShiftDate" autocomplete="off">
+                                    <input type="date" class="form-control input-1 " id="floatingInput-4" asp-for="ShiftDate" asp-format="{0: yyyy-MM-dd}" placeholder="ShiftDate" autocomplete="off">
                                     <label for="floatingInput-4" asp-for="ShiftDate" class="view-shift-label">Shift Date</label>
 
                                 </div>
@@ -82,7 +84,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-floating mb-3 inp custom-clock-input">
-                                        <input type="time" class="form-control input-1 view-shift-inp" asp-for="StartTime" id="floatingInput-4"
+                                        <input type="time" class="form-control input-1 " asp-for="StartTime" id="floatingInput-4"
                                                placeholder="Start" autocomplete="off">
                                         <label for="floatingInput-4" class="view-shift-label">Start</label>
                                     </div>
@@ -90,7 +92,7 @@
 
                                 <div class="col-6">
                                     <div class="form-floating mb-3 inp custom-clock-input">
-                                        <input type="time" class="form-control input-1 view-shift-inp" asp-for="EndTime" id="floatingInput-4"
+                                        <input type="time" class="form-control input-1 " asp-for="EndTime" id="floatingInput-4"
                                                placeholder="End" autocomplete="off">
                                         <label for="floatingInput-4" class="view-shift-label">End</label>
                                     </div>
@@ -139,7 +141,7 @@
                                 <span asp-validation-for="RepeatDays" class="text-danger"></span>
                                 <div class="col-12 mt-3">
                                     <div class="form-floating mb-3 inp">
-                                        <select id="floatingInput-5" class="form-control form-select input-2 view-shift-inp" asp-for="RepeatCount">
+                                        <select id="repeatcountSelect" class="form-control form-select input-2 " disabled asp-for="RepeatCount">
                                             <option value="2" selected>2-times</option>
                                             <option value="3">3-times</option>
                                             <option value="4">4-times</option>

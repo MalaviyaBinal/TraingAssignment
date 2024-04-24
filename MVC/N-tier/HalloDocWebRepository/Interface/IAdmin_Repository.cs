@@ -117,5 +117,6 @@ namespace HalloDocWebRepo.Interface
         void updateTokenRegisterTable(TokenRegister token);
         void addPhysicianLocationTable(Physicianlocation phylocation);
         void AddPhysicianNotificationTable(Physiciannotification phynoti);
+        void addEncounterTable(EncounterForm model);
     }
 }

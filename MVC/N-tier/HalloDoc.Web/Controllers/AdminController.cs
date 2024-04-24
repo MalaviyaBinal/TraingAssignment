@@ -1,5 +1,4 @@
 ﻿using HalloDocWebEntity.ViewModel;
-using HalloDocWebEntity.ViewModel;
 using HalloDocWebServices.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
@@ -576,7 +575,7 @@ namespace HalloDoc.Web.Controllers
         public ActionResult SaveEncounterForm(Encounterformmodel info)
         {
             _service.saveEncounterForm(info);
-            return RedirectToAction(nameof(AdminDashboard));
+            return RedirectToAction(nameof(EncounterForm), new {id = info.confirmationDetail.Requestid});
         }
         public IActionResult ExportAll()
         {

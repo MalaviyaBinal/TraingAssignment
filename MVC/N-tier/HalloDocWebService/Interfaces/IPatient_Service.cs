@@ -17,7 +17,7 @@ namespace HalloDocWebServices.Interfaces
         public Dictionary<int, int> GetCount(string email);
         public Profile ReturnRequest(string? username);
         public void uploadFile(IFormFile fileToUpload, int id);
-        public bool ValidateUser(string usarname, string passwordhash);
+       
         public RequestForMe getUserByEmail(string? email);
         public Aspnetuser getAspnetuserByEmail(string usarname);
         public void saveDataRequestForMe(RequestForMe info, string email);
@@ -34,6 +34,10 @@ namespace HalloDocWebServices.Interfaces
         void sendMailForCreateAccount(string email);
         loginModel createAccountService(string token);
         void createAccountSaveData(loginModel info);
-        
+        bool checkUserExists(Aspnetuser user);
+        void SendResetPwdPage(Aspnetuser user);
+        bool checkTokenExists(string token);
+        loginModel getAspnetUserByToken(string token);
+        void changePassword(loginModel user);
     }
 }
