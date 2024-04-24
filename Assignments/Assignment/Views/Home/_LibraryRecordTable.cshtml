@@ -1,0 +1,44 @@
+﻿@model List<Assignment_WebEntity.Data.Book>
+
+<table class="table ">
+    <thead>
+        <tr class="bg-light text-muted h-100">
+
+            <th scope="col">Book ID</th>
+            <th scope="col">Book Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Borrower Name</th>
+            <th scope="col">Date Of Issue</th>
+            <th scope="col">City</th>
+            <th scope="col">Genere</th>
+            <th scope="col">Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+     
+        @foreach (var data in Model)
+        {
+            <tr>
+
+                <td>@data.Id</td>
+
+                <td> @data.Bookname</td>
+                <td> @data.Author </td>
+                <td> @data.Borrowername </td>
+                <td> @data.DateOfIssue </td>
+                <td>@data.City</td>
+                <td>@data.GenereNavigation.Generename</td>
+                <td>
+                    <button style="background-color:#326C9B;" class="btn text-white" onclick="openModal(@data.Id)">Edit</button>
+                    <button class="btn btn-dark text-white " onclick="deleteRecord(@data.Id)">Delete</button>
+                </td>
+
+            </tr>
+            
+        }
+
+    </tbody>
+
+
+</table>

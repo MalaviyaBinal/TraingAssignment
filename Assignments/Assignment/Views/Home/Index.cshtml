@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "LMS";
+}
+<div id="modaldiv">
+
+</div>
+
+
+<div class="container my-5">
+    <div class="row justify-content-between mb-3">
+        <div class="col-6">
+            <input type="text" class="form-control p-2" id="serachBook" placeholder="Search">
+        </div>
+        <div class="col-6 text-end">
+            <button style="background-color:#326C9B;" class="btn text-white p-2" onclick="openModal()">ADD BOOK</button>
+        </div>
+    </div>
+    <div class="row">
+        <div id="tableContent">
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        GetTableData();
+    });
+    function openModal(bookId) {
+
+        $.ajax({
+            url: "/Home/_BookFormModal",
+            data: { bookId: bookId },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modaldiv").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+
+            }
+        });
+    };
+    function GetTableData() {
+        $.ajax({
+            url: "/Home/_LibraryRecordTable",
+            type: "GET",
+           
+            dataType: "html",
+            success: function (data) {
+                $("#tableContent").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
+    function deleteRecord(id) {
+
+        $.ajax({
+            url: "/Home/_DeleteConfirmModal",
+            data: { 'id': id},
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modaldiv").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+
+            }
+        });
+    };
+</script>

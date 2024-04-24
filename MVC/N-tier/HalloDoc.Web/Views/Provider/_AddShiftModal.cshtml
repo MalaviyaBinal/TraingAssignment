@@ -7,17 +7,18 @@
    
     $('#switchCheck').change(function (e) {
         var check = document.getElementById("switchCheck")
-        
-        if (check.checked){
+
+        if (check.checked) {
             //document.getElementById("day1").removeAttribute("disabled");
-            for(var i=1 ; i<=7 ; i++){
-                document.getElementById("day"+i.toString()).removeAttribute("disabled");
+            for (var i = 1; i <= 7; i++) {
+                document.getElementById("day" + i.toString()).removeAttribute("disabled");
             }
-            
+            document.getElementById("repeatcountSelect").removeAttribute("disabled");
         } else {
             for (var i = 1; i <= 7; i++) {
                 document.getElementById("day" + i.toString()).setAttribute("disabled", "");
             }
+            document.getElementById("repeatcountSelect").setAttribute("disabled", "");
         }
     });
 
@@ -41,6 +42,7 @@
                                 }
                             </select>
                             <label for="Allregion" class="view-shift-label">Region</label>
+                            <span asp-validation-for="RegionId" class="text-danger"></span>
                         </div>
 
                         <div class="col-12">
@@ -114,7 +116,7 @@
                                 <span asp-validation-for="RepeatDays" class="text-danger"></span>
                                 <div class="col-12 mt-3">
                                     <div class="form-floating mb-3 inp">
-                                        <select id="floatingInput-5" class="form-control form-select input-2 view-shift-inp" asp-for="RepeatCount">
+                                        <select id="repeatcountSelect" class="form-control form-select input-2 view-shift-inp" asp-for="RepeatCount">
                                             <option value="2" selected>2-times</option>
                                             <option value="3">3-times</option>
                                             <option value="4">4-times</option>

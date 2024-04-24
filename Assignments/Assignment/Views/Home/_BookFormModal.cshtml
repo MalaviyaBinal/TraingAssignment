@@ -1,0 +1,69 @@
+﻿@model Assignment_WebEntity.ViewModal.BookFormViewModel
+<!-- Modal -->
+<div class="modal fade" id="bookForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <form asp-action="AddOrEditBookForm" asp-controller="Home">
+                <div class="modal-header  text-white" style="background-color:#326C9B;">
+                    <h5 class="modal-title" id="exampleModalLabel">Book Form</h5>
+
+                </div>
+                <div class="modal-body">
+
+                    <div class="container">
+                        <div class="row">
+                            <input type="hidden" asp-for="bookId" />
+                            <div class="col-6 my-2">
+                                <input type="text" asp-for=bookName class="form-control p-3" id="bookName" placeholder="Book Name">
+                            </div>
+                            <div class="col-6 my-2">
+                                <input type="text" asp-for=authorName class="form-control p-3" id="author" placeholder="Author">
+                            </div>
+                            <div class="col-6 my-2">
+                                <input type="text" asp-for=borroweName class="form-control p-3" id="borroweName" placeholder="Borrower Name">
+                            </div>
+                            <div class="col-6 my-2">
+                                <input type="date" asp-format="{0:yyyy-MM-dd}" asp-for=dateOfIssue class="form-control p-3" id="dateOfIssue" placeholder="Date Of Issue">
+                            </div>
+                            <div class="col-6 my-2">
+                                <select class="form-select p-3" id="genereSelect" asp-for=genereID >
+                                    <option value="0" selected>Genere</option>
+                                    @foreach (var item in Model.genereList)
+                                    {
+                                        <option value="@item.Id">@item.Generename</option>
+                                    }
+                            
+
+                                </select>
+                            </div>
+                            <div class="col-6 my-2">
+                                <input type="text" class="form-control p-3" id="city" asp-for=city placeholder="City">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6 my-2">
+                                <button type="button" class="btn btn-white shadow w-100 p-2" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                            <div class="col-6 my-2">
+                                <button type="submit" style="background-color:#326C9B;" class="btn text-white p-2 w-100">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var myModalblock = new bootstrap.Modal(document.getElementById('bookForm'));
+        myModalblock.show();
+    });
+</script>

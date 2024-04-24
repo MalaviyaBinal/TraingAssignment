@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Collections;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+
 namespace HalloDocWebEntity.ViewModel
 {
     public class SchedulingViewModel
@@ -21,6 +23,11 @@ namespace HalloDocWebEntity.ViewModel
         public int RepeatCount { get; set; }
         public int? SelectedRegion { get; set; }
         public List<int> daylist { get; set; }
+        public  bool IsValidTime(object value)
+        {
+            
+            return (StartTime- EndTime > TimeSpan.Zero);
+        }
 
     }
 }
