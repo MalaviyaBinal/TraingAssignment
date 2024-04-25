@@ -340,18 +340,11 @@ namespace HalloDocWebServices.Implementation
         public void requestAssign(int phyId, string notes, int id, string email)
         {
             var admin = _repository.getAspnetuserByEmail(email);
-            Requeststatuslog statuslog = new Requeststatuslog
-            {
-                Requestid = id,
-                Notes = notes,
-                Status = 2,
-                Createddate = DateTime.Now,
-                Physicianid = phyId,
-                Adminid = admin.Id
-            };
-            _repository.addRequestStatusLogTable(statuslog);
+
             Request request = _repository.getRequestByID(id);
             request.Status = 2;
+            request.Physicianid = phyId;
+            request.Modifieddate = DateTime.Now;
             _repository.updateRequest(request);
         }
         public void requestTransfer(int phyId, string notes, int id, string email)
@@ -934,8 +927,19 @@ namespace HalloDocWebServices.Implementation
         }
         public void addProviderByAdmin(AdminProviderModel phy)
         {
+            Aspnetuser aspnetuser = new Aspnetuser();
+            aspnetuser.Passwordhash = phy.Passwordhash;
+            aspnetuser.Usarname = "MD."+phy.Lastname +"."+ phy.Firstname.ToCharArray().First();
+            aspnetuser.Createddate = DateTime.Now;
+            aspnetuser.Modifieddate = DateTime.Now;
+            aspnetuser.Email = phy.Email;
+            aspnetuser.Phonenumber = phy.Mobile;
+            aspnetuser.Role = 3;
+            _repository.addAspnetuserTable(aspnetuser);
+
             Physician model = new();
             model.Firstname = "Dr" + phy.Firstname;
+            model.Aspnetuserid = aspnetuser.Id;
             model.Lastname = phy.Lastname;
             model.Email = phy.Email;
             model.Mobile = phy.Mobile;
@@ -952,11 +956,13 @@ namespace HalloDocWebServices.Implementation
             model.Businesswebsite = phy.Businesswebsite;
             model.Createdby = "Admin";
             model.Createddate = DateTime.Now;
+            model.Roleid = phy.roleid;
+            model.Regionid = phy.regionid;
             model.Isagreementdoc = phy.AgreementDoc != null ? new BitArray(1, true) : new BitArray(1, false);
             model.Isbackgrounddoc = phy.backgroundDoc != null ? new BitArray(1, true) : new BitArray(1, false);
             model.Istrainingdoc = phy.TrainingDoc != null ? new BitArray(1, true) : new BitArray(1, false);
             model.Isnondisclosuredoc = phy.NonDisclosure != null ? new BitArray(1, true) : new BitArray(1, false);
-            model.Photo = phy.Photo.FileName;
+            model.Photo = phy.Photo != null ? phy.Photo.FileName : null;
 
             _repository.addPhysician(model);
             Physicianlocation phylocation = new Physicianlocation();
@@ -967,6 +973,19 @@ namespace HalloDocWebServices.Implementation
             phylocation.Createddate = DateTime.Now;
             phylocation.Physicianname = "Dr" + " " + phy.Firstname;
             _repository.addPhysicianLocationTable(phylocation);
+            if(phy.SelectedReg.Count  > 0)
+            {
+                List<Physicianregion> phyreg = new List<Physicianregion>();
+                foreach (var item in phy.SelectedReg)
+                {
+                    Physicianregion physicianregion = new Physicianregion();
+                    physicianregion.Physicianid = model.Physicianid;
+                    physicianregion.Regionid = item;
+                    phyreg.Add(physicianregion);
+                }
+                _repository.addPhyRegionList(phyreg);
+            }
+      
             Physiciannotification phynoti = new Physiciannotification();
             phynoti.Pysicianid = model.Physicianid;
             phynoti.Isnotificationstopped = new BitArray(1, false);
@@ -1218,26 +1237,27 @@ namespace HalloDocWebServices.Implementation
         public void CreateAdminAccount(AdminProfile model, string email)
         {
             Aspnetuser aspnetuser = new Aspnetuser();
-            aspnetuser.Passwordhash = model.adminuser.Passwordhash;
-            aspnetuser.Usarname = model.admin.Lastname + model.admin.Firstname.ToCharArray().First();
+            aspnetuser.Passwordhash = model.Passwordhash;
+            aspnetuser.Usarname = model.Lastname + model.Firstname.ToCharArray().First();
             aspnetuser.Createddate = DateTime.Now;
             aspnetuser.Modifieddate = DateTime.Now;
-            aspnetuser.Email = model.admin.Email;
-            aspnetuser.Phonenumber = model.admin.Mobile;
+            aspnetuser.Email = model.Email;
+            aspnetuser.Phonenumber = model.Mobile;
+            aspnetuser.Role = 1;
             _repository.addAspnetuserTable(aspnetuser);
             Admin admin = new Admin();
             admin.Aspnetuserid = aspnetuser.Id;
-            admin.Address1 = model.admin.Address1;
-            admin.Address2 = model.admin.Address2;
+            admin.Address1 = model.Address1;
+            admin.Address2 = model.Address2;
             admin.Createddate = DateTime.Now;
-            admin.Altphone = model.admin.Altphone;
-            admin.Email = model.admin.Email;
-            admin.City = model.admin.City;
-            admin.Zip = model.admin.Zip;
+            admin.Altphone = model.Altphone;
+            admin.Email = model.Email;
+            admin.City = model.City;
+            admin.Zip = model.Zip;
             admin.Isdeleted = new BitArray(1, false);
-            admin.Firstname = model.admin.Firstname;
-            admin.Lastname = model.admin.Lastname;
-            admin.Mobile = model.admin.Mobile;
+            admin.Firstname = model.Firstname;
+            admin.Lastname = model.Lastname;
+            admin.Mobile = model.Mobile;
             admin.Regionid = model.regionid;
             admin.Roleid = model.roleid;
             admin.Createdby = email;
@@ -1667,7 +1687,7 @@ namespace HalloDocWebServices.Implementation
         public void CreateShift(SchedulingViewModel model)
         {
             var weekdays = "";
-            if (model.IsRepeat ==true)
+            if (model.IsRepeat == true)
             {
                 foreach (var i in model.daylist)
                 {
@@ -2107,6 +2127,213 @@ namespace HalloDocWebServices.Implementation
 
             aspnetuser.Modifieddate = DateTime.Now;
             _repository.updateAspnetUser(aspnetuser);
+        }
+
+        public List<Role> getRolesOfAdmin()
+        {
+            return _repository.getRolesOfAdmin();
+        }
+
+        public List<Role> getRolesOfProvider()
+        {
+            return _repository.getRolesOfProvider();
+        }
+
+        public AdminProviderModel getProviderRoles()
+        {
+            AdminProviderModel model = new AdminProviderModel
+            {
+                roles = _repository.getRolesOfProvider(),
+                regions = _repository.getRegions()
+            };
+            return model;
+        }
+
+        public System.IO.Stream GetExportData(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr)
+        {
+            model.Data = _repository.getRequestClientList();
+            model.ReqNotes = _repository.getREquestNotesList();
+            model.ReqType = _repository.getRequestTypeList();
+            model.phy = _repository.getPhysicianList();
+
+            if (!string.IsNullOrWhiteSpace(searchstr))
+            {
+                model.Data = model.Data.Where(x => x.Firstname.ToLower().Contains(searchstr.ToLower())).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(mobile))
+            {
+                model.blockRequests = model.blockRequests.Where(x => x.Phonenumber.ToLower().Contains(mobile.ToLower())).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                model.Data = model.Data.Where(x => x.Email.ToLower().Contains(email.ToLower())).ToList();
+            }
+            if (status != 0)
+            {
+
+                model.Data = model.Data.Where(x => x.Request.Status == status).ToList();
+
+            }
+            if (reqtype != 0)
+            {
+
+                model.Data = model.Data.Where(x => x.Request.Requesttypeid == reqtype).ToList();
+
+            }
+            if (fdate != DateTime.MinValue)
+            {
+
+                model.Data = model.Data.Where(x => x.Request.Createddate > fdate).OrderBy(x => x.Request.Createddate).ToList();
+
+            }
+
+            if (tdate != DateTime.MinValue)
+            {
+                model.Data = model.Data.Where(x => x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
+            }
+
+            if (tdate != DateTime.MinValue && tdate != DateTime.MinValue)
+            {
+                model.Data = model.Data.Where(x => x.Request.Createddate > fdate && x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
+            }
+
+
+            var workbook = new ClosedXML.Excel.XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Data");
+
+
+            worksheet.Cell(1, 1).Value = "Patient Name";
+            worksheet.Cell(1, 2).Value = "Requestor";
+            worksheet.Cell(1, 3).Value = "Date Of Service";
+            worksheet.Cell(1, 4).Value = "Close Case Date";
+            worksheet.Cell(1, 5).Value = "Email";
+            worksheet.Cell(1, 6).Value = "Phone Number";
+            worksheet.Cell(1, 7).Value = "Address";
+            worksheet.Cell(1, 8).Value = "Zip";
+            worksheet.Cell(1, 9).Value = "Request Status";
+            worksheet.Cell(1, 10).Value = "Physician Name";
+            worksheet.Cell(1, 11).Value = "Physician Note";
+            worksheet.Cell(1, 12).Value = "Admin Note";
+            worksheet.Cell(1, 13).Value = "Patient Note";
+
+
+
+            int row = 2;
+            foreach (var item in model.Data)
+            {
+
+                worksheet.Cell(row, 1).Value = item.Firstname != null && item.Lastname != null ? item.Firstname + " " + item.Lastname : "null";
+
+
+
+                if (item.Request.Requesttypeid != null)
+                {
+                    foreach (var a in model.ReqType)
+                    {
+                        if (item.Request.Requesttypeid == a.Requesttypeid)
+                        {
+
+                            worksheet.Cell(row, 2).Value = a.Name;
+
+                        }
+                    }
+                }
+                else
+                {
+                    worksheet.Cell(row, 2).Value = "Not Assigned";
+                }
+                worksheet.Cell(row, 3).Value = item.Request.Createddate != null && item.Request.Createddate != null ? item.Request.Createddate : "null";
+                worksheet.Cell(row, 4).Value = item.Request.Createddate != null && item.Request.Createddate != null ? item.Request.Createddate : "null";
+
+                worksheet.Cell(row, 5).Value = item.Email != null && item.Email != null ? item.Email : "null";
+                worksheet.Cell(row, 6).Value = item.Phonenumber != null && item.Phonenumber != null ? item.Phonenumber : "null";
+
+                worksheet.Cell(row, 7).Value = item.Street + "," + item.City + "," + item.State + "," + item.Zipcode;
+                worksheet.Cell(row, 8).Value = item.Zipcode != null ? item.Zipcode.ToString() : "null";
+
+                switch (@item.Request.Status)
+                {
+
+                    case 1:
+                        worksheet.Cell(row, 9).Value = "New";
+                        break;
+                    case 2:
+                        worksheet.Cell(row, 9).Value = "Pending";
+                        break;
+                    case 3 or 7 or 8:
+                        worksheet.Cell(row, 9).Value = "ToClose";
+                        break;
+                    case 4 or 5:
+                        worksheet.Cell(row, 9).Value = "Active";
+                        break;
+                    case 6:
+                        worksheet.Cell(row, 9).Value = "Conclude";
+                        break;
+                    case 9:
+                        worksheet.Cell(row, 9).Value = "Unpaid";
+                        break;
+                    case 10:
+                        worksheet.Cell(row, 9).Value = "Clear";
+                        break;
+                    case 11:
+                        worksheet.Cell(row, 9).Value = "Block";
+                        break;
+                }
+                if (item.Request.Physicianid != null)
+                {
+                    foreach (var a in model.phy)
+                    {
+                        if (item.Request.Physicianid == a.Physicianid)
+                        {
+
+                            worksheet.Cell(row, 10).Value = a.Firstname + " " + a.Lastname;
+
+                        }
+                    }
+                }
+                else
+                {
+                    worksheet.Cell(row, 2).Value = "Not Assigned";
+                }
+
+                if (model.ReqNotes.Any(x => x.Requestid == item.Request.Requestid))
+                {
+
+                    var notes = model.ReqNotes.FirstOrDefault(x => x.Requestid == item.Request.Requestid);
+                    if (notes.Physiciannotes != null)
+                    {
+                        worksheet.Cell(row, 11).Value = notes.Physiciannotes;
+                    }
+                    else
+                    {
+                        worksheet.Cell(row, 11).Value = "--";
+                    }
+
+                    if (@notes.Adminnotes != null)
+                    {
+                        worksheet.Cell(row, 12).Value = notes.Adminnotes;
+                    }
+                    else
+                    {
+                        worksheet.Cell(row, 12).Value = "--";
+                    }
+
+
+                }
+                else
+                {
+                    worksheet.Cell(row, 11).Value = "--";
+                    worksheet.Cell(row, 12).Value = "--";
+                }
+                worksheet.Cell(row, 13).Value = "--";
+                row++;
+            }
+            worksheet.Columns().AdjustToContents();
+
+            var memoryStream = new MemoryStream();
+            workbook.SaveAs(memoryStream);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return memoryStream;
         }
     }
 }

@@ -376,6 +376,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.102.2, )"
+            },
             "EPPlus": {
               "target": "Package",
               "version": "[6.1.1, )"

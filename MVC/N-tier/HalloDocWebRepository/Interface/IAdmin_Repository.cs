@@ -118,5 +118,7 @@ namespace HalloDocWebRepo.Interface
         void addPhysicianLocationTable(Physicianlocation phylocation);
         void AddPhysicianNotificationTable(Physiciannotification phynoti);
         void addEncounterTable(EncounterForm model);
+        List<Role> getRolesOfProvider();
+        void addPhyRegionList(List<Physicianregion> phyreg);
     }
 }

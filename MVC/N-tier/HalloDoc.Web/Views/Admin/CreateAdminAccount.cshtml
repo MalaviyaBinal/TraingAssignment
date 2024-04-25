@@ -29,8 +29,9 @@
                             <label for="exampleFormControlInput1" class="form-label ps-4">User Name</label>
                         </div>
                         <div class="col-sm-12 col-md-4 col-xl-4 form-floating mb-3 text-muted">
-                            <input asp-for=adminuser.Passwordhash type="text" class="form-control" placeholder="Lastname">
+                            <input asp-for=Passwordhash type="text" class="form-control needs-validation" placeholder="Lastname">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Password </label>
+                            <span asp-validation-for="Passwordhash" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-4 col-xl-4">
                             <div class="mb-3 border border-light rounded-5">
@@ -43,6 +44,7 @@
                                         </option>
                                     }
                                 </select>
+                                <span asp-validation-for="roleid" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -51,25 +53,28 @@
                             Administrator Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=admin.Firstname type="text" class="form-control" id="adminFirstName" onchange="setUsername()" placeholder="Firstname">
+                            <input asp-for=Firstname type="text" class="form-control needs-validation" id="adminFirstName " onchange="setUsername()" placeholder="Firstname">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Firstname</label>
-                            <span class="text-danger"></span>
+                            <span asp-validation-for=Firstname class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=admin.Lastname type="text" class="form-control" id="adminLastname" onchange="setUsername()" placeholder="Lastname">
+                            <input asp-for=Lastname type="text" class="form-control needs-validation" id="adminLastname" onchange="setUsername()" placeholder="Lastname">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Lastname</label>
-                            <span class="text-danger"></span>
+                            <span asp-validation-for=Lastname class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=admin.Email type="email" class="form-control" id="email" placeholder="Email">
+                            <input asp-for=Email type="email" class="form-control" id="email" placeholder="Email">
                             <label for="email" class="form-label ps-4">Email</label>
+                            <span asp-validation-for=Email class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Confirm Email">
+                            <input type="email" asp-for=Con_Email class="form-control" id="exampleFormControlInput1" placeholder="Confirm Email">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Confirm Email</label>
+                            <span asp-validation-for=Con_Email class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=admin.Mobile id="phone" class="form-control inp2" type="tel" placeholder="Phone Number">
+                            <input asp-for=Mobile id="phone" class="form-control inp2" type="tel" placeholder="Phone Number">
+                            <span asp-validation-for=Mobile class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 mb-3 text-muted">
                             @if (Model.regions != null)
@@ -88,16 +93,19 @@
                             Mailing & Billing Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=admin.Address1 type="text" class="form-control" id="Address-1" placeholder="Address 1">
+                            <input asp-for=Address1 type="text" class="form-control" id="Address-1" placeholder="Address 1">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Address 1</label>
+                            <span asp-validation-for=Address1 class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=admin.Address2 type="text" class="form-control" id="Address-2" placeholder="Address 2">
+                            <input asp-for=Address2 type="text" class="form-control" id="Address-2" placeholder="Address 2">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Address 2</label>
+                            <span asp-validation-for=Address2 class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input asp-for=admin.City type="text" class="form-control" id="city" placeholder="City">
+                            <input asp-for=City type="text" class="form-control" id="city" placeholder="City">
                             <label for="exampleFormControlInput1" class="form-label ps-4">City</label>
+                            <span asp-validation-for=City class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
                             <select class="form-select text-muted p-3 pla1" asp-for=regionid id="SearchByRegion">
@@ -107,13 +115,15 @@
                                     <option value="@i.Regionid">@i.Name</option>
                                 }
                             </select>
+                            <span asp-validation-for=regionid class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input asp-for=admin.Zip type="text" class="form-control" id="zipcode" placeholder="Zip Code">
+                            <input asp-for=Zip type="text" class="form-control" id="zipcode" placeholder="Zip Code">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Zip Code</label>
+                            <span asp-validation-for=Zip class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=admin.Altphone id="phone1" class="form-control inp2" type="tel" placeholder="Phone Number">
+                            <input asp-for=Altphone id="phone1" class="form-control inp2" type="tel" placeholder="Alternate Phone Number">
                         </div>
                     </div>
                     <div class="text-end pb-3">
@@ -132,6 +142,25 @@
         document.getElementById("adminUsername").value = lname + fname.charAt(0);
 
     }
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
 //    document.getElementById("access1").classList.add("active");
 </script>
 <script>

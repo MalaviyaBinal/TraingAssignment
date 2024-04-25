@@ -1,4 +1,5 @@
-﻿using HalloDocWebEntity.Data;
+﻿using ClosedXML.Excel;
+using HalloDocWebEntity.Data;
 using HalloDocWebEntity.ViewModel;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -107,5 +108,9 @@ namespace HalloDocWebServices.Interfaces
         SendOrderModel getVenderData();
         int getRequestTypeByRequestID(int id);
         void saveAdminPassword(AdminProfile info);
+        List<Role> getRolesOfAdmin();
+        List<Role> getRolesOfProvider();
+        AdminProviderModel getProviderRoles();
+        Stream GetExportData(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr );
     }
 }

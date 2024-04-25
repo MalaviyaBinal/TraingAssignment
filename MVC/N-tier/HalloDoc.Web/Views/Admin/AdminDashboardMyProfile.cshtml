@@ -2,7 +2,8 @@
 @{
     Layout = "_AdminHeader";
 }
-
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <style>
     .iti {
         width: 100%;
@@ -49,6 +50,8 @@
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input value="@Model.adminuser.Usarname" name="first_name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Firstname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ps-4">User Name</label>
+
+
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input name="Passwordhash" name="last_name" type="text" class="form-control"  id="password" placeholder="Lastname" disabled>

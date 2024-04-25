@@ -47,11 +47,25 @@ namespace HalloDoc.Web.Controllers
         #region Provider
         public IActionResult CreateProviderAdmin()
         {
-            return View();
+            return View(_service.getProviderRoles());
         }
         [HttpPost]
         public IActionResult CreateProviderAdmin(AdminProviderModel model)
         {
+            if (!ModelState.IsValid || model.roleid == 0 || model.regionid == 0)
+            {
+                if (model.roleid == 0)
+                {
+                    ModelState.AddModelError("roleid", "Select role..");
+                }
+                if (model.regionid == 0)
+                {
+                    ModelState.AddModelError("regionid", "Select State..");
+                }
+                model.roles = _service.getRolesOfProvider();
+                model.regions = _service.getRegionList();
+                return View(model);
+            }
             _service.addProviderByAdmin(model);
             return RedirectToAction(nameof(AdminDashboard));
 
@@ -159,7 +173,7 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult _SearchRecordsTable(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr , int pagenumber)
         {
-            _service.SendSms("+918320056504", "sample message");
+            //_service.SendSms("+918320056504", "sample message");
             model = _service.getSearchRecordData(model);
             if (!string.IsNullOrWhiteSpace(searchstr))
             {
@@ -675,6 +689,20 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult CreateAdminAccount(AdminProfile model)
         {
+            if (!ModelState.IsValid || model.roleid == 0 || model.regionid == 0)
+            {
+                if(model.roleid == 0)
+                {
+                    ModelState.AddModelError("roleid", "Select role..");
+                }
+                if(model.regionid == 0)
+                {
+                    ModelState.AddModelError("regionid", "Select State..");
+                }
+                model.roles = _service.getRolesOfAdmin();
+                model.regions = _service.getRegionList();
+                return View(model);
+            }
             _service.CreateAdminAccount(model, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(AdminDashboard));
         }
@@ -862,6 +890,22 @@ namespace HalloDoc.Web.Controllers
         {
             _service.AddVendor(model);
             return RedirectToAction(nameof(AdminDashboardPartners));
+        }
+        public IActionResult ExportRecords(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr)
+        {
+            try
+            {
+               
+                var memoryStream = _service.GetExportData(model, status, mobile, email, pname, tdate, fdate, reqtype, searchstr);
+               
+                return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "data.xlsx");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
     }
 }

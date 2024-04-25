@@ -1,4 +1,4 @@
-﻿@model  HalloDocWebEntity.ViewModel.AdminProviderModel
+﻿@model HalloDocWebEntity.ViewModel.AdminProviderModel
 @{
     Layout = "_AdminHeader";
 }
@@ -53,58 +53,82 @@
             <div class="container rounded bg-white shadow py-3">
 
                 <form enctype="multipart/form-data" id="enable" method="post" asp-action="CreateProviderAdmin" asp-controller="Admin">
-
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 col-xl-4 form-floating mb-3 text-muted">
+                            <input type="text" class="form-control" id="providerUsername" disabled>
+                            <label for="exampleFormControlInput1" class="form-label ps-4">User Name</label>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-4 form-floating mb-3 text-muted">
+                            <input asp-for=Passwordhash type="text" class="form-control">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Password </label>
+                            <span asp-validation-for="Passwordhash" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-4">
+                            <div class="mb-3 border border-light rounded-5">
+                                <select class="form-select text-muted p-3 pla1" asp-for=roleid aria-label=" form-select-lg example">
+                                    <option selected value="0">Role</option>
+                                    @foreach (var item in Model.roles)
+                                    {
+                                        <option value="@item.Roleid">
+                                            @item.Name
+                                        </option>
+                                    }
+                                </select>
+                                <span asp-validation-for="roleid" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Physician Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Firstname type="text" class="form-control dclass" id="exampleFormControlInput1" placeholder="Firstname">
-                            <label for="exampleFormControlInput1" class="form-label ms-2">Firstname</label>
-                            <span class="text-danger"></span>
+                            <input asp-for=Firstname type="text" class="form-control" id="providerFirstName" onchange="setUsername()" placeholder="Firstname">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Firstname</label>
+                            <span asp-validation-for=Firstname class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Lastname  type="text" class="form-control dclass" id="exampleFormControlInput1" placeholder="Lastname">
-                            <label for="exampleFormControlInput1" class="form-label ms-2">Lastname</label>
-                            <span class="text-danger"></span>
+                            <input asp-for=Lastname type="text" class="form-control" id="providerLastname" onchange="setUsername()" placeholder="Lastname">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Lastname</label>
+                            <span asp-validation-for=Lastname class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Email type="email" class="form-control dclass" id="email" placeholder="Email">
-                            <label for="email" class="form-label ms-2">Email</label>
+                            <input asp-for=Email type="text" class="form-control" id="email" placeholder="Email">
+                            <label for="email" class="form-label ps-4">Email</label>
+                            <span asp-validation-for=Email class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Mobile id="phone" class="form-control inp2 dclass" type="tel" placeholder="Phone Number">
+                            <input asp-for=Mobile id="phone" class="form-control inp2" type="tel" placeholder="Phone Number">
+                            <span asp-validation-for=Mobile class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Medicallicense type="text" class="form-control dclass" id="exampleFormControlInput1" placeholder="Lastname">
                             <label for="exampleFormControlInput1" class="form-label ms-2">Medical Licence</label>
+                            <span asp-validation-for=Medicallicense class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Npinumber type="text" class="form-control dclass" id="exampleFormControlInput1" placeholder="NPI Number">
                             <label for="exampleFormControlInput1" class="form-label ms-2">NPI Number</label>
+                            <span asp-validation-for=Npinumber class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Syncemailaddress type="email" class="form-control dclass" id="exampleFormControlInput1" placeholder="Synchronization Email Address">
+                            <input asp-for=Syncemailaddress type="text" class="form-control dclass" id="exampleFormControlInput1" placeholder="Synchronization Email Address">
                             <label for="exampleFormControlInput1" class="form-label ms-2">Synchronization Email Address</label>
+                            <span asp-validation-for=Syncemailaddress class="text-danger"></span>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-xl-6">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dclass" type="checkbox" id="inlineCheckbox1" value="option1">
-                                <label class="form-check-label" for="inlineCheckbox1">District Of Columbia</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dclass" type="checkbox" id="inlineCheckbox2" value="option2">
-                                <label class="form-check-label" for="inlineCheckbox2">New York</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dclass" type="checkbox" id="inlineCheckbox3" value="option3">
-                                <label class="form-check-label" for="inlineCheckbox3">Virginia</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dclass" type="checkbox" id="inlineCheckbox4" value="option4">
-                                <label class="form-check-label" for="inlineCheckbox4">Maryland</label>
-                            </div>
-                        </div> 
+                        <div class="col-sm-12 col-md-6 col-xl-6 mb-3 text-muted">
+                            @if (Model.regions != null)
+                            {
+                                @foreach (var item in Model.regions)
+                                {
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkboxes" type="checkbox" name="SelectedReg" value="@item.Regionid">
+                                        <span class="form-check-label text6" for="inlineCheckbox1">@item.Name</span>
+                                    </div>
+                                }
+                            }
+                        </div>
                     </div>
 
 
@@ -113,27 +137,38 @@
                             Mailing & Billing Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Address1 type="text" class="form-control d1class" id="Address1" placeholder="Address 1">
-                            <label for="exampleFormControlInput1" class="form-label ms-2">Address1</label>
+                            <input asp-for=Address1 type="text" class="form-control" id="Address1" placeholder="Address 1">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Address 1</label>
+                            <span asp-validation-for=Address1 class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Address2 type="text" class="form-control d1class" id="Address2" placeholder="Address 2">
-                            <label for="exampleFormControlInput1" class="form-label ms-2">Address2</label>
+                            <input asp-for=Address2 type="text" class="form-control" id="Address2" placeholder="Address 2">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Address 2</label>
+                            <span asp-validation-for=Address2 class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input asp-for=City type="text" class="form-control d1class" id="city" placeholder="City">
-                            <label for="exampleFormControlInput1" class="form-label ms-2">City</label>
+                            <input asp-for=City type="text" class="form-control" id="city" placeholder="City">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">City</label>
+                            <span asp-validation-for=City class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input  type="text" class="form-control d1class" id="state" placeholder="State">
-                            <label for="exampleFormControlInput1" class="form-label ms-2">State</label>
+                            <select class="form-select text-muted p-3 pla1" asp-for=regionid id="SearchByRegion">
+                                <option selected value="0">State</option>
+                                @foreach (var i in Model.regions)
+                                {
+                                    <option value="@i.Regionid">@i.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for=regionid class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input asp-for=Zip type="text" class="form-control d1class" id="zipcode" placeholder="Zip Code" onchange="getCoordinates()">
-                            <label for="exampleFormControlInput1" class="form-label ms-2">Zip Code</label>
+                            <input asp-for=Zip type="text" class="form-control" id="zipcode" placeholder="Zip Code" onchange="getCoordinates()">
+                            <label for="exampleFormControlInput1" class="form-label ps-4">Zip Code</label>
+                            <span asp-validation-for=Zip class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=Altphone id="phone1" class="form-control inp2 d1class" type="tel" placeholder="Phone Number">
+                            <input asp-for=Altphone id="phone1" class="form-control inp2" type="tel" placeholder="Alternate Phone Number">
+                            <span asp-validation-for=Altphone class="text-danger"></span>
                         </div>
                         <input type="hidden" asp-for="lat" id="lat">
                         <input type="hidden" asp-for="log" id="long">
@@ -146,43 +181,31 @@
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Businessname type="text" class="form-control d2class" id="Address-1" placeholder="Business Name">
                             <label for="exampleFormControlInput1" class="form-label ms-2">Business Name</label>
+                            <span asp-validation-for=Businessname class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Businesswebsite type="text" class="form-control d2class" id="Address-2" placeholder="Business Website">
                             <label for="exampleFormControlInput1" class="form-label ms-2">Business Website</label>
+                            <span asp-validation-for=Businesswebsite class="text-danger"></span>
                         </div>
-                        <fieldset id="upload" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                            <div class="input-group mb-3 ">
-                                <input type="file" class="form-control d2class" id="inputGroupFile02" asp-for="Photo">
-                                <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                    <label class="btn btn-info text-white mx-0">
-                                        <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                        Upload
-                                    </label>
+                        <div class=" col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <label for="photoname">Upload your Profile Photo</label>
+                            <p id="photoname">
+                                <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                    <i class="fa-solid fa-cloud-arrow-up"
+                                       style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                </span>
+                                <input type="File" class="form-control input-placeholder border-0 d2class " asp-for="Photo"
+                                       placeholder="Select Photo" >
 
-                                </label>
-                            </div>
-                        </fieldset>
-                        <fieldset id="upload1" class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                            <div class="input-group mb-3 ">
-                                <input type="file" class="form-control d2class" id="inputGroupFile02">
-                                <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                    <label class="btn btn-info text-white mx-0">
-                                        <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                        Upload
-                                    </label>
 
-                                </label>
-                            </div>
-                        </fieldset>
-                        <div class="col-2 mb-3">
-                            <button class="btn btn-info text-white">
-                                <i class="fa-solid fa-pen" style="color: #ffffff;"></i>
-                                <span>Create</span>
-                            </button>
+
+                            </p>
+
                         </div>
+                        
                         <div class="form-floating mb-3">
-                            <textarea  asp-for=Adminnotes class="form-control d2class" placeholder="Admin Notes" id="floatingTextarea2" style="height: 100px"></textarea>
+                            <textarea asp-for=Adminnotes class="form-control d2class" placeholder="Admin Notes" id="floatingTextarea2" style="height: 100px"></textarea>
                             <label for="floatingTextarea2" class="ms-2">Admin Notes</label>
                         </div>
                     </div>
@@ -193,110 +216,120 @@
                         <div class="col-12 h5 mb-3">
                             Onboarding
                         </div>
-                        <div class="form-check mb-3 col-6 mb-3">
-                            <input class="form-check-input" type="checkbox" value="" id="1" >
-                            <label class="form-check-label" for="1">
-                                Independent Contractor Agreement
-                            </label>
-                            <fieldset id="upload" class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                                <div class="input-group mb-3 ">
-                                    <input type="file" class="form-control d2class" id="inputGroupFile02" asp-for="AgreementDoc">
-                                    <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                        <label class="btn btn-info text-white mx-0">
-                                            <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                            Upload
-                                        </label>
-
-                                    </label>
-                                </div>
-                            </fieldset>
-                        </div>
-                     @*   <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                            <button class="btn btn-info text-white" type="button">Upload</button>
-                            <button class="btn btn-info text-white" type="button">View</button>
-                        </div>*@
-                        <div class="form-check mb-3 col-6 mb-3">
-                            <input class="form-check-input" type="checkbox" value="" id="2"  >
-                            <label class="form-check-label" for="2">
-                                Background Check
-                            </label>
-                            <fieldset id="upload" class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                                <div class="input-group mb-3 ">
-                                    <input type="file" class="form-control d2class" id="inputGroupFile02" asp-for="backgroundDoc">
-                                    <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                        <label class="btn btn-info text-white mx-0">
-                                            <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                            Upload
-                                        </label>
-
-                                    </label>
-                                </div>
-                            </fieldset>
-                        </div>
-                      @*  <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                            <button class="btn btn-info text-white" type="button">Upload</button>
-                            <button class="btn btn-info text-white" type="button">View</button>
-                        </div>*@
-                        <div class="form-check mb-3 col-6 mb-3">
-                            <input class="form-check-input" type="checkbox" value="" id="3"  >
-                            <label class="form-check-label" for="3">
-                                HIPAA Compilance
-                            </label>
-                            <fieldset id="upload" class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                                <div class="input-group mb-3 ">
-                                    <input type="file" class="form-control d2class" id="inputGroupFile02" asp-for="TrainingDoc">
-                                    <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                        <label class="btn btn-info text-white mx-0">
-                                            <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                            Upload
-                                        </label>
-
-                                    </label>
-                                </div>
-                            </fieldset>
-                        </div>
-              @*          <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                            <button class="btn btn-info text-white" type="button">Upload</button>
-                            <button class="btn btn-info text-white" type="button">View</button>
-                        </div>*@
-                        <div class="form-check mb-3 col-6 mb-3">
-                            <input class="form-check-input" type="checkbox" value="" id="4">
-                            <label class="form-check-label" for="4">
-                                Non-Disclosure Agreement
-                            </label>
-                            <fieldset id="upload" class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                                <div class="input-group mb-3 ">
-                                    <input type="file" class="form-control d2class" id="inputGroupFile02" asp-for="NonDisclosure">
-                                    <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                        <label class="btn btn-info text-white mx-0">
-                                            <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                            Upload
-                                        </label>
-
-                                    </label>
-                                </div>
-                            </fieldset>
-                        </div>
-                      @*  <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                            <button class="btn btn-info text-white" type="button">Upload</button>
-                            <button class="btn btn-info text-white" type="button">View</button>
-                        </div>*@
-      
-                       @* <div class="d-grid gap-2 d-md-block col-6 mb-3">
-                            <button class="btn btn-info text-white" type="button">Upload</button>
-                            <button class="btn btn-info text-white" type="button">View</button>
-                        </div>*@
                     </div>
-                    <hr />
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-info text-white me-md-2" type="submit">Submit</button>
+                    <div class="row p-3">
+                        <div class="form-check mb-3 col-6 mb-3">
+                            <div class="form-check mb-3 col-sm-12 pt-4 col-md-6 col-lg-6 mb-3">
+                                <input class="form-check-input" type="checkbox" value="" id="1">
+                                <span class="form-check-label" for="1">
+                                    Independent Contractor Agreement
+                                </span>
 
+                            </div>
+                        </div>
+                            <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <p>
+                                    <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                        <i class="fa-solid fa-cloud-arrow-up"
+                                           style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                    </span>
+                                    <input type="File" class="form-control input-placeholder border-0  " asp-for=AgreementDoc id="fileToUpload"
+                                           placeholder="Select File">
+                                </p>
+                            </div>
+                        
                     </div>
-                </form>
+                    <div class="row p-3">
+                        <div class="form-check mb-3 col-6 mb-3">
+                            <div class="form-check mb-3 col-sm-12 pt-4 col-md-6 col-lg-6 mb-3">
+                                <input class="form-check-input" type="checkbox" value="" id="2">
+                                <span class="form-check-label" for="2">
+                                    Background Check
+                                </span>
+
+                            </div>
+                        </div>
+                            <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <p>
+                                    <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                        <i class="fa-solid fa-cloud-arrow-up"
+                                           style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                    </span>
+                                <input type="File" class="form-control input-placeholder  border-0  " asp-for=backgroundDoc id="fileToUpload"
+                                       placeholder="Select File" >
+                                </p>
+                            </div>
+                        
+                    </div>
+                    <div class="row p-3">
+                        <div class="form-check mb-3 col-6 mb-3">
+                            <div class="form-check mb-3 col-sm-12 pt-4 col-md-6 col-lg-6 mb-3">
+                                <input class="form-check-input" type="checkbox" value="" id="2">
+                                <span class="form-check-label" for="2">
+                                    HIPAA Compilance
+                                </span>
+
+                            </div>
+                        </div>
+                            <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <p>
+                                    <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                        <i class="fa-solid fa-cloud-arrow-up"
+                                           style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                    </span>
+                                <input type="File" class="form-control input-placeholder border-0  " asp-for=TrainingDoc id="fileToUpload"
+                                           placeholder="Select File">
+                                </p>
+                            </div>
+                        
+                    </div>
+                   <div class="row p-3">
+                        <div class="form-check mb-3 col-6 mb-3">
+                            <div class="form-check mb-3 col-sm-12 pt-4 col-md-6 col-lg-6 mb-3">
+                                <input class="form-check-input" type="checkbox" value="" id="2">
+                                <span class="form-check-label" for="2">
+                                    Non-Disclosure Agreement
+                                </span>
+
+                            </div>
+                        </div>
+                            <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <p>
+                                    <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
+                                        <i class="fa-solid fa-cloud-arrow-up"
+                                           style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
+                                    </span>
+                                <input type="File" class="form-control input-placeholder border-0  " asp-for=NonDisclosure id="fileToUpload"
+                                           placeholder="Select File">
+                                </p>
+                            </div>
+                        
+                    </div>
+                 
+          
+            <hr />
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-info text-white me-md-2" type="submit">Submit</button>
+
             </div>
+            </form>
         </div>
     </div>
 </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    function setUsername() {
+        var fname = document.getElementById("providerFirstName").value;
+        var lname = document.getElementById("providerLastname").value;
+        document.getElementById("providerUsername").value = "MD."+lname +"."+ fname.charAt(0);
+
+    }
+</script>
 
 <script>
     document.getElementById("provider1").classList.add("active");

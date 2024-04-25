@@ -2188,6 +2188,7 @@
       },
       "HalloDocWebService/1.0.0": {
         "dependencies": {
+          "ClosedXML": "0.102.2",
           "EPPlus": "6.1.1",
           "GoogleMaps.LocationServices": "1.2.0.5",
           "HalloDocWebEntity": "1.0.0",

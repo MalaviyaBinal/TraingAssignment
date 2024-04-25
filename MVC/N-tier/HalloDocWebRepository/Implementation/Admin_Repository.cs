@@ -549,6 +549,10 @@ namespace HalloDocWebRepo.Implementation
         }
         public List<Role> getRolesOfAdmin()
         {
+            return _context.Roles.Where(m => m.Accounttype == 1).ToList();
+        }
+        public List<Role> getRolesOfProvider()
+        {
             return _context.Roles.Where(m => m.Accounttype == 2).ToList();
         }
         //public List<Aspnetuser> getaspnetuserdataofadminandprovider()
@@ -1011,6 +1015,12 @@ namespace HalloDocWebRepo.Implementation
         public void AddPhysicianNotificationTable(Physiciannotification phynoti)
         {
             _context.Physiciannotifications.Add(phynoti);
+            _context.SaveChanges();
+        }
+
+        public void addPhyRegionList(List<Physicianregion> phyreg)
+        {
+            _context.Physicianregions.AddRange(phyreg);
             _context.SaveChanges();
         }
     }
