@@ -22,8 +22,9 @@
                             Submit Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=@Model.businessDetail.Vendorname id="businessContact" type="text" class="form-control" placeholder="Business Name">
+                            <input asp-for=Vendorname id="businessContact" type="text" class="form-control" placeholder="Business Name">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Business Name</label>
+                            <span asp-validation-for="Vendorname" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <select class="form-select" id="ProfessionSelect" asp-for=@Model.SelectedProfession>
@@ -34,46 +35,51 @@
                                 }
                             </select>
                             <label for="ProfessionSelect" class="form-label ps-4">Select Profession</label>
-                            @* <select class="form-select">
-                                <option selected>Profession</option>
-                            </select>
-                            <label for="floatingSelect" class="form-label ps-4">Select Profession</label> *@
+                            <span asp-validation-for="SelectedProfession" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=@Model.businessDetail.Faxnumber type="text" class="form-control" id="faxNumber" placeholder="Fax Number">
+                            <input asp-for=FaxNumber type="text" class="form-control" id="faxNumber" placeholder="Fax Number">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Fax Number</label>
+                            <span asp-validation-for="FaxNumber" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 form-floating mb-3 text-muted ">
-                            <input asp-for=@Model.businessDetail.Phonenumber type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" style="height:58px" aria-label=".form-control-lg example">
+                            <input asp-for=Phonenumber type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" style="height:58px" aria-label=".form-control-lg example">
                             <label for="phone" class="form-label ps-4">Enter Phone Number</label>
+                            <span asp-validation-for="Phonenumber" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=@Model.businessDetail.Email type="email" class="form-control" id="email" placeholder="Email">
+                            <input asp-for=email type="email" class="form-control" id="email" placeholder="Email">
                             <label for="email" class="form-label ps-4">Email</label>
+                            <span asp-validation-for="email" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for=@Model.businessDetail.Businesscontact id="businessContact" type="text" class="form-control" placeholder="Business contact">
+                            <input asp-for=businesscontact id="businessContact" type="text" class="form-control" placeholder="Business contact">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Business contact</label>
+                            <span asp-validation-for="businesscontact" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-lg-6 form-floating col-md-6 mb-3 text-muted">
-                            <input asp-for="@Model.businessDetail.Address" id="street" type="text" class="form-control" placeholder="Business contact">
+                            <input asp-for="Address" id="street" type="text" class="form-control" placeholder="Business contact">
                             <label for="exampleFormControlInput1" class="form-label ps-4">
                                 Street
                             </label>
+                            <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-lg-6 form-floating col-md-6 mb-3 text-muted">
-                            <input asp-for=@Model.businessDetail.City id="city" type="text" class="form-control" placeholder="Business contact">
+                            <input asp-for=City id="city" type="text" class="form-control" placeholder="Business contact">
                             <label for="exampleFormControlInput1" class="form-label ps-4">
                                 City
                             </label>
+                            <span asp-validation-for="City" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 form-floating mb-3 text-muted">
-                            <input asp-for=@Model.businessDetail.State id="state" type="text" class="form-control" placeholder="Business contact">
+                            <input asp-for=State id="state" type="text" class="form-control" placeholder="Business contact">
                             <label for="state" class="form-label ps-4">State</label>
+                            <span asp-validation-for="State" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 form-floating mb-3 text-muted">
-                            <input asp-for=@Model.businessDetail.Zip class="form-control" id="zip" type="text" placeholder="Zip/Postal" />
+                            <input asp-for=Zip class="form-control" id="zip" type="text" placeholder="Zip/Postal" />
                             <label for="zip" class="form-label ps-4">Zip/Postal</label>
+                            <span asp-validation-for="Zip" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="text-end pb-3">
@@ -87,4 +93,10 @@
 </div>
 <script>
     document.getElementById("partners").classList.add("active");
+
 </script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

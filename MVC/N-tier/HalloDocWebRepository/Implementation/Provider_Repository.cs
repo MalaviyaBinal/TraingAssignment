@@ -81,22 +81,24 @@ namespace HalloDocWebRepo.Implementation
             {
                 model.Add(new AdminDashboardTableModel
                 {
-                    Name = item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname,
-                    Requestor = item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname,
-                    physician = item.Physicianid,
-                    Dateofservice = item.Lastreservationdate,
-                    Requesteddate = item.Createddate,
-                    Phonenumber = item.Requestclients.FirstOrDefault().Phonenumber,
-                    Email = item.Email,
+                    Name = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname : "---",
+                    Requestor = item.Requesttype.Name != null ? item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname : "---",
+                    physician = item.Physician != null ? item.Physician.Firstname + "  " + item.Physician.Lastname : "---",
+                    Dateofservice = item.Lastreservationdate != null ? item.Lastreservationdate : null,
+                    DOB = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Intdate.ToString() + "/" + item.Requestclients.FirstOrDefault().Strmonth + "/" + item.Requestclients.First().Intyear.ToString() : "---",
+                    Requesteddate = item.Createddate != null ? item.Createddate : null,
+                    Phonenumber = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Phonenumber : "---",
+                    Email = item.Email != null ? item.Email : null,
                     Address = item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().City + " , " + item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().Zipcode,
-                    Requestid = item.Requestid,
-                    Notes = item.Requestclients.FirstOrDefault().Notes,
+                    Requestid = item.Requestid != null ? item.Requestid : null,
+                    Notes = item.Requestnotes.Count != 0 ? "Admin note:" + item.Requestnotes.FirstOrDefault().Adminnotes != null ? item.Requestnotes.FirstOrDefault().Adminnotes : "---" + "\nPhysician notes:" + item.Requestnotes.FirstOrDefault().Physiciannotes != null ? item.Requestnotes.FirstOrDefault().Physiciannotes : "---" : "--",
+
                     RequestTypeId = item.Requesttypeid,
                     RegionID = item.Requestclients.FirstOrDefault().Regionid,
-                    RequestTypeName = item.Requesttype.Name,
-                    RequestorPhonenumber = item.Phonenumber,
+                    RequestTypeName = item.Requesttype != null ? item.Requesttype.Name : null,
+                    RequestorPhonenumber = item.Phonenumber != null ? item.Phonenumber : null,
                     Status = item.Status,
-                    IsFinalize = item.Completedbyphysician
+                    IsFinalize = item.Completedbyphysician != null ? item.Completedbyphysician : new BitArray(1, false)
                 });
             });
             return model;
@@ -127,22 +129,24 @@ namespace HalloDocWebRepo.Implementation
             {
                 model.Add(new AdminDashboardTableModel
                 {
-                    Name = item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname,
-                    Requestor = item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname,
-                    physician = item.Physicianid,
-                    Dateofservice = item.Lastreservationdate,
-                    Requesteddate = item.Createddate,
-                    Phonenumber = item.Requestclients.FirstOrDefault().Phonenumber,
-                    Email = item.Email,
+                    Name = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname : "---",
+                    Requestor = item.Requesttype.Name != null ? item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname : "---",
+                    physician = item.Physician != null ? item.Physician.Firstname + "  " + item.Physician.Lastname : "---",
+                    Dateofservice = item.Lastreservationdate != null ? item.Lastreservationdate : null,
+                    DOB = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Intdate.ToString() + "/" + item.Requestclients.FirstOrDefault().Strmonth + "/" + item.Requestclients.First().Intyear.ToString() : "---",
+                    Requesteddate = item.Createddate != null ? item.Createddate : null,
+                    Phonenumber = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Phonenumber : "---",
+                    Email = item.Email != null ? item.Email : null,
                     Address = item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().City + " , " + item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().Zipcode,
-                    Requestid = item.Requestid,
-                    Notes = item.Requestclients.FirstOrDefault().Notes,
+                    Requestid = item.Requestid != null ? item.Requestid : null,
+                    Notes = item.Requestnotes.Count != 0 ? "Admin note:" + item.Requestnotes.FirstOrDefault().Adminnotes != null ? item.Requestnotes.FirstOrDefault().Adminnotes : "---" + "\nPhysician notes:" + item.Requestnotes.FirstOrDefault().Physiciannotes != null ? item.Requestnotes.FirstOrDefault().Physiciannotes : "---" : "--",
+
                     RequestTypeId = item.Requesttypeid,
                     RegionID = item.Requestclients.FirstOrDefault().Regionid,
-                    RequestTypeName = item.Requesttype.Name,
-                    RequestorPhonenumber = item.Phonenumber,
+                    RequestTypeName = item.Requesttype != null ? item.Requesttype.Name : null,
+                    RequestorPhonenumber = item.Phonenumber != null ? item.Phonenumber : null,
                     Status = item.Status,
-                    IsFinalize = item.Completedbyphysician
+                    IsFinalize = item.Completedbyphysician != null ? item.Completedbyphysician : new BitArray(1, false)
                 });
             });
             return model;

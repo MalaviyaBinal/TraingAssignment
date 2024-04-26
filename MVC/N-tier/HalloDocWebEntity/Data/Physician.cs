@@ -146,5 +146,8 @@ public partial class Physician
     public virtual Region? Region { get; set; }
 
     [InverseProperty("Physician")]
+    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
+
+    [InverseProperty("Physician")]
     public virtual ICollection<Shift> Shifts { get; set; } = new List<Shift>();
 }

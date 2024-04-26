@@ -120,5 +120,6 @@ namespace HalloDocWebRepo.Interface
         void addEncounterTable(EncounterForm model);
         List<Role> getRolesOfProvider();
         void addPhyRegionList(List<Physicianregion> phyreg);
+        Dictionary<int, int> CountOfOpenRequest(List<Aspnetuser> aspnetuser);
     }
 }

@@ -49,15 +49,14 @@
 </div>
 
 <div id="modalpopup">
-
 </div>
 
-         
+
 <table id="adminTable" class="table table-responsive caption-top mt-4 hideOnMobile">
     <thead>
         <tr class="text-muted">
             <th scope="col">Name</th>
-            @*<th scope="col">Date Of Birth</th>*@
+            <th scope="col">Date Of Birth</th>
             <th scope="col">Requestor</th>
             <th scope="col">Physician Name</th>
             <th scope="col">Date of Service</th>
@@ -71,10 +70,10 @@
     <tbody>
         @foreach (var item in Model.tabledata)
         {
-            string str="";
+            string str = "";
             @if (item.RequestTypeId == 1)
             {
-                str = "background-color: #DF657A;color : white; ";
+                str = "background-color: #DF657A;color : red; ";
 
             }
             @if (item.RequestTypeId == 2)
@@ -90,18 +89,18 @@
                 str = "background-color: #007FC6;color : white; ";
             }
             <tr style="@str ">
-            
+
                 <td>
                     @item.Name
                 </td>
 
-                @*<td >
-            @item.Strmonth
-            </td>*@
                 <td>
-                     @item.Requestor
+                    @item.DOB
                 </td>
-               
+                <td>
+                    @item.Requestor
+                </td>
+
                 <td>
                     @item.physician
                 </td>
@@ -128,17 +127,17 @@
                         <button class="btn text-light bg-transparent border border-white  " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
                         </button>
-                      
-                         <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
-                             <li><a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin"  asp-route-id="@item.Requestid"><i class="fa-solid fa-file-invoice me-3"></i>View Case</a></li>
-                             <li><a class="dropdown-item" asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-arrow-up me-3"></i>View Uploads</a></li>
 
-                             <li><a class="dropdown-item" asp-action="ViewNotes" asp-controller="Admin"  asp-route-id="@item.Requestid" ><i class="bi bi-journals me-3"></i>View Notes</a></li>
-                             <li><button class="dropdown-item" onclick="transfercase(this)" value="@item.Requestid"><i class="bi bi-card-checklist me-3" ></i>Transfer</button></li>
-                             <li><button class="dropdown-item"  onclick="clearcase(this)"  value="@item.Requestid" ><i class="bi bi-x-circle me-3"></i>Clear Case</button></li>
+                        <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="fa-solid fa-file-invoice me-3"></i>View Case</a></li>
+                            <li><a class="dropdown-item" asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-arrow-up me-3"></i>View Uploads</a></li>
 
-                             <li><button class="dropdown-item"  onclick="sendAgreement(this)"  value="@item.Requestid"><i class="bi bi-file-earmark-text me-3"></i>Send Agreement</button></li>
-                         </ul>
+                            <li><a class="dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-journals me-3"></i>View Notes</a></li>
+                            <li><button class="dropdown-item" onclick="transfercase(this)" value="@item.Requestid"><i class="bi bi-card-checklist me-3"></i>Transfer</button></li>
+                            <li><button class="dropdown-item" onclick="clearcase(this)" value="@item.Requestid"><i class="bi bi-x-circle me-3"></i>Clear Case</button></li>
+
+                            <li><button class="dropdown-item" onclick="sendAgreement(this)" value="@item.Requestid"><i class="bi bi-file-earmark-text me-3"></i>Send Agreement</button></li>
+                        </ul>
                     </div>
                 </td>
 
@@ -195,7 +194,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <hr class="m-0 p-0 text-muted" />
                 <div id="collapse_@i" class="accordion-collapse collapse" style="background-color: #00bae920;" aria-labelledby="flush-heading" data-bs-parent="#accordionExample">
                     <div class="d-flex justify-content-end">
@@ -212,26 +211,12 @@
                         <p class="mb-1"><i class="fa-regular fa-calendar-days me-1 circlefa"></i>Date of Service : @item.Dateofservice</p>
                         <p class="mb-1">
                             <i class="fa-solid fa-user-doctor me-1 circlefa"></i>Physician :
-                            @if (item.physician != null)
-                            {
-                                @foreach (var a in Model.physicians)
-                                {
-                                    @if (item.physician == a.Physicianid)
-                                    {
-                                        <td class="font1">
-                                            @a.Firstname @a.Lastname
-                                        </td>
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                <td class="font1">
-                                    --
+                           <td class="font1">
+                                    @item.physician
                                 </td>
-                            }
+                           
                         </p>
-                       
+
                         <p class="mb-1"><i class="fa-regular fa-user me-1 circlefa"></i>Requestor : @item.Requestor</p>
                         <div class="row">
                             <div class="col-6 mb-2">
@@ -241,7 +226,7 @@
                                     </button>
                                 </a>
                             </div>
-                            
+
 
                             <div class="col-6 mb-2">
                                 <a asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.Requestid">
@@ -321,20 +306,20 @@
 </div>
 
 
- 
-  <script>
-     
-      function sendAgreement(element) {
-        
+
+<script>
+
+    function sendAgreement(element) {
+
         var id = element.value;
         console.log(id);
         $.ajax({
             url: "/Admin/SendAgreementModal",
-            data: { 'id': id},
+            data: { 'id': id },
             type: "GET",
             dataType: "html",
             success: function (data) {
-               
+
                 $("#modalpopup").html(data);
 
             },
@@ -345,16 +330,16 @@
         });
     };
     function transfercase(element) {
-        
+
         var id = element.value;
         console.log(id);
         $.ajax({
             url: "/Admin/TransferCaseModal",
-            data: { 'id': id ,'regid' : 0},
+            data: { 'id': id, 'regid': 0 },
             type: "GET",
             dataType: "html",
             success: function (data) {
-               
+
                 $("#modalpopup").html(data);
 
             },
@@ -364,8 +349,8 @@
             }
         });
     };
-     function clearcase(element) {
-        
+    function clearcase(element) {
+
         var id = element.value;
         console.log(id);
         $.ajax({
@@ -374,7 +359,7 @@
             type: "GET",
             dataType: "html",
             success: function (data) {
-               
+
                 $("#modalpopup").html(data);
 
             },
@@ -384,5 +369,5 @@
             }
         });
     };
-     
-  </script>
+
+</script>

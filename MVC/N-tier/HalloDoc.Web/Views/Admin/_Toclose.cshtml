@@ -21,7 +21,7 @@
                 $("#tableContent").html('An error has occurred');
             }
         });
-        }
+    }
 </script>
 <div id="modalpopup">
 </div>
@@ -81,25 +81,6 @@
                                 @a.Name
                             </td>
                         }
-                            
-                    }
-                }
-                else
-                {
-                    <td>
-                        ---
-                    </td>
-                }
-                @if (item.physician != null)
-                {
-                    @foreach (var a in Model.physicians)
-                    {
-                        if (a.Physicianid == item.physician)
-                        {
-                            <td>
-                                @a.Firstname @a.Lastname
-                            </td>
-                        }
 
                     }
                 }
@@ -110,7 +91,12 @@
                     </td>
                 }
 
-               
+                <td>
+                    @item.physician
+                </td>
+
+
+
                 <td>
                     @item.Address
                 </td>
@@ -125,7 +111,7 @@
                         <button class="btn text-light bg-transparent border border-white  " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
                         </button>
-                       
+
                         <ul class="dropdown-menu position-fixed" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="fa-solid fa-file-invoice me-3"></i>View Case</a></li>
                             <li><a class="dropdown-item" asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-arrow-up me-3"></i>View Uploads</a></li>
@@ -136,7 +122,7 @@
                             <li><button class="dropdown-item" onclick="clearcase(this)" value="@item.Requestid"><i class="bi bi-x-circle me-3"></i>Clear Case</button></li>
 
                             <li><a class="dropdown-item" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-text me-3"></i>Encounter</a></li>
-                           
+
                         </ul>
                     </div>
                 </td>
@@ -206,24 +192,7 @@
                         <p class="mb-1"><i class="fa-regular fa-calendar-days me-1 circlefa"></i>Date of Service : @item.Dateofservice</p>
                         <p class="mb-1">
                             <i class="fa-solid fa-user-doctor me-1 circlefa"></i>Physician :
-                            @if (item.physician != null)
-                            {
-                                @foreach (var a in Model.physicians)
-                                {
-                                    @if (item.physician == a.Physicianid)
-                                    {
-                                        <td class="font1">
-                                            @a.Firstname @a.Lastname
-                                        </td>
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                <td class="font1">
-                                    --
-                                </td>
-                            }
+                            @item.physician
                         </p>
                         <p class="mb-1"><i class="fa-solid fa-globe me-1 circlefa" style="color: #000000;"></i>Region : </p>
                         <div class="row">

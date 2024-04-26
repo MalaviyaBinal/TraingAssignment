@@ -24,9 +24,10 @@
 
                         </select>
                         <label for="floatingSelect">Narrow Search By Region</label>
+                        <span asp-validation-for="SelectedRegion" id="regionError" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="PhysicianSelect" aria-label="Floating label select example">
+                        <select class="form-select" asp-for=SelectedPhy id="PhysicianSelect" aria-label="Floating label select example">
                         
                             @foreach(var item in Model.physicians)
                             {
@@ -35,20 +36,22 @@
                        
                         </select>
                         <label for="floatingSelect">Select Physicion</label>
+                        <span asp-validation-for="SelectedPhy" id="phyError" class="text-danger"></span>
                     </div>
                     
                 
                 <div class="row">
                     <div class="col">
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here" id="notes" style="height: 100px" required></textarea>
+                                <textarea class="form-control" placeholder="Leave a comment here" id="notes" asp-for="notes" onkeypress="checknotes()" style="height: 100px"></textarea>
                             <label for="floatingTextarea2">Description</label>
+                                <span asp-validation-for="notes" id="notesError" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info text-white">Submit</button>
+                    <button type="submit"  class="btn btn-info text-white">Submit</button>
                 <button type="button" id="cancelbtn" class="btn btn-white border-info text-info" data-bs-dismiss="modal">Cancel</button>
             </div>
             </form>
@@ -62,7 +65,9 @@
         myModal.show();
 
     });
-    
+    function checknotes() {
+        document.getElementById("notesError").innerHTML = '';
+    }
         $("#RegionSelect").change(function () {
         $(".modal-backdrop").remove()
             var regionid = $('#RegionSelect').val()
@@ -92,23 +97,38 @@
         debugger;
         var phyId = $('#PhysicianSelect').val();
         var notes = document.getElementById("notes").value;
+        var regionid = $('#RegionSelect').val()
         var reqid = '@TempData["reqid"]';
-        $.ajax({
-            url: "/Admin/RequestAssgin",
-            data: { phyId: phyId, notes: notes, id: reqid },
-            type: "POST",
-            success: function (data) {
-                $("#modalpopup").remove();
-                $(".modal-backdrop").remove();
-                alert('Request assigned successfully');
-                location.reload();
-                //window.onload(getLocation());
-            },
-            error: function () {
-                alert("No Projects Found");
 
-            }
-        });
+      
+        if (regionid == 0) {
+            document.getElementById("regionError").innerHTML = 'Select region..';
+        }
+        if (phyId == 0) {
+            document.getElementById("phyError").innerHTML = 'Select physician..';
+        }
+        if (notes == "") {
+            document.getElementById("notesError").innerHTML = 'Enter notes..';
+        }
+        if (regionid != 0 && phyId != 0 && notes != "") {
+            $.ajax({
+                url: "/Admin/RequestAssgin",
+                data: { phyId: phyId, notes: notes, id: reqid },
+                type: "POST",
+                success: function (data) {
+                    $("#modalpopup").remove();
+                    $(".modal-backdrop").remove();
+                    alert('Request assigned successfully');
+                    location.reload();
+                    //window.onload(getLocation());
+                },
+                error: function () {
+                    alert("No Projects Found");
+
+                }
+            });
+        }
+        
     });
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
@@ -133,4 +153,8 @@
 
 </script>
   
-</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -57,7 +57,7 @@ namespace HalloDocWebServices.Interfaces
         AdminProviderModel getProviderDataForAdmin(int id);
         void addProviderByAdmin(AdminProviderModel model);
         Physician getPhysicianByID(int id);
-        void ContactProviderSendMessage(string email, string phone, string note, int selected);
+        void ContactProviderSendMessage(int id,string email, string phone, string note, int selected);
         AdminProviderModel getProviderByAdmin(int id,string u);
         void savePhysicianPassword(AdminProviderModel info);
         void savePhysicianInfo(AdminProviderModel info);

@@ -21,7 +21,7 @@
                         <span class="form-check-label" for="inlineRadio2">Email</span>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" onclick="selectedRadio(this)" value="both">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" onclick="selectedRadio(this)"  checked value="both">
                         <span class="form-check-label" for="inlineRadio3">Both</span>
                     </div>
                     <div class="row">
@@ -29,8 +29,9 @@
                             <div class="form-floating">
                                 <input type="hidden" id="phyEmail" value="@Model.Email" asp-for=Email />
                                 <input type="hidden" id="phyPhone" value="@Model.Mobile" asp-for=Mobile />
-                                <textarea name="Adminnotes" class="form-control" placeholder="Message" id="notes" style="height: 100px"></textarea>
+                            <textarea name="Adminnotes" class="form-control " onkeypress="checknotes()" placeholder="Message" id="notes" style="height: 100px"> </textarea>
                                 <label for="floatingTextarea2">Message</label>
+                            <span id="notesError" class="text-danger" style="display:none;">Enter notes..</span>
                             </div>
                         </div>
                     </div>
@@ -51,7 +52,9 @@
         myModal.show();
         console.log("xyz");
     });
-
+    function checknotes() {
+        document.getElementById("notesError").style.display = 'none';
+    }
     function selectedRadio(e){
         switch(e.value){
             case "sms": selected = 1;break;
@@ -60,10 +63,20 @@
         }
     }
     function ContactProvider(){
+        debugger;
         var email = document.getElementById("phyEmail").value;
         var mobile = document.getElementById("phyPhone").value;
         var note = document.getElementById("notes").value;
-        window.location.href = "/Admin/ContactProviderSendMessage?email="+email+"&phone="+mobile+"&note="+note+"&selected="+selected;
+        var id = @Model.Physicianid;
+
+        alert(id);
+        if(note != " "){
+            window.location.href = "/Admin/ContactProviderSendMessage?id=" + id + "&email=" + email + "&phone=" + mobile + "&note=" + note + "&selected=" + selected;
+        }
+        else{
+            document.getElementById("notesError").style.display = 'Block';
+        }
+        
     }
 
 
@@ -72,5 +85,28 @@
         $(".modal-backdrop").remove()
         location.reload();
     });
-   
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
 </script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

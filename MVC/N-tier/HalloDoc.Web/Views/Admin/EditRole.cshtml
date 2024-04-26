@@ -23,7 +23,7 @@
                             Details
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for="RoleName" value="@Model.RoleName" type="text" class="form-control" id="RoleName" placeholder="Role Name" readonly>
+                            <input asp-for="RoleName" value="@Model.RoleName" type="text" class="form-control" id="RoleName" placeholder="Role Name" disabled>
                             <label for="exampleFormControlInput1" class="form-label ps-4">Role Name</label>
                             <span class="text-danger"></span>
                         </div>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                             <button class="btn btn-info text-white me-md-2" type="submit">Save</button>
-                            <button class="btn btn-white text-info border-info" type="button">Cancel</button>
+                            <a asp-action="AdminDashboardAccess"><button class="btn btn-white text-info border-info" type="button">Cancel</button></a>
                         </div>
                     </div>
                 </form>
@@ -69,3 +69,6 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById("access1").classList.add("active");
+</script>

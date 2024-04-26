@@ -3,7 +3,7 @@
     <thead>
         <tr class="text-muted">
             <th scope="col">Name</th>
-            @*<th scope="col">Date Of Birth</th>*@
+            <th scope="col">Date Of Birth</th>
             <th scope="col">Requestor</th>
             <th scope="col">Physician Name</th>
             <th scope="col">Date of Service</th>
@@ -43,9 +43,9 @@
                     @item.Name
                 </td>
 
-                @*<td >
-            @item.Strmonth
-            </td>*@
+                <td >
+            @item.DOB
+            </td>
                 <td>
                     @item.Requestor
                 </td>
@@ -157,24 +157,7 @@
                         <p class="mb-1"><i class="fa-regular fa-calendar-days me-1 circlefa"></i>Date of Service : @item.Dateofservice</p>
                         <p class="mb-1">
                             <i class="fa-solid fa-user-doctor me-1 circlefa"></i>Physician :
-                            @if (item.physician != null)
-                            {
-                                @foreach (var a in Model.physicians)
-                                {
-                                    @if (item.physician == a.Physicianid)
-                                    {
-                                        <td class="font1">
-                                            @a.Firstname @a.Lastname
-                                        </td>
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                <td class="font1">
-                                    --
-                                </td>
-                            }
+                            @item.physician
                         </p>
                         <p class="mb-1"><i class="fa-regular fa-user me-1 circlefa"></i>Requestor : @item.Requestor</p>
                         <div class="row">

@@ -136,28 +136,30 @@ namespace HalloDocWebRepo.Implementation
                     break;
 
             }
-            var data1 = _context.Requests.Where(m => status.Any(j => j == m.Status) && m.Requesttypeid == check).Include(x => x.Requestclients).Include(x => x.Requesttype).ToList();
+            var data1 = _context.Requests.Where(m => status.Any(j => j == m.Status) && m.Requesttypeid == check).Include(x => x.Requestclients).Include(x => x.Requesttype).Include(e => e.Requestnotes).Include(e => e.Physician).ToList();
             List<AdminDashboardTableModel> model = new List<AdminDashboardTableModel>();
             data1?.ForEach(item =>
             {
                 model.Add(new AdminDashboardTableModel
                 {
-                    Name = item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname,
-                    Requestor = item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname,
-                    physician = item.Physicianid,
-                    Dateofservice = item.Lastreservationdate,
-                    Requesteddate = item.Createddate,
-                    Phonenumber = item.Requestclients.FirstOrDefault().Phonenumber,
-                    Email = item.Email,
+                    Name = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname : "---",
+                    Requestor = item.Requesttype.Name != null ? item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname : "---",
+                    physician = item.Physician != null ? item.Physician.Firstname + "  " + item.Physician.Lastname : "---",
+                    Dateofservice = item.Lastreservationdate != null ? item.Lastreservationdate : null,
+                    DOB = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Intdate.ToString() + "/" + item.Requestclients.FirstOrDefault().Strmonth + "/" + item.Requestclients.First().Intyear.ToString() : "---",
+                    Requesteddate = item.Createddate!=null ? item.Createddate : null,
+                    Phonenumber = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Phonenumber : "---",
+                    Email = item.Email != null ? item.Email : null,
                     Address = item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().City + " , " + item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().Zipcode,
-                    Requestid = item.Requestid,
-                    Notes = item.Requestclients.FirstOrDefault().Notes,
+                    Requestid = item.Requestid != null ? item.Requestid : null,
+                    Notes = item.Requestnotes.Count != 0 ? "Admin note:" + item.Requestnotes.FirstOrDefault().Adminnotes != null ? item.Requestnotes.FirstOrDefault().Adminnotes : "---" + "\nPhysician notes:" + item.Requestnotes.FirstOrDefault().Physiciannotes != null ? item.Requestnotes.FirstOrDefault().Physiciannotes : "---" : "--",
+
                     RequestTypeId = item.Requesttypeid,
                     RegionID = item.Requestclients.FirstOrDefault().Regionid,
-                    RequestTypeName = item.Requesttype.Name,
-                    RequestorPhonenumber = item.Phonenumber,
+                    RequestTypeName = item.Requesttype != null ? item.Requesttype.Name : null,
+                    RequestorPhonenumber = item.Phonenumber != null ? item.Phonenumber : null,
                     Status = item.Status,
-                    IsFinalize = item.Completedbyphysician
+                    IsFinalize = item.Completedbyphysician != null ? item.Completedbyphysician : new BitArray(1, false)
                 });
             });
             return model;
@@ -188,28 +190,31 @@ namespace HalloDocWebRepo.Implementation
                     break;
 
             }
-            var data1 = _context.Requests.Where(m => status.Any(j => j == m.Status)).Include(x => x.Requestclients).Include(x => x.Requesttype).ToList();
+            var data1 = _context.Requests.Where(m => status.Any(j => j == m.Status)).Include(x => x.Requestclients).Include(x => x.Requesttype).Include(e => e.Requestnotes).Include(e=> e.Physician).ToList();
             List<AdminDashboardTableModel> model = new List<AdminDashboardTableModel>();
+            
             data1?.ForEach(item =>
             {
                 model.Add(new AdminDashboardTableModel
                 {
-                    Name = item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname,
-                    Requestor = item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname,
-                    physician = item.Physicianid,
-                    Dateofservice = item.Lastreservationdate,
-                    Requesteddate = item.Createddate,
-                    Phonenumber = item.Requestclients.FirstOrDefault().Phonenumber,
-                    Email = item.Email,
+                    Name = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname : "---",
+                    Requestor = item.Requesttype.Name != null ? item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname : "---",
+                    physician = item.Physician != null ? item.Physician.Firstname + "  " + item.Physician.Lastname : "---",
+                    Dateofservice = item.Lastreservationdate != null ? item.Lastreservationdate : null,
+                    DOB = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Intdate.ToString() + "/" + item.Requestclients.FirstOrDefault().Strmonth + "/" + item.Requestclients.First().Intyear.ToString() : "---",
+                    Requesteddate = item.Createddate != null ? item.Createddate : null,
+                    Phonenumber = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Phonenumber : "---",
+                    Email = item.Email != null ? item.Email : null,
                     Address = item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().City + " , " + item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().Zipcode,
-                    Requestid = item.Requestid,
-                    Notes = item.Requestclients.FirstOrDefault().Notes,
+                    Requestid = item.Requestid != null ? item.Requestid : null,
+                    Notes = item.Requestnotes.Count != 0 ?  item.Requestnotes.FirstOrDefault().Adminnotes != null ? "Admin note:"+ item.Requestnotes.FirstOrDefault().Adminnotes : "---" +  item.Requestnotes.FirstOrDefault().Physiciannotes != null ? "\nPhysician notes:" + item.Requestnotes.FirstOrDefault().Physiciannotes : "---" : "--",
+
                     RequestTypeId = item.Requesttypeid,
                     RegionID = item.Requestclients.FirstOrDefault().Regionid,
-                    RequestTypeName = item.Requesttype.Name,
-                    RequestorPhonenumber = item.Phonenumber,
+                    RequestTypeName = item.Requesttype != null ? item.Requesttype.Name : null,
+                    RequestorPhonenumber = item.Phonenumber != null ? item.Phonenumber : null,
                     Status = item.Status,
-                    IsFinalize= item.Completedbyphysician
+                    IsFinalize = item.Completedbyphysician != null ? item.Completedbyphysician : new BitArray(1, false)
                 });
             });
             return model;
@@ -398,7 +403,7 @@ namespace HalloDocWebRepo.Implementation
                 {
                     Name = item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname,
                     Requestor = item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname,
-                    physician = item.Physicianid,
+                    physician = item.Physician != null ? item.Physician.Firstname + "  " + item.Physician.Lastname : "---",
                     Dateofservice = item.Lastreservationdate,
                     Requesteddate = item.Createddate,
                     Phonenumber = item.Requestclients.FirstOrDefault().Phonenumber,
@@ -416,30 +421,7 @@ namespace HalloDocWebRepo.Implementation
             });
 
             return model;
-            //return from rc in _context.Requestclients
-            //       join r in _context.Requests on rc.Requestid equals r.Requestid
-            //       join phy in _context.Physicians on r.Physicianid equals phy.Physicianid
-            //       join rt in _context.Requesttypes on r.Requesttypeid equals rt.Requesttypeid
-            //       join reg in _context.Regions on rc.Regionid equals reg.Regionid
-            //       orderby r.Createddate descending
-            //       select new AdminDashboardTableModel
-            //       {
-            //           Name = rc.Firstname + ' ' + rc.Lastname,
-            //           Requestor = rt.Name + " , " + r.Firstname + ' ' + r.Lastname,
-            //           physician = r.Physicianid,
-            //           Dateofservice = r.Lastreservationdate,
-            //           Requesteddate = r.Createddate,
-            //           Phonenumber = rc.Phonenumber,
-            //           Email = r.Email,
-            //           Address = rc.Street + " , " + rc.City + " , " + rc.Street + " , " + rc.Zipcode,
-            //           Requestid = r.Requestid,
-            //           Notes = rc.Notes,
-            //           RequestTypeId = r.Requesttypeid,
-            //           RegionID = rc.Regionid,
-            //           RequestTypeName = rt.Name,
-            //           RequestorPhonenumber = r.Phonenumber,
-            //           Status = r.Status
-            //       };
+  
         }
 
         public void updateRewuestClient(Requestclient reqclient)
@@ -555,12 +537,7 @@ namespace HalloDocWebRepo.Implementation
         {
             return _context.Roles.Where(m => m.Accounttype == 2).ToList();
         }
-        //public List<Aspnetuser> getaspnetuserdataofadminandprovider()
-        //{
-        //    //return _context.Aspnetusers.Include(e => e.Admins).Include(e => e.Physicians).ToList();
-        //    return _context.Aspnetusers.Include(e => e.Admins).Include(e => e.Physicians).Where(m => m.Role == 1 || m.Role == 3).ToList();
-        //}
-
+       
         public List<Aspnetuser> getAspnetUserList(int roleid)
         {
             switch (roleid)
@@ -1022,6 +999,30 @@ namespace HalloDocWebRepo.Implementation
         {
             _context.Physicianregions.AddRange(phyreg);
             _context.SaveChanges();
+        }
+
+        public Dictionary<int, int> CountOfOpenRequest(List<Aspnetuser> aspnetuser)
+        {
+            Dictionary<int, int> keyValuePairs = new Dictionary<int, int>();
+
+            foreach (var item in aspnetuser)
+            {
+                if (item.Role == 1)
+                {
+                    int adminid = _context.Admins.First(x => x.Aspnetuserid == item.Id).Adminid;
+                    int count = _context.Requests.Where(x => x.Isdeleted != new BitArray(1, true)).Count(x => x.Status < 8);
+                    keyValuePairs.Add(item.Id, count);
+                }
+                else
+                {
+                    int phyid = _context.Physicians.First(x => x.Aspnetuserid == item.Id).Physicianid;
+                    int count = _context.Requests.Where(x => x.Physicianid == phyid && x.Isdeleted != new BitArray(1, true)).Count(x => x.Status < 8);
+                    keyValuePairs.Add(item.Id, count);
+                }
+
+
+            }
+            return keyValuePairs;
         }
     }
 }

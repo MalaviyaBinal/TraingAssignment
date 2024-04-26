@@ -280,6 +280,8 @@ public partial class ApplicationContext : DbContext
 
             entity.Property(e => e.Requestid).UseIdentityAlwaysColumn();
 
+            entity.HasOne(d => d.Physician).WithMany(p => p.Requests).HasConstraintName("fk_physician");
+
             entity.HasOne(d => d.Requesttype).WithMany(p => p.Requests)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_request");

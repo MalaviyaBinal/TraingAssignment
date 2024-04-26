@@ -15,11 +15,10 @@
         </div>
         <div class="col-sm-2 text-end col">
 
-            <a asp-action="ExportRecords">
-                <button class="btn btn-info  text-white">
+                <button class="btn btn-info  text-white" onclick="exportData()">
                 <i class="fa-solid fa-share-from-square" style="color: #ffffff;"></i> Export Data To Excel
                 </button>
-            </a>
+           
         </div>
     </div>
     <div class="  bg-white rounded p-4 shadow mb-5 ">
@@ -140,6 +139,20 @@
 
             }
         });
+    };
+    function exportData() {
+
+        var status = document.getElementById("ReqStatus").value
+        var searchstr = document.getElementById("PatientName").value
+        var reqtype = document.getElementById("ReqType").value
+        var fdate = document.getElementById("FromDateOfService").value
+        var tdate = document.getElementById("ToDateOfService").value
+        var pname = document.getElementById("ProviderName").value
+        var email = document.getElementById("Email").value
+        var mobile = document.getElementById("PhoneNumber").value
+        // var id = element.value;
+        window.location.href = "/Admin/ExportRecords?status=" + status + "&mobile=" + mobile + "&email=" + email + "&pname=" + pname + "&tdate=" + tdate + "&fdate=" + fdate + "&reqtype=" + reqtype + "&searchstr=" + searchstr;
+      
     };
 </script>
 

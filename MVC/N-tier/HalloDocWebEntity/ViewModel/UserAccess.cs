@@ -15,6 +15,7 @@ namespace HalloDocWebEntity.ViewModel
         public string? role { get; set; }
 
         public List<Role> AccessRoles { get; set; }
+        public Dictionary<int, int> count { get; set; }
         public int TotalPages { get; set; }
         public int CurrentPage { get; set; }
         public bool PreviousPage { get; set; }

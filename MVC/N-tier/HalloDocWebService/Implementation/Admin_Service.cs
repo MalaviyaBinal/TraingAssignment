@@ -1,4 +1,5 @@
-﻿using HalloDocWebEntity.Data;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using HalloDocWebEntity.Data;
 using HalloDocWebEntity.ViewModel;
 using HalloDocWebRepo.Interface;
 using HalloDocWebService.Authentication;
@@ -14,8 +15,10 @@ using System.Data;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Mail;
+using System.Web.Helpers;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
+using Twilio.TwiML.Messaging;
 using Twilio.TwiML.Voice;
 
 namespace HalloDocWebServices.Implementation
@@ -342,10 +345,29 @@ namespace HalloDocWebServices.Implementation
             var admin = _repository.getAspnetuserByEmail(email);
 
             Request request = _repository.getRequestByID(id);
-            request.Status = 2;
+            request.Status = 1;
             request.Physicianid = phyId;
             request.Modifieddate = DateTime.Now;
             _repository.updateRequest(request);
+            Requestnote note = _repository.getREquestNotes(id);
+            if(note != null)
+            {
+                note.Adminnotes = notes;
+                note.Modifiedby = admin.Id.ToString();
+                note.Modifieddate = DateTime.Now;
+                
+                _repository.updateRequestNote(note);
+            }
+            else
+            {
+                note = new Requestnote();
+                note.Adminnotes = notes;
+                note.Requestid = id;
+                note.Createdby = admin.Id.ToString();
+                note.Createddate = DateTime.Now;
+                _repository.addRequestNotesTAble(note);
+
+            }
         }
         public void requestTransfer(int phyId, string notes, int id, string email)
         {
@@ -928,7 +950,7 @@ namespace HalloDocWebServices.Implementation
         public void addProviderByAdmin(AdminProviderModel phy)
         {
             Aspnetuser aspnetuser = new Aspnetuser();
-            aspnetuser.Passwordhash = phy.Passwordhash;
+            aspnetuser.Passwordhash = Crypto.HashPassword(phy.Passwordhash);
             aspnetuser.Usarname = "MD."+phy.Lastname +"."+ phy.Firstname.ToCharArray().First();
             aspnetuser.Createddate = DateTime.Now;
             aspnetuser.Modifieddate = DateTime.Now;
@@ -1077,19 +1099,63 @@ namespace HalloDocWebServices.Implementation
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
             mailclient.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
         }
-        public void ContactProviderSendMessage(string email, string phone, string note, int selected)
+        public void ContactProviderSendMessage(int id, string email, string phone, string note, int selected)
         {
+            Physician phy = _repository.getPhysicianById((int)id);
             switch (selected)
             {
                 case 1:
                     SendSMS(phone, note);
+                
+                    Smslog smslog = new Smslog
+                    {
+                        Smstemplate ="Hello " + phy.Firstname+" "+phy.Lastname+","+note ,
+                        Mobilenumber = phone,
+                        Createdate = DateTime.Now,
+                        Sentdate = DateTime.Now,
+                        Senttries = 1,
+                        Roleid = 1,
+                        
+                    };
+                    _repository.addSmsLogTable(smslog);
                     break;
                 case 2:
-                    SendEmail(email, note, "Alert!!!");
+                    SendEmail(email, note, "Message From Admin");
+                    Emaillog emaillog = new Emaillog
+                    {
+                        Emailtemplate = "Hello " + phy.Firstname + " " + phy.Lastname + "," + note,
+                        Emailid = email,
+                        Createdate = DateTime.Now,
+                        Sentdate = DateTime.Now,
+                        Subjectname = "Message From Admin",
+                        Isemailsent = new BitArray(1, true),
+                        Senttries = 1
+                    };
+                    _repository.addEmailLogTable(emaillog);
                     break;
                 case 3:
-                    SendEmail(email, note, "Alert!!!");
+                    SendEmail(email, note, "Message From Admin");
                     SendSMS(phone, note);
+                    Emaillog emaillog1 = new Emaillog
+                    {
+                        Emailtemplate = "Hello " + phy.Firstname + " " + phy.Lastname + "," + note,
+                        Emailid = email,
+                        Createdate = DateTime.Now,
+                        Sentdate = DateTime.Now,
+                        Subjectname = "Message From Admin",
+                        Isemailsent = new BitArray(1, true),
+                        Senttries = 1
+                    };
+                    _repository.addEmailLogTable(emaillog1);
+                    Smslog smslog1 = new Smslog
+                    {
+                        Smstemplate = "Hello " + phy.Firstname + " " + phy.Lastname + "," + note,
+                        Mobilenumber = phone,
+                        Createdate = DateTime.Now,
+                        Sentdate = DateTime.Now,
+                        Senttries = 1
+                    };
+                    _repository.addSmsLogTable(smslog1);
                     break;
 
             }
@@ -1228,7 +1294,7 @@ namespace HalloDocWebServices.Implementation
             Role role = _repository.getRoleByID(id);
             RoleModel model = new RoleModel();
             model.rolemenus = _repository.getSelectedRoleMenuByRoleID(id);
-            model.menu = _repository.getmenudataof();
+            model.menu = _repository.getMenuListWithCheck(role.Accounttype);
             model.RoleName = role.Name;
             model.RoleId = role.Roleid;
             model.SelectedRole = role.Accounttype;
@@ -1237,7 +1303,7 @@ namespace HalloDocWebServices.Implementation
         public void CreateAdminAccount(AdminProfile model, string email)
         {
             Aspnetuser aspnetuser = new Aspnetuser();
-            aspnetuser.Passwordhash = model.Passwordhash;
+            aspnetuser.Passwordhash = Crypto.HashPassword(model.Passwordhash) ;
             aspnetuser.Usarname = model.Lastname + model.Firstname.ToCharArray().First();
             aspnetuser.Createddate = DateTime.Now;
             aspnetuser.Modifieddate = DateTime.Now;
@@ -1287,20 +1353,23 @@ namespace HalloDocWebServices.Implementation
                     userAccess.Aspnetuser = _repository.getAspnetUserList(roleid);
                     userAccess.physicsian = _repository.getPhysicianList();
                     userAccess.admins = null;
+                    userAccess.count = _repository.CountOfOpenRequest(userAccess.Aspnetuser);
                     break;
                 case 1:
                     userAccess.Aspnetuser = _repository.getAspnetUserList(roleid);
                     userAccess.admins = _repository.getAdminList();
                     userAccess.physicsian = null;
+                    userAccess.count = _repository.CountOfOpenRequest(userAccess.Aspnetuser);
                     break;
                 default:
                     userAccess.Aspnetuser = _repository.getAspnetUserList(roleid);
                     userAccess.admins = _repository.getAdminList();
                     userAccess.physicsian = _repository.getPhysicianList();
+                    userAccess.count = _repository.CountOfOpenRequest(userAccess.Aspnetuser);
                     break;
 
             }
-
+           
             return userAccess;
         }
 
@@ -2085,18 +2154,18 @@ namespace HalloDocWebServices.Implementation
         {
             var business = new Healthprofessional
             {
-                Vendorname = model.businessDetail.Vendorname,
+                Vendorname = model.Vendorname,
                 Profession = model.SelectedProfession,
-                Faxnumber = model.businessDetail.Faxnumber,
-                Address = model.businessDetail.Address,
-                City = model.businessDetail.City,
-                State = model.businessDetail.State,
-                Zip = model.businessDetail.Zip,
-                //Regionid = model.businessDetail.Regionid,
+                Faxnumber = model.FaxNumber,
+                Address = model.Address,
+                City = model.City,
+                State = model.State,
+                Zip = model.Zip,
+                //Regionid = model.Regionid,
                 Createddate = DateTime.Now,
-                Phonenumber = model.businessDetail.Phonenumber,
-                Email = model.businessDetail.Email,
-                Businesscontact = model.businessDetail.Businesscontact,
+                Phonenumber = model.Phonenumber,
+                Email = model.email,
+                Businesscontact = model.businesscontact,
 
             };
             _repository.addHealthProfessionTable(business);
@@ -2155,6 +2224,9 @@ namespace HalloDocWebServices.Implementation
             model.ReqNotes = _repository.getREquestNotesList();
             model.ReqType = _repository.getRequestTypeList();
             model.phy = _repository.getPhysicianList();
+
+
+            
 
             if (!string.IsNullOrWhiteSpace(searchstr))
             {

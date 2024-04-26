@@ -119,6 +119,10 @@ public partial class Request
     [InverseProperty("Request")]
     public virtual ICollection<Orderdetail> Orderdetails { get; set; } = new List<Orderdetail>();
 
+    [ForeignKey("Physicianid")]
+    [InverseProperty("Requests")]
+    public virtual Physician? Physician { get; set; }
+
     [InverseProperty("Request")]
     public virtual ICollection<Requestbusiness> Requestbusinesses { get; set; } = new List<Requestbusiness>();
 
