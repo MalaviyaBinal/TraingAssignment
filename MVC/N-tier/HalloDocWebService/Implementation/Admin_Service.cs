@@ -1280,11 +1280,11 @@ namespace HalloDocWebServices.Implementation
         }
         public void updateroleof(RoleModel roleModel)
         {
-            _repository.removeAllRoleMenu(roleModel.RoleId);
+            _repository.removeAllRoleMenu((int)roleModel.RoleId);
             foreach (var item in roleModel.RoleIds)
             {
                 Rolemenu rolemenu = new Rolemenu();
-                rolemenu.Roleid = roleModel.RoleId;
+                rolemenu.Roleid = (int)roleModel.RoleId;
                 rolemenu.Menuid = item;
                 _repository.saveRoleMenu(rolemenu);
             }

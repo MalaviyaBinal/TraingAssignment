@@ -4,10 +4,8 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
     <meta asp-for="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,149 +14,108 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="~/css/style-patient.css">
-
-
 </head>
-
 <body style="background-color: rgb(248, 248, 248); align-items: center;">
     <!-- --------------------------------------Main container--------------------------------------------- -->
-
     <div class="container d-flex justify-content-center pt-3  min-vh-100 ">
-
-
         <div class="row mt-5">
             <div class="col-12">
                 <div class="row mb-3">
-
                     <div class="col text-end">
-                        <form >
-                            <button type="submit" class="text-info bg-transparent border-info px-2 mt-5 py-1 btn" asp-action="SubmitPatientRequest" asp-controller="Home">
+                            <a  class="text-info bg-transparent border-info px-2 mt-5 py-1 btn" asp-action="SubmitPatientRequest" asp-controller="Home">
                                 < Back
-                            </button>
-                        </form>
+                            </a>
                     </div>
                 </div>
                 <div class="container-fluid margin-header rounded shadow " style="background-color: white;">
                     <form enctype="multipart/form-data" asp-action="CreatePatient" asp-controller="Home">
-
                         <div class="row">
                             <div class="col mt-3"> <label class="h5">Patient Information</label></div>
                         </div>
-
                         <div class="row">
                             <div class="col-xl-12 col-sm-12 col-md-12 mt-2">
                                 <textarea class="form-control" asp-for="symptoms" placeholder="Enter Brief Details Of Symptoms" rows="5"
                                           ></textarea>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                    <input type="text" class="form-control"  id="fname"
                                            placeholder="" asp-for="first_name" >
-                                    <label class="label-placeholder">First Name</label>
+                                <label class="form-label ms-2 ps-4" for="fname">First Name</label>
                                     <span asp-validation-for="first_name" class="text-danger"></span>
-                                </p>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control " id="lname"
                                            placeholder="" asp-for="last_name" >
-                                    <label class="label-placeholder">Last Name</label>
+                                <label class="form-label ms-2 ps-4" for="lname">Last Name</label>
                                     <span asp-validation-for="last_name" class="text-danger"></span>
-                                </p>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="date" class="form-control input-placeholder" id="username"
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                    <input type="date" class="form-control " id="dob"
                                            placeholder="" asp-for="dob" >
-                                    <label class="label-placeholder">Date Of Birth</label>      
-                                    <span asp-validation-for="dob" class="text-danger"></span>
-                                </p>
+                                <label class="form-label ms-2 ps-4" for="dob">Date Of Birth</label>
+                                <span asp-validation-for="dob" class="text-danger"></span>
                             </div>
-                            
                         </div>
-
                         <div class="row">
                             <div class="col mt-3"> <label class="h5">Patient Contact Information</label></div>
                         </div>
                         <div class="row">
-                            <div class="col-xl-6 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="email" class="form-control input-placeholder" id="user_email" onchange="emailExists()" placeholder="" asp-for="email_user" >
-                                    <label class="label-placeholder"> Email</label>
+                            <div class="col-xl-6 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="email" class="form-control " id="user_email" onchange="emailExists()" placeholder="" asp-for="email_user" >
+                                <label class="form-label ms-2 ps-4" for="user_email"> Email</label>
                                     <span asp-validation-for="email_user" class="text-danger"></span>
-                                </p>
                             </div>
-                            <div class="col-xl-6 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="tel" class="form-control input-placeholder" id="phone"
+                            <div class="col-xl-6 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="tel" class="form-control " id="phone"
                                            placeholder="" asp-for="phone" >
-                                    <label class="label-placeholder">(201)555-0123</label>
+                                <label class="form-label ms-2 ps-4" for="phone">Mobile Number</label>
                                     <span asp-validation-for="phone" class="text-danger"></span>
-                                </p>
                             </div>
-
-                            <div class="col-xl-6 col-sm-12 col-md-6" id="pwd_div" style="display:none;">
-                                <p>
-                                    <input type="password" class="form-control input-placeholder" id="password"
-                                           placeholder="" name="password">
-                                    <label class="label-placeholder">Password</label>
-                                </p>
+                            <div class="col-xl-6 col-sm-12 col-md-6 form-floating text-muted mt-3" id="pwd_div" style="display:none;">
+                                    <input type="password" class="form-control " id="password"
+                                           placeholder="" asp-for="password">
+                                <label class="form-label ms-2 ps-4" for="password">Password</label>
+                                    <span asp-validation-for="password" class="text-danger"></span>
                             </div>
-                            <div class="col-xl-6 col-sm-12 col-md-6" id="con_pwd_div" style="display:none;">
-                                <p>
-                                    <input type="password" class="form-control input-placeholder" id="confirmPassword"
-                                           placeholder="" name="con_password" onchange="checkPwd()">
-                                    <label class="label-placeholder">Confirm Password</label>
-                                </p>
-                                <span class="text-danger" id="errorspan" style="display:none;">confirm password should match</span>
+                            <div class="col-xl-6 col-sm-12 col-md-6 form-floating text-muted mt-3" id="con_pwd_div" style="display:none;">
+                                    <input type="password" class="form-control " id="confirmPassword"
+                                           placeholder="" asp-for="con_password" >
+                                <label class="form-label ms-2 ps-4" for="con_password">Confirm Password</label>
+                                <span asp-validation-for=con_password class="text-danger" id="errorspan" ></span>
                             </div>
-
                         </div>
-
-
                         <div class="row">
                             <div class="col mt-3"> <label class="h5">Patient Location</label></div>
                         </div>
-
                         <div class="row">
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control " id="street"
                                            placeholder="" asp-for="street" >
-                                    <label class="label-placeholder">Street</label>
+                                <label class="form-label ms-2 ps-4" for="street">Street</label>
                                     <span asp-validation-for="street" class="text-danger"></span>
-                                </p>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control " id="city"
                                            placeholder="" asp-for="city" >
-                                    <label class="label-placeholder">City</label>
+                                <label class="form-label ms-2 ps-4" for="city">City</label>
                                     <span asp-validation-for="city" class="text-danger"></span>
-                                </p>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control " id="username"
                                            placeholder="" asp-for="state" >
-                                    <label class="label-placeholder">State</label>
+                                <label class="form-label ms-2 ps-4" for="fname">State</label>
                                     <span asp-validation-for="state" class="text-danger"></span>
-                                </p>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control " id="username"
                                            placeholder="" asp-for="zip_code" >
-                                    <label class="label-placeholder">Zip Code</label>
+                                <label class="form-label ms-2 ps-4" for="fname">Zip Code</label>
                                     <span asp-validation-for="zip_code" class="text-danger"></span>
-                                </p>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control " id="username"
                                            placeholder="" >
-                                    <label class="label-placeholder">Room # /Suite (Optional)</label>
-                                </p>
+                                <label class="form-label ms-2 ps-4" for="fname">Room # /Suite (Optional)</label>
                             </div>
                             <div class="row">
                                 <div class="col mt-3">
@@ -166,19 +123,15 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col">
+                                <div class="col text-muted">
                                     <p>
                                         <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
                                             <i class="fa-solid fa-cloud-arrow-up"
                                                style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i><span class=" ms-2 ">Upload</span>
                                         </span>
-                                        <input type="File" class="form-control input-placeholder " asp-for="fileToUpload" id="fileToUpload"
+                                        <input type="File" class="form-control  input-placeholder" asp-for="fileToUpload" id="fileToUpload"
                                                placeholder="Select File">
-
-
-
                                     </p>
-
                                 </div>
                             </div>
                         </div>
@@ -188,49 +141,25 @@
                                 <button class="btn btn-outline-info mb-4 ms-3" onclick="clickbtn()">Cancel</button>
                             </div>
                         </div>
-
                     </form>
-
                 </div>
-
                 <footer class="text-center  text-light bg-secondary footer-bottom ">
                     <span class="text-center">Terms and Conditions | Privacy Policy</span>
                 </footer>
-
-
             </div>
         </div>
-
     </div>
     <script>
         let c = 1;
         function clickbtn() {
-
             window.location.href = "/Home/SubmitPatientRequest";
         }
-        function changeTheme() {
-
-            if (c % 2 === 0) {
-                document.body.style.backgroundColor = "#F8F8F8";
-                document.getElementById("myHeader").style.backgroundColor = "white";
-                c++;
-            }
-            else {
-                c++;
-                document.querySelector(".theme-btn").style.backgroundColor = "white";
-                document.querySelector(".logo-icon").style.backgroundColor = "#757171";
-                document.getElementById("myHeader").style.backgroundColor = "#757171";
-            }
-        }
-
         function emailExists(){
-           
             var email = document.getElementById("user_email").value;
             fetch('/Home/RequestPatient/' + email)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                   
                     if (!data.exists) {
                         document.getElementById('pwd_div').style.display = 'block';
                         document.getElementById('con_pwd_div').style.display = 'block';
@@ -239,24 +168,14 @@
                         document.getElementById('pwd_div').style.display = 'none';
                         document.getElementById('con_pwd_div').style.display = 'none';
                     }
-
                 })
                 .catch(error => console.error('Error:', error));
         }
-        function checkPwd(){
-            var pwd = document.getElementById('password').value;
-            var con_pwd = document.getElementById('confirmPassword').value;
-            if(pwd != con_pwd)
-                document.getElementById('errorspan').style.display = 'block';
-            else
-                document.getElementById('errorspan').style.display = 'none';
-            
-
-        }
-
     </script>
-
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 </body>
-
-
 </html>

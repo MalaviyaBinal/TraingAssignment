@@ -5,6 +5,109 @@
         myModalblock.show();
     });
    
+    function checkdate() {
+        document.getElementById("pldate").style.display = 'none';
+    }
+    function starttime() {
+        document.getElementById("plstart").style.display = 'none';
+        var a = document.getElementById("stime").value;
+        var b = document.getElementById("etime").value;
+        if (a == b) {
+            document.getElementById("startTimeSpan").innerHTML = 'Start and End time Can not be same!!';
+            flag = false;
+            // document.getElementById("plstart").style.display = 'block';
+        }
+
+        else if (a > b) {
+            document.getElementById("startTimeSpan").innerHTML = 'Start time can not be greater than End time!!';
+            flag = false;
+
+            // document.getElementById("plstart").style.display = 'block';
+        }
+        else {
+            document.getElementById("startTimeSpan").innerHTML = '';
+        }
+    }
+    function endtime() {
+        document.getElementById("plend").style.display = 'none';
+        var a = document.getElementById("stime").value;
+        var b = document.getElementById("etime").value;
+        if (a == b) {
+            document.getElementById("startTimeSpan").innerHTML = 'Start and End time Can not be same!!';
+            flag = false;
+            // document.getElementById("plstart").style.display = 'block';
+        }
+        if (a > b) {
+            document.getElementById("startTimeSpan").innerHTML = 'Start time can not be greater than End time!!';
+            flag = false;
+
+            // document.getElementById("plstart").style.display = 'block';
+        }
+    }
+    function test() {
+        var flag = true;
+        var x = document.getElementById("Allphysician").value;
+        var y = document.getElementById("Allregion").value;
+        var z = document.getElementById("sdate").value;
+        var a = document.getElementById("stime").value;
+        var b = document.getElementById("etime").value;
+        if (x == 0) {
+            document.getElementById("plphysician").style.display = 'block';
+            flag = false;
+        }
+        if (y == 0) {
+            document.getElementById("plregion").style.display = 'block';
+            flag = false;
+        }
+        if (z == 0) {
+            document.getElementById("pldate").style.display = 'block';
+            flag = false;
+        }
+        if (a == '00:00') {
+            document.getElementById("plstart").style.display = 'block';
+            flag = false;
+        }
+        if (b == '00:00') {
+            document.getElementById("plend").style.display = 'block';
+            flag = false;
+        }
+        if (a == b) {
+            document.getElementById("startTimeSpan").innerHTML = 'Start and End time Can not be same!!';
+            flag = false;
+            // document.getElementById("plstart").style.display = 'block';
+        }
+
+        else if (a > b) {
+            document.getElementById("startTimeSpan").innerHTML = 'Startcan not be greater than End time!!';
+            flag = false;
+
+            // document.getElementById("plstart").style.display = 'block';
+        }
+        else {
+            document.getElementById("startTimeSpan").innerHTML = '';
+        }
+        return flag;
+
+    }
+
+    $('#Allregion').change(function (e) {
+        e.preventDefault();
+        $(".modal-backdrop").remove();
+        var regions = $('#Allregion').val();
+        $.ajax({
+            url: "/Provider/_AddShiftModal",
+            data: { 'regionid': regions },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    });
     $('#switchCheck').change(function (e) {
         var check = document.getElementById("switchCheck")
 
@@ -21,6 +124,7 @@
             document.getElementById("repeatcountSelect").setAttribute("disabled", "");
         }
     });
+
 
 </script>
 <div class="modal fade" id="create-shift" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -42,49 +146,51 @@
                                 }
                             </select>
                             <label for="Allregion" class="view-shift-label">Region</label>
-                            <span asp-validation-for="RegionId" class="text-danger"></span>
+                            <span id="plregion" class="text-danger" style="display:none;">Please Select region</span>
                         </div>
 
                         <div class="col-12">
-                           
-
+                          
                             <div class="col-12">
                                 <div class="form-floating mb-3 inp custom-date-input">
-                                    <input type="date" class="form-control input-1 view-shift-inp" id="floatingInput-4" asp-for="ShiftDate" asp-format="{0: yyyy-MM-dd}" placeholder="ShiftDate" autocomplete="off">
+                                    <input type="date" class="form-control input-1 view-shift-inp" onchange="checkdate()" id="sdate" asp-for="ShiftDate" asp-format="{0: yyyy-MM-dd}" placeholder="ShiftDate" autocomplete="off">
                                     <label for="floatingInput-4" asp-for="ShiftDate" class="view-shift-label">Shift Date</label>
-
+                                    <span id="pldate" class="text-danger" style="display:none;">Please Select Date</span>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-floating mb-3 inp custom-clock-input">
-                                        <input type="time" class="form-control input-1 view-shift-inp" asp-for="StartTime" id="floatingInput-4"
-                                               placeholder="Start" autocomplete="off">
+                                        <input type="time" class="form-control input-1 view-shift-inp" asp-for="StartTime" id="stime"
+                                               placeholder="Start" autocomplete="off" onchange="starttime()">
                                         <label for="floatingInput-4" class="view-shift-label">Start</label>
+                                        <span id="plstart" class="text-danger" style="display:none;">Please Select Start Time</span>
                                     </div>
                                 </div>
 
                                 <div class="col-6">
                                     <div class="form-floating mb-3 inp custom-clock-input">
-                                        <input type="time" class="form-control input-1 view-shift-inp" asp-for="EndTime" id="floatingInput-4"
-                                               placeholder="End" autocomplete="off">
+                                        <input type="time" class="form-control input-1 view-shift-inp" asp-for="EndTime" id="etime"
+                                               placeholder="End" autocomplete="off" onchange="endtime()">
                                         <label for="floatingInput-4" class="view-shift-label">End</label>
+                                        <span id="plend" class="text-danger" style="display:none;">Please Select End Time</span>
                                     </div>
                                 </div>
-                                <span id="startTimeSpan" class="text-danger hide">Start Time & End Time Cannot be Same!!!</span>
+
+                                <span id="startTimeSpan" class="text-danger"></span>
                             </div>
                             <div class="form-check form-switch">
                                 <label class="form-check-label" for="flexSwitchCheckChecked" asp-for="IsRepeat">Repeat</label>
-                                <input class="form-check-input" type="checkbox" role="switch" asp-for="IsRepeat" id="switchCheck" >
+                                <input class="form-check-input" type="checkbox" role="switch" asp-for="IsRepeat" id="switchCheck">
                             </div>
                             <fieldset class="my-3" id="daysSection">
                                 Repeat Days
-                                <div class="row my-2 row-cols-1 row-cols-sm-2 row-cols-md-3" id="dayCheckBox" >
+                                <div class="row my-2 row-cols-1 row-cols-sm-2 row-cols-md-3" id="dayCheckBox">
 
                                     <div class="col my-1">
                                         <input class="form-check-input" id="day1" disabled value="0" type="checkbox" name="daylist" />
-                                        <span class="form-check-label" for="day1" > Every Sunday </span>
+                                        <span class="form-check-label" for="day1"> Every Sunday </span>
                                     </div>
                                     <div class="col my-1">
                                         <input class="form-check-input " id="day2" disabled value="1" type="checkbox" name="daylist" />
@@ -103,12 +209,12 @@
                                         <span class="form-check-label" for="day5"> Every Thursday </span>
                                     </div>
                                     <div class="col my-1">
-                                        <input class="form-check-input " id="day6" disabled  value="5" type="checkbox" name="daylist" />
+                                        <input class="form-check-input " id="day6" disabled value="5" type="checkbox" name="daylist" />
                                         <span class="form-check-label" for="day6"> Every Friday </span>
                                     </div>
                                     <div class="col my-1">
                                         <input class="form-check-input " id="day7" disabled value="6" type="checkbox" name="daylist" />
-                                        <span class="form-check-label" for="day7">  Every Saturday </span>
+                                        <span class="form-check-label" for="day7"> disabled Every Saturday </span>
                                     </div>
                                 </div>
                                 <span class="text-danger hide" id="repeatDaysSpan">Atleast One Day is Required!!!</span>
@@ -116,7 +222,7 @@
                                 <span asp-validation-for="RepeatDays" class="text-danger"></span>
                                 <div class="col-12 mt-3">
                                     <div class="form-floating mb-3 inp">
-                                        <select id="repeatcountSelect" class="form-control form-select input-2 view-shift-inp" asp-for="RepeatCount">
+                                        <select id="repeatcountSelect" class="form-control form-select input-2 " disabled asp-for="RepeatCount">
                                             <option value="2" selected>2-times</option>
                                             <option value="3">3-times</option>
                                             <option value="4">4-times</option>
@@ -129,7 +235,7 @@
                         </div>
                     </div>
                     <div class="modal-footer create-shift-footer">
-                        <button type="submit" class="btn btn-info text-white">Save</button>
+                        <button type="submit" onclick="return test()" class="btn btn-info text-white">Save</button>
                         <button type="button" class="btn btn-white text-info border-info" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>

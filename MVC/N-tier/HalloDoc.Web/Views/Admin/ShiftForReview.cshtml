@@ -63,7 +63,7 @@
 </div>
 
 <script>
-  
+    var isCurrentMonth;
     $(document).ready(function () {
         ShiftReview()
     });
@@ -137,7 +137,7 @@
         console.log(regionid);
             $.ajax({
             url: "/Admin/_ShiftForReview",
-            data: { 'reg': regionid ,'isCurrentMonth':false ,pagenumber :pagenumber},
+            data: { 'reg': regionid, 'isCurrentMonth': isCurrentMonth, pagenumber: pagenumber },
                 type: "POST",
                 dataType: "html",
                 success: function (data) {
@@ -154,21 +154,8 @@
     }
       function ViewCurrentMonthShift() {
         var regionid = document.getElementById("RegionDropdown").value
-    
-            $.ajax({
-            url: "/Admin/_ShiftForReview",
-            data: { 'reg': regionid ,'isCurrentMonth':true},
-                type: "POST",
-                dataType: "html",
-                success: function (data) {
-                $("#tableContent").html(data);
-                },
-                error: function () {
-                    alert("No Projects Found");
-                $("#tableContent").html('An error has occurred');
-                }
-            });
-        
+        isCurrentMonth = true;
+            ShiftReview();
 
         //window.location.href = "/Admin/ShiftForReview?reg=" + regionid;
     }

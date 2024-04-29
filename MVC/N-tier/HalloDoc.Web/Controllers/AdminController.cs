@@ -357,6 +357,7 @@ namespace HalloDoc.Web.Controllers
 
         public IActionResult GenerateRole(string RoleName, string[] selectedRoles, int check)
         {
+            
             _service.generateRole(RoleName, selectedRoles, check, HttpContext.Request.Cookies["UserEmail"]);
             return RedirectToAction(nameof(AdminDashboardAccess));
         }

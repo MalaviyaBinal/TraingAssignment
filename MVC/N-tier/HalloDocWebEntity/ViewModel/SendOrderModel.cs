@@ -10,6 +10,7 @@ namespace HalloDocWebEntity.ViewModel
         public List<Healthprofessionaltype>? professions { get; set; }
         public List<Healthprofessional>? business { get ; set; }
         public Healthprofessional? businessDetail { get; set; }
+        [Required(ErrorMessage ="Provide Description for order..")]
         public string? prescription { get; set; }
         public int? noOfRetail { get; set; }
         public int? req_id { get; set; } 

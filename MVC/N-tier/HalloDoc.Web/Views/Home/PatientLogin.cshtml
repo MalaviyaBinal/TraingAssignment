@@ -53,27 +53,26 @@
                 <form asp-action="PatientLogin">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group mt-2 row">
-                        <div class="col">
-                            <p>
+                        <div class="col form-floating text-muted">
+                          
                                 <input asp-for="Usarname" type="text" class="form-control input-placeholder" id="Username" placeholder="">
-                                <label asp-for="Usarname" class="label-placeholder">Username</label>
-                                <i class="fa-regular fa-circle-user text-secondary icon"></i>
+                            <label asp-for="Usarname" class="form-label ms-2 ps-3">Username</label>
+                                <i class="fa-regular fa-circle-user text-secondary icon me-2"></i>
                                
-                            </p>
+                         
                             
                         </div>
                         <span asp-validation-for="Usarname" class="text-danger"></span>
 
                     </div>
                     
-                    <div class="form-group row">
-                        <div class="col">
-                            <p>
+                    <div class="form-group mt-2 row">
+                        <div class="col form-floating text-muted">
+                           
                                 <input asp-for="Passwordhash" type="password" class="form-control input-placeholder " id="inputPassword" placeholder="">
-                                <label asp-for="Passwordhash" class="label-placeholder">Password</label>
-                                <i class="fa-regular fa-eye text-secondary icon" id="showEye" style="display:none" onclick="showHidePassword()"></i>
-                                <i class="fa-solid fa-eye-slash text-secondary icon" id="hideEye" style="display:block"  onclick="showHidePassword()"></i>
-                            </p>
+                            <label asp-for="Passwordhash" class="form-label ms-2 ps-3">Password</label>
+                                <i class="fa-regular fa-eye text-secondary icon me-2" id="showEye" style="display:block" onclick="showHidePassword()"></i>
+                                <i class="fa-solid fa-eye-slash text-secondary icon me-2" id="hideEye" style="display:none"  onclick="showHidePassword()"></i>
                             
                         </div>
                         <span asp-validation-for="Passwordhash" class="text-danger"></span>
@@ -99,30 +98,20 @@
 
     </div>
     <script>
-        function changeTheme() {
-            if ($('#light-theme').css('display') == 'none') {
-                document.querySelector(".login-bg").style.display = "block";
-                document.querySelector(".login-bg-dark").style.display = "none";
-            }
-            else {
-                document.querySelector(".login-bg").style.display = "none";
-                document.querySelector(".login-bg-dark").style.display = "block";
-            }
-
-        }
+       
         function showHidePassword() {
             let temp = document.getElementById("inputPassword");
             let eyeshow = document.getElementById("showEye");
             let eyehide = document.getElementById("hideEye");
             if (temp.type === "password") {
                 temp.type = "text";
-                eyeshow.style.display ="block";
-                eyehide.style.display = "none";
+                eyeshow.style.display ="none";
+                eyehide.style.display = "block";
             }
             else {
                 temp.type = "password";
-                eyeshow.style.display = "none";
-                eyehide.style.display = "block";
+                eyeshow.style.display = "block";
+                eyehide.style.display = "none";
             }
         }
         (function () {

@@ -77,14 +77,12 @@
                     @item.Name
                 </td>
                 <td>
-                    @if (true)
-                    {
-                        var str1 = "mailto:" + item.Email;
-                        <a href=@str1><i class="fa-regular fa-envelope" style="color: #ffffff;"></i></a>
-                    }
+                    
+                    <a href="mailto:@item.Email"><i class="fa-regular fa-envelope" style="color: #ffffff;"></i></a>
+                   
                 </td>
                 <td class="font">
-                    <a href="tel:@item.Phonenumber" class="text-decoration-none f">
+                    <a href="tel:@item.Phonenumber" class="text-decoration-none ">
                         <button class="btn btn-outline-light d-flex">
                             <i class="fa-solid fa-phone"></i>@item.Phonenumber
                         </button>
