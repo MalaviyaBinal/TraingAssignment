@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.EMMA;
-
+using HalloDocWebService.Authentication;
 namespace HalloDoc.Web.Controllers
 {
     public class AdminController : Controller
@@ -19,24 +19,21 @@ namespace HalloDoc.Web.Controllers
         {
             _service = service;
         }
-        //[CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin",172)]
         public IActionResult AdminDashboard()
         {
-
             var count = _service.setAdminDashboardCount();
             AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.adminCount = count;
             model.regions = _service.getRegionList();
             return View(model);
         }
-
         public IActionResult AdminViewDocument(int id)
         {
             if (id != 0)
                 HttpContext.Session.SetInt32("req_id", (int)id);
             var data = _service.getPatientDocument(HttpContext.Session.GetInt32("req_id"));
             var requestIdCounts = _service.GetExtension((int)HttpContext.Session.GetInt32("req_id"));
-
             ViewBag.fileExtensions = requestIdCounts;
             return View(data);
         }
@@ -44,7 +41,6 @@ namespace HalloDoc.Web.Controllers
         {
             return View(_service.EncounterAdmin(id));
         }
-
         #region Provider
         public IActionResult CreateProviderAdmin()
         {
@@ -69,25 +65,22 @@ namespace HalloDoc.Web.Controllers
             }
             _service.addProviderByAdmin(model);
             return RedirectToAction(nameof(AdminDashboard));
-
         }
-
         [HttpPost]
         public IActionResult Provider(int regid)
         {
-
             AdminProviderModel model = _service.getProviderDataForAdmin(regid);
             return View(model);
         }
         #endregion
-
-        //[CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", 174)]
         public IActionResult AdminDashboardMyProfile(int id)
         {
             if (id == 0)
                 return View(_service.getAdminProfileData(HttpContext.Request.Cookies["userEmail"]));
             else return View(_service.getAdminData(id));
         }
+        [CustomAuthorize("Admin", 180)]
         public IActionResult UserAccess()
         {
             return View();
@@ -96,21 +89,16 @@ namespace HalloDoc.Web.Controllers
         {
             return PartialView("_UserAccessTable", _service.getUserAccessData(roleid));
         }
-
+        [CustomAuthorize("Admin", 178)]
         public IActionResult AdminDashboardPartners()
         {
             return View(_service.getVenderDetail(0, 1, null));
             //return View(_service.getHealthProfessionalList());
         }
-
         public IActionResult ShowDeleteModal(int id, string acntType)
         {
-
             return PartialView("_DeleteAccountModal", _service.openDeleteModal(id, acntType));
         }
-
-
-
         public IActionResult DeleteVender(int id)
         {
             _service.deleteVender(id);
@@ -131,17 +119,16 @@ namespace HalloDoc.Web.Controllers
             _service.deletePhysicianAccount(id);
             return RedirectToAction(nameof(AdminDashboardProviders));
         }
-
+        [CustomAuthorize("Admin", 179)]
         public IActionResult AdminDashboardAccess()
         {
-
             return View(_service.getRoleList());
         }
+        [CustomAuthorize("Admin", 173)]
         public IActionResult AdminDashboardProviderLocation()
         {
             return View(_service.getPhysicianLocation());
         }
-
         public async Task<IActionResult> SendOrder(int id, int profId = 0, int businessId = 0)
         {
             SendOrderModel model = _service.getOrderModel(id, profId, businessId);
@@ -158,19 +145,18 @@ namespace HalloDoc.Web.Controllers
             _service.ContactProviderSendMessage(id,email, phone, note, selected);
             return RedirectToAction(nameof(AdminDashboardProviders));
         }
+        [CustomAuthorize("Admin", 175)]
         public IActionResult AdminDashboardProviders()
         {
             AdminProviderModel model = _service.getProviderDataForAdmin(0);
             return View(model);
         }
+        [CustomAuthorize("Admin", 181)]
         public IActionResult AdminDashboardRecords(AdminRecordsModel model)
         {
             model.ReqType = _service.GetRequestTypes();
-
             return View(model);
         }
-
-
         [HttpPost]
         public IActionResult _SearchRecordsTable(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr, int pagenumber)
         {
@@ -194,48 +180,35 @@ namespace HalloDoc.Web.Controllers
             //}
             if (status != 0)
             {
-
                 model.Data = model.Data.Where(x => x.Request.Status == status).ToList();
-
             }
             if (reqtype != 0)
             {
-
                 model.Data = model.Data.Where(x => x.Request.Requesttypeid == reqtype).ToList();
-
             }
             if (fdate != DateTime.MinValue)
             {
-
                 model.Data = model.Data.Where(x => x.Request.Createddate > fdate).OrderBy(x => x.Request.Createddate).ToList();
-
             }
-
             if (tdate != DateTime.MinValue)
             {
                 model.Data = model.Data.Where(x => x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
             }
-
             if (tdate != DateTime.MinValue && tdate != DateTime.MinValue)
             {
                 model.Data = model.Data.Where(x => x.Request.Createddate > fdate && x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
             }
-
-
             var count = model.Data.Count();
             if (count > 0)
             {
                 model.Data = model.Data.Skip((pagenumber - 1) * 3).Take(3).ToList();
-
                 model.TotalPages = (int)Math.Ceiling((double)count / 3);
                 model.CurrentPage = pagenumber;
                 model.PreviousPage = pagenumber > 1;
                 model.NextPage = pagenumber < model.TotalPages;
             }
-
             return PartialView(model);
         }
-
         public IActionResult PatientRequestAdmin()
         {
             return PartialView();
@@ -265,14 +238,12 @@ namespace HalloDoc.Web.Controllers
             TempData["reqid"] = id;
             return PartialView("_BlockCase", user);
         }
-
         [HttpPost]
         public ActionResult CancelConfirm(int id, int reasonid, string notes)
         {
             _service.cancelConfirm(id, reasonid, notes);
             return RedirectToAction(nameof(AdminDashboard));
         }
-
         public ActionResult SendAgreementConfirm(int id, string username)
         {
             _service.SendAgreementConfirm(id);
@@ -285,7 +256,6 @@ namespace HalloDoc.Web.Controllers
         }
         public ActionResult SendAgreement(string token)
         {
-
             return View(_service.sendAgreementService(token));
         }
         [HttpPost]
@@ -294,7 +264,6 @@ namespace HalloDoc.Web.Controllers
             _service.SendAgreementCancleConfirm(Requestid, notes, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
-
         public ActionResult ClearConfirm(int id)
         {
             _service.clearConfirm(id);
@@ -306,20 +275,16 @@ namespace HalloDoc.Web.Controllers
             _service.blockConfirm(id, notes);
             return RedirectToAction(nameof(AdminDashboard));
         }
-
         public async Task<IActionResult> AssignCaseModal(int id, int regid)
         {
-
             TempData["reqid"] = id;
             return PartialView("_AssignCaseModal", _service.AssignCaseModel(regid));
         }
         public async Task<IActionResult> TransferCaseModal(int id, int regid)
         {
-
             TempData["reqid"] = id;
             return PartialView("_TransferCaseModal", _service.AssignCaseModel(regid));
         }
-
         [HttpPost]
         public ActionResult RequestAssgin(int phyId, string notes, int id)
         {
@@ -328,7 +293,6 @@ namespace HalloDoc.Web.Controllers
         }
         public ActionResult RequestTransfer(int phyId, string notes, int id)
         {
-
             _service.requestTransfer(phyId, notes, id, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(AdminDashboard));
         }
@@ -347,30 +311,21 @@ namespace HalloDoc.Web.Controllers
             _service.patientRequestByAdmin(info, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(AdminDashboard));
         }
-
-
         public IActionResult CreateRole(int check)
         {
-
             return View(_service.GetMenuData(check));
         }
-
         public IActionResult GenerateRole(string RoleName, string[] selectedRoles, int check)
         {
-            
             _service.generateRole(RoleName, selectedRoles, check, HttpContext.Request.Cookies["UserEmail"]);
             return RedirectToAction(nameof(AdminDashboardAccess));
         }
-
         public ActionResult Export(int id, int check, string searchValue, int searchRegion)
         {
             try
             {
-
                 List<AdminDashboardTableModel> tabledata1;
-
                 tabledata1 = _service.getDashboardTables(id, check);
-
                 if (searchValue != null)
                 {
                     if (!string.IsNullOrWhiteSpace(searchValue))
@@ -382,12 +337,8 @@ namespace HalloDoc.Web.Controllers
                 {
                     tabledata1 = tabledata1.Where(x => x.RegionID == searchRegion).ToList();
                 }
-
-
                 var workbook = new XLWorkbook();
                 var worksheet = workbook.Worksheets.Add("Data");
-
-
                 worksheet.Cell(1, 1).Value = "Name";
                 worksheet.Cell(1, 2).Value = "Date Of Birth";
                 worksheet.Cell(1, 3).Value = "Requestor";
@@ -397,7 +348,6 @@ namespace HalloDoc.Web.Controllers
                 worksheet.Cell(1, 7).Value = "Phone Number";
                 worksheet.Cell(1, 8).Value = "Address";
                 worksheet.Cell(1, 9).Value = "Notes";
-
                 int row = 2;
                 foreach (var item in tabledata1)
                 {
@@ -440,7 +390,6 @@ namespace HalloDoc.Web.Controllers
                     row++;
                 }
                 worksheet.Columns().AdjustToContents();
-
                 var memoryStream = new MemoryStream();
                 workbook.SaveAs(memoryStream);
                 memoryStream.Seek(0, SeekOrigin.Begin);
@@ -453,7 +402,6 @@ namespace HalloDoc.Web.Controllers
                 throw;
             }
         }
-
         [HttpPost]
         public ActionResult DashboardTables(int id, int check, string searchValue, int searchRegion, int pagesize, int pagenumber = 1)
         {
@@ -461,21 +409,16 @@ namespace HalloDoc.Web.Controllers
             AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.physicians = _service.getPhysicianList();
             model.regions = _service.getRegionList();
-
-
             if (searchValue != null)
             {
                 if (!string.IsNullOrWhiteSpace(searchValue))
                 {
                     tabledata1 = tabledata1.Where(x => x.Name.ToLower().Contains(searchValue.ToLower())).ToList();
                 }
-
             }
             if (searchRegion != 0)
             {
-
                 tabledata1 = tabledata1.Where(x => x.RegionID == searchRegion).ToList();
-
             }
             model.tabledata = tabledata1;
             var count = tabledata1.Count();
@@ -496,12 +439,8 @@ namespace HalloDoc.Web.Controllers
                 model.PreviousPage = pagenumber > 1;
                 model.NextPage = pagenumber < model.TotalPages;
             }
-
-
-
             switch (id)
             {
-
                 case 2: return PartialView("_Pending", model);
                 case 3: return PartialView("_Active", model);
                 case 4: return PartialView("_Conclude", model);
@@ -509,30 +448,21 @@ namespace HalloDoc.Web.Controllers
                 case 6: return PartialView("_Unpaid", model);
                 default: return PartialView("_New", model);
             }
-
         }
-
         public async Task<ActionResult> ViewCase(int id)
         {
-
             return View(_service.ViewCaseModel(id));
-
         }
-
         [HttpPost]
-
         public async Task<IActionResult> SaveNote(Notes n, int id)
         {
             _service.saveNotes(n, id);
             return RedirectToAction(nameof(AdminDashboard));
         }
-
         public async Task<ActionResult> ViewNotes(int id)
         {
-
             return View(_service.ViewNotes(id));
         }
-
         [HttpPost]
         public ActionResult DownloadFiles([FromBody] string[] filenames)
         {
@@ -558,7 +488,6 @@ namespace HalloDoc.Web.Controllers
         public IActionResult UploadFileAdmin(IFormFile fileToUpload)
         {
             _service.uploadFileAdmin(fileToUpload, (int)HttpContext.Session.GetInt32("req_id"), HttpContext.Request.Cookies["userEmail"]);
-
             if (fileToUpload != null && fileToUpload.Length > 0)
             {
                 return RedirectToAction(nameof(AdminViewDocument), (int)HttpContext.Session.GetInt32("req_id"));
@@ -568,9 +497,7 @@ namespace HalloDoc.Web.Controllers
                 // User did not select a file
                 return RedirectToAction(nameof(AdminViewDocument));
             }
-
         }
-
         public async Task<IActionResult> DownloadFile(int id)
         {
             var file = _service.getRequestWiseFileByID(id);
@@ -578,7 +505,6 @@ namespace HalloDoc.Web.Controllers
             var bytes = _service.getBytesForFile(id);
             return File(bytes, "application/octet-stream", file.Filename);
         }
-
         public IActionResult Logout()
         {
             Response.Cookies.Delete("jwt");
@@ -602,7 +528,6 @@ namespace HalloDoc.Web.Controllers
             byte[] excelBytes = _service.GetBytesForExport(id);
             return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ExportedData.xlsx");
         }
-
         public IActionResult CloseCase(int id)
         {
             ViewBag.id = id;
@@ -614,7 +539,6 @@ namespace HalloDoc.Web.Controllers
             _service.closeCaseSaveData(id, n);
             return RedirectToAction(nameof(AdminDashboard));
         }
-
         public ActionResult UpdateAddressInformationOfAdmin(AdminProfile info)
         {
             _service.updateadminaddress(info);
@@ -625,10 +549,8 @@ namespace HalloDoc.Web.Controllers
             _service.updateadminform(info);
             return RedirectToAction(nameof(AdminDashboardMyProfile));
         }
-
         public IActionResult EditProviderDetail(int id, string username)
         {
-
             return View(_service.getProviderByAdmin(id, username));
         }
         public ActionResult SendLink(AdminDashBoardPagination info)
@@ -681,12 +603,10 @@ namespace HalloDoc.Web.Controllers
             _service.updateroleof(roleModel);
             return RedirectToAction(nameof(AdminDashboardAccess));
         }
-
         public ActionResult EditRole(int id)
         {
             return View(_service.EditRole(id));
         }
-
         [HttpPost]
         public IActionResult CreateAdminAccount(AdminProfile model)
         {
@@ -711,7 +631,6 @@ namespace HalloDoc.Web.Controllers
         {
             return View(_service.getAdminRoleData());
         }
-
         public IActionResult EditBusiness(int id)
         {
             return View(_service.GetEditBusinessData(id));
@@ -722,18 +641,22 @@ namespace HalloDoc.Web.Controllers
             _service.UpdateBusinessData(model);
             return RedirectToAction(nameof(AdminDashboardPartners));
         }
+        [CustomAuthorize("Admin", 176)]
         public IActionResult ProviderSchedulingDayWise(int reg)
         {
             return View(_service.getSchedulingData(reg));
         }
+        [CustomAuthorize("Admin", 176)]
         public IActionResult ProviderSchedulingWeekWise(int reg)
         {
             return View(_service.getSchedulingData(reg));
         }
+        [CustomAuthorize("Admin", 176)]
         public IActionResult ProviderSchedulingMonthWise(int reg)
         {
             return View(_service.getSchedulingData(reg));
         }
+        [CustomAuthorize("Admin", 182)]
         public IActionResult EmailLogs()
         {
             Email_SMS_LogModel model = new Email_SMS_LogModel
@@ -742,13 +665,13 @@ namespace HalloDoc.Web.Controllers
             };
             return View(model);
         }
-
         [HttpGet]
         public IActionResult EmailLogTable(int roleid, string name, string email, string createdDate, string sentDate, int pagenumber)
         {
             Email_SMS_LogModel emaillogs = _service.GetEmailLogs(roleid, name, email, createdDate, sentDate, pagenumber);
             return PartialView("_EmailLogTable", emaillogs);
         }
+        [CustomAuthorize("Admin", 183)]
         public IActionResult SMSLogs()
         {
             Email_SMS_LogModel model = new Email_SMS_LogModel
@@ -775,6 +698,7 @@ namespace HalloDoc.Web.Controllers
             _service.CreateShift(info);
             return RedirectToAction(nameof(ProviderSchedulingDayWise));
         }
+        [CustomAuthorize("Admin", 185)]
         public IActionResult BlockHistory()
         {
             AdminRecordsModel model = new AdminRecordsModel
@@ -786,7 +710,6 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult _BlockHistoryTable(string searchstr, DateTime date, string email, string mobile, int pagenumber)
         {
-
             return View(_service.getBlockHistoryData(searchstr, date, email, mobile, pagenumber));
         }
         public IActionResult DeleteRequest(int id)
@@ -794,6 +717,7 @@ namespace HalloDoc.Web.Controllers
             _service.deleteRequest(id);
             return RedirectToAction(nameof(AdminDashboardRecords));
         }
+        [CustomAuthorize("Admin", 184)]
         public IActionResult PatientHistory()
         {
             PatientHistoryTable model = new PatientHistoryTable
@@ -805,7 +729,6 @@ namespace HalloDoc.Web.Controllers
         public IActionResult PatientHistoryTable(string? fname, string? lname, string? email, string? phone, int pagenumber)
         {
             var model = _service.PatientHistoryTable(fname, lname, email, phone, pagenumber);
-
             return PartialView("_PatientHistoryTable", model);
         }
         public IActionResult PatientRecord(int id)
@@ -816,7 +739,6 @@ namespace HalloDoc.Web.Controllers
                 CurrentPage = 1
             };
             return View(model);
-
         }
         public IActionResult _PatientRecordTable(int id, int pagenumber)
         {
@@ -825,7 +747,6 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult _ViewShiftModal(int id, int regid)
         {
-
             return View(_service.getViewShiftData(id, regid));
         }
         public IActionResult UpdateShiftDetailData(ShiftDetailsModel model)
@@ -845,12 +766,10 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult ShiftForReview(int reg = 0)
         {
-
             return View(_service.getReviewShiftData(reg, false, 1));
         }
         public IActionResult _ShiftForReview(int reg = 0, bool isCurrentMonth = false, int pagenumber = 1)
         {
-
             return View(_service.getReviewShiftData(reg, isCurrentMonth, pagenumber));
         }
         public IActionResult DeleteShift(string[] selectedShifts)
@@ -865,7 +784,6 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult ProviderOnCall(int reg = 0)
         {
-
             return View(_service.getProviderOnCall(reg));
         }
         public IActionResult SaveNotificationStatus(string[] phyList)
@@ -880,18 +798,15 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult AddVendor()
         {
-            
             return View(_service.getVenderData());
         }
         public IActionResult _VendorList(int reg, int pagenumber, string searchstr)
         {
-     
             return View(_service.getVenderDetail(reg, pagenumber, searchstr));
         }
         [HttpPost]
         public IActionResult AddVendor(SendOrderModel model)
         {
-           
             _service.AddVendor(model);
             return RedirectToAction(nameof(AdminDashboardPartners));
         }
@@ -899,9 +814,7 @@ namespace HalloDoc.Web.Controllers
         {
             try
             {
-
                 var memoryStream = _service.GetExportData(model, status, mobile, email, pname, tdate, fdate, reqtype, searchstr);
-
                 return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "data.xlsx");
             }
             catch (Exception ex)

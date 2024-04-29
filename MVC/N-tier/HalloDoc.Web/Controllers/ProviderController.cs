@@ -7,6 +7,7 @@ using HalloDocWebEntity.Data;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Rotativa.AspNetCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using HalloDocWebService.Authentication;
 
 namespace HalloDoc.Web.Controllers
 {
@@ -19,6 +20,7 @@ namespace HalloDoc.Web.Controllers
         }
 
         #region ProviderDashboard
+        [CustomAuthorize("Provider", 186)]
         public IActionResult ProviderDashboard()
         {
 
@@ -105,6 +107,14 @@ namespace HalloDoc.Web.Controllers
            
             _service.sendLinkProviderDashboard(info, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(ProviderDashboard));
+        }
+        #endregion
+
+        #region Invoicing
+        [CustomAuthorize("Provider", 187)]
+        public IActionResult Invoicing()
+        {
+            return View();
         }
         #endregion
 
@@ -302,6 +312,7 @@ namespace HalloDoc.Web.Controllers
         }
         #endregion
         #region My Profile
+        [CustomAuthorize("Provider", 189)]
         public IActionResult MyProfile()
         {
             return View(_service.getPhyProfileData(HttpContext.Request.Cookies["userEmail"]));
@@ -327,7 +338,7 @@ namespace HalloDoc.Web.Controllers
         #endregion
 
         #region Scheduling
-       
+        [CustomAuthorize("Provider", 188)]
         public IActionResult MySchedule(int reg)
         {
             return View(_service.getSchedulingData(HttpContext.Request.Cookies["userEmail"]));
@@ -355,7 +366,10 @@ namespace HalloDoc.Web.Controllers
         }
         #endregion
 
-
+        public IActionResult Error()
+        {
+            return View();
+        }
 
     }
 }

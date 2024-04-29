@@ -976,7 +976,7 @@ namespace HalloDocWebServices.Implementation
             model.Altphone = phy.Altphone;
             model.Businessname = phy.Businessname;
             model.Businesswebsite = phy.Businesswebsite;
-            model.Createdby = "Admin";
+         
             model.Createddate = DateTime.Now;
             model.Roleid = phy.roleid;
             model.Regionid = phy.regionid;

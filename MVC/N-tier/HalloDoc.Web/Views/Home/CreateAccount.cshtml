@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    @* <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <link rel="stylesheet" href="~/css/style-patient.css">
 </head>
 
@@ -45,45 +45,44 @@
                 <strong><a class="text-start text-info  mt-5" style="text-decoration: none;" asp-action="Index" asp-controller="Home"> < Back</a></strong>
                 <h2>Login To Your Account</h2>
 
-                <form asp-action="CreateAcount" method="post">
+                <form asp-action="CreateAccount" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group mt-2 row">
-                        <div class="col">
-                            <p>
+                        <div class="col form-floating text-muted ">
+        
                                 <input asp-for="Usarname" type="text" class="form-control input-placeholder" id="Username" placeholder="">
-                                <label asp-for="Usarname" class="label-placeholder">Username</label>
-                                <i class="fa-regular fa-circle-user text-secondary icon"></i>
+                            <label asp-for="Usarname" class="form-label ms-2 ps-3">Username</label>
+                                <i class="fa-regular fa-circle-user text-secondary icon me-2"></i>
 
-                            </p>
-
+                           
                         </div>
                         <span asp-validation-for="Usarname" class="text-danger"></span>
 
                     </div>
 
-                    <div class="form-group row">
-                        <div class="col">
-                            <p>
+                    <div class="form-group mt-3 row">
+                        <div class="col form-floating text-muted">
+                          
                                 <input asp-for="Passwordhash" type="password" class="form-control input-placeholder " id="inputPassword" placeholder="">
-                                <label asp-for="Passwordhash" class="label-placeholder">Password</label>
-                                <i class="fa-regular fa-eye text-secondary icon" id="showEye" style="display:none" onclick="showHidePassword()"></i>
-                                <i class="fa-solid fa-eye-slash text-secondary icon" id="hideEye" style="display:block" onclick="showHidePassword()"></i>
-                            </p>
-
+                            <label asp-for="Passwordhash" class="form-label ms-2 ps-3">Password</label>
+                                <i class="fa-regular fa-eye text-secondary icon me-2" id="showEye" style="display:none" onclick="showHidePassword()"></i>
+                                <i class="fa-solid fa-eye-slash text-secondary icon me-2" id="hideEye" style="display:block" onclick="showHidePassword()"></i>
+                      
+                            <span asp-validation-for="Passwordhash" class="text-danger"></span>
                         </div>
-                        <span asp-validation-for="Passwordhash" class="text-danger"></span>
+                       
                     </div>
-                    <div class="form-group row">
-                        <div class="col">
-                            <p>
+                    <div class="form-group mt-3 row">
+                        <div class="col form-floating text-muted">
+                          
                                 <input asp-for="confirmPassword" type="password" class="form-control input-placeholder " id="inputPassword" placeholder="">
-                                <label asp-for="confirmPassword" class="label-placeholder">Password</label>
-                                <i class="fa-regular fa-eye text-secondary icon" id="showEye" style="display:none" onclick="showHidePassword()"></i>
-                                <i class="fa-solid fa-eye-slash text-secondary icon" id="hideEye" style="display:block" onclick="showHidePassword()"></i>
-                            </p>
-
+                            <label asp-for="confirmPassword" class="form-label ms-2 ps-3">Password</label>
+                                <i class="fa-regular fa-eye text-secondary icon me-2" id="showEye" style="display:none" onclick="showHidePassword()"></i>
+                                <i class="fa-solid fa-eye-slash text-secondary icon me-2" id="hideEye" style="display:block" onclick="showHidePassword()"></i>
+                      
+                            <span asp-validation-for="confirmPassword" class="text-danger"></span>
                         </div>
-                        <span asp-validation-for="Passwordhash" class="text-danger"></span>
+                       
                     </div>
                     <div class="row justify-content-center mb-2 ">
                         <div class="col">
@@ -132,13 +131,9 @@
         }
 
     </script>
+   
 </body>
 
 </html>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
 
 

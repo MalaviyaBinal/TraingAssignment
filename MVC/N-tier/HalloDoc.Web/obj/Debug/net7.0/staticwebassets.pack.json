@@ -277,6 +277,14 @@
       "PackagePath": "staticwebassets\\images\\LesfImage.png"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\images\\accessDenied.jfif",
+      "PackagePath": "staticwebassets\\images\\accessDenied.jfif"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\images\\accessDenied.png",
+      "PackagePath": "staticwebassets\\images\\accessDenied.png"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\images\\active.png",
       "PackagePath": "staticwebassets\\images\\active.png"
     },

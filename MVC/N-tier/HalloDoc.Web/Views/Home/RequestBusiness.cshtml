@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <link rel="stylesheet" href="~/css/style-patient.css">
 </head>
-<body style="background-color: rgb(248, 248, 248);">
+<body data-bs-theme="dark">
     <!-- --------------------------------------Main container--------------------------------------------- -->
     
     <div class="container d-flex justify-content-center pt-3  min-vh-100 ">
@@ -63,6 +63,7 @@
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6 pt-3 pb-3">
                                 <input type="tel" asp-for="phone" class="form-control inp" id="phone">
+                                <span asp-validation-for="phone" class="text-danger"></span>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
                                 <p>
@@ -219,20 +220,7 @@
 
             window.location.href = "/Home/SubmitPatientRequest";
         }
-        function changeTheme() {
-
-            if (c % 2 === 0) {
-                document.body.style.backgroundColor = "#F8F8F8";
-                document.getElementById("myHeader").style.backgroundColor = "white";
-                c++;
-            }
-            else {
-                c++;
-                document.querySelector(".theme-btn").style.backgroundColor = "white";
-                document.querySelector(".logo-icon").style.backgroundColor = "#757171";
-                document.getElementById("myHeader").style.backgroundColor = "#757171";
-            }
-        }
+        
         function emailExists() {
 
             var email = document.getElementById("email").value;
@@ -247,7 +235,11 @@
         }
         
     </script>
-
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 </body>
 <script>
     const phoneInputField = document.querySelector("#phone");

@@ -17,7 +17,7 @@ namespace HalloDocWebServices.Implementation
         {
             _repository = repository;
         }
-        void IPatient_Service.editProfile(PatientRequest model, string username)
+        void IPatient_Service.editProfile(Profile model, string username)
         {
             var user = _repository.ProfileUser(username);
             var asp = _repository.getAspnetUser(user.Aspnetuserid);
@@ -27,7 +27,7 @@ namespace HalloDocWebServices.Implementation
             user.Street = model.street;
             user.City = model.city;
             user.State = model.state;
-            user.Zip = model.zip_code;
+            user.Zip = model.zipcode;
             user.Intdate = model.dob.Value.Day;
             user.Intyear = model.dob.Value.Year;
             user.Strmonth = System.String.Format("{0:MMM}", model.dob);
@@ -61,10 +61,20 @@ namespace HalloDocWebServices.Implementation
             var user = _repository.getUserByEmail(username);
             List<Request> userData = _repository.RequestRepo(user.Userid);
             var profileUserData = _repository.ProfileUser(username);
-            Profile profile = new();
-            profile.Request = userData;
-            profile.User = profileUserData;
-            profile.dob = DateOnly.Parse(DateTime.Parse(profileUserData.Intyear + profileUserData.Strmonth + profileUserData.Intdate).ToString("yyyy-MM-dd"));
+            Profile profile = new Profile
+            {
+                Request = userData,
+                dob = DateOnly.Parse(DateTime.Parse(profileUserData.Intyear + profileUserData.Strmonth + profileUserData.Intdate).ToString("yyyy-MM-dd")),
+                first_name = user.Firstname,
+                last_name = user.Lastname,
+                phone = user.Mobile,
+                email = user.Email,
+                state = user.State,
+                street = user.Street,
+                zipcode = user.Zip,
+                city = user.City,
+            };
+            
             return (profile);
         }
         void IPatient_Service.uploadFile(IFormFile fileToUpload, int id)
@@ -90,8 +100,8 @@ namespace HalloDocWebServices.Implementation
             {
                 first_name = user.Firstname,
                 last_name = user.Lastname,
-                dob = DateOnly.Parse(DateTime.Parse(user.Intdate + user.Strmonth + user.Intyear).ToString("dd-MM-yyyy")),
-                email = user.Email,
+                dob = DateOnly.Parse(DateTime.Parse(user.Intyear + user.Strmonth + user.Intdate).ToString("yyyy-MM-dd")),
+            email = user.Email,
                 phonenumber = user.Mobile
             };
             return model;
@@ -226,7 +236,10 @@ namespace HalloDocWebServices.Implementation
                 Phonenumber = info.phone,
                 Location = info.p_street + "," + info.p_city + "," + info.p_state + " ," + info.p_zip_code,
                 Email = info.p_email,
-                Regionid = 1
+                Regionid = 1,
+                Intdate = info.dob.Value.Day,
+                Intyear = info.dob.Value.Year,
+                Strmonth = ((DateTime)info.dob).ToString("MMM")
             };
             _repository.addRequestClientTable(reqclient);
             Business business = new Business
@@ -288,7 +301,10 @@ namespace HalloDocWebServices.Implementation
                 Phonenumber = info.p_phone,
                 Location = info.h_street + "," + info.h_city + "," + info.h_state + " ," + info.h_zip_code,
                 Email = info.p_email,
-                Regionid = 1
+                Regionid = 1,
+                Intdate = info.p_dob.Value.Day,
+                Intyear = info.p_dob.Value.Year,
+                Strmonth = ((DateTime)info.p_dob).ToString("MMM")
             };
             _repository.addRequestClientTable(reqclient);
             Concierge con = new Concierge
@@ -346,18 +362,22 @@ namespace HalloDocWebServices.Implementation
                 };
                 _repository.addRequestTable(req);
             }
-            var file = info.fileToUpload;
-            var uniqueFileName = Path.GetFileName(file.FileName);
-            var uploads = @"D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\wwwroot\UploadedFiles\";
-            var filePath = Path.Combine(uploads, uniqueFileName);
-            file.CopyTo(new FileStream(filePath, FileMode.Create));
-            var addrequestfile = new Requestwisefile
+            if(info.fileToUpload != null)
             {
-                Createddate = DateTime.Now,
-                Filename = uniqueFileName,
-                Requestid = reqid
-            };
-            _repository.addRequestFileTable(addrequestfile);
+                var file = info.fileToUpload;
+                var uniqueFileName = Path.GetFileName(file.FileName);
+                var uploads = @"D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\wwwroot\UploadedFiles\";
+                var filePath = Path.Combine(uploads, uniqueFileName);
+                file.CopyTo(new FileStream(filePath, FileMode.Create));
+                var addrequestfile = new Requestwisefile
+                {
+                    Createddate = DateTime.Now,
+                    Filename = uniqueFileName,
+                    Requestid = reqid
+                };
+                _repository.addRequestFileTable(addrequestfile);
+            }
+           
             Requestclient reqclient = new Requestclient
             {
                 Requestid = reqid,
@@ -370,7 +390,10 @@ namespace HalloDocWebServices.Implementation
                 Zipcode = info.p_zip_code,
                 Email = info.email,
                 Regionid = 1,
-                Notes = info.symptoms
+                Notes = info.symptoms,
+                Intdate = info.p_dob.Value.Day,
+                Intyear = info.p_dob.Value.Year,
+                Strmonth = ((DateTime)info.p_dob).ToString("MMM"),
             };
             _repository.addRequestClientTable(reqclient);
         }
@@ -424,7 +447,9 @@ namespace HalloDocWebServices.Implementation
                 Zipcode = info.zip_code,
                 Email = info.email_user,
                 Regionid = 1,
-                Strmonth = info.dob.ToString(),
+                Intdate = info.dob.Value.Day,
+                Intyear = info.dob.Value.Year,
+                Strmonth = ((DateOnly)info.dob).ToString("MMM"),
                 Notes = info.symptoms
             };
             _repository.addRequestClientTable(reqclient);
@@ -557,7 +582,8 @@ namespace HalloDocWebServices.Implementation
                         Passwordhash = Crypto.HashPassword(info.Passwordhash),
                         Phonenumber = client.Phonenumber,
                         Createddate = DateTime.Now,
-                        Email = info.Usarname
+                        Email = info.Usarname,
+                        Role = 2
                     };
                     _repository.addAspnetuserTable(aspnetuser);
                     User user = new User

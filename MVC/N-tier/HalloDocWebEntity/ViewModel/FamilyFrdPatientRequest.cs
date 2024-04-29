@@ -45,7 +45,9 @@ namespace HalloDocWebEntity.ViewModel
         public string? p_city { get; set; }
         [Required(ErrorMessage = "Required.")]
         public string? p_state { get; set; }
-        [Required(ErrorMessage = "Required.")]
+
+        [Required(ErrorMessage = "Please provide Zip")]
+        [RegularExpression(@"[0-9]{6}", ErrorMessage = "Invalid Zip")]
         public string? p_zip_code { get; set; }
 
         public IFormFile? fileToUpload { get; set; }

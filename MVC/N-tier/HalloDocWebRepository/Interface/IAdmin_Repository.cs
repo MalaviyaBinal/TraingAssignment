@@ -121,5 +121,8 @@ namespace HalloDocWebRepo.Interface
         List<Role> getRolesOfProvider();
         void addPhyRegionList(List<Physicianregion> phyreg);
         Dictionary<int, int> CountOfOpenRequest(List<Aspnetuser> aspnetuser);
+        Admin getAdminByAspId(int aspid);
+        Physician getPhysicianByAspId(int v);
+        List<int> getRoleMenuByRoleid(int? roleid);
     }
 }

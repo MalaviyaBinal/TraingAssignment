@@ -9,7 +9,7 @@ namespace HalloDocWebEntity.ViewModel
         public string first_name { get; set; } = null!;
         [Required(ErrorMessage = "Last name Required....")]
         public string? last_name { get; set; }
-        [Required(ErrorMessage = "Required....")]
+        
         public string isExist { get; set; }
         //public string? password { get; set; }
 
@@ -50,7 +50,8 @@ namespace HalloDocWebEntity.ViewModel
         public string? p_city { get; set; }
         [Required(ErrorMessage = "Please provider State")]
         public string? p_state { get; set; }
-        [Required(ErrorMessage = "Please provider Zip")]
+        [Required(ErrorMessage = "Please provide Zip")]
+        [RegularExpression(@"[0-9]{6}", ErrorMessage = "Invalid Zip")]
         public string? p_zip_code { get; set; }
 
         public DateTime Createddate { get; set; } = DateTime.Now;

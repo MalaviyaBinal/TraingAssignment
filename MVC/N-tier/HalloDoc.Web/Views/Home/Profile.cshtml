@@ -50,11 +50,7 @@
             <div class="d-flex justify-content-between mt-3">
                 <h4 class="mt-3">User Profile</h4>
 
-                <a class="text-start text-info text-decoration-none " asp-controller="Home" asp-action="patientdashboard">
-                    <button class="btn btn-white  text-info border-info rounded ">
-                        <i class="fa-solid  fa-less-than"></i> Back
-                    </button>
-                </a>
+                
             </div>
             <div class="container  rounded bg-white shadow py-3">
 
@@ -62,16 +58,19 @@
                     <h4 class="mb-3">General Information</h4>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for="@Model.User.Firstname" name="first_name" type="text" class="form-control" id="fname" placeholder="Firstname" disabled>
+                            <input  asp-for="first_name" type="text" class="form-control" id="fname" placeholder="Firstname" disabled>
                             <label for="fname" class="form-label ps-4">First name</label>
+                            <span asp-validation-for="first_name" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for="@Model.User.Lastname" name="last_name" type="text" class="form-control" id="lname" placeholder="Lastname" disabled>
+                            <input asp-for="last_name" type="text" class="form-control" id="lname" placeholder="Lastname" disabled>
                             <label for="lname" class="form-label ps-4">last name </label>
+                            <span asp-validation-for="last_name" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input asp-for="@Model.dob" type="date" asp-format="{0:yyyy-MM-dd}" name="dob" class="form-control" id="dob" placeholder="Date Of Birth" disabled>
+                            <input  type="date" asp-format="{0:yyyy-MM-dd}" asp-for="dob" class="form-control" id="dob" placeholder="Date Of Birth" disabled>
                             <label for="dob" class="form-label ps-4">Date Of Birth</label>
+                            <span asp-validation-for="dob" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -90,12 +89,14 @@
                         </div>
                       
                         <div class="col-sm-12 col-md-4 col-xl-4 form-floating mb-3 text-muted">
-                            <input name="phone" type="tel" class="form-control" id="phone" placeholder="Lastname" asp-for="@Model.User.Mobile" disabled>
+                            <input asp-for="phone" type="tel" class="form-control" id="phone" placeholder="Lastname"  disabled>
                             <label for="phone" class="form-label ps-4">Phone Number</label>
+                            <span asp-validation-for="phone" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input name="email_user" type="email" class="form-control" value="@Model.User.Email" id="email" placeholder="Firstname" disabled>
+                            <input asp-for="email" class="form-control"  id="email" placeholder="Firstname" disabled>
                             <label for="email_user" class="form-label ps-4">Email</label>
+                            <span asp-validation-for="email" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -103,20 +104,24 @@
                             Location Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating  mb-3 text-muted">
-                            <input value="@Model.User.Street" type="text" name="street" class="form-control" id="street" placeholder="Street" disabled>
+                            <input  type="text" asp-for="street" class="form-control" id="street" placeholder="Street" disabled>
                             <label for="street" class="form-label ps-4">Street</label>
+                            <span asp-validation-for="street" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input type="text" value="@Model.User.City" name="city" class="form-control" id="city" placeholder="City" disabled>
+                            <input type="text"  asp-for="city" class="form-control" id="city" placeholder="City" disabled>
                             <label for="city" class="form-label ps-4">City</label>
+                            <span asp-validation-for="city" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input value="@Model.User.State" type="text" name="state" class="form-control" id="state" placeholder="State" disabled>
+                            <input type="text" asp-for="state" class="form-control" id="state" placeholder="State" disabled>
                             <label for="state" class="form-label ps-4">State</label>
+                            <span asp-validation-for="state" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-4 col-xl-4  form-floating mb-3 text-muted">
-                            <input type="text" value="@Model.User.Zip" name="zip_code" class="form-control" id="zip" placeholder="Zip Code" disabled>
+                            <input type="text"  asp-for="zipcode" class="form-control" id="zip" placeholder="Zip Code" disabled>
                             <label for="zip" class="form-label ps-4">Zip Code</label>
+                            <span asp-validation-for="zipcode" class="text-danger"></span>
                         </div>
                         <div class="col-2 mb-3">
 
@@ -137,6 +142,11 @@
     </div>
 
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 
 <script>
     document.getElementById("Profile").classList.add("active");

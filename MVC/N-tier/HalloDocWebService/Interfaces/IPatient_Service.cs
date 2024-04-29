@@ -11,7 +11,7 @@ namespace HalloDocWebServices.Interfaces
 {
     public interface IPatient_Service
     {
-        public void editProfile(PatientRequest model, string username);
+        public void editProfile(Profile model, string username);
         public List<Requestwisefile> getPatientDocument(int? id);
         public int getReqWiseFile(int requestid);
         public Dictionary<int, int> GetCount(string email);

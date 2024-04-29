@@ -85,9 +85,7 @@
                 <label for="exampleFormControlInput1" class="form-label ps-4">Room # / (Suite Optional)</label>
                
             </div>
-            <div class="col-sm-12 col-md-6 col-xl-6 mb-3">
-                <button class="btn btn-white border-info text-info " id="inp2"><i class="fa-solid fa-location-dot me-1"></i>Map</button>
-            </div>
+          
         </div>
         <div class="row">
             <div class="col h3 mb-3">
@@ -123,3 +121,8 @@
 <script>
     document.getElementById("dashbrd").classList.add("active");
 </script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

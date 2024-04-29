@@ -68,7 +68,7 @@
                                 <p>
                                     <input type="tel" class="form-control input-placeholder" id="username"
                                            placeholder="" asp-for="phone" >
-                                    <label class="label-placeholder">(201)555-0123</label>
+                                    <label class="label-placeholder">Phone Number</label>
                                     <span asp-validation-for="phone" class="text-danger"></span>
                                 </p>
                             </div>
@@ -142,6 +142,7 @@
                                     <input type="text" class="form-control input-placeholder" id="username"
                                            placeholder="" asp-for="p_first_name" >
                                     <label class="label-placeholder">First Name</label>
+                                    <span asp-validation-for="p_first_name" class="text-danger"></span>
                                 </p>
                             </div>
                             <div class="col-xl-4 col-sm-12 col-md-6">
@@ -269,7 +270,11 @@
 
         }
     </script>
-
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 </body>
 
 

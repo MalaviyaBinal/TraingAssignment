@@ -1024,5 +1024,20 @@ namespace HalloDocWebRepo.Implementation
             }
             return keyValuePairs;
         }
+
+        public Admin getAdminByAspId(int aspid)
+        {
+            return _context.Admins.FirstOrDefault(e => e.Aspnetuserid == aspid);
+        }
+
+        public Physician getPhysicianByAspId(int aspid)
+        {
+            return _context.Physicians.FirstOrDefault(e => e.Aspnetuserid == aspid);
+        }
+
+        public List<int> getRoleMenuByRoleid(int? roleid)
+        {
+           return _context.Rolemenus.ToList().Select(i => i.Menuid).ToList();
+        }
     }
 }

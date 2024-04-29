@@ -349,6 +349,7 @@ D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\System.Drawing.Com
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\System.IO.Packaging.dll
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
+D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\System.Web.Helpers.Crypto.dll
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\Twilio.dll
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\Microsoft.ServiceBus.dll
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\XLParser.dll
@@ -415,4 +416,3 @@ D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\refint\HalloDoc.We
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\HalloDoc.Web.pdb
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\HalloDoc.Web.genruntimeconfig.cache
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\ref\HalloDoc.Web.dll
-D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\System.Web.Helpers.Crypto.dll

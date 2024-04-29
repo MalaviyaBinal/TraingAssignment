@@ -36,19 +36,26 @@ namespace HalloDocWebService.Authentication
         }
 
     }
-    public class CustomAuthorize : Attribute, IAuthorizationFilter
+    public class CustomAuthorize : Attribute, IAuthorizationFilter 
     {
         private readonly string _role;
+        private readonly int _menu;
+  
 
-        public CustomAuthorize(string role = "")
+        public CustomAuthorize(string role = "", int menu = 0)
         {
             this._role = role;
+            this._menu = menu;
         }
+    
 
         public void OnAuthorization(AuthorizationFilterContext context)
-         {
+        {
             var jwtService = context.HttpContext.RequestServices.GetService<IJWT_Service>();
-
+            var _repo = context.HttpContext.RequestServices.GetService<IAdmin_Repository>();
+            Physician phy = new();
+            Admin admin = new Admin();
+            List<int> menus = new List<int>();
             if (jwtService == null)
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Index" }));
@@ -93,13 +100,30 @@ namespace HalloDocWebService.Authentication
                     return;
                 }
 
-                Claim roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
-
-                if (roleClaim.Value != _role)
+                var roleClaim = jwtToken.Claims.ToList();
+                if (roleClaim.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value != _role)
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Index" }));
                     return;
                 }
+                switch (roleClaim.FirstOrDefault(c => c.Type == "roleId").Value)
+                {
+
+                    case "0":
+
+                        break;
+                    default:
+                        //menus.Clear();
+                        var temp = int.Parse(roleClaim.FirstOrDefault(c => c.Type == "roleId").Value);
+                        menus = _repo.getRoleMenuByRoleid(temp);
+                        break;
+                }
+                if(!menus.Any(e => e == _menu) && _menu !=0)
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Provider", action = "Error" }));
+                    return;
+                }
+
             }
 
         }

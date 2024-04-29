@@ -25,7 +25,9 @@ namespace HalloDocWebEntity.ViewModel
         public string? city { get; set; }
         [Required(ErrorMessage = "Required.")]
         public string? state { get; set; }
-        [Required(ErrorMessage = "Required.")]
+        
+        [Required(ErrorMessage = "Please provide Zip")]
+        [RegularExpression(@"[0-9]{6}", ErrorMessage = "Invalid Zip")]
         public string? zip_code { get; set; }
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$", ErrorMessage = "invalid password formate")]
         public string? password { get; set; }

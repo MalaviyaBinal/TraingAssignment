@@ -1,5 +1,8 @@
 ﻿
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using DocumentFormat.OpenXml.Spreadsheet;
 using HalloDocWebEntity.Data;
+using HalloDocWebRepo.Interface;
 using HalloDocWebServices.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,20 +16,24 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
+using Twilio.TwiML.Voice;
 
 namespace HalloDocWebServices.Implementation
 {
     public class JWT_Service : IJWT_Service
     {
         private readonly IConfiguration _config;
+        private readonly IAdmin_Repository _Repository;
 
-        public JWT_Service(IConfiguration config)
+        public JWT_Service(IConfiguration config , IAdmin_Repository repo)
         {
             _config = config;
+            _Repository = repo;
         }
 
         public string GenerateToken(Aspnetuser user)
         {
+            int roleid = 0;
             string rolename = "";
             switch (user.Role)
             {
@@ -35,19 +42,27 @@ namespace HalloDocWebServices.Implementation
                     break;
                 case 1:
                     rolename = "Admin";
+                    Admin admin = _Repository.getAdminByAspId(user.Id);
+                    roleid = (int)admin.Roleid;
                     break;
                 case 3:
                     rolename = "Provider";
+                    var phy = _Repository.getPhysicianByAspId(user.Id);
+                    roleid = (int)phy.Roleid;
                     break;
             }
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("passwordClaim",user.Passwordhash),
+                new Claim("aspId",user.Id.ToString()),
                 new Claim("userEmail",user.Email),
                 new Claim("userName",user.Usarname),
                 new Claim(ClaimTypes.Role,rolename),
+                new Claim("roleId" , roleid.ToString())
+          
+               
             };
+          
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expire = DateTime.UtcNow.AddDays(1);

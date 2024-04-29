@@ -15,8 +15,7 @@ namespace HalloDocWebEntity.ViewModel
         [EmailAddress(ErrorMessage = "Enter Valid Email Address")]
         public string? email { get; set; }
         [Required(ErrorMessage = "Mobile Number is Required.")]
-        //[RegularExpression(@"^\+[0-9\-\(\)\/\.]{6,15}[0-9]$", ErrorMessage = "Enter a valid phone number with country code.")]
-
+        [RegularExpression(@"^\+[0-9\-\(\)\/\.]{6,15}[0-9]$", ErrorMessage = "Enter a valid phone number with country code.")]
         public string? phone { get; set; }
         [Required(ErrorMessage = "Provide Hotel Name....")]
         public string hotel_name { get; set; } = string.Empty;
@@ -26,7 +25,9 @@ namespace HalloDocWebEntity.ViewModel
         public string? h_city { get; set; }
         [Required(ErrorMessage = "Required.")]
         public string? h_state { get; set; }
-        [Required(ErrorMessage = "Required.")]
+        
+        [Required(ErrorMessage = "Please provide Zip")]
+        [RegularExpression(@"[0-9]{6}", ErrorMessage = "Invalid Zip")]
         public string? h_zip_code { get; set; }
 
 
