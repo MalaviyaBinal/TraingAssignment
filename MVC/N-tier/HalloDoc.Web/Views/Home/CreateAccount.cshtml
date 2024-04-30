@@ -49,12 +49,12 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group mt-2 row">
                         <div class="col form-floating text-muted ">
-        
-                                <input asp-for="Usarname" type="text" class="form-control input-placeholder" id="Username" placeholder="">
+                            <input type="hidden" asp-for="Usarname" />
+                            <input asp-for="Usarname" type="text" class="form-control input-placeholder" id="Username" placeholder="" disabled>
                             <label asp-for="Usarname" class="form-label ms-2 ps-3">Username</label>
-                                <i class="fa-regular fa-circle-user text-secondary icon me-2"></i>
+                            <i class="fa-regular fa-circle-user text-secondary icon me-2"></i>
 
-                           
+
                         </div>
                         <span asp-validation-for="Usarname" class="text-danger"></span>
 
@@ -62,34 +62,34 @@
 
                     <div class="form-group mt-3 row">
                         <div class="col form-floating text-muted">
-                          
-                                <input asp-for="Passwordhash" type="password" class="form-control input-placeholder " id="inputPassword" placeholder="">
+
+                            <input asp-for="Passwordhash" type="password" class="form-control input-placeholder " id="inputPassword" placeholder="">
                             <label asp-for="Passwordhash" class="form-label ms-2 ps-3">Password</label>
-                                <i class="fa-regular fa-eye text-secondary icon me-2" id="showEye" style="display:none" onclick="showHidePassword()"></i>
-                                <i class="fa-solid fa-eye-slash text-secondary icon me-2" id="hideEye" style="display:block" onclick="showHidePassword()"></i>
-                      
+                           @* <i class="fa-regular fa-eye text-secondary icon me-2" id="showEye" style="display:none" onclick="showHidePassword()"></i>
+                            <i class="fa-solid fa-eye-slash text-secondary icon me-2" id="hideEye" style="display:block" onclick="showHidePassword()"></i>*@
+
                             <span asp-validation-for="Passwordhash" class="text-danger"></span>
                         </div>
-                       
+
                     </div>
                     <div class="form-group mt-3 row">
                         <div class="col form-floating text-muted">
-                          
-                                <input asp-for="confirmPassword" type="password" class="form-control input-placeholder " id="inputPassword" placeholder="">
+
+                            <input asp-for="confirmPassword" type="password" class="form-control input-placeholder " id="inputPassword" placeholder="">
                             <label asp-for="confirmPassword" class="form-label ms-2 ps-3">Password</label>
-                                <i class="fa-regular fa-eye text-secondary icon me-2" id="showEye" style="display:none" onclick="showHidePassword()"></i>
-                                <i class="fa-solid fa-eye-slash text-secondary icon me-2" id="hideEye" style="display:block" onclick="showHidePassword()"></i>
-                      
+                            <i class="fa-regular fa-eye text-secondary icon me-2" id="showEye" style="display:none" onclick="showHidePassword()"></i>
+                            <i class="fa-solid fa-eye-slash text-secondary icon me-2" id="hideEye" style="display:block" onclick="showHidePassword()"></i>
+
                             <span asp-validation-for="confirmPassword" class="text-danger"></span>
                         </div>
-                       
+
                     </div>
                     <div class="row justify-content-center mb-2 ">
                         <div class="col">
                             <input type="submit" value="Create" class="btn btn-info text-light w-100 mt-2">
                         </div>
                     </div>
-                  
+
                 </form>
                 <footer class="text-center text-lg-center bg-body-tertiary bg-transparent text-muted footer-bottom">
                     <span>Terms and Conditions | Privacy Policy</span>
@@ -131,7 +131,7 @@
         }
 
     </script>
-   
+
 </body>
 
 </html>

@@ -235,6 +235,9 @@ namespace HalloDocWebServices.Implementation
                 Lastname = info.p_last_name,
                 Phonenumber = info.phone,
                 Location = info.p_street + "," + info.p_city + "," + info.p_state + " ," + info.p_zip_code,
+                Street = info.p_street, City = info.p_city,
+                State = info.p_state,
+                Zipcode = info.p_zip_code,
                 Email = info.p_email,
                 Regionid = 1,
                 Intdate = info.dob.Value.Day,
@@ -300,6 +303,11 @@ namespace HalloDocWebServices.Implementation
                 Lastname = info.p_last_name,
                 Phonenumber = info.p_phone,
                 Location = info.h_street + "," + info.h_city + "," + info.h_state + " ," + info.h_zip_code,
+                Street = info.h_street,
+                City = info.h_city,
+                State = info.h_state,
+                Zipcode = info.h_zip_code,
+              
                 Email = info.p_email,
                 Regionid = 1,
                 Intdate = info.p_dob.Value.Day,
@@ -525,7 +533,7 @@ namespace HalloDocWebServices.Implementation
             var password = "binal@2002";
             var receiver = "binalmalaviya2002@gmail.com";
             var subject = "Create Your Account";
-            var message = "Hello Click Here to Create Account:https://localhost:44380/Home/CreateAccount?token=" + token;
+            var message = "Hello "+ email+ ",Click Here to Create Account:https://localhost:44380/Home/CreateAccount?token=" + token;
             var mailclient = new SmtpClient("smtp.office365.com", 587)
             {
                 EnableSsl = true,
@@ -598,6 +606,9 @@ namespace HalloDocWebServices.Implementation
                         Zip = client.Zipcode,
                         City = client.City,
                         Createddate = DateTime.Now,
+                        Intdate = client.Intdate,
+                        Intyear = client.Intyear,
+                        Strmonth = client.Strmonth
                     };
                     _repository.addUserTable(user);
                     Request req = _repository.getFirstRequestTable(client.Requestid);

@@ -1,4 +1,4 @@
-﻿﻿
+﻿@*﻿
 <div class="modal fade" id="Encounter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 <script>
     $(document).ready(function () {
         var myModalAssign = new bootstrap.Modal(document.getElementById('Encounter'));
@@ -26,7 +26,7 @@
     });
 </script>
 
-            <div class="modal fade" id="typeofcare" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="Encounter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
@@ -34,12 +34,12 @@
                 <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
             <form action="">
-                <input type="hidden" name="" id="redirect-value" value="ProviderHouseHoldSelect">
+                <input type="hidden" name="" id="redirect-value" value="HouseCall">
                 <div class="modal-body">
                    
                     <div class="modal-flex text-center mt-3">
-                        <div class="btn btn-info common-btn cancel-btn create-request-active" onclick="toggleButton(this,'ProviderHouseHoldSelect')">HouseCall</div>
-                        <div class="btn common-btn cancel-btn" onclick="toggleButton(this,'ProviderConsultSelect')">Consult</div>
+                        <div class="btn btn-info common-btn cancel-btn create-request-active" onclick="toggleButton(this,'HouseCall')">HouseCall</div>
+                        <div class="btn common-btn cancel-btn" onclick="toggleButton(this,'ConsultCall')">Consult</div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -69,6 +69,6 @@
     }
 
     const redirect = () => {
-        window.location.assign(`./Provider/${document.getElementById("redirect-value").value}?id=` + @Model.RequestId);
+        window.location.assign(`./${document.getElementById("redirect-value").value}?id=` + @ViewBag.reqid);
     }
 </script>

@@ -16,7 +16,11 @@ namespace HalloDocWebEntity.ViewModel
         public List<int>? SelectedReg { get; set; }
         public Aspnetuser? aspnetuser { get; set; }
         public Physician? physician { get; set; }
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select Role...")]
         public int roleid { get; set; }
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select State...")]
         public int regionid { get; set; }
         [Required(ErrorMessage = "First name Required....")]
         public string Firstname { get; set; }

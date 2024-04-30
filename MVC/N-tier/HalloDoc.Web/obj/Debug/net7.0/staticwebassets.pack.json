@@ -41,6 +41,22 @@
       "PackagePath": "staticwebassets\\PhysicianDoc\\2\\Signature.png"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\4\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\4\\AgreementDoc.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\4\\Profile.png",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\4\\Profile.png"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\4\\Signature",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\4"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\4\\Signature.png",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\4\\Signature.png"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\5\\AgreementDoc.pdf",
       "PackagePath": "staticwebassets\\PhysicianDoc\\5\\AgreementDoc.pdf"
     },
@@ -91,6 +107,10 @@
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\.net-Whole-Plane-2024.pdf",
       "PackagePath": "staticwebassets\\UploadedFiles\\.net-Whole-Plane-2024.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\.~lock.data (3).xlsx#",
+      "PackagePath": "staticwebassets\\UploadedFiles\\.~lock.data (3).xlsx#"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\20171011060905_Training.pptx",
@@ -185,6 +205,14 @@
       "PackagePath": "staticwebassets\\UploadedFiles\\Test Instructions.pdf"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\accessDenied.png",
+      "PackagePath": "staticwebassets\\UploadedFiles\\accessDenied.png"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\data (2).xlsx",
+      "PackagePath": "staticwebassets\\UploadedFiles\\data (2).xlsx"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\data (3).xlsx",
       "PackagePath": "staticwebassets\\UploadedFiles\\data (3).xlsx"
     },
@@ -195,6 +223,10 @@
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\data (9).xlsx",
       "PackagePath": "staticwebassets\\UploadedFiles\\data (9).xlsx"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\data.xlsx",
+      "PackagePath": "staticwebassets\\UploadedFiles\\data.xlsx"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\halloDoc_schema.xlsx",
@@ -211,6 +243,10 @@
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\image_2024_03_01T04_42_30_245Z.png",
       "PackagePath": "staticwebassets\\UploadedFiles\\image_2024_03_01T04_42_30_245Z.png"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\index.html",
+      "PackagePath": "staticwebassets\\UploadedFiles\\index.html"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\UploadedFiles\\request.csv",
@@ -277,10 +313,6 @@
       "PackagePath": "staticwebassets\\images\\LesfImage.png"
     },
     {
-      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\images\\accessDenied.jfif",
-      "PackagePath": "staticwebassets\\images\\accessDenied.jfif"
-    },
-    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\images\\accessDenied.png",
       "PackagePath": "staticwebassets\\images\\accessDenied.png"
     },
@@ -339,6 +371,10 @@
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\images\\unpaid_active.png",
       "PackagePath": "staticwebassets\\images\\unpaid_active.png"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\images\\xyz.png",
+      "PackagePath": "staticwebassets\\images\\xyz.png"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\js\\daypilot-all.min.js",

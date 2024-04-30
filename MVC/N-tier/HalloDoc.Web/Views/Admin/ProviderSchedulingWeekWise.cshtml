@@ -33,7 +33,7 @@
                 </div>
 
                 <div>
-                    <div class="h5  heading">Monday,Dec 4 2023</div>
+                    <div class="h5  heading"><spam id="date1"></spam></div>
                 </div>
                 <div class="text-end mb-3">
                     <i class="bi bi-square-fill" style="color: #EEACD0;"></i>
@@ -45,12 +45,11 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <a href="javascript:dp.startDate = dp.startDate.addDays(-7); dp.update();" class="text-decoration-none">
-                            <i class="fa-solid fa-less-than text-white p-2" style="background-color:#1ad1ff;border-radius:20px;"></i>
+                            <button class="btn btn-info text-white mx-1" style="border-radius:30px;" onclick="RemoveWeeks()"><</button>
                         </a>
-                        <span style="height:20px;" id="change"><i class="bi bi-calendar3"></i> </span>
-
+                        <span id="change"><i class="bi bi-calendar2-week text-muted h5"></i> </span>
                         <a href="javascript:dp.startDate = dp.startDate.addDays(7); dp.update();">
-                            <i class="fa-solid fa-greater-than text-white p-2 me-2" style="background-color:#1ad1ff;border-radius:20px;"></i>
+                            <button class="btn btn-info text-white mx-1" style="border-radius:30px;" onclick="addWeeks()">></button>
                         </a>
                     </div>
                     <div>
@@ -70,6 +69,55 @@
 <div id="modalpopup">
 </div>
 <script>
+
+
+    Date.prototype.addDays = function (days) {
+        var date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+    }
+    var date = new Date();
+    const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+    function getLastDayOfWeek(d) {
+        const date = new Date(d);
+        const day = date.getDay();
+        const diff = date.getDate() - day + 6; // Adjust for Saturday (last day of the week)
+
+        return new Date(date.setDate(diff));
+    }
+    function getFirstDayOfWeek(d) {
+        debugger;
+        d = new Date(d);
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -7 : 0); // Adjust when the day is Sunday
+        console.log(new Date(date.setDate(diff)));
+        return new Date(d.setDate(diff));
+    }
+
+    const firstDayOfWeek = getFirstDayOfWeek(date);
+    const lastDayOfWeek = getLastDayOfWeek(date);
+    console.log(firstDayOfWeek);
+    console.log(lastDayOfWeek);
+    document.getElementById("date1").innerHTML = firstDayOfWeek.toLocaleDateString('en-US', options) + "-" + lastDayOfWeek.toLocaleDateString('en-US', options);
+
+
+    function addWeeks() {
+        firstDayOfWeek.setDate(firstDayOfWeek.getDate() + 7);
+        lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 7);
+        const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+        document.getElementById("date1").innerHTML = firstDayOfWeek.toLocaleDateString('en-US', options) + "-" + lastDayOfWeek.toLocaleDateString('en-US', options);
+
+
+    }
+
+    function RemoveWeeks() {
+        firstDayOfWeek.setDate(firstDayOfWeek.getDate() - 7);
+        lastDayOfWeek.setDate(lastDayOfWeek.getDate() - 7);
+        const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+        document.getElementById("date1").innerHTML = firstDayOfWeek.toLocaleDateString('en-US', options) + "-" + lastDayOfWeek.toLocaleDateString('en-US', options);
+
+
+    }
     function ModalofShift() {
         console.log("dfdf");
         $.ajax({

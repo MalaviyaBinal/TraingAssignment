@@ -20,6 +20,9 @@ namespace HalloDocWebEntity.ViewModel
         [Required(ErrorMessage = "Password required...")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$", ErrorMessage = "invalid password formate")]
         public string Passwordhash { get; set; }
+        
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$", ErrorMessage = "invalid password formate")]
+        public string? profile_Password { get; set; }
 
         [Required(ErrorMessage = "First name Required....")]
         public string Firstname { get; set; }
@@ -28,6 +31,10 @@ namespace HalloDocWebEntity.ViewModel
         [Required(ErrorMessage = "Email Required....")]
         [EmailAddress(ErrorMessage = "Enter Valid Email Address")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Email Required....")]
+        [EmailAddress(ErrorMessage = "Enter Valid Email Address")]
+        [Compare( nameof(Email), ErrorMessage = "Email and Confirm email should be same")]
+        public string con_Email { get; set; }
         [Required(ErrorMessage = "Mobile Number is Required.")]
         [RegularExpression(@"^\+[0-9\-\(\)\/\.]{6,15}[0-9]$", ErrorMessage = "Enter a valid phone number with country code.")]
         public string Mobile { get; set; }
@@ -45,6 +52,8 @@ namespace HalloDocWebEntity.ViewModel
         public string Zip { get; set; }
         [RegularExpression(@"^\+[0-9\-\(\)\/\.]{6,15}[0-9]$", ErrorMessage = "Enter a valid phone number with country code.")]
         public string Altphone { get; set; }
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select State ...")]
         public int regionid { get; set; }
 
     }

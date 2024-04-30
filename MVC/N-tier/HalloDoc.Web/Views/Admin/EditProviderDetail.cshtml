@@ -55,30 +55,39 @@
                             <label for="exampleFormControlInput1" class="form-label ms-2">User Name</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control d3class" name="Passwordhash" id="password" placeholder="Password" disabled>
+                            <input type="text" class="form-control d3class" name="Passwordhash" id="password" onchange="checkPWD(this)" required placeholder="Password" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Password </label>
+                            <span asp-validation-for="Passwordhash" id="pwdError" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
                             <div class="mb-3 border border-light rounded-5">
-                                <select class="form-select p-3 pla1 d3class" aria-label="form-select-lg example" disabled>
-                                    <option selected value="1">Mobile</option>
-                                    <option value="2">Email</option>
-                                </select>
+
+                                <select class="form-select text-muted p-3 " asp-for=physician.Status aria-label="form-select-lg example" disabled>
+
+                                            <option value="1">Pending</option>
+                                            <option value="2">Active</option>
+                                            <option value="3">InActive</option>
+                                        </select>
+                                   
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
                             <div class="mb-3 border border-light rounded-5">
-                                <select class="form-select p-3 pla1 d3class" aria-label="form-select-lg example" disabled>
-                                    <option selected value="1">Mobile</option>
-                                    <option value="2">Email</option>
+                                <select class="form-select text-muted p-3 " asp-for=physician.Roleid aria-label=" form-select-lg example" disabled>
+
+                                    @foreach (var item in Model.roles)
+                                    {
+                                        <option value="@item.Roleid">
+                                            @item.Name
+                                        </option>
+                                    }
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="text-end pb-3">
                         <button class="btn btn-info text-white" type="button" id="edit3" onclick="EditData3()">Edit</button>
-                        @*<button class="btn btn-info text-white d-none" id="save3" type="submit">Save</button>*@
-
+              
                         <button class="btn btn-white text-info border-info d-none" onclick="Cancel3()" id="cancel3" type="button">Cancel</button>
                         <button class="btn btn-white text-info border-info" id="resetpwd" type="submit" disabled>Reset password</button>
                     </div>
@@ -90,33 +99,37 @@
                             Physician Information
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input type="text" class="form-control dclass" asp-for=Firstname value="@Model.Firstname" id="exampleFormControlInput1" placeholder="Firstname" disabled>
+                            <input type="text" class="form-control dclass" asp-for=Firstname id="exampleFormControlInput1" placeholder="Firstname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Firstname</label>
-                            <span class="text-danger"></span>
+                            <span asp-validation-for="Firstname" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="text" class="form-control dclass" asp-for=Lastname value="@Model.Lastname" id="exampleFormControlInput1" placeholder="Lastname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Lastname</label>
-                            <span class="text-danger"></span>
+                            <span asp-validation-for="Lastname" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="email" class="form-control dclass" asp-for=Email value="@Model.Email" id="email" placeholder="Email" disabled>
-                            <label for="email" class="form-label ms-2">Email</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input id="phone" class="form-control inp2 dclass" asp-for=Mobile value="@Model.Mobile" type="tel" placeholder="Phone Number" disabled>
+                            <span asp-validation-for="Mobile" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="text" class="form-control dclass" asp-for=Medicallicense value="@Model.Medicallicense" id="exampleFormControlInput1" placeholder="Lastname" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Medical Licence</label>
+                            <span asp-validation-for="Medicallicense" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="text" class="form-control dclass" asp-for=Npinumber value="@Model.Npinumber" id="exampleFormControlInput1" placeholder="NPI Number" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">NPI Number</label>
+                            <span asp-validation-for="Npinumber" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="email" class="form-control dclass" asp-for=Syncemailaddress value="@Model.Syncemailaddress" id="exampleFormControlInput1" placeholder="Synchronization Email Address" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Synchronization Email Address</label>
+                            <span asp-validation-for="Syncemailaddress" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 mb-3 text-muted">
                             @if (Model.regions != null)
@@ -157,25 +170,36 @@
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="text" asp-for=Address1 value="@Model.Address1" class="form-control d1class" id="Address-1" placeholder="Address 1" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Address 1</label>
+                            <span asp-validation-for=" Address1" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="text" asp-for=Address2 value="@Model.Address2" class="form-control d1class" id="Address-2" placeholder="Address 2" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Address 2</label>
+                            <span asp-validation-for=" Address2" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
                             <input type="text" asp-for=City value="@Model.City" class="form-control d1class" id="city" placeholder="City" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">City</label>
+                            <span asp-validation-for=" City" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
-                            <input type="text" asp-for=City value="@Model.City" class="form-control d1class" id="state" placeholder="State" disabled>
-                            <label for="exampleFormControlInput1" class="form-label ms-2">State</label>
+                            <select class="form-select p-3 pla1" asp-for=regionid id="SearchByRegion" disabled>
+                                <option value="0">Select state</option>
+                                @foreach (var i in Model.regions)
+                                {
+                                    <option value="@i.Regionid">@i.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="regionid" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
                             <input type="text" asp-for=Zip value="@Model.Zip" class="form-control d1class" id="zipcode" placeholder="Zip Code" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Zip Code</label>
+                            <span asp-validation-for=" Zip" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input id="phone1" asp-for=Mobile value="@Model.Mobile" class="form-control inp2 d1class" type="tel" placeholder="Phone Number" disabled>
+                            <input id="phone1" asp-for=Altphone value="@Model.Altphone" class="form-control inp2 d1class" type="tel" placeholder="Phone Number" disabled>
+                            <span asp-validation-for=" Altphone" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="text-end pb-3">
@@ -193,10 +217,12 @@
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="text" asp-for=Businessname value="@Model.Businessname" class="form-control d2class" id="Address-1" placeholder="Business Name" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Business Name</label>
+                            <span asp-validation-for="Businessname" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="text" asp-for=Businesswebsite value="@Model.Businesswebsite" class="form-control d2class" id="Address-2" placeholder="Business Website" disabled>
                             <label for="exampleFormControlInput1" class="form-label ms-2">Business Website</label>
+                            <span asp-validation-for="Businesswebsite" class="text-danger"></span>
                         </div>
                         <div class=" col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <p>
@@ -552,3 +578,28 @@
         })
     }
 </script>
+<script>
+    function checkPWD() {
+        debugger;
+        var password = document.getElementById("password").value;
+
+        let pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$/
+
+        if (!pattern.test(password)) {
+            document.getElementById("pwdError").innerHTML = "Password must contain One uppercase ,lowercase letter ,one digit and special character..";
+        }
+        else if (password == "") {
+            document.getElementById("pwdError").innerHTML = "";
+        }
+        else {
+            document.getElementById("pwdError").innerHTML = "";
+        }
+    }
+
+
+</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

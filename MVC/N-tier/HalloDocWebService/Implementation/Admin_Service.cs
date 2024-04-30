@@ -189,9 +189,19 @@ namespace HalloDocWebServices.Implementation
             var adminRegion = _repository.getAdminRegionByAdminId(admin.Adminid);
             AdminProfile profile = new();
             profile.admin = admin;
+            profile.Firstname = admin.Firstname;
+            profile.Lastname = admin.Lastname;
+            profile.Email = admin.Email;
+            profile.con_Email = admin.Email;
+            profile.Mobile = admin.Mobile;
+            profile.Address1 = admin.Address1;
+            profile.Address2 = admin.Address2;
+            profile.City = admin.City;
+            profile.Zip = admin.Zip;
             profile.adminuser = _repository.getAspnetuserByEmail(email);
             profile.regions = _repository.getRegions();
             profile.adminregion = adminRegion;
+            profile.regionid = (int)admin.Regionid;
             profile.roles = _repository.getRoleList();
             profile.isAdminProfile = true;
             return profile;
@@ -206,6 +216,7 @@ namespace HalloDocWebServices.Implementation
             profile.regions = _repository.getRegions();
             profile.adminregion = adminRegion;
             profile.roles = _repository.getRoleList();
+            profile.regionid = (int)(admin.Regionid);
             profile.isAdminProfile = false;
             return profile;
         }
@@ -856,11 +867,12 @@ namespace HalloDocWebServices.Implementation
         public void updateadminaddress(AdminProfile info)
         {
             var model = _repository.getAdminByAdminId(info.admin);
-            model.Address1 = info.admin.Address1;
-            model.Address2 = info.admin.Address2;
-            model.City = info.admin.City;
-            model.Zip = info.admin.Zip;
-            model.Altphone = info.admin.Altphone;
+            model.Address1 = info.Address1;
+            model.Address2 = info.Address2;
+            model.City = info.City;
+            model.Zip = info.Zip;
+            model.Altphone = info.Altphone;
+            model.Regionid = info.regionid;
             model.Modifieddate = DateTime.Now;
             _repository.updateAdmin(model);
         }
@@ -886,10 +898,10 @@ namespace HalloDocWebServices.Implementation
                 Adminregion ar = new() { Adminid = info.admin.Adminid, Regionid = reg };
                 _repository.RemoveAdminReg(ar);
             }
-            model.Firstname = info.admin.Firstname;
-            model.Lastname = info.admin.Lastname;
-            model.Email = info.admin.Email;
-            model.Mobile = info.admin.Mobile;
+            model.Firstname = info.Firstname;
+            model.Lastname = info.Lastname;
+            model.Email = info.Email;
+            model.Mobile =  info.Mobile;
             model.Modifieddate = DateTime.Now;
             _repository.updateAdmin(model);
         }
@@ -1167,11 +1179,12 @@ namespace HalloDocWebServices.Implementation
             Physician phy = _repository.getPhysicianById(id);
             Aspnetuser asp = _repository.getAspnetuserByID(phy.Aspnetuserid);
             AdminProviderModel model = new AdminProviderModel();
+            model.roles = _repository.getRoleList();
             model.regions = _repository.getRegions();
             model.phyregions = _repository.getPhysicianRegionByPhy(id);
             model.physician = phy;
             model.aspnetuser = asp;
-            model.Firstname = "Dr" + phy.Firstname;
+            model.Firstname =  phy.Firstname;
             model.Lastname = phy.Lastname;
             model.Email = phy.Email;
             model.Mobile = phy.Mobile;
@@ -1189,6 +1202,9 @@ namespace HalloDocWebServices.Implementation
             model.Isagrementdoc = phy.Isagreementdoc;
             model.IsbackgroundDoc = phy.Isbackgrounddoc;
             model.IsLisenceDoc = phy.Islicensedoc;
+            model.regionid = (int)phy.Regionid;
+            model.roleid = (int)phy.Roleid;
+            
             model.IsNonDisclosure = phy.Isnondisclosuredoc;
             if (u == null)
                 model.isProviderEdit = true;
@@ -1201,12 +1217,13 @@ namespace HalloDocWebServices.Implementation
 
             return model;
         }
+
         public void savePhysicianPassword(AdminProviderModel info)
         {
             var aspnetuser = _repository.getAspnetuserByID(info.aspnetuser.Id);
             if (info.Passwordhash != null)
             {
-                aspnetuser.Passwordhash = info.Passwordhash;
+                aspnetuser.Passwordhash = Crypto.HashPassword(info.Passwordhash);
             }
 
 
@@ -2188,9 +2205,9 @@ namespace HalloDocWebServices.Implementation
         public void saveAdminPassword(AdminProfile info)
         {
             var aspnetuser = _repository.getAspnetuserByID(info.adminuser.Id);
-            if (info.Passwordhash != null)
+            if (info.profile_Password != null)
             {
-                aspnetuser.Passwordhash = info.Passwordhash;
+                aspnetuser.Passwordhash = Crypto.HashPassword(info.profile_Password) ;
             }
 
 
@@ -2226,48 +2243,50 @@ namespace HalloDocWebServices.Implementation
             model.phy = _repository.getPhysicianList();
 
 
-            
+            if(model.Data != null) {
+                if (!string.IsNullOrWhiteSpace(searchstr))
+                {
+                    model.Data = model.Data.Where(x => x.Firstname.ToLower().Contains(searchstr.ToLower())).ToList();
+                }
+                if (!string.IsNullOrWhiteSpace(mobile))
+                {
+                    model.blockRequests = model.blockRequests.Where(x => x.Phonenumber.ToLower().Contains(mobile.ToLower())).ToList();
+                }
+                if (!string.IsNullOrWhiteSpace(email))
+                {
+                    model.Data = model.Data.Where(x => x.Email.ToLower().Contains(email.ToLower())).ToList();
+                }
+                if (status != 0)
+                {
 
-            if (!string.IsNullOrWhiteSpace(searchstr))
-            {
-                model.Data = model.Data.Where(x => x.Firstname.ToLower().Contains(searchstr.ToLower())).ToList();
+                    model.Data = model.Data.Where(x => x.Request.Status == status).ToList();
+
+                }
+                if (reqtype != 0)
+                {
+
+                    model.Data = model.Data.Where(x => x.Request.Requesttypeid == reqtype).ToList();
+
+                }
+                if (fdate != DateTime.MinValue)
+                {
+
+                    model.Data = model.Data.Where(x => x.Request.Createddate > fdate).OrderBy(x => x.Request.Createddate).ToList();
+
+                }
+
+                if (tdate != DateTime.MinValue)
+                {
+                    model.Data = model.Data.Where(x => x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
+                }
+
+                if (tdate != DateTime.MinValue && tdate != DateTime.MinValue)
+                {
+                    model.Data = model.Data.Where(x => x.Request.Createddate > fdate && x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
+                }
+
             }
-            if (!string.IsNullOrWhiteSpace(mobile))
-            {
-                model.blockRequests = model.blockRequests.Where(x => x.Phonenumber.ToLower().Contains(mobile.ToLower())).ToList();
-            }
-            if (!string.IsNullOrWhiteSpace(email))
-            {
-                model.Data = model.Data.Where(x => x.Email.ToLower().Contains(email.ToLower())).ToList();
-            }
-            if (status != 0)
-            {
 
-                model.Data = model.Data.Where(x => x.Request.Status == status).ToList();
-
-            }
-            if (reqtype != 0)
-            {
-
-                model.Data = model.Data.Where(x => x.Request.Requesttypeid == reqtype).ToList();
-
-            }
-            if (fdate != DateTime.MinValue)
-            {
-
-                model.Data = model.Data.Where(x => x.Request.Createddate > fdate).OrderBy(x => x.Request.Createddate).ToList();
-
-            }
-
-            if (tdate != DateTime.MinValue)
-            {
-                model.Data = model.Data.Where(x => x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
-            }
-
-            if (tdate != DateTime.MinValue && tdate != DateTime.MinValue)
-            {
-                model.Data = model.Data.Where(x => x.Request.Createddate > fdate && x.Request.Createddate < tdate).OrderBy(x => x.Request.Createddate).ToList();
-            }
 
 
             var workbook = new ClosedXML.Excel.XLWorkbook();

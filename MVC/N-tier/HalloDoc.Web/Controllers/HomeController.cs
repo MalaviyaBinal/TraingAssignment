@@ -52,7 +52,7 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult ChangePassword(loginModel user)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid )
             {
                 return View("ResetPassword", user);
             }

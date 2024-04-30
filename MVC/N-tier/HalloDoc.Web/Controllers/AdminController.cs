@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.EMMA;
 using HalloDocWebService.Authentication;
+using System.Text.RegularExpressions;
+
 namespace HalloDoc.Web.Controllers
 {
     public class AdminController : Controller
@@ -49,20 +51,7 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult CreateProviderAdmin(AdminProviderModel model)
         {
-            if (!ModelState.IsValid || model.roleid == 0 || model.regionid == 0)
-            {
-                if (model.roleid == 0)
-                {
-                    ModelState.AddModelError("roleid", "Select role..");
-                }
-                if (model.regionid == 0)
-                {
-                    ModelState.AddModelError("regionid", "Select State..");
-                }
-                model.roles = _service.getRolesOfProvider();
-                model.regions = _service.getRegionList();
-                return View(model);
-            }
+         
             _service.addProviderByAdmin(model);
             return RedirectToAction(nameof(AdminDashboard));
         }
@@ -546,6 +535,17 @@ namespace HalloDoc.Web.Controllers
         }
         public ActionResult UpdateAdminProfile(AdminProfile info)
         {
+            if (info.Email != info.con_Email)
+            {
+                var m = _service.getAdminProfileData(HttpContext.Request.Cookies["userEmail"]);
+               
+                    m.con_Email = info.con_Email;
+                    ModelState.AddModelError("con_Email", "Email and Confirm email should be same");
+                
+                return View(nameof(AdminDashboardMyProfile), m);
+            }
+
+
             _service.updateadminform(info);
             return RedirectToAction(nameof(AdminDashboardMyProfile));
         }
@@ -565,13 +565,17 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public ActionResult SavePhysicianPassword(AdminProviderModel info)
         {
-            _service.savePhysicianPassword(info);
+            //_service.savePhysicianPassword(info);
             return RedirectToAction(nameof(EditProviderDetail), new { id = info.physician.Physicianid });
         }
         [HttpPost]
         public ActionResult UpdateAdminPassword(AdminProfile info)
         {
+            
+            
             _service.saveAdminPassword(info);
+            Logout();
+
             return RedirectToAction(nameof(AdminDashboardMyProfile));
         }
         [HttpPost]
