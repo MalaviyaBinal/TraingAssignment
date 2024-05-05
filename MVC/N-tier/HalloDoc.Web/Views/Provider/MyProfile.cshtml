@@ -78,8 +78,7 @@
                         <button class="btn btn-white text-info border-info" onclick="disableData2()" id="cancel2" type="button" style="display:none;">Cancel</button>
                     </div>
                 </form>
-                <form asp-action="SavePhysicianInfo" asp-controller="Provider" id="enable">
-                    <input type="hidden" asp-for=physician.Physicianid />
+                
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Physician Information
@@ -132,9 +131,7 @@
                             }
                         </div>
                     </div>
-                </form>
-                <form asp-action="SavePhysicianBillingInfo" asp-controller="Provider" id="enable1">
-                    <input type="hidden" asp-for=physician.Physicianid />
+          
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Mailing & Billing Information
@@ -163,8 +160,7 @@
                             <input asp-for=Altphone value="@Model.Altphone" id="phone1" class="form-control inp2" type="tel" placeholder="Phone Number" disabled>
                         </div>
                     </div>
-                </form>
-                <form id="enable1">
+         
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Provider Profile
@@ -177,42 +173,26 @@
                             <input asp-for=Businesswebsite value="@Model.Businesswebsite" type="text" class="form-control" id="Address-2" placeholder="Business Website" disabled>
                             <label for="exampleFormControlInput1" class="form-label ps-4">Business Website</label>
                         </div>
-                        <fieldset id="upload" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                            <div class="input-group mb-3 ">
-                                <input type="file" class="form-control" disabled id="inputGroupFile02">
-                                <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                    <label class="btn btn-info text-white mx-0">
-                                        <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                        Upload
-                                    </label>
-
-                                </label>
-                            </div>
-                        </fieldset>
-                        <fieldset id="upload" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                            <div class="input-group mb-3 ">
-                                <input type="file" class="form-control" disabled id="inputGroupFile02">
-                                <label class="input-group-text text-muted p-0" for="inputGroupFile02">
-                                    <label class="btn btn-info text-white mx-0">
-                                        <i class="fa-solid fa-cloud-arrow-up" style="color: #ffffff;"></i>
-                                        Upload
-                                    </label>
-
-                                </label>
-                            </div>
-                        </fieldset>
-
-                        @if (Model.Signature != null)
+                        @if (Model.isPhoto == true)
                         {
-                            <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-                                <img src="/PhysicianDoc/@Model.physician.Physicianid/@Model.Signature" class="w-25 " height="150px" width="50px" />
+                            var str = "/PhysicianDoc/" + Model.physician.Physicianid + "/" + Model.PhotoName;
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
+                                <img src="@str" class="img-fluid" style="height:250px ; width : 250px;">
                             </div>
                         }
+                        @if (Model.isSignature == true)
+                        {
+
+                            var str = "/PhysicianDoc/" + Model.physician.Physicianid + "/" + Model.SignatureName;
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
+                                <img src="@str" class="img-fluid" style="height:250px ; width : 250px;">
+                            </div>
+                        }
+
+
                     </div>
                     <hr />
-                </form>
-                <form id="enable1" method="post" enctype="multipart/form-data" asp-action="SavePhysicianProfile" asp-controller="Provider">
-                    <input type="hidden" asp-for=physician.Physicianid  />
+               
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Onboarding
@@ -285,7 +265,7 @@
                         </div>
                     </div>
                     <hr />
-                </form>
+               
             </div>
         </div>
     </div>
@@ -296,26 +276,7 @@
     function viewdoc(str) {
         window.open("/PhysicianDoc/" + @Model.physician.Physicianid+"/" + str + ".pdf");
     }
-    function deleteaccess(element) {
-
-        var id = element.value;
-        console.log(id);
-        $.ajax({
-            url: "/Provider/ShowDeleteModal",
-            data: { 'id': id, 'acntType': "Physician" },
-            type: "GET",
-            dataType: "html",
-            success: function (data) {
-
-                $("#modalpopup").html(data);
-
-            },
-            error: function () {
-                alert("No Projects Found");
-
-            }
-        });
-    };
+ 
     function EditData2() {
         document.getElementById("reset").style.display = "none";
         document.getElementById("cancel2").style.display = "inline";
@@ -328,67 +289,19 @@
         document.getElementById("cancel2").style.display = "none";
         document.getElementById("save2").style.display = "none";
     }
-    function disableData() {
-        document.getElementById("save1").style.display = "none";
-        document.getElementById("cancel1").style.display = "none";
-        document.getElementById("edit1").style.display = "inline";
-        var formelements = document.getElementById("enable1").elements;
-        for (var i = 0; i < formelements.length; i++) {
-            if (i == 7)
-                continue;
-            formelements[i].disabled = true;
-        }
-    }
-    function disableData1() {
-        document.getElementById("save").style.display = "none";
-        document.getElementById("cancel").style.display = "none";
-        document.getElementById("edit").style.display = "inline";
-        var formelements = document.getElementById("enable").elements;
-        for (var i = 0; i < formelements.length; i++) {
-            if (i == 10)
-                continue;
-            formelements[i].disabled = true;
-        }
-    }
-    function EditData() {
-        document.getElementById("save").style.display = "inline";
-        document.getElementById("cancel").style.display = "inline";
-        document.getElementById("edit").style.display = "none";
-        var formelements = document.getElementById("enable").elements;
-        for (var i = 0; i < formelements.length; i++) {
-            formelements[i].disabled = false;
-        }
-    }
-    function EditData1() {
-        document.getElementById("save1").style.display = "inline";
-        document.getElementById("cancel1").style.display = "inline";
-        document.getElementById("edit1").style.display = "none";
-        var formelements = document.getElementById("enable1").elements;
-        for (var i = 0; i < formelements.length; i++) {
-            formelements[i].disabled = false;
-        }
-    }
-    // document.getElementById("save").style.display = "inline";
-    // document.getElementById("cancel").style.display = "inline";
-    // document.getElementById("edit").style.display = "none";
+
+    
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
-    const button = document.querySelector("#btn");
-    const errorMsg = document.querySelector("#error-msg");
-    const validMsg = document.querySelector("#valid-msg");
-
-    // here, the index maps to the error code returned from getValidationError - see readme
-    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
-
+    
     // initialise plugin
-    const iti = window.intlTelInput(input, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    window.intlTelInput(input, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
-    const iti1 = window.intlTelInput(input2, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    window.intlTelInput(input2, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
+
 </script>
 <script>
     document.getElementById("myProfile").classList.add("active");

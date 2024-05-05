@@ -34,6 +34,7 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
+     
         [HttpPost]
         public IActionResult ResetPassword(Aspnetuser user)
         {
@@ -50,7 +51,7 @@ namespace HalloDoc.Web.Controllers
             return View(nameof(Index));
         }
         [HttpPost]
-        public IActionResult ChangePassword(loginModel user)
+        public IActionResult ChangePassword(ResetPWDModel user)
         {
             if (!ModelState.IsValid )
             {
@@ -65,7 +66,7 @@ namespace HalloDoc.Web.Controllers
             {
                 return Problem("Invalid Request....");
             }
-            loginModel model = _service.getAspnetUserByToken(token);
+            ResetPWDModel model = _service.getAspnetUserByToken(token);
             return View(model);
         }
 

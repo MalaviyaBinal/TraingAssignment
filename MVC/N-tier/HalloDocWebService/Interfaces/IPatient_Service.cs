@@ -37,7 +37,7 @@ namespace HalloDocWebServices.Interfaces
         bool checkUserExists(Aspnetuser user);
         void SendResetPwdPage(Aspnetuser user);
         bool checkTokenExists(string token);
-        loginModel getAspnetUserByToken(string token);
-        void changePassword(loginModel user);
+        ResetPWDModel getAspnetUserByToken(string token);
+        void changePassword(ResetPWDModel user);
     }
 }

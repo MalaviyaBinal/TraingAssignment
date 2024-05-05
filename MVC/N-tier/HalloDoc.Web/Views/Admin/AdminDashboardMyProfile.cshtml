@@ -48,7 +48,7 @@
                     <h5 class="mb-3">Account Information</h5>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input value="@Model.adminuser.Usarname" name="first_name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Firstname" disabled>
+                            <input value="@Model.adminuser.Usarname" name="first_name" type="text" class="form-control" id="exampleFormControlInput1" disabled>
                             <label for="exampleFormControlInput1" class="form-label ps-4">User Name</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
@@ -253,26 +253,17 @@
         document.getElementById("cancelbtn").style.display = "inline";
         document.getElementById("resetbtn").style.display = "none";
     }
-    // document.getElementById("save").style.display = "inline";
-    // document.getElementById("cancel").style.display = "inline";
-    // document.getElementById("edit").style.display = "none";
+
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
-    const button = document.querySelector("#btn");
-    const errorMsg = document.querySelector("#error-msg");
-    const validMsg = document.querySelector("#valid-msg");
-
-    // here, the index maps to the error code returned from getValidationError - see readme
-    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+   
 
     // initialise plugin
-    const iti = window.intlTelInput(input, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    window.intlTelInput(input, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
-    const iti1 = window.intlTelInput(input2, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    window.intlTelInput(input2, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
 </script>
 <script>

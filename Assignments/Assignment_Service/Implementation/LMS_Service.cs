@@ -154,10 +154,6 @@ namespace Assignment_Service.Implementation
             }
             return model;
         }
-        //public List<Book> getLibraryRecordTableData()
-        //{
-        //    List<Book> model = _repository.getLibraryRecordTableData();
-        //    return model;
-        //}
+       
     }
 }

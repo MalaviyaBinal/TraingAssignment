@@ -37,7 +37,7 @@
                     </script>
                 }
                 <h4 class="mt-3">Edit Physician Account</h4>
-                <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
+                <a class="text-start text-info text-decoration-none " asp-action="AdminDashboardProviders" asp-controller="Admin">
                     <button class="btn btn-white  text-info border-info rounded ">
                         <i class="fa-solid  fa-less-than"></i> Back
                     </button>
@@ -110,10 +110,12 @@
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input type="email" class="form-control dclass" asp-for=Email value="@Model.Email" id="email" placeholder="Email" disabled>
+                            <label for="email" class="form-label ms-2">Email</label>
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input id="phone" class="form-control inp2 dclass" asp-for=Mobile value="@Model.Mobile" type="tel" placeholder="Phone Number" disabled>
+                            
                             <span asp-validation-for="Mobile" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
@@ -155,6 +157,7 @@
                         </div>
                     </div>
                     <div class="text-end pb-3">
+                        <a asp-action="PayRate" asp-route-id="@Model.physician.Physicianid"><button class="btn btn-info text-white" type="button">Enter Payrate</button></a>
                         <button class="btn btn-info text-white" id="edit" onclick="EditData()" type="button">Edit</button>
                         <button class="btn btn-info text-white d-none" id="save" type="submit">Save</button>
 
@@ -454,21 +457,13 @@
 
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
-    const button = document.querySelector("#btn");
-    const errorMsg = document.querySelector("#error-msg");
-    const validMsg = document.querySelector("#valid-msg");
 
-    // here, the index maps to the error code returned from getValidationError - see readme
-    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
 
-    // initialise plugin
-    const iti = window.intlTelInput(input, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    window.intlTelInput(input, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
-    const iti1 = window.intlTelInput(input2, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    window.intlTelInput(input2, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
     function viewdoc(str) {
         window.open("/PhysicianDoc/" + @Model.physician.Physicianid+"/" + str + ".pdf");

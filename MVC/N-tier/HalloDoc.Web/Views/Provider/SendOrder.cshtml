@@ -46,22 +46,26 @@
                         </div>
                         <input type="hidden" name="req_id" value="@Model.req_id" />
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input value="@Model.businessDetail.Businesscontact" name="businesscontact" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Business contact">
+                            <input value="@Model.businessDetail.Businesscontact" asp-for="businesscontact" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Business contact">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Business contact</label>
+                            <span class="text-danger" asp-validation-for="businesscontact"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input value="@Model.businessDetail.Email" name="email" type="email" class="form-control" id="email" placeholder="Email">
+                            <input value="@Model.businessDetail.Email" asp-for="email" type="text" class="form-control" id="email" placeholder="Email">
                             <label for="email" class="form-label ps-4">Email</label>
+                            <span class="text-danger" asp-validation-for="email"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
-                            <input value="@Model.businessDetail.Faxnumber" name="FaxNumber" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Fax Number">
+                            <input value="@Model.businessDetail.Faxnumber" asp-for="FaxNumber" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Fax Number">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Fax Number</label>
+                            <span class="text-danger" asp-validation-for="FaxNumber"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-floating mb-3 text-muted">
-                            <textarea class="form-control" placeholder="Leave a comment here" id="prescription" name="prescription" style="height: 100px"></textarea>
+                            <textarea class="form-control" placeholder="Leave a comment here" id="prescription" asp-for="prescription" style="height: 100px"></textarea>
                             <label for="floatingTextarea2" class="ps-4">Prescription or Order Detail</label>
+                            <span class="text-danger" asp-validation-for="prescription"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <div class="form-floating mb-3">
@@ -106,3 +110,8 @@
        
     });
 </script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

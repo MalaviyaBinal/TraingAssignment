@@ -40,17 +40,17 @@
                 <h2 class="text-center">Reset Your Password</h2>
 
                 <form method="post" asp-action="ResetPassword" asp-controller="Home">
-                    <div class="form-group mt-2 row">
-                        <div class="col">
-                            <p>
-                                <input type="email" asp-for=Email class="form-control input-placeholder needs-validation" id="username" placeholder="" required>
-                                <label asp-for=Email class="label-placeholder">Username</label>
-                                <i class="fa-regular fa-circle-user text-secondary"></i>
+                    <div class="row">
+                        <div class="col form-floating text-muted">
+                        
+                                <input type="email" asp-for=Email class="form-control needs-validation bg-transparent" id="username" placeholder="" required>
+                                <label for=username class="form-label ms-2 ps-4">Username</label>
+                                
 
-                            </p>
+                            
                             <span asp-validation-for=Email class="text-danger"></span>
                         </div>
-
+                  
 
                     </div>
 

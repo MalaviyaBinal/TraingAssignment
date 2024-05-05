@@ -33,15 +33,12 @@ namespace Assignment.Controllers
         }
         public IActionResult AddOrEditBookForm(BookFormViewModel model)
         {
-            if(ModelState.IsValid)
-            {
+           
                 if (model.bookId == 0)
                     _service.AddBookForm(model);
                 else
                     _service.EditBookForm(model);
 
-            }
-            
             return RedirectToAction(nameof(Index));
 
         }

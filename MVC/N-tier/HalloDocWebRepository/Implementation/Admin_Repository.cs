@@ -2,6 +2,7 @@
 using HalloDocWebEntity.Data;
 using HalloDocWebEntity.ViewModel;
 using HalloDocWebRepo.Interface;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -84,6 +85,8 @@ namespace HalloDocWebRepo.Implementation
 
         public int getcount(int id)
         {
+            
+            
             int[] status = new int[1];
             switch (id)
             {
@@ -1038,6 +1041,23 @@ namespace HalloDocWebRepo.Implementation
         public List<int> getRoleMenuByRoleid(int? roleid)
         {
            return _context.Rolemenus.ToList().Select(i => i.Menuid).ToList();
+        }
+
+        public Payrate GetPayRateByPhyID(int id)
+        {
+            return _context.Payrates.FirstOrDefault(e => e.PhysicianId == id);
+        }
+
+        public void UpdatePayRateTable(Payrate payrate)
+        {
+            _context.Payrates.Update(payrate);
+            _context.SaveChanges();
+        }
+
+        public void AddPayrateTable(Payrate payrate)
+        {
+            _context.Payrates.Add(payrate);
+            _context.SaveChanges();
         }
     }
 }

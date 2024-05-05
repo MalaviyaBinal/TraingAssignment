@@ -151,7 +151,7 @@ namespace HalloDoc.Web.Controllers
         public async Task<IActionResult> SaveNote(Notes n, int id)
         {
             _service.saveNotes(n, id);
-            return RedirectToAction(nameof(ProviderDashboard));
+            return RedirectToAction(nameof(ViewNotes),new {id=id});
         }
         public IActionResult SendAgreementModal(int id)
         {

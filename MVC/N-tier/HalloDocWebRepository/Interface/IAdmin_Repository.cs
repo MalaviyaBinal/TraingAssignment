@@ -124,5 +124,8 @@ namespace HalloDocWebRepo.Interface
         Admin getAdminByAspId(int aspid);
         Physician getPhysicianByAspId(int v);
         List<int> getRoleMenuByRoleid(int? roleid);
+        Payrate GetPayRateByPhyID(int id);
+        void UpdatePayRateTable(Payrate payrate);
+        void AddPayrateTable(Payrate payrate);
     }
 }

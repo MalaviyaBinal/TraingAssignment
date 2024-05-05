@@ -6,6 +6,7 @@
     });
    
     function checkdate() {
+        alert("hello");
         document.getElementById("pldate").style.display = 'none';
     }
     function starttime() {
@@ -45,16 +46,15 @@
         }
     }
     function test() {
+        alert("hello");
+        debugger;
         var flag = true;
-        var x = document.getElementById("Allphysician").value;
+        
         var y = document.getElementById("Allregion").value;
         var z = document.getElementById("sdate").value;
         var a = document.getElementById("stime").value;
         var b = document.getElementById("etime").value;
-        if (x == 0) {
-            document.getElementById("plphysician").style.display = 'block';
-            flag = false;
-        }
+        
         if (y == 0) {
             document.getElementById("plregion").style.display = 'block';
             flag = false;
@@ -81,7 +81,6 @@
             document.getElementById("startTimeSpan").innerHTML = 'Startcan not be greater than End time!!';
             flag = false;
 
-            // document.getElementById("plstart").style.display = 'block';
         }
         else {
             document.getElementById("startTimeSpan").innerHTML = '';

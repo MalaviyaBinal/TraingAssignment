@@ -784,7 +784,7 @@ namespace HalloDoc.Web.Controllers
         public IActionResult ApproveShift(string[] selectedShifts)
         {
             _service.ApproveShift(selectedShifts);
-            return RedirectToAction(nameof(ProviderSchedulingDayWise));
+            return RedirectToAction(nameof(ShiftForReview));
         }
         public IActionResult ProviderOnCall(int reg = 0)
         {
@@ -828,5 +828,16 @@ namespace HalloDoc.Web.Controllers
                 throw;
             }
         }
+        public IActionResult PayRate(int id)
+        {
+            PayRateViewModel model = _service.GetPayRate(id);
+            return View(model);
+        }
+        public IActionResult PayratePhysician(PayRateViewModel model , int phyid)
+        {
+            _service.UpdatePayRate(model, phyid);
+            return RedirectToAction(nameof(PayRate), new {id = phyid});
+        }
+
     }
 }

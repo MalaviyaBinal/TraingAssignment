@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Office2013.PowerPoint;
+using DocumentFormat.OpenXml.Spreadsheet;
 using HalloDocWebEntity.Data;
 using HalloDocWebEntity.ViewModel;
 using HalloDocWebRepo.Interface;
@@ -609,7 +610,7 @@ namespace HalloDocWebServices.Implementation
             ViewCaseModel model = new();
             model.FName = data.Firstname;
             model.LName = data.Lastname;
-            model.DOB = DateTime.Now;
+            model.DOB = DateTime.Parse(DateTime.Parse(data.Intdate + data.Strmonth + data.Intyear).ToString("yyyy-MM-dd"));
             model.Notes = data.Notes;
             model.Phonenumber = data.Phonenumber;
             model.Email = data.Email;
@@ -1345,13 +1346,17 @@ namespace HalloDocWebServices.Implementation
             admin.Roleid = model.roleid;
             admin.Createdby = email;
             _repository.addAdminTable(admin);
-            foreach (var item in model.SelectedReg)
+            if(model.SelectedReg.Count > 0)
             {
-                Adminregion adminregion = new Adminregion();
-                adminregion.Adminid = admin.Adminid;
-                adminregion.Regionid = item;
-                _repository.addAdminReg(adminregion);
+                foreach (var item in model.SelectedReg)
+                {
+                    Adminregion adminregion = new Adminregion();
+                    adminregion.Adminid = admin.Adminid;
+                    adminregion.Regionid = item;
+                    _repository.addAdminReg(adminregion);
+                }
             }
+           
         }
         public AdminProfile getAdminRoleData()
         {
@@ -2425,6 +2430,63 @@ namespace HalloDocWebServices.Implementation
             workbook.SaveAs(memoryStream);
             memoryStream.Seek(0, SeekOrigin.Begin);
             return memoryStream;
+        }
+
+        public PayRateViewModel GetPayRate(int id)
+        {
+            Payrate payrate = _repository.GetPayRateByPhyID(id);
+            PayRateViewModel  model = new PayRateViewModel();
+            if (payrate != null)
+            {
+                model.PhysicianId = payrate.PhysicianId;
+                model.Shift = payrate.Shift;
+                model.NightshiftWeekend = payrate.NightshiftWeekend;
+                model.Housecall = payrate.Housecall;
+                model.BatchTesting = payrate.BatchTesting;
+                model.HousecallsNightsWeekend = payrate.HousecallsNightsWeekend;
+                model.PhoneConsults = payrate.PhoneConsults;
+                model.PhoneConsultsNightsWeekend = payrate.PhoneConsultsNightsWeekend;
+
+            }
+            else
+            {
+
+                model.PhysicianId = id;
+
+            }
+            return model;
+            return model;
+        }
+
+        public void UpdatePayRate(PayRateViewModel model, int phyid)
+        {
+            Payrate payrate = _repository.GetPayRateByPhyID(phyid);
+            if(payrate != null)
+            {
+                payrate.Shift= model.Shift != null ? model.Shift.Value : payrate.Shift;
+                payrate.NightshiftWeekend = model.NightshiftWeekend!=null ? model.NightshiftWeekend.Value : payrate.NightshiftWeekend;
+                payrate.HousecallsNightsWeekend = model.HousecallsNightsWeekend != null ? model.HousecallsNightsWeekend.Value : payrate.HousecallsNightsWeekend;
+                payrate.PhoneConsults = model.PhoneConsults != null ? model.PhoneConsults.Value : payrate.PhoneConsults;
+                payrate.PhoneConsultsNightsWeekend = model.PhoneConsultsNightsWeekend != null ? model.PhoneConsultsNightsWeekend.Value : payrate.PhoneConsultsNightsWeekend;
+                payrate.Housecall = model.Housecall != null ? model.Housecall.Value : payrate.Housecall;
+                payrate.BatchTesting = model.BatchTesting != null ? model.BatchTesting.Value : payrate.BatchTesting;
+                payrate.ModifiedDate = DateTime.Now;
+                _repository.UpdatePayRateTable(payrate);
+            }
+            else
+            {
+                payrate = new Payrate();
+                payrate.PhysicianId = phyid;
+                payrate.Shift = model.Shift != null ? model.Shift.Value : null;
+                payrate.NightshiftWeekend = model.NightshiftWeekend != null ? model.NightshiftWeekend.Value : null;
+                payrate.HousecallsNightsWeekend = model.HousecallsNightsWeekend != null ? model.HousecallsNightsWeekend.Value : null;
+                payrate.PhoneConsults = model.PhoneConsults != null ? model.PhoneConsults.Value : null;
+                payrate.PhoneConsultsNightsWeekend = model.PhoneConsultsNightsWeekend != null ? model.PhoneConsultsNightsWeekend.Value : null;
+                payrate.Housecall = model.Housecall != null ? model.Housecall.Value :   null;
+                payrate.BatchTesting = model.BatchTesting != null ? model.BatchTesting.Value : null;
+                payrate.CreatedDate = DateTime.Now;
+                _repository.AddPayrateTable(payrate);
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace HalloDocWebEntity.Data;
@@ -137,12 +136,14 @@ public partial class Physician
     [InverseProperty("Physicians")]
     public virtual Aspnetuser? Aspnetuser { get; set; }
 
+    [InverseProperty("Physician")]
+    public virtual ICollection<Payrate> Payrates { get; set; } = new List<Payrate>();
+
     [InverseProperty("Pysician")]
     public virtual ICollection<Physiciannotification> Physiciannotifications { get; set; } = new List<Physiciannotification>();
 
     [ForeignKey("Regionid")]
     [InverseProperty("Physicians")]
-    [JsonIgnore]
     public virtual Region? Region { get; set; }
 
     [InverseProperty("Physician")]

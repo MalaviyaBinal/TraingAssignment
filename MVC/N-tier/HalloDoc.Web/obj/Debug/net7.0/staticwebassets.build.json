@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GhQhULqNwO5vnSy+XkuXXqD3u9gZDx2auHQU1hlnDTg=",
+  "Hash": "FNmrAdr9sEhqHrrAvm7SaaaCs62jv+LsxorWARA+hXs=",
   "Source": "HalloDoc.Web",
   "BasePath": "_content/HalloDoc.Web",
   "Mode": "Default",
@@ -1598,6 +1598,23 @@
       "OriginalItemSpec": "wwwroot\\PhysicianDoc\\1\\AgreementDoc.pdf"
     },
     {
+      "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Profile",
+      "SourceId": "HalloDoc.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\",
+      "BasePath": "_content/HalloDoc.Web",
+      "RelativePath": "PhysicianDoc/1/Profile",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\PhysicianDoc\\1\\Profile"
+    },
+    {
       "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Profile.jpg",
       "SourceId": "HalloDoc.Web",
       "SourceType": "Discovered",
@@ -1613,6 +1630,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\PhysicianDoc\\1\\Profile.jpg"
+    },
+    {
+      "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Signature",
+      "SourceId": "HalloDoc.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\",
+      "BasePath": "_content/HalloDoc.Web",
+      "RelativePath": "PhysicianDoc/1/Signature",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\PhysicianDoc\\1\\Signature"
     },
     {
       "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Signature.jpg",

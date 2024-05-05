@@ -118,6 +118,7 @@ namespace HalloDocWebService.Authentication
                         menus = _repo.getRoleMenuByRoleid(temp);
                         break;
                 }
+
                 if(!menus.Any(e => e == _menu) && _menu !=0)
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Provider", action = "Error" }));

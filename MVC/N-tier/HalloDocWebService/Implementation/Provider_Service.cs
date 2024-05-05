@@ -98,6 +98,10 @@ namespace HalloDocWebServices.Implementation
                 Phonenumber = info.phonenumber,
                 Email = info.email,
                 Location = info.street + "," + info.city + "," + info.state + " ," + info.zipcode,
+                Street = info.street,
+                City = info.city,
+                State = info.state,
+                Zipcode = info.zipcode,
                 Regionid = 1
             };
             _repository.adRequestClientTable(reqclient);
@@ -148,7 +152,7 @@ namespace HalloDocWebServices.Implementation
                 Credentials = new NetworkCredential(mail, password)
             };
             var mailMessage = new MailMessage(from: "tatva.dotnet.binalmalaviya@outlook.com", to: receiver, subject, message);
-            //mailclient.SendMailAsync(mailMessage);
+            mailclient.SendMailAsync(mailMessage);
             var phy = _repository.GetPhyByEmail(email);
             Emaillog emaillog = new Emaillog
             {
@@ -202,17 +206,19 @@ namespace HalloDocWebServices.Implementation
         public ViewCaseModel ViewCaseModel(int id)
         {
             Requestclient data = _repository.getRequestClientById(id);
+            Request request = _repository.getRequestByReqID(data.Requestid);
             Region region = _repository.getRegionByRegionId(data.Regionid);
             ViewCaseModel model = new();
             model.FName = data.Firstname;
             model.LName = data.Lastname;
-            model.DOB = DateTime.Now;
+            model.DOB = DateTime.Parse(DateTime.Parse(data.Intdate + data.Strmonth + data.Intyear).ToString("yyyy-MM-dd"));
             model.Notes = data.Notes;
             model.Phonenumber = data.Phonenumber;
             model.Email = data.Email;
             model.RegionName = region.Name;
             model.requestId = id;
             model.Address = data.Street + " " + data.City + " " + data.State + " " + data.Zipcode;
+            model.status = request.Status;
             return model;
         }
         public Notes ViewNotes(int id)
@@ -789,7 +795,7 @@ namespace HalloDocWebServices.Implementation
             {
                 var receiver = "binalmalaviya2002@gmail.com";//admin.Email
                 var subject = "Request for Update Profile";
-                var message = adminnotes + "\nclick here to update My Profile : https://localhost:44327/Admin/EditPhysicianAccount?id=" + phy.Physicianid;
+                var message = "Hello "+admin.Firstname + " " + admin.Lastname +" ,It's "+phy.Firstname +"\n"+adminnotes + "\nclick here to update My Profile : https://localhost:44327/Admin/EditPhysicianAccount?id=" + phy.Physicianid;
                 var mailMessage = new MailMessage(from: "chaityamehta522003@gmail.com", to: receiver, subject, message);
 
                 var client = new SmtpClient("smtp.gmail.com", 587)
@@ -802,7 +808,7 @@ namespace HalloDocWebServices.Implementation
                 Emaillog emaillog = new Emaillog
                 {
                     Emailtemplate = message,
-                    Subjectname = "Make Your Appointment",
+                    Subjectname = "Request for Update Profile",
                     Emailid = admin.Email,
                     Roleid = 1,
                     Physicianid = phy.Aspnetuserid,

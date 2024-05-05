@@ -663,23 +663,24 @@ namespace HalloDocWebServices.Implementation
         {
             return _repository.checkTokenExists(token);
         }
-        public loginModel getAspnetUserByToken(string token)
+        public ResetPWDModel getAspnetUserByToken(string token)
         {
             TokenRegister tokenreg = _repository.getTokenRegisterByToken(token);
             Aspnetuser user = _repository.getAspnetUser((int)tokenreg.Requestid);
-            loginModel model = new loginModel
+            ResetPWDModel model = new ResetPWDModel
             {
                 Usarname = user.Email,
             };
             return model;
         }
-        public void changePassword(loginModel user)
+        public void changePassword(ResetPWDModel user)
         {
             Aspnetuser netuser = _repository.getAspnetUserByEmail(user.Usarname);
             if (netuser != null)
             {
                 netuser.Passwordhash = Crypto.HashPassword(user.Passwordhash) ;
             }
+            _repository.updateAspnetuserTable(netuser);
         }
     }
 }

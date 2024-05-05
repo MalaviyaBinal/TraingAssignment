@@ -90,8 +90,8 @@
                                 @foreach (var item in Model.FileList)
                                 {
                                     <tr>
-                                        <td>
-                                            <div class="d-flex flex-column">
+                                        <td class="w-100">
+                                            <div class="d-flex flex-column w-100">
                                                 <div class="d-flex mb-3">
                                                     <input type="checkbox" class="Subcheckbox checkboxes me-3" data-filename="@item.Filename" />
                                                     @switch (@ViewBag.fileExtensions[item.Requestwisefileid])
@@ -132,6 +132,7 @@
                                                     <a asp-action="DownloadFile" asp-controller="Admin" asp-route-id="@item.Requestwisefileid"><button class="theme-btn-header px-1 "><i class="fa-solid fa-cloud-arrow-down" style="color: #54B4D3;"></i></button></a>
                                                 </div>
                                             </div>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -165,35 +166,7 @@
         </div>
     </div>
 </div>
+
 <script>
-    function enbledata() {
-        document.getElementById("email").disabled = false;
-        document.getElementById("phone").disabled = false;
-    }
-    function selectAllCheckboxes() {
-        var mainCheckbox = document.querySelector('#mainCheckbox');
-        var checkboxes = document.querySelectorAll('.Subcheckbox');
-        mainCheckbox.addEventListener('click', function () {
-            checkboxes.forEach(function (checkbox) {
-                checkbox.checked = mainCheckbox.checked;
-            });
-        });
-    }
-    const input = document.querySelector("#phone");
-    const input2 = document.querySelector("#phone1");
-    const button = document.querySelector("#btn");
-    const errorMsg = document.querySelector("#error-msg");
-    const validMsg = document.querySelector("#valid-msg");
-    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
-    const iti = window.intlTelInput(input, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
-    });
-    const iti1 = window.intlTelInput(input2, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
-    });
-</script>
-<script>
-    document.getElementById("Dashboard").classList.add("active");
+    document.getElementById("dashbrd").classList.add("active");
 </script>

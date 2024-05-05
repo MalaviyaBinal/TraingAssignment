@@ -7,16 +7,16 @@ namespace HalloDocWebEntity.ViewModel
 {
     public class AdminProfile
     {
-        public Admin admin { get; set; }  
-        public Aspnetuser adminuser { get; set; }
-        public Region region { get; set; }
-        public List<Adminregion> adminregion { get; set; }
-        public List<Region> regions { get; set; }
+        public Admin? admin { get; set; }  
+        public Aspnetuser? adminuser { get; set; }
+        public Region? region { get; set; }
+        public List<Adminregion>? adminregion { get; set; }
+        public List<Region>? regions { get; set; }
         public List<int>? SelectedReg { get; set; }      
-        public List<Role> roles { get; set; }
+        public List<Role>? roles { get; set; }
         
-        public int roleid { get; set; }
-        public bool isAdminProfile { get; set; }
+        public int? roleid { get; set; }
+        public bool?  isAdminProfile { get; set; }
         [Required(ErrorMessage = "Password required...")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$", ErrorMessage = "invalid password formate")]
         public string Passwordhash { get; set; }
@@ -50,8 +50,8 @@ namespace HalloDocWebEntity.ViewModel
         public string City { get; set; }
         [Required(ErrorMessage = "Zipcode Required....")]
         public string Zip { get; set; }
-        [RegularExpression(@"^\+[0-9\-\(\)\/\.]{6,15}[0-9]$", ErrorMessage = "Enter a valid phone number with country code.")]
-        public string Altphone { get; set; }
+
+        public string? Altphone { get; set; }
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Please select State ...")]
         public int regionid { get; set; }

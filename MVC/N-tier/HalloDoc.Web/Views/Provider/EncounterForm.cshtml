@@ -8,7 +8,7 @@
         width: 100%;
     }
 
-    #phone, #phone1 {
+    #phone {
         height: 58px;
     }
 </style>
@@ -182,44 +182,15 @@
     </div>
 </div>
 <script>
-    function enbledata() {
-        document.getElementById("email"). = false;
-        document.getElementById("phone"). = false;
-    }
+   
     const input = document.querySelector("#phone");
-    const input2 = document.querySelector("#phone1");
-    const button = document.querySelector("#btn");
-    const errorMsg = document.querySelector("#error-msg");
-    const validMsg = document.querySelector("#valid-msg");
 
-    // here, the index maps to the error code returned from getValidationError - see readme
-    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
-
-    // initialise plugin
-    const iti = window.intlTelInput(input, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
+    window.intlTelInput(input, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
-    const iti1 = window.intlTelInput(input2, {
-        initialCountry: "us",
-        utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
-    });
-    function EditData() {
-        document.getElementById("save").style.display = "inline";
-        document.getElementById("cancel").style.display = "inline";
-        document.getElementById("edit").style.display = "none";
-        var formelements = document.getElementById("enable").elements;
-        for (var i = 4; i < formelements.length; i++) {
-            if (i == 7 || i == 9) {
-                continue;
-            }
-            else {
-                formelements[i]. = false;
-            }
-
-        }
-    }
+  
+    
 </script>
 <script>
-    document.getElementById("Dashboard").classList.add("active");
+    document.getElementById("dashbrd").classList.add("active");
 </script>

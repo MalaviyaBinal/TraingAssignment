@@ -45,6 +45,8 @@ public partial class ApplicationContext : DbContext
 
     public virtual DbSet<Orderdetail> Orderdetails { get; set; }
 
+    public virtual DbSet<Payrate> Payrates { get; set; }
+
     public virtual DbSet<Physician> Physicians { get; set; }
 
     public virtual DbSet<Physicianlocation> Physicianlocations { get; set; }
@@ -225,6 +227,15 @@ public partial class ApplicationContext : DbContext
             entity.HasOne(d => d.Request).WithMany(p => p.Orderdetails).HasConstraintName("fk_orderdetails1");
 
             entity.HasOne(d => d.Vendor).WithMany(p => p.Orderdetails).HasConstraintName("fk_orderdetails");
+        });
+
+        modelBuilder.Entity<Payrate>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("payrate_pkey");
+
+            entity.HasOne(d => d.Physician).WithMany(p => p.Payrates)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("payrate_physiscianId_fkey");
         });
 
         modelBuilder.Entity<Physician>(entity =>

@@ -1,0 +1,177 @@
+﻿@model HalloDocWebEntity.ViewModel.PayRateViewModel
+@{
+    Layout = "_AdminHeader";
+}
+
+
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col">
+            <label for="" class="text1 h2">Payrate</label>
+        </div>
+        <div class="col  d-flex flex-column align-items-end">
+            <a asp-action="EditProviderDetail" asp-controller="Admin" asp-route-id="@Model.PhysicianId">
+                <button class=" btn btn-outline-info me-2 ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 20">
+                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>Back
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="container rounded  shadow p-0">
+                <form asp-action="PayratePhysician" asp-controller="Admin" asp-route-phyid="@Model.PhysicianId">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead >
+                                <tr class="table-secondary">
+                                    <td><b>Category</b></td>
+                                    <td><b>Payrate</b></td>
+                                    <td><b>Action</b></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>NightShift_Weekend</td>
+                                    <td>
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control " asp-for=NightshiftWeekend  id="NightshiftWeekend" placeholder="Payrate" disabled>
+                                            <label for="NightshiftWeekend" class="ms-1">Payrate</label>
+                                            <span class="text-danger" asp-validation-for="NightshiftWeekend"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button"  class="btn btn-info text-white px-4 py-2 m-2" onclick="EditPayrate(this)" id="NightshiftWeekend1">Edit</button>
+                                        <button  class="btn btn-info text-white px-4 py-2 m-2" type="submit" id="NightshiftWeekend1Save" style="display:none">Save</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shift</td>
+                                    <td>
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control " asp-for=Shift id="Shift" placeholder="Payrate"  disabled>
+                                            <label for="Shift" class="ms-">Payrate</label>
+                                            <span class="text-danger" asp-validation-for="Shift"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button"  class="btn btn-info text-white px-4 py-2 m-2" onclick="EditPayrate(this)" id="Shift1">Edit</button>
+                                        <button  class="btn btn-info text-white px-4 py-2 m-2" type="submit" id="Shift1Save" style="display:none">Save</button>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Housecalls_Nights_Weekend</td>
+                                    <td>
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control " asp-for=HousecallsNightsWeekend id="HousecallsNightsWeekend" placeholder="Payrate"  disabled>
+                                            <label for="HousecallsNightsWeekend" class="ms-1">Payrate</label>
+                                            <span class="text-danger" asp-validation-for="HousecallsNightsWeekend"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button"  class="btn btn-info text-white px-4 py-2 m-2" onclick="EditPayrate(this)" id="HousecallsNightsWeekend1">Edit</button>
+                                        <button  class="btn btn-info text-white px-4 py-2 m-2" type="submit" id="HousecallsNightsWeekend1Save" style="display:none">Save</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PhoneConsults</td>
+                                    <td>
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control " asp-for=PhoneConsults id="PhoneConsults" placeholder="Payrate" disabled>
+                                            <label for="PhoneConsults" class="ms-1">Payrate</label>
+                                            <span class="text-danger" asp-validation-for="PhoneConsults"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button"  class="btn btn-info text-white px-4 py-2 m-2" onclick="EditPayrate(this)" id="PhoneConsults1">Edit</button>
+                                        <button  class="btn btn-info text-white px-4 py-2 m-2" type="submit" id="PhoneConsults1Save" style="display:none">Save</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PhoneConsults_Nights_Weekend</td>
+                                    <td>
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control " asp-for=PhoneConsultsNightsWeekend id="PhoneConsultsNightsWeekend" placeholder="Payrate"  disabled>
+                                            <label for="PhoneConsultsNightsWeekend" class="ms-1">Payrate</label>
+                                            <span class="text-danger" asp-validation-for="PhoneConsultsNightsWeekend"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button"  class="btn btn-info text-white px-4 py-2 m-2" onclick="EditPayrate(this)" id="PhoneConsultsNightsWeekend1">Edit</button>
+                                        <button  class="btn btn-info text-white px-4 py-2 m-2" type="submit" id="PhoneConsultsNightsWeekend1Save" style="display:none">Save</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>BatchTesting</td>
+                                    <td>
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control " asp-for=BatchTesting id="BatchTesting" placeholder="Payrate"  disabled>
+                                            <label for="BatchTesting" class="ms-1">Payrate</label>
+                                            <span class="text-danger" asp-validation-for="BatchTesting"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button"  class="btn btn-info text-white px-4 py-2 m-2" onclick="EditPayrate(this)" id="BatchTesting1">Edit</button>
+                                        <button  class="btn btn-info text-white px-4 py-2 m-2" type="submit" id="BatchTesting1Save" style="display:none">Save</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>HouseCall</td>
+                                    <td>
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control " asp-for=Housecall id="Housecall" placeholder="Payrate"  disabled>
+                                            <label for="Housecall" class="ms-1">Payrate</label>
+                                            <span class="text-danger" asp-validation-for="Housecall"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button"  class="btn btn-info text-white px-4 py-2 m-2" onclick="EditPayrate(this)" id="Housecall1">Edit</button>
+                                        <button  class="btn btn-info text-white px-4 py-2 m-2" type="submit" id="Housecall1Save" style="display:none">Save</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function EditPayrate(element) {
+        debugger;
+        var category = element.id;
+        document.getElementById(category).style.display = "none";
+        document.getElementById(category + "Save").style.display = "inline";
+        category = category.substring(0, category.length - 1);
+
+        document.getElementById(category).disabled = false;
+
+       
+    }
+    document.getElementById("provider1").classList.add("active");
+</script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+<div class="modal fade" id="examplemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Image</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="" class="h-100 w-100" id="viewimg" />
+            </div>
+
+        </div>
+    </div>
+</div>

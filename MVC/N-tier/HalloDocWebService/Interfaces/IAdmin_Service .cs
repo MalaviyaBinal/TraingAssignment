@@ -112,5 +112,7 @@ namespace HalloDocWebServices.Interfaces
         List<Role> getRolesOfProvider();
         AdminProviderModel getProviderRoles();
         Stream GetExportData(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr );
+        PayRateViewModel GetPayRate(int id);
+        void UpdatePayRate(PayRateViewModel model, int phyid);
     }
 }
