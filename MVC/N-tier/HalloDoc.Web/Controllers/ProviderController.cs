@@ -116,6 +116,12 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
+        public IActionResult TimeSheet(DateTime StartDate)
+        {
+            
+            List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, HttpContext.Request.Cookies["userEmail"]);
+            return View(model);
+        }
         #endregion
 
         #region Provider Dashboard Actions
@@ -370,6 +376,8 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
+
+
 
     }
 }

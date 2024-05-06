@@ -87,6 +87,12 @@ public partial class ApplicationContext : DbContext
 
     public virtual DbSet<Smslog> Smslogs { get; set; }
 
+    public virtual DbSet<Timesheet> Timesheets { get; set; }
+
+    public virtual DbSet<TimesheetDetail> TimesheetDetails { get; set; }
+
+    public virtual DbSet<TimesheetReimbursement> TimesheetReimbursements { get; set; }
+
     public virtual DbSet<TokenRegister> TokenRegisters { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -461,6 +467,37 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.Smslogid).UseIdentityAlwaysColumn();
 
             entity.HasOne(d => d.Request).WithMany(p => p.Smslogs).HasConstraintName("fk_smslog2");
+        });
+
+        modelBuilder.Entity<Timesheet>(entity =>
+        {
+            entity.HasKey(e => e.TimesheetId).HasName("Timesheet_pkey");
+
+            entity.HasOne(d => d.Physician).WithMany(p => p.Timesheets)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Timesheet_PhysicianId_fkey");
+        });
+
+        modelBuilder.Entity<TimesheetDetail>(entity =>
+        {
+            entity.HasKey(e => e.TimesheetDetailId).HasName("TimesheetDetails_pkey");
+
+            entity.Property(e => e.Housecall).HasDefaultValueSql("0");
+            entity.Property(e => e.PhoneConsult).HasDefaultValueSql("0");
+            entity.Property(e => e.ShiftHours).HasDefaultValueSql("0");
+
+            entity.HasOne(d => d.Timesheet).WithMany(p => p.TimesheetDetails)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("TimesheetDetails_TimesheetId_fkey");
+        });
+
+        modelBuilder.Entity<TimesheetReimbursement>(entity =>
+        {
+            entity.HasKey(e => e.TimesheetReimbursementId).HasName("TimesheetReimbursement_pkey");
+
+            entity.HasOne(d => d.Timesheet).WithMany(p => p.TimesheetReimbursements)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("TimesheetReimbursement_TimesheetId_fkey");
         });
 
         modelBuilder.Entity<TokenRegister>(entity =>

@@ -391,6 +391,42 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges();
         }
 
+        public List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, int phyid)
+        {
+            DateTime enddate = startDate.AddDays(15 - startDate.Day);
+            System.Diagnostics.Debug.WriteLine(startDate.Day);
+            System.Diagnostics.Debug.WriteLine(DateTime.Now);
+            System.Diagnostics.Debug.WriteLine(startDate.AddDays(16 - startDate.Day));
+
+
+            if (startDate.Day > 15)
+            {
+                enddate = startDate.AddDays(DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day);
+            }
+            List<Timesheet> sheets = _context.Timesheets.Include(e => e.TimesheetDetails.Where(x =>x.Shiftdate >= startDate && x.Shiftdate <= enddate)).Where(e => e.PhysicianId == phyid).ToList();
+            List<TimeSheetViewModel> timesheets = new();
+            for (int i = 0; i <= enddate.Day - startDate.Day; i++)
+            {
+                double onCallHour = _context.Shiftdetails.Where(x => x.Shift.Physicianid == phyid && x.Isdeleted != new BitArray(1,true) && x.Shiftdate == DateOnly.FromDateTime( startDate.AddDays(i))).Select(x => new
+                {
+                    x.Shiftdate,
+                    Duration = x.Endtime - x.Starttime,
+
+                }).GroupBy(x => x.Shiftdate).Select(x => x.Sum(y => y.Duration.TotalHours)).FirstOrDefault();
+                timesheets.Add(new TimeSheetViewModel()
+                {
+                    InvoiceId = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetId,
+                    Date = startDate.AddDays(i),
+                    OnCallHours = (int)onCallHour,
+                    PhysicianId = phyid,
+                    TotalHours = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().ShiftHours ?? (int)onCallHour,
+                    WeekendHoliday = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().IsWeekend == new BitArray(1,true),
+                    NumberOfHouseCalls = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().Housecall!=0 ? sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().Housecall: 0,
+                    NumberOfPhoneConsults = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().PhoneConsult != 0 ? sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().PhoneConsult : 0,
+                });
+            }
+            return timesheets;
+        }
     }
 
 }

@@ -59,5 +59,6 @@ namespace HalloDocWebRepo.Interface
         void AddShiftTable(Shift shift);
         void AddShiftDetails(List<Shiftdetail> shiftdetails);
         void UpdateShiftDetailTable(Shiftdetail sd);
+        List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, int phyid);
     }
 }

@@ -980,7 +980,14 @@ namespace HalloDocWebServices.Implementation
             _repository.UpdateShiftDetailTable(sd);
         }
 
+        public List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, string phyid)
+        {
 
+            var phy = _repository.GetPhyByEmail(phyid);
+            List<TimeSheetViewModel> TimeSheet = _repository.MakeTimeSheet(startDate, phy.Physicianid);
+
+            return TimeSheet;
+        }
     }
 }
 

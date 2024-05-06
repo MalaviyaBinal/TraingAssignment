@@ -11,7 +11,7 @@
     <meta asp-for="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
-   
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -26,10 +26,18 @@
         });
     </script>
 </head>
+<style>
+    .iti {
+        width: 100%;
+    }
 
+    #phone, #phone1 {
+        height: 58px;
+    }
+</style>
 <body style="background-color: rgb(248, 248, 248);">
     <!-- --------------------------------------Main container--------------------------------------------- -->
-  
+
     <div class="container d-flex justify-content-center pt-3  min-vh-100 ">
 
 
@@ -52,45 +60,37 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="first_name" >
-                                    <label class="label-placeholder">Your First Name</label> 
-                                    <span asp-validation-for="first_name" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control" id="fname"
+                                       placeholder="" asp-for="first_name">
+                                <label class="form-label ms-2 ps-4" for="fname">First Name</label>
+                                <span asp-validation-for="first_name" class="text-danger"></span>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="last_name" >
-                                    <label class="label-placeholder">Your Last Name</label>
-                                    <span asp-validation-for="last_name" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control " id="lname"
+                                       placeholder="" asp-for="last_name">
+                                <label class="form-label ms-2 ps-4" for="lname">Last Name</label>
+                                <span asp-validation-for="last_name" class="text-danger"></span>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="tel" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="phone" >
-                                    <label class="label-placeholder">(201)555-0123</label>
-                                    <span asp-validation-for="phone" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="tel" class="form-control " id="phone"
+                                       placeholder="Mobile Number" asp-for="phone">
+
+                                <span asp-validation-for="phone" class="text-danger"></span>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="email" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="email" >
-                                    <label class="label-placeholder">Your Email</label>
-                                    <span asp-validation-for="email" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="email" class="form-control "
+                                       placeholder="" asp-for="email">
+                                <label class="form-label ms-2 ps-4">Your Email</label>
+                                <span asp-validation-for="email" class="text-danger"></span>
+
                             </div>
-                           
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="relation_with" >
-                                    <label class="label-placeholder">Relation With Patient</label>
-                                </p>
+
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control"
+                                       placeholder="" asp-for="relation_with">
+                                <label class="form-label ms-2 ps-4">Relation With Patient</label>
+
                             </div>
                         </div>
 
@@ -100,32 +100,28 @@
 
                         <div class="row">
                             <div class="col-xl-12 col-sm-12 col-md-12 mt-2">
-                                <textarea class="form-control" asp-for="symptoms" placeholder="Enter Brief Details Of Symptoms" rows="5"
-                                          ></textarea>
+                                <textarea class="form-control" asp-for="symptoms" placeholder="Enter Brief Details Of Symptoms" rows="5"></textarea>
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="p_first_name" >
-                                    <label class="label-placeholder">First Name</label>
-                                    <span asp-validation-for="p_first_name" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control"
+                                       placeholder="" asp-for="p_first_name">
+                                <label class="form-label ms-2 ps-4">First Name</label>
+                                <span asp-validation-for="p_first_name" class="text-danger"></span>
+
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="p_last_name" >
-                                    <label class="label-placeholder">Last Name</label>
-                                    <span asp-validation-for="p_last_name" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control "
+                                       placeholder="" asp-for="p_last_name">
+                                <label class="form-label ms-2 ps-4">Last Name</label>
+                                <span asp-validation-for="p_last_name" class="text-danger"></span>
+
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="date" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="p_dob" >
-                                    <label class="label-placeholder">Date Of Birth</label>
-                                    <span asp-validation-for="p_dob" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="date" class="form-control "
+                                       placeholder="" asp-for="p_dob">
+                                <label class="form-label ms-2 ps-4">Date Of Birth</label>
+                                <span asp-validation-for="p_dob" class="text-danger"></span>
+
                             </div>
 
                         </div>
@@ -134,23 +130,22 @@
                             <div class="col mt-3"> <label class="h5">Patient Contact Information</label></div>
                         </div>
                         <div class="row">
-                            <div class="col-xl-6 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="email" class="form-control input-placeholder" id="email"
-                                           placeholder="" asp-for="p_email" onchange="emailExists()" >
-                                    <label class="label-placeholder"> Email</label>
-                                    <span asp-validation-for="p_email" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-6 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="email" class="form-control " id="email"
+                                       placeholder="" asp-for="p_email" onchange="emailExists()">
+                                <label class="form-label ms-2 ps-4"> Email</label>
+                                <span asp-validation-for="p_email" class="text-danger"></span>
+
                             </div>
-                            <div class="col-xl-6 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="tel" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="p_phone" >
-                                    <label class="label-placeholder">(201)555-0123</label>
-                                    <span asp-validation-for="p_phone" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-6 col-sm-12 col-md-6 orm-floating text-muted mt-3">
+
+                                <input type="tel" class="form-control" id="phone1"
+                                       placeholder=" Mobile number" asp-for="p_phone">
+
+                                <span asp-validation-for="p_phone" class="text-danger"></span>
+
                             </div>
-                            
+
                         </div>
 
                         <div class="row">
@@ -158,44 +153,39 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="p_street" >
-                                    <label class="label-placeholder">Street</label>
-                                    <span asp-validation-for="p_street" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control"
+                                       placeholder="" asp-for="p_street">
+                                <label class="form-label ms-2 ps-4">Street</label>
+                                <span asp-validation-for="p_street" class="text-danger"></span>
+
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="p_city" >
-                                    <label class="label-placeholder">City</label>
-                                    <span asp-validation-for="p_city" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control"
+                                       placeholder="" asp-for="p_city">
+                                <label class="form-label ms-2 ps-4">City</label>
+                                <span asp-validation-for="p_city" class="text-danger"></span>
+
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="p_state" >
-                                    <label class="label-placeholder">State</label>
-                                    <span asp-validation-for="p_state" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control"
+                                       placeholder="" asp-for="p_state">
+                                <label class="form-label ms-2 ps-4">State</label>
+                                <span asp-validation-for="p_state" class="text-danger"></span>
+
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="" asp-for="p_zip_code" >
-                                    <label class="label-placeholder">Zip Code</label>
-                                    <span asp-validation-for="p_zip_code" class="text-danger"></span>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control"
+                                       placeholder="" asp-for="p_zip_code">
+                                <label class="form-label ms-2 ps-4">Zip Code</label>
+                                <span asp-validation-for="p_zip_code" class="text-danger"></span>
+
                             </div>
-                            <div class="col-xl-4 col-sm-12 col-md-6">
-                                <p>
-                                    <input type="text" class="form-control input-placeholder" id="username"
-                                           placeholder="">
-                                    <label class="label-placeholder">Room # /Suite (Optional)</label>
-                                </p>
+                            <div class="col-xl-4 col-sm-12 col-md-6 form-floating text-muted mt-3">
+                                <input type="text" class="form-control"
+                                       placeholder="">
+                                <label class="form-label ms-2 ps-4">Room # /Suite (Optional)</label>
+
                             </div>
                             <div class="row">
                                 <div class="col mt-3">
@@ -222,7 +212,7 @@
                         <div class="row text-end mb-5">
                             <div class="col">
                                 <button class="btn btn-info text-white mb-4 " type="submit">Submit</button>
-                               <button class="btn btn-outline-info mb-4 ms-3" onclick="clickbtn()">Cancel</button>
+                                <button class="btn btn-outline-info mb-4 ms-3" onclick="clickbtn()">Cancel</button>
                             </div>
                         </div>
 
@@ -265,10 +255,10 @@
     </div>
     <script>
         let c = 1;
-        function clickbtn()
-        {
-           
-                window.location.href = "/Home/SubmitPatientRequest";        }
+        function clickbtn() {
+
+            window.location.href = "/Home/SubmitPatientRequest";
+        }
         function changeTheme() {
 
             if (c % 2 === 0) {
@@ -315,6 +305,14 @@
 
         }
     </script>
+    <script>
+        const phoneInputField = document.querySelector("#phone");
+        const phoneInputField1 = document.querySelector("#phone1");
+        window.intlTelInput(phoneInputField, { utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js", });
+        window.intlTelInput(phoneInputField1, { utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js", });
+
+    </script>
+
     @section Scripts {
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");

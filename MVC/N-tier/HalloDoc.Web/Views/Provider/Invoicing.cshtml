@@ -1,8 +1,101 @@
-﻿
+﻿@*
 @{
     Layout = "_ProviderHeader";
 }
 <h2>Under Building process...</h2>
+<script>
+    document.getElementById("invoicing").classList.add("active");
+</script>*@
+
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+@{
+    ViewData["Title"] = "InvoicingProvider";
+    Layout = "_ProviderHeader";
+    
+    DateTime date = DateTime.Now;
+}
+
+<style>
+    .documentBtn {
+        width: fit-content;
+    }
+</style>
+<div class="container">
+    <div class="tab-pane show active px-4" id="access" role="tabpanel" aria-labelledby="providers-tab">
+
+        <div class="row my-3">
+            <div class="col">
+                <h3 class="ms-2">TimeSheets</h3>
+            </div>
+            <div class=" col text-end">
+                <a asp-controller="Provider" asp-action="ProviderDashboard">
+                    <button class=" btn btn-outline-info me-2 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 20">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>Back
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <div class=" boxshadow py-3 my-3">
+            <div class=" row p-3 ">
+                <div class=" col form-floating mb-3">
+                    <select class="form-select" id="TimeSheet" style="width:fit-content" aria-label="Default select example" onchange="CheckValidation(value)">
+                        @for (var i = 0; i < 3; i++)
+                        {
+                            if (DateTime.Now > @date.AddDays(16 - date.Day))
+                            {
+                                <option value="@date.AddDays(16-date.Day).ToString("MM/dd/yyyy")">
+                                    @date.AddDays(16 - date.Day).ToShortDateString() - @date.AddDays(DateTime.DaysInMonth(date.Year, date.Month) - date.Day).ToShortDateString()
+                                </option>
+                            }
+                            <option value="@date.AddDays(1-date.Day).ToString("MM/dd/yyyy")">@date.AddDays(1 - date.Day).ToShortDateString() - @date.AddDays(15 - date.Day).ToShortDateString()</option>
+
+                            date = date.AddMonths(-1);
+                        }
+                    </select>
+                    <label class="ms-2">Search by Timesheet Period</label>
+                </div>
+                <div class="col text-end ">
+                    <button type="button" class="btn btn-info " onclick="OpenTimesheet()">Finalize TimeSheet</button>
+                </div>
+                <div id="finalizeDiv">
+                </div>
+            </div>
+
+            <div id="timesheetTable"> </div>
+
+        </div>
+
+        <div class="table-responsive" id="reimbursementTable"></div>
+
+
+    </div>
+</div>
+
+
+<script>
+
+    function FindStartDate(element) {
+        debugger;
+        var StartDate = document.getElementById("TimeSheet").value;
+        return StartDate;
+
+    }
+
+    function OpenTimesheet() {
+        debugger;
+        var StartDate = document.getElementById("TimeSheet").value;
+        window.location.href = "/Provider/TimeSheet?StartDate=" + StartDate;
+
+
+
+
+
+    }
+</script>
 <script>
     document.getElementById("invoicing").classList.add("active");
 </script>

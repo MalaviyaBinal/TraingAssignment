@@ -1,0 +1,119 @@
+﻿@model List<HalloDocWebEntity.ViewModel.TimeSheetViewModel>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+@{
+    ViewData["Title"] = "InvoicingProvider";
+    Layout = "_ProviderHeader";
+    DateTime date = DateTime.Now;
+}
+
+<style>
+    .documentBtn {
+        width: fit-content;
+    }
+</style>
+<div class="container">
+    <div class="tab-pane show active px-4" id="access" role="tabpanel" aria-labelledby="providers-tab">
+
+        <div class="row my-3">
+            <div class="col">
+                <h3 class="ms-2">TimeSheets</h3>
+            </div>
+            <div class=" col text-end">
+                <a asp-controller="Provider" asp-action="Invoicing">
+                    <button class=" btn btn-outline-info me-2 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 20">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>Back
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <div class=" boxshadow py-3 my-3">
+            <div class=" row p-3 ">
+                <div class=" col form-floating table-responsive mb-3">
+                    <table class="table ">
+                        <colgroup>
+                            <col style="width: 13%" />
+                            <col style="width: 7%" />
+                            <col style="width: 20%" />
+                            <col style="width: 10%" />
+                            <col style="width: 25%" />
+                            <col style="width: 25%" />
+                        </colgroup>
+                        <thead>
+                            <tr class="table-secondary">
+                                <td>Date</td>
+                                <td>On-call Hours</td>
+                                <td>Total Hours</td>
+                                <td>Weekend/Holiday</td>
+                                <td>Number of Housecalls</td>
+                                <td>Number of Phone Concults</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div class="form-floating ">
+                                @foreach (var timesheet in Model)
+                                {
+                                <tr>
+                                    <td>@timesheet.Date.ToShortDateString()</td>
+                                    <td>@timesheet.OnCallHours</td>
+                                    <td><input type="number" name="TotalHours" value="@timesheet.TotalHours" class="form-control" /></td>
+                                    <td>
+                                            @if (timesheet.WeekendHoliday == true)
+                                            {
+                                            <input type="checkbox" value="@timesheet.Date.Day" name="WeekendHoliday" class="form-check-input" checked />
+                                            }
+                                            else
+                                            {
+                                            <input type="checkbox" value="@timesheet.Date.Day" name="WeekendHoliday" class="form-check-input" />
+                                            }
+                                    </td>
+                                    <td><input type="number" name="NumberOfHouseCalls" value="@timesheet.NumberOfHouseCalls" class="form-control" /></td>
+                                    <td><input type="number" name="NumberOfPhoneConsults" value="@timesheet.NumberOfPhoneConsults" class="form-control" /></td>
+                                </tr>
+                                }
+                </div>
+                </tbody>
+                </table>
+
+                <div class="row my-2">
+                    <div class="col text-end ">
+                        <button type="button" class="btn btn-info " onclick="OpenTimesheet()">Add Recipt</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+<script>
+
+    function FindStartDate(element) {
+        debugger;
+        var StartDate = document.getElementById("TimeSheet").value;
+        return StartDate;
+
+    }
+
+    function OpenTimesheet() {
+        debugger;
+        var StartDate = document.getElementById("TimeSheet").value;
+        window.location.href = "/Provider/TimeSheet?StartDate=" + StartDate;
+
+
+
+
+    }
+</script>

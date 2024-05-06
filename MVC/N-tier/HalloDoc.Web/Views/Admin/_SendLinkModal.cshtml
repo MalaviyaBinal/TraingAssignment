@@ -1,4 +1,13 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminDashBoardPagination
+<style>
+    .iti {
+        width: 100%;
+    }
+
+    #phone, #phone1 {
+        height: 58px;
+    }
+</style>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <div class="modal fade" id="SendLinkModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -22,7 +31,6 @@
                     </div>
                     <div class=" form-floating mb-3 text-muted">
                         <input asp-for="PhoneNumber" id="phone" class="form-control inp2" type="text" placeholder="Phone Number">
-                        <label for="phone" class="form-label">Phone number</label>
                         <span asp-validation-for=PhoneNumber class="text-danger"></span>
                     </div>
                     <div class=" form-floating mb-3 text-muted">
@@ -63,4 +71,9 @@
                 }, false)
             })
     })()
+</script>
+<script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, { utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js", });
+
 </script>

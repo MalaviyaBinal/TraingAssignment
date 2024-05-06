@@ -51,5 +51,6 @@ namespace HalloDocWebServices.Interfaces
         SchedulingViewModel openShiftModel(int regionid);
         void CreateShift(SchedulingViewModel info,string email);
         void DeleteShiftDetails(int id);
+        List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, string phyid);
     }
 }
