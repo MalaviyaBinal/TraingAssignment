@@ -16,7 +16,7 @@ namespace HalloDocWebEntity.ViewModel
         public List<Role>? roles { get; set; }
         
         public int? roleid { get; set; }
-        public bool?  isAdminProfile { get; set; }
+        public bool  isAdminProfile { get; set; }
         [Required(ErrorMessage = "Password required...")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$", ErrorMessage = "invalid password formate")]
         public string Passwordhash { get; set; }
