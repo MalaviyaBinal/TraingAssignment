@@ -2455,7 +2455,7 @@ namespace HalloDocWebServices.Implementation
 
             }
             return model;
-            return model;
+            
         }
 
         public void UpdatePayRate(PayRateViewModel model, int phyid)

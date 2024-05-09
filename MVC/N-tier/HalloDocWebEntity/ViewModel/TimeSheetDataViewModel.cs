@@ -20,10 +20,11 @@ namespace HalloDocWebEntity.ViewModel
 
         public List<int> NumberOfPhoneConsults { get; set; } = new List<int>();
 
-        public List<string> Item { get; set; } = new List<string>();
-        public List<string> FileName { get; set; } = new List<string>();
-        public List<IFormFile> ReceiptFile { get; set; }
-        public List<int> Amount { get; set; } = new List<int>();
+        public string Item { get; set; } 
+        public string FileName { get; set; }
+        public IFormFile ReceiptFile { get; set; }
+        public int Amount { get; set; } 
+        public int Gap { get; set; } 
 
     }
 

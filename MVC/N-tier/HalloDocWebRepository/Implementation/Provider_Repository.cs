@@ -444,7 +444,7 @@ namespace HalloDocWebRepo.Implementation
 
         public Timesheet GetInvoicesByPhyId(DateTime? startDate, DateTime? endDate, int physicianid)
         {
-            return _context.Timesheets.FirstOrDefault(x => x.PhysicianId == physicianid && x.Startdate == startDate && x.Enddate == endDate);
+            return _context.Timesheets.FirstOrDefault(x => x.PhysicianId == physicianid && x.Startdate == startDate && x.Enddate ==  endDate);
         }
 
         public List<TimesheetDetail> GetTimeSheetListByInvoiceId(int timesheetId)
@@ -496,6 +496,12 @@ namespace HalloDocWebRepo.Implementation
         public void UpdateReimbursementTable(TimesheetReimbursement reim)
         {
             _context.TimesheetReimbursements.Update(reim);
+            _context.SaveChanges();
+        }
+
+        public void AddReimbursementTable(TimesheetReimbursement reim)
+        {
+            _context.TimesheetReimbursements.Add(reim);
             _context.SaveChanges();
         }
     }

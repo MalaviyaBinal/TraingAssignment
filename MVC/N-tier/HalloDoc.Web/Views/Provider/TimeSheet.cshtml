@@ -109,14 +109,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <form asp-action="SaveReceipt" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" value="@Model.FirstOrDefault().StartDate" name="StartDate" id="StartDate" />
-                                    <input type="hidden" value="@Model.FirstOrDefault().EndDate" name="EndDate" />
-                                    @if (true)
+
+
+                                @if (true)
+                                {
+                                    int id1 = 0;
+                                    @foreach (var timesheet in Model)
                                     {
-                                        int id1 = 0;
-                                        @foreach (var timesheet in Model)
-                                        {
+                                        <form asp-action="SaveReimbursement" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" value="@Model.FirstOrDefault().StartDate" name="StartDate" id="StartDate" />
+                                            <input type="hidden" value="@Model.FirstOrDefault().EndDate" name="EndDate" id="StartDate" />
+                                            <input type="hidden" value="@id1" name="Gap" />
                                         <tr>
                                             <td>@timesheet.Date.ToShortDateString()</td>
                                                 @if (timesheet.Item != null)
@@ -148,7 +151,7 @@
                                                 else
                                                 {
                                                     var str = "ReceiptFile" + id1;
-                                                <td><input data-int="CustomFileBtn" type="file" id=@str onchange="SaveData(@id1)" name="ReceiptFile" value="@timesheet.ReceiptFile" disabled></td>
+                                                <td><input  type="file" id=@str onchange="SaveData(@id1)" name="ReceiptFile"  disabled></td>
                                                 }
                                             <td>
                                                     @if (timesheet.Item != null)
@@ -167,14 +170,15 @@
                                                     else
                                                     {
                                                         var str = "savebtn" + id1;
-                                                    <button  class="btn btn-info text-white " type="button" style="display:none;" id="@str">Save</button>
+                                                    <button class="btn btn-info text-white " type="submit" style="display:none;" id="@str">Save</button>
                                                     }
                                             </td>
                                         </tr>
-                                            id1++;
-                                        }
+                                        </form>
+                                        id1++;
                                     }
-                                </form>
+                                }
+
                             </tbody>
                         </table>
                     </div>
@@ -202,16 +206,16 @@
 
         window.location.href = "/Provider/EditReimbursement?StartDate1=" + Startday + "&Item=" + ItemValue + "&Amount=" + AmountValue + "&Gap=" + id1;
     }
-    //function SaveReimbursement(id1) {
-    //    debugger;
-    //    var ItemValue = document.getElementById("item" + id1).value;
-    //    var AmountValue = document.getElementById("amount" + id1).value;
-    //    var Startday = document.getElementById("StartDate").value;
-    //    var ReceiptFile = document.getElementById("ReceiptFile" + id1).files[0];
-    //    window.location.href = "/Provider/SaveReimbursement?StartDate1=" + Startday + "&Item=" + ItemValue + "&Amount=" + AmountValue + "&Gap=" + id1 + "&ReceiptFile="+ReceiptFile;
-    //}
+
     function SaveData(id1) {
         debugger;
+        var filename= document.getElementById("ReceiptFile" + id1).value;
+        var extension = filename.split('.').pop();
+        if(extension != "pdf"){
+            alert("Please Choose PDF file!!");
+            document.getElementById("ReceiptFile" + id1).value = "";
+        }
+        else    
         document.getElementById("savebtn" + id1).style.display = "inline";
 
     }

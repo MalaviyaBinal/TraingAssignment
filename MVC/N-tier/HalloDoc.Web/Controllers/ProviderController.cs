@@ -112,27 +112,20 @@ namespace HalloDoc.Web.Controllers
             _service.SaveTimesheet(model, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate) });
         }
-        [HttpPost]
-        public IActionResult SaveReceipt([FromForm] TimeSheetDataViewModel model)
-        {
-            _service.SaveReceipt(model, HttpContext.Request.Cookies["userEmail"]);
-            return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate) });
-        }
+       
         public IActionResult EditReimbursement(DateTime StartDate1, string Item, int Amount, int Gap)
-        {
-            string T = DateOnly.FromDateTime(StartDate1).ToString("MM-dd-yyyy");
-            DateTime dt = DateTime.ParseExact(T, "MM-dd-yyyy", CultureInfo.InvariantCulture);
-            string StartDate = dt.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
-            _service.EditReimbursement(DateTime.Parse(StartDate), Item, Amount, Gap, HttpContext.Request.Cookies["userEmail"]);
-            return RedirectToAction(nameof(TimeSheet), new { StartDate = StartDate1 });
-        }
-        public IActionResult SaveReimbursement(DateTime StartDate1, string Item, int Amount, int Gap,IFormFile ReceiptFile)
         {
             //string T = DateOnly.FromDateTime(StartDate1).ToString("MM-dd-yyyy");
             //DateTime dt = DateTime.ParseExact(T, "MM-dd-yyyy", CultureInfo.InvariantCulture);
             //string StartDate = dt.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
-            //_service.EditReimbursement(DateTime.Parse(StartDate), Item, Amount, Gap, HttpContext.Request.Cookies["userEmail"]);
+            _service.EditReimbursement(StartDate1, Item, Amount, Gap, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(TimeSheet), new { StartDate = StartDate1 });
+        }
+        public IActionResult SaveReimbursement([FromForm] TimeSheetDataViewModel model)
+        {
+          
+            _service.SaveReimbursement(model, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(TimeSheet), new { StartDate = model.StartDate });
         }
         #endregion
         #region Provider Dashboard Actions

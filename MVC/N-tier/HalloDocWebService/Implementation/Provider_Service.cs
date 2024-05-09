@@ -1,4 +1,5 @@
-﻿using HalloDocWebEntity.Data;
+﻿using DocumentFormat.OpenXml.EMMA;
+using HalloDocWebEntity.Data;
 using HalloDocWebEntity.ViewModel;
 using HalloDocWebRepo.Interface;
 using HalloDocWebService.Authentication;
@@ -11,6 +12,7 @@ using OfficeOpenXml;
 using System;
 using System.Collections;
 using System.Data;
+using System.Globalization;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Mail;
@@ -795,7 +797,7 @@ namespace HalloDocWebServices.Implementation
             {
                 var receiver = "binalmalaviya2002@gmail.com";//admin.Email
                 var subject = "Request for Update Profile";
-                var message = "Hello "+admin.Firstname + " " + admin.Lastname +" ,It's "+phy.Firstname +"\n"+adminnotes + "\nclick here to update My Profile : https://localhost:44327/Admin/EditPhysicianAccount?id=" + phy.Physicianid;
+                var message = "Hello " + admin.Firstname + " " + admin.Lastname + " ,It's " + phy.Firstname + "\n" + adminnotes + "\nclick here to update My Profile : https://localhost:44327/Admin/EditPhysicianAccount?id=" + phy.Physicianid;
                 var mailMessage = new MailMessage(from: "chaityamehta522003@gmail.com", to: receiver, subject, message);
 
                 var client = new SmtpClient("smtp.gmail.com", 587)
@@ -840,7 +842,7 @@ namespace HalloDocWebServices.Implementation
             model.physicians = _repository.getPhysicianList();
             model.regions = _repository.getRegions();
             model.shiftDetails = _repository.getshiftDetail(phy.Physicianid);
-           
+
             return model;
         }
         public ShiftDetailsModel getViewShiftData(int id, int regid)
@@ -871,18 +873,18 @@ namespace HalloDocWebServices.Implementation
 
             return model;
         }
-        public void CreateShift(SchedulingViewModel model,string email)
+        public void CreateShift(SchedulingViewModel model, string email)
         {
             var phy = _repository.GetPhyByEmail(email);
             var weekdays = "";
-            if(model.daylist != null)
+            if (model.daylist != null)
             {
                 foreach (var i in model.daylist)
                 {
                     weekdays += i;
                 }
             }
-           
+
             var shift = new Shift
             {
                 Physicianid = phy.Physicianid,
@@ -1068,51 +1070,28 @@ namespace HalloDocWebServices.Implementation
 
             }
         }
-        public void SaveReceipt(TimeSheetDataViewModel model, string? phyEmail)
+
+        public void EditReimbursement(DateTime startDate, string item, int amount, int gap, string? phyEmail)
         {
             var phy = _repository.GetPhyByEmail(phyEmail);
-            Timesheet invoice1 = _repository.GetInvoicesByPhyId(model.StartDate, model.EndDate, phy.Physicianid);
 
+            TimesheetReimbursement reim = _repository.GetReimByPhyIdAndStartDate(DateTime.Parse(startDate.AddDays(gap).ToString("MM-dd-yyyy")), phy.Physicianid);
+            reim.Amount = amount;
+            reim.Item = item;
+            reim.ModifiedBy = phy.Aspnetuserid ?? 1;
+            reim.ModifiedDate = DateTime.Now;
+            _repository.UpdateReimbursementTable(reim);
+        }
+
+        public void SaveReimbursement(TimeSheetDataViewModel model, string? phyEmail)
+        {
+            var phy = _repository.GetPhyByEmail(phyEmail);
+
+            Timesheet invoice1 = _repository.GetInvoicesByPhyId(model.StartDate, model.EndDate, phy.Physicianid);
+            int timesheetID = 0;
             if (invoice1 != null)
             {
-                int i1 = 0;
-                List<TimesheetReimbursement> reimbursements = _repository.GetReimbursementListByInvoiceId(invoice1.TimesheetId);
-                if (reimbursements.Count != 0)
-                {
-                    foreach (TimesheetReimbursement sheet in reimbursements)
-                    {
-                        sheet.Item = model.Item.ElementAt(i1);
-                        sheet.Amount = model.Amount.ElementAt(i1);
-                        sheet.Filename = "Receipt.pdf";
-                        //sheet.Filename = model.ReceiptFile.ElementAt(i1) != null ? model.ReceiptFile.ElementAt(i1).FileName : null;
-
-                        sheet.ModifiedBy = phy.Aspnetuserid ?? 1;
-                        sheet.ModifiedDate = DateTime.Now;
-                        i1++;
-                    }
-                    _repository.UpdateReimbursementList(reimbursements);
-                }
-                else
-                {
-                    List<TimesheetReimbursement> reimbursement = new();
-                    for (int i = 0; i <= model.EndDate.Value.Day - model.StartDate.Value.Day; i++)
-                    {
-                        reimbursement.Add(new TimesheetReimbursement
-                        {
-                            PhysicianId = phy.Physicianid,
-                            TimesheetId = invoice1.TimesheetId,
-                            ReimbursementDate = model.StartDate.Value.AddDays(i),
-                            Item = model.Item.ElementAt(i),
-                            Amount = model.Amount.ElementAt(i),
-                            //Filename = "Receipt.pdf",
-                            //Filename = model.ReceiptFile.ElementAt(i) != null ? model.ReceiptFile.ElementAt(i).FileName : null,
-                            CreatedBy = phy.Aspnetuserid ?? 1,
-                            CreatedDate = DateTime.Now,
-                        });
-
-                    }
-                    _repository.AddReimbursementListTbale(reimbursement);
-                }
+                timesheetID = invoice1.TimesheetId;
             }
             else
             {
@@ -1123,36 +1102,34 @@ namespace HalloDocWebServices.Implementation
                 //invoice.Createdby = phy.AspNetUserId ?? 1;
                 //invoice.CreatedDate = DateTime.Now;
                 _repository.AddTimeSheetTable(invoice);
-
-                List<TimesheetReimbursement> reimbursements = new();
-                for (int i = 0; i <= model.EndDate.Value.Day - model.StartDate.Value.Day; i++)
-                {
-                    reimbursements.Add(new TimesheetReimbursement
-                    {
-                        PhysicianId = phy.Physicianid,
-                        TimesheetId = invoice.TimesheetId,
-                        ReimbursementDate = model.StartDate.Value.AddDays(i),
-                        Item = model.Item.ElementAt(i),
-                        Amount = model.Amount.ElementAt(i),
-                        Filename = model.ReceiptFile.ElementAt(i) != null ? model.ReceiptFile.ElementAt(i).FileName : null,
-                        CreatedBy = phy.Aspnetuserid ?? 1,
-                        CreatedDate = DateTime.Now,
-                    });
-
-                }
-                _repository.AddReimbursementListTbale(reimbursements);
+                timesheetID = invoice.TimesheetId;
             }
-        }
 
-        public void EditReimbursement(DateTime startDate, string item, int amount, int gap, string? phyEmail)
-        {
-            var phy = _repository.GetPhyByEmail(phyEmail);
-            TimesheetReimbursement reim = _repository.GetReimByPhyIdAndStartDate(DateTime.Parse(startDate.AddDays(gap).ToString("dd-MM-yyyy")), phy.Physicianid);
-            reim.Amount = amount;
-            reim.Item = item;
-            reim.ModifiedBy = phy.Aspnetuserid ?? 1;
-            reim.ModifiedDate = DateTime.Now;
-            _repository.UpdateReimbursementTable(reim);
+            TimesheetReimbursement reim = new TimesheetReimbursement
+            {
+                Amount = model.Amount,
+                Item = model.Item,
+                ReimbursementDate = model.StartDate.Value.AddDays(model.Gap),
+                TimesheetId = timesheetID,
+                Filename = model.ReceiptFile.FileName,
+                PhysicianId = phy.Physicianid,
+                CreatedBy = phy.Aspnetuserid ?? 1,
+                CreatedDate = DateTime.Now,
+
+            };
+
+            string filename = model.ReceiptFile.FileName;
+            string path = Path.Combine("D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\" + phy.Physicianid + "\\" + filename);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            using FileStream stream = new(path, FileMode.Create);
+            model.ReceiptFile?.CopyTo(stream)
+;
+
+            _repository.AddReimbursementTable(reim);
         }
     }
 }
