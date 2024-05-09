@@ -1,19 +1,13 @@
     .box-area {
         width: 1200px;
-
     }
-
     .login-bg {
         background-image: url("login-img.jpg");
-
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        
-
     }
     .login-bg-light {
-      
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -24,10 +18,8 @@
         z-index: -15;
         display: block;
     }
-
     .login-bg-dark {
         background-image:linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)) ;
-
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -37,29 +29,22 @@
         position: absolute;
         z-index: -15;
         display: none;
-
-       
     }
-
-
     .logo-icon {
         max-height: 80px;
         max-width: 180px;
         background-color: transparent;
     }
-
     p {
         margin: 20px 0;
         position: relative;
         display: inline-block;
         width: 100%;
     }
-
     .input-placeholder {
         padding: 10px;
         width: 100%;
     }
-
     .label-placeholder {
         padding: 10px;
         pointer-events: none;
@@ -70,14 +55,11 @@
         transition-timing-function: ease;
         transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
         opacity: 0.5;
-
     }
-
     input:active {
         border: 2px solid aqua;
         box-shadow: aqua;
     }
-
     input:focus+label,
     input:not(:placeholder-shown)+label {
         opacity: 1;
@@ -85,17 +67,13 @@
         color: aqua;
         box-shadow: aqua;
     }
-
     form i {
-
         cursor: pointer;
         padding: 15px;
         position: absolute;
         right: 0;
         top: 0;
-
     }
-
     .theme-btn {
         top: 5px;
         right: 0;
@@ -104,7 +82,6 @@
         position: absolute;
         background-color: #FFFFFF;
         border-radius: 5px;
-
         border: 2px solid rgb(43, 161, 161);
         color: rgb(43, 161, 161);
     }
@@ -118,15 +95,12 @@ bottom: 0;
     @media only screen and (max-width : 870px) {
         .box-area {
             margin: 0 10px;
-            
         }
         .showOnMobile{
             display: block ;
         }
         .bg-image{
-            
             background-image: url("login-img.jpg");
-    
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -135,14 +109,11 @@ bottom: 0;
             opacity: 0.3;
             position: absolute;
             z-index: -15;
-        
-            
         }
         .left-box {
             height: 0px;
             overflow: hidden;
         }
-
         .right-box {
             padding: 0px;
             .theme-btn{
@@ -156,5 +127,4 @@ bottom: 0;
             }
         }
     }
-
 /* dashboard */

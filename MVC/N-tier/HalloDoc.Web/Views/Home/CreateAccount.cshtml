@@ -1,14 +1,10 @@
 ﻿@model HalloDocWebEntity.ViewModel.loginModel
 @{
     ViewData["Title"] = "Create Account Page";
-
     Layout = null;
 }
-
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -22,11 +18,8 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <link rel="stylesheet" href="~/css/style-patient.css">
 </head>
-
-
 <body>
     <!-- --------------------------------------Main container--------------------------------------------- -->
-
     <div class="container d-flex justify-content-center   align-items-center min-vh-100 ">
         <div class="min-vh-100 min-vw-100 login-bg" id="light-theme"></div>
         <div class="min-vh-100 min-vw-100 login-bg-dark" id="dark-theme"></div>
@@ -44,7 +37,6 @@
                 </div>
                 <strong><a class="text-start text-info  mt-5" style="text-decoration: none;" asp-action="Index" asp-controller="Home"> < Back</a></strong>
                 <h2>Login To Your Account</h2>
-
                 <form asp-action="CreateAccount" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group mt-2 row">
@@ -53,54 +45,38 @@
                             <input asp-for="Usarname" type="text" class="form-control input-placeholder" id="Username" placeholder="" disabled>
                             <label asp-for="Usarname" class="form-label ms-2 ps-3">Username</label>
                             <i class="fa-regular fa-circle-user text-secondary icon me-2"></i>
-
-
                         </div>
                         <span asp-validation-for="Usarname" class="text-danger"></span>
-
                     </div>
-
                     <div class="form-group mt-3 row">
                         <div class="col form-floating text-muted">
-
                             <input asp-for="Passwordhash" type="password" class="form-control input-placeholder " id="inputPassword" placeholder="">
                             <label asp-for="Passwordhash" class="form-label ms-2 ps-3">Password</label>
                            @* <i class="fa-regular fa-eye text-secondary icon me-2" id="showEye" style="display:none" onclick="showHidePassword()"></i>
                             <i class="fa-solid fa-eye-slash text-secondary icon me-2" id="hideEye" style="display:block" onclick="showHidePassword()"></i>*@
-
                             <span asp-validation-for="Passwordhash" class="text-danger"></span>
                         </div>
-
                     </div>
                     <div class="form-group mt-3 row">
                         <div class="col form-floating text-muted">
-
                             <input asp-for="confirmPassword" type="password" class="form-control input-placeholder " id="inputPassword" placeholder="">
                             <label asp-for="confirmPassword" class="form-label ms-2 ps-3">Password</label>
                             <i class="fa-regular fa-eye text-secondary icon me-2" id="showEye" style="display:none" onclick="showHidePassword()"></i>
                             <i class="fa-solid fa-eye-slash text-secondary icon me-2" id="hideEye" style="display:block" onclick="showHidePassword()"></i>
-
                             <span asp-validation-for="confirmPassword" class="text-danger"></span>
                         </div>
-
                     </div>
                     <div class="row justify-content-center mb-2 ">
                         <div class="col">
                             <input type="submit" value="Create" class="btn btn-info text-light w-100 mt-2">
                         </div>
                     </div>
-
                 </form>
                 <footer class="text-center text-lg-center bg-body-tertiary bg-transparent text-muted footer-bottom">
                     <span>Terms and Conditions | Privacy Policy</span>
                 </footer>
             </div>
         </div>
-
-
-
-
-
     </div>
     <script>
         function changeTheme() {
@@ -112,7 +88,6 @@
                 document.querySelector(".login-bg").style.display = "none";
                 document.querySelector(".login-bg-dark").style.display = "block";
             }
-
         }
         function showHidePassword() {
             let temp = document.getElementById("inputPassword");
@@ -129,11 +104,6 @@
                 eyehide.style.display = "block";
             }
         }
-
     </script>
-
 </body>
-
 </html>
-
-

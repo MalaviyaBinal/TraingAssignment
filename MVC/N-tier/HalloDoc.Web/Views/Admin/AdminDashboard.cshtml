@@ -5,8 +5,6 @@
      ViewData["Title"] = "Dashboard";
     Layout = "_AdminHeader";
 }
-
-
 <!-- DIY support Modal -->
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
@@ -33,75 +31,55 @@
         </div>
     </div>
 </div>
-
 <div class="container" style="min-width:100% !important;max-width:100% !important;">
     <div class="row d-flex justify-content-xl-center  pt-3">
-
         <div id="newbtn" class="col-sm-4 col-md-4 col-lg-2 col-4 mb-3" style="padding-left:1px !important;padding-right:6px !important; display :none;">
             <button id="new-box" style="border:none;" class="w-100 text-start">
                 <div class="p-1 rounded-3" style="border: solid thin #063982; color:#063982; background-color:#CFE2FF">
                     <div class="d-flex flex-column">
                         <small><img src="~/images/new.png" class="hideOnMobile" style="height:30px;" />NEW</small>
                         <span class="h3 fw-bold">@Model.adminCount.NewCount</span>
-
                     </div>
-
                 </div>
             </button>
         </div>
-
         <div id="newbtn_active" class="col-sm-4 col-md-4 col-lg-2 col-4 mb-3" style="padding-left:1px !important;padding-right:6px !important;">
             <button id="new-box-active" style="border:none;" class="w-100 text-start">
                 <div class="p-1 rounded-3" style="border: solid thin white; color:white; background-color:#063982">
                     <div class="d-flex flex-column">
                         <small><img src="~/images/new_active.png" class="hideOnMobile" style="height:30px;" />NEW</small>
                         <span class="h3 fw-bold">@Model.adminCount.NewCount</span>
-
                     </div>
-
                 </div>
             </button>
         </div>
-
         <div id="pendingbtn" class="col-sm-4 col-md-4 col-lg-2 col-4" style="padding-left:1px !important;padding-right:6px !important;">
             <button id="pending-box" style="border:none;" class="w-100 text-start">
                 <div class="p-1 rounded-3" style="border: solid thin #0AA2C0; color:#0AA2C0; background-color:#D1F7FF">
                     <div class="d-flex flex-column">
                         <small><img src="~/images/pending.png" class="hideOnMobile" style="height:30px;" />PENDING</small>
                         <span class="h3 fw-bold">@Model.adminCount.PendingCount</span>
-
                     </div>
-
                 </div>
             </button>
-
-
         </div>
-
         <div id="pendingbtn_active" class="col-sm-4 col-md-4 col-lg-2 col-4" style="padding-left:1px !important;padding-right:6px !important;display:none;">
             <button id="pending-box" style="border:none;" class="w-100 text-start">
                 <div class="p-1 rounded-3" style="border: solid thin #fff; color:#fff; background-color:#0AA2C0">
                     <div class="d-flex flex-column">
                         <small><img src="~/images/pending_active.png" class="hideOnMobile" style="height:30px;" />PENDING</small>
                         <span class="h3 fw-bold">@Model.adminCount.PendingCount</span>
-
                     </div>
-
                 </div>
             </button>
-
-
         </div>
-
         <div id="activebtn" class="col-sm-4 col-md-4 col-lg-2 col-4" style="padding-left:1px !important; padding-right:6px !important;">
             <button id="active-box" style="border:none;" class="w-100 text-start">
                 <div class="p-1 rounded-3" style="border: solid thin #198754; color:#198754; background-color:#E0F7ED">
                     <div class="d-flex flex-column">
                         <small><img src="~/images/active.png" class="hideOnMobile" style="height:30px;"/>ACTIVE</small>
                         <span class="h3 fw-bold">@Model.adminCount.ActiveCount</span>
-
                     </div>
-
                 </div>
             </button>
         </div>
@@ -111,42 +89,29 @@
                     <div class="d-flex flex-column">
                         <small><img src="~/images/active_active.png" class="hideOnMobile" style="height:30px;" />ACTIVE</small>
                         <span class="h3 fw-bold">@Model.adminCount.ActiveCount</span>
-
                     </div>
-
                 </div>
             </button>
         </div>
-
-
         <div id="concludebtn" class="col-sm-4 col-md-4 col-lg-2 col-4" style="padding-left:1px !important;padding-right:6px !important;">
             <button id="conclude-box" style="border:none;" class="w-100 text-start">
                 <div class="p-1 rounded-3" style="border: solid thin #AB296A; color:#AB296A; background-color:#FFDDED">
                     <div class="d-flex flex-column">
                         <span><small><img src="~/images/conclude.png" class="hideOnMobile" style="height:30px;" />CONCLUDE</small></span>
                         <span class="h3 fw-bold">@Model.adminCount.ConcludeCount</span>
-
                     </div>
-
                 </div>
             </button>
-
-
         </div>
-
         <div id="concludebtn_active" class="col-sm-4 col-md-4 col-lg-2 col-4" style="padding-left:1px !important;padding-right:6px !important;display: none;">
             <button id="conclude-box" style="border:none;" class="w-100 text-start">
                 <div class="p-1 rounded-3" style="border: solid thin #fff; color:#fff; background-color:#AB296A">
                     <div class="d-flex flex-column">
                         <span><small><img src="~/images/conclude_active.png" class="hideOnMobile" style="height:30px;" />CONCLUDE</small></span>
                         <span class="h3 fw-bold">@Model.adminCount.ConcludeCount</span>
-
                     </div>
-
                 </div>
             </button>
-
-
         </div>
         <div id="toclosebtn" class="col-sm-4 col-md-4 col-lg-2 col-4" style="padding-left:1px !important; padding-right:6px !important;">
             <button id="close-box" style="border:none;" class="w-100 text-start">
@@ -154,13 +119,9 @@
                     <div class="d-flex flex-column">
                         <span><small><img src="~/images/toclose.png" class="hideOnMobile" style="height:30px;" />TO CLOSE</small></span>
                         <span class="h3 fw-bold">@Model.adminCount.TocloseCount</span>
-
                     </div>
-
                 </div>
             </button>
-
-
         </div>
         <div id="toclosebtn_active" class="col-sm-4 col-md-4 col-lg-2 col-4" style="padding-left:1px !important; padding-right:6px !important;display:none;">
             <button id="close-box" style="border:none;" class="w-100 text-start">
@@ -168,55 +129,35 @@
                     <div class="d-flex flex-column">
                         <span><small><img src="~/images/toclose_active.png" class="hideOnMobile" style="height:30px;" />TO CLOSE</small></span>
                         <span class="h3 fw-bold">@Model.adminCount.TocloseCount</span>
-
                     </div>
-
                 </div>
             </button>
-
-
         </div>
-
-
         <div id="unpaidbtn" class="col-sm-4 col-md-4 col-lg-2 col-4" style="padding-left:0px !important; padding-right:6px !important;">
             <button id="unpaid-box" style="border:none;" class="w-100 text-start">
                 <div class="p-1 rounded-3" style="border: solid thin #8C68CD; color:#8C68CD; background-color:#E2D9F3">
                     <div class="d-flex flex-column">
                         <span><small><img src="~/images/unpaid.png" class="hideOnMobile" style="height:30px;" />UNPAID</small></span>
                         <span class="h3 fw-bold">@Model.adminCount.UnpaidCount</span>
-
                     </div>
-
                 </div>
             </button>
-
-
         </div>
-
         <div id="unpaidbtn_active" class="col-sm-4 col-md-4 col-lg-2 col-4" style="padding-left:0px !important; padding-right:6px !important;display:none;">
             <button id="unpaid-box" style="border:none;" class="w-100 text-start">
                 <div class="p-1 rounded-3" style="border: solid thin #fff; color:#fff; background-color:#8C68CD">
                     <div class="d-flex flex-column">
                         <span><small><img src="~/images/unpaid_active.png" class="hideOnMobile" style="height:30px;" />UNPAID</small></span>
                         <span class="h3 fw-bold">@Model.adminCount.UnpaidCount</span>
-
                     </div>
-
                 </div>
             </button>
-
-
         </div>
-
-        
-
     </div>
-
        <div class="row mt-3 d-flex">
                 <div class="hideOnMobile pe-0">
                     <div class="text-end d-md-flex  justify-content-md-end pb-3">
                         <h6 style="position:absolute !important; left:10px !important;">Patients (<span id="statusValue"></span>)</h6>
-                        
                         <button class="btn btn-info ms-2 text-white"  onclick="openSendLinkModal()" type="button"><i class="fa-regular fa-paper-plane"></i>Send Link</button>
                         <a asp-action="PatientRequestAdmin" asp-controller="Admin"><button class="btn btn-info text-white ms-2 border-info" type="button"><i class="fa-regular fa-note-sticky"></i> Requests</button></a>
                         <button class="btn btn-info ms-2 text-white" onclick="exportfile()" type="button"><i class="fa fa-share-square" aria-hidden="true"></i>Export</button>
@@ -234,9 +175,7 @@
                         <button class="btn btn-info ms-2 text-white p-1" type="button"><i class="fa-regular fa-user"></i></button>
                     </div>
                 </div>
-                
             </div>
-
             <div class="row g-2 py-2 mt-2 rounded bg-light shadow">
                 <div class="col-lg-3 col-md-2 col-sm-12">
                         <i class="fa fa-search text-muted position-absolute" style="padding-top:10px; padding-left:10px;"></i>
@@ -244,30 +183,25 @@
                 </div>
                 <div class=" col-lg-3 col-md-2 col-sm-12">
                         <select class="form-select" id="regionSelect" onchange="RegionChange()">
-
                         <option value="0" selected>All Regions</option>
                         @foreach(var item in Model.regions){
                             <option value="@item.Regionid">@item.Name</option>
                         }
-                           
                         </select>
                 </div>
                 <div class="col-lg-6 col-md-10 col-sm-12">
                     <div class="text-end d-md-flex justify-content-md-end ">
                         <div class="hideOnMobile" id="allrecord" onclick="tableFilter(this)"><button class="me-1 btn px-2 py-0 btn-light" style="border-color:gainsboro;" type="button">All</button></div>
-                        
                         <a id="patientrecord" onclick="tableFilter(this)"><span class=" me-1 p-1 border-info" type="button"><i class="fa-solid fa-circle fa-xs" style="color: #3ecc4e;"></i>Patient</span></a>
                         <a id="frdrecord" onclick="tableFilter(this)"><span class=" me-1 p-1" type="button"><i class="fa-solid fa-circle fa-xs" style="color: #FFD43B;"></i>Family/Freind</span></a>
                         <a id="businessrecord" onclick="tableFilter(this)"><span class="p-1 me-1 border-info" type="button"><i class="fa-solid fa-circle fa-xs" style="color: #d049b7;"></i>Business</span></a>
                         <a id="conciergerecord" onclick="tableFilter(this)"><span class=" p-1 me-1 " type="button"><i class="fa-solid fa-circle fa-xs" style="color: #3c5bd7;"></i>Concierge</span></a>
                     </div>
                 </div>
-
                 <div>
             <div id="tableContent" class="w-100">
             </div>
         </div>
-   
              </div>
 </div>
 <div id="modalpopup"></div>
@@ -275,16 +209,13 @@
 <script>
     document.getElementById("dashbrd").classList.add("active");
      function openSendLinkModal() {
-        
         console.log(id);
         $.ajax({
             url: "/Admin/_SendLinkModal",
             type: "GET",
             dataType: "html",
             success: function (data) {
-               
                 $("#modalpopup").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");
@@ -321,16 +252,11 @@
         }
          MyAjax();
     }
-
      function exportfile(){
          searchValue = document.getElementById("searchPatient").value;
      window.location.href = '/Admin/Export?id=' + id + '&check=' + check + '&searchValue=' + searchValue + '&searchRegion=' + searchRegion;
-     
  }
-
-
     function MyAjax(pagenumber){
- 
         if(pagenumber == 0){
             pagenumber = @Model.CurrentPage;
         }
@@ -347,25 +273,16 @@
                 $("#tableContent").html('An error has occurred');
             }
         });
-
     }
-
-
-
     $(document).ready(function () {
         check =0;
         id= 1;
-         
             document.getElementById("statusValue").textContent= "New";
             if(searchValue != undefined)
                     document.getElementById("searchPatient").value = searchValue;
             if(searchRegion != undefined)
              document.getElementById("regionSelect").value =searchRegion ;
-            
-               
         MyAjax();
-
-
         $('#new-box').click(function () {
             id =1;
             $('#newbtn_active').show();
@@ -380,10 +297,8 @@
             $('#concludebtn').show();
             $('#toclosebtn').show();
             $('#unpaidbtn').show();
-            
             document.getElementById("statusValue").textContent= "New";
             MyAjax();
-           
         });
         $('#pending-box').click(function () {
             id = 2;
@@ -401,7 +316,6 @@
             $('#unpaidbtn').show();             
             document.getElementById("statusValue").textContent= "Pending";
             MyAjax();
-          
         });
         $('#active-box').click(function () {
             id = 3;
@@ -417,10 +331,8 @@
             $('#concludebtn').show();
             $('#toclosebtn').show();
             $('#unpaidbtn').show();
-             
             document.getElementById("statusValue").textContent= "Active";
             MyAjax();
-            
         });
         $('#conclude-box').click(function () {
             id = 4;
@@ -436,10 +348,8 @@
             $('#concludebtn').hide();
             $('#toclosebtn').show();
             $('#unpaidbtn').show();
-             
             document.getElementById("statusValue").textContent= "Conclude";
             MyAjax();
-
         });
         $('#close-box').click(function () {
             id = 5;
@@ -455,7 +365,6 @@
             $('#concludebtn').show();
             $('#toclosebtn').hide();
             $('#unpaidbtn').show();
-             
             document.getElementById("statusValue").textContent= "To Close";
             MyAjax();
         });
@@ -473,7 +382,6 @@
             $('#concludebtn').show();
             $('#toclosebtn').show();
             $('#unpaidbtn').hide();
-             
             document.getElementById("statusValue").textContent= "Unpaid";
             MyAjax();
         });

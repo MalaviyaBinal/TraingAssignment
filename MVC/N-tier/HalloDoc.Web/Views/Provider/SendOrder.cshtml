@@ -2,13 +2,11 @@
 @{
     Layout = "_ProviderHeader";
 }
-
 <div class="container ">
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between mt-3">
                 <h4 class="mt-3">Send Order</h4>
-
                 <a class="text-start text-info text-decoration-none " asp-action="ProviderDashboard" >
                     <button class="btn btn-white  text-info border-info rounded ">
                         <i class="fa-solid  fa-less-than"></i> Back
@@ -25,7 +23,6 @@
                                     {
                                         <option value="@item.Healthprofessionalid">@item.Professionname</option>
                                     }
-
                                 </select>
                                 <label for="ProfessionSelect">Select Profession</label>
                             </div>
@@ -39,7 +36,6 @@
                                             @item.Vendorname
                                         </option>
                                     }
-
                                 </select>
                                 <label for="BusinessSelect">Business</label>
                             </div>
@@ -89,7 +85,6 @@
     </div>
 </div>
 <div id="hello">
-
 </div>
 <script>
     document.getElementById("dashbrd").classList.add("active");
@@ -99,7 +94,6 @@
         var url = "?id=" + $id + "&businessId=" + $this.val() + "&profId=" + $('#ProfessionSelect').val();
         window.location.href = url;
         console.log(url);
-       
     });
     $("#ProfessionSelect").change(function () {
         var $this = $(this);
@@ -107,7 +101,6 @@
         var url = "?id=" + $id + "&businessId=" + $('#BusinessSelect').val() + "&profId=" + $this.val();
         window.location.href = url;
         console.log(url);
-       
     });
 </script>
 @section Scripts {

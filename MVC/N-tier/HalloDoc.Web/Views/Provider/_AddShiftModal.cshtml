@@ -4,7 +4,6 @@
         var myModalblock = new bootstrap.Modal(document.getElementById('create-shift'));
         myModalblock.show();
     });
-   
     function checkdate() {
         alert("hello");
         document.getElementById("pldate").style.display = 'none';
@@ -18,11 +17,9 @@
             flag = false;
             // document.getElementById("plstart").style.display = 'block';
         }
-
         else if (a > b) {
             document.getElementById("startTimeSpan").innerHTML = 'Start time can not be greater than End time!!';
             flag = false;
-
             // document.getElementById("plstart").style.display = 'block';
         }
         else {
@@ -41,7 +38,6 @@
         if (a > b) {
             document.getElementById("startTimeSpan").innerHTML = 'Start time can not be greater than End time!!';
             flag = false;
-
             // document.getElementById("plstart").style.display = 'block';
         }
     }
@@ -49,12 +45,10 @@
         alert("hello");
         debugger;
         var flag = true;
-        
         var y = document.getElementById("Allregion").value;
         var z = document.getElementById("sdate").value;
         var a = document.getElementById("stime").value;
         var b = document.getElementById("etime").value;
-        
         if (y == 0) {
             document.getElementById("plregion").style.display = 'block';
             flag = false;
@@ -76,19 +70,15 @@
             flag = false;
             // document.getElementById("plstart").style.display = 'block';
         }
-
         else if (a > b) {
             document.getElementById("startTimeSpan").innerHTML = 'Startcan not be greater than End time!!';
             flag = false;
-
         }
         else {
             document.getElementById("startTimeSpan").innerHTML = '';
         }
         return flag;
-
     }
-
     $('#Allregion').change(function (e) {
         e.preventDefault();
         $(".modal-backdrop").remove();
@@ -109,7 +99,6 @@
     });
     $('#switchCheck').change(function (e) {
         var check = document.getElementById("switchCheck")
-
         if (check.checked) {
             //document.getElementById("day1").removeAttribute("disabled");
             for (var i = 1; i <= 7; i++) {
@@ -123,8 +112,6 @@
             document.getElementById("repeatcountSelect").setAttribute("disabled", "");
         }
     });
-
-
 </script>
 <div class="modal fade" id="create-shift" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -147,9 +134,7 @@
                             <label for="Allregion" class="view-shift-label">Region</label>
                             <span id="plregion" class="text-danger" style="display:none;">Please Select region</span>
                         </div>
-
                         <div class="col-12">
-                          
                             <div class="col-12">
                                 <div class="form-floating mb-3 inp custom-date-input">
                                     <input type="date" class="form-control input-1 view-shift-inp" onchange="checkdate()" id="sdate" asp-for="ShiftDate" asp-format="{0: yyyy-MM-dd}" placeholder="ShiftDate" autocomplete="off">
@@ -157,7 +142,6 @@
                                     <span id="pldate" class="text-danger" style="display:none;">Please Select Date</span>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-floating mb-3 inp custom-clock-input">
@@ -167,7 +151,6 @@
                                         <span id="plstart" class="text-danger" style="display:none;">Please Select Start Time</span>
                                     </div>
                                 </div>
-
                                 <div class="col-6">
                                     <div class="form-floating mb-3 inp custom-clock-input">
                                         <input type="time" class="form-control input-1 view-shift-inp" asp-for="EndTime" id="etime"
@@ -176,7 +159,6 @@
                                         <span id="plend" class="text-danger" style="display:none;">Please Select End Time</span>
                                     </div>
                                 </div>
-
                                 <span id="startTimeSpan" class="text-danger"></span>
                             </div>
                             <div class="form-check form-switch">
@@ -186,7 +168,6 @@
                             <fieldset class="my-3" id="daysSection">
                                 Repeat Days
                                 <div class="row my-2 row-cols-1 row-cols-sm-2 row-cols-md-3" id="dayCheckBox">
-
                                     <div class="col my-1">
                                         <input class="form-check-input" id="day1" disabled value="0" type="checkbox" name="daylist" />
                                         <span class="form-check-label" for="day1"> Every Sunday </span>

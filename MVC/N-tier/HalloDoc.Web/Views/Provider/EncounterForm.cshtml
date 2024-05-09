@@ -7,7 +7,6 @@
     .iti {
         width: 100%;
     }
-
     #phone {
         height: 58px;
     }
@@ -24,7 +23,6 @@
                 </a>
             </div>
             <form method="post" asp-action="SaveEncounterForm" asp-controller="Provider">
-
                 <div class="container rounded bg-white shadow py-3">
                     <h3 class="mb-3 text-center text-info">Medical Report-Confidential</h3>
                     <div class="row">
@@ -90,7 +88,6 @@
                             <label for="exampleFormControlInput1" class="form-label ps-4">RR</label>
                             <span class="text-danger"></span>
                         </div>
-
                         <div class="col-sm-6 col-md-2 col-xl-2 col-6 form-floating mb-3 text-muted">
                             <input asp-for=BpS name="BpS" type="text" class="form-control" id="exampleFormControlInput1" placeholder="FirsBlood pressuretname">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Blood pressure</label>
@@ -114,22 +111,18 @@
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
                             <input asp-for=Heent name="Heent" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Heent">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Heent</label>
-
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Cv name="Cv" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Cv">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Cv</label>
-
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Chest name="Chest" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Chest">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Chest</label>
-
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Abd name="Abd" type="text" class="form-control" id="exampleFormControlInput1" placeholder="ABD">
                             <label for="exampleFormControlInput1" class="form-label ps-4">ABD</label>
-
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Extr name="Extr" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Extr">
@@ -154,7 +147,6 @@
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating  mb-3 text-muted">
                             <input asp-for=TreatmentPlan name="TreatmentPlan" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Treatment Plan">
                             <label for="exampleFormControlInput1" class="form-label ps-4">Treatment Plan</label>
-
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=MedicationDispensed name="MedicationDispensed" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Medications Dispensed">
@@ -167,7 +159,6 @@
                         <div class="form-floating mb-3 text-muted">
                             <input asp-for=FollowUp name="FollowUp" type="text" class="form-control" id="exampleFormControlInput1" placeholder="FollowUp">
                             <label for="exampleFormControlInput1" class="form-label ps-4">FollowUp</label>
-
                         </div>
                     </div>
                     <div class="text-end pb-3">
@@ -182,14 +173,10 @@
     </div>
 </div>
 <script>
-   
     const input = document.querySelector("#phone");
-
     window.intlTelInput(input, {
         utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
-  
-    
 </script>
 <script>
     document.getElementById("dashbrd").classList.add("active");

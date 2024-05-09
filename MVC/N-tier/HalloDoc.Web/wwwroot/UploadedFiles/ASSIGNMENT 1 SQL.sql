@@ -19,10 +19,8 @@ CREATE TABLE "Products" (
 	CONSTRAINT "CK_UnitsOnOrder" CHECK (UnitsOnOrder >= 0)
 )
 GO
-
 set identity_insert "Products" on
 GO
-
 INSERT "Products"("ProductID","ProductName","SupplierID","CategoryID","QuantityPerUnit","UnitPrice","UnitsInStock","UnitsOnOrder","ReorderLevel","Discontinued")
 VALUES
 (1,'Chai',1,1,'10 boxes x 20 bags',18,39,0,10,0),
@@ -66,56 +64,40 @@ VALUES
 (39,'Chartreuse verte',18,1,'750 cc per bottle',18,69,0,5,0),
 (40,'Boston Crab Meat',19,8,'24 - 4 oz tins',18.4,123,0,30,0);
 GO
-
 SELECT * FROM Products;
 GO
-
 set identity_insert "Products" off
 GO 
-
 ALTER TABLE "Products" CHECK CONSTRAINT ALL
 GO
-
 --1. Write a query to get a Product list (id, name, unit price) where current products cost less than $20.
-
 SELECT ProductID, ProductName, UnitPrice
 FROM Products
 WHERE ((Unitprice <= 20) AND (Discontinued=0))
 GO
-
 --2. Write a query to get Product list (id, name, unit price) where products cost between $15 and $25
-
-
 SELECT ProductID, ProductName, UnitPrice
 FROM Products
 WHERE UnitPrice BETWEEN 15 AND 25 AND Discontinued=0
 GO
-
 --3. Write a query to get Product list (name, unit price) of above average price.
-
 SELECT DISTINCT ProductName, UnitPrice
 FROM Products
 WHERE (UnitPrice > (SELECT avg(UnitPrice) FROM Products) AND Discontinued=0);
 GO
-
 --4. Write a query to get Product list (name, unit price) of ten most expensive products
-
 SELECT TOP 10 ProductName, UnitPrice
 FROM Products
 WHERE Discontinued=0
 ORDER BY UnitPrice DESC
 GO
-
 --5. Write a query to count current and discontinued products
-
 SELECT
     COUNT(CASE WHEN Discontinued = 0 THEN 1 END) AS CurrentProducts,
     COUNT(CASE WHEN Discontinued = 1 THEN 1 END) AS DiscontinuedProducts
 FROM Products
 GO
-
 --6. Write a query to get Product list (name, units on order , units in stock) of stock is less than the quantity on order
-
 SELECT ProductName,  UnitsOnOrder , UnitsInStock
 FROM Products
 WHERE (((Discontinued)=0) AND ((UnitsInStock)<UnitsOnOrder))

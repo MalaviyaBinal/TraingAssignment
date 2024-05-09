@@ -8,7 +8,6 @@
             </div>
             <form id="assignForm" method="post">
             <div class="modal-body">
-                
                 <div class="row mb-3">
                     <div class="col text-muted">
                         To Assign this request,search and select another Physician.
@@ -21,25 +20,20 @@
                             {
                                 <option value="@item.Regionid">@item.Name</option>
                             }
-
                         </select>
                         <label for="floatingSelect">Narrow Search By Region</label>
                         <span asp-validation-for="SelectedRegion" id="regionError" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" asp-for=SelectedPhy id="PhysicianSelect" aria-label="Floating label select example">
-                        
                             @foreach(var item in Model.physicians)
                             {
                                 <option value="@item.Physicianid">@item.Firstname @item.Lastname</option>
                             }
-                       
                         </select>
                         <label for="floatingSelect">Select Physicion</label>
                         <span asp-validation-for="SelectedPhy" id="phyError" class="text-danger"></span>
                     </div>
-                    
-                
                 <div class="row">
                     <div class="col">
                         <div class="form-floating">
@@ -58,12 +52,10 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
         var myModal = new bootstrap.Modal(document.getElementById('Assigncasemodal'));
         myModal.show();
-
     });
     function checknotes() {
         document.getElementById("notesError").innerHTML = '';
@@ -77,10 +69,8 @@
                 url: "/Admin/AssignCaseModal",
                 data : {'id' : reqid , 'regid' : regionid},
                 type: "POST",
-            
                 success: function (result) {
                     $("#modalpopup").html(result);
-                    
                 },
                 error: function () {
                     alert("No Projects Found");
@@ -99,8 +89,6 @@
         var notes = document.getElementById("notes").value;
         var regionid = $('#RegionSelect').val()
         var reqid = '@TempData["reqid"]';
-
-      
         if (regionid == 0) {
             document.getElementById("regionError").innerHTML = 'Select region..';
         }
@@ -124,19 +112,15 @@
                 },
                 error: function () {
                     alert("No Projects Found");
-
                 }
             });
         }
-        
     });
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
         'use strict'
-
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll('.needs-validation')
-
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
@@ -145,14 +129,11 @@
                         event.preventDefault()
                         event.stopPropagation()
                     }
-
                     form.classList.add('was-validated')
                 }, false)
             })
     })()
-
 </script>
-  
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

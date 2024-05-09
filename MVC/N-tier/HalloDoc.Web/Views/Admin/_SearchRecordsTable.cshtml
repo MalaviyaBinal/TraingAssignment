@@ -1,6 +1,5 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminRecordsModel
 <script>
-
     $("#cancelbtn").click(function () {
         $("#modalpopup").remove();
         $(".modal-backdrop").remove()
@@ -15,13 +14,10 @@
             type: "GET",
             dataType: "html",
             success: function (data) {
-
                 $("#modalpopup").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");
-
             }
         });
     };
@@ -162,25 +158,18 @@
 <div class="accordion accordion-flush showOnMobile hide d-md-none mt-3" id="accordionFlushExample">
     @foreach (var item in Model.Data)
     {
-
         String Id = 'a' + @item.Requestid.ToString();
-
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@Id" aria-expanded="false" aria-controls="flush-collapseOne">
-
                     <div class="d-block">
                         <p class="fw-bold">@item.Firstname @item.Lastname</p>
                         <p> @item.Street,@item.City,@item.State</p>
-
                     </div>
-
                 </button>
             </h2>
-
             <div id="@Id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-person-check text-info" viewBox="0 0 20 20">
                             <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
@@ -197,7 +186,6 @@
                             }
                         </span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" 20height="23" fill="currentColor" class="bi bi-calendar-check text-info" viewBox="0 0 20 20">
                             <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0" />
@@ -205,7 +193,6 @@
                         </svg>
                         <span> Date of Service:  @item.Request.Createddate</span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" 20height="23" fill="currentColor" class="bi bi-calendar-check text-info" viewBox="0 0 20 20">
                             <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0" />
@@ -213,21 +200,18 @@
                         </svg>
                         <span> Case Closed Date:  @item.Request.Createddate</span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-envelope text-info" viewBox="0 0 20 20">
                             <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
                         </svg>
                         <span> Email: @item.Email</span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-telephone text-info" viewBox="0 0 20 20">
                             <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
                         </svg>
                         <span> Patient: @item.Phonenumber</span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-geo-alt text-info" viewBox="0 0 20 20">
                             <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
@@ -235,7 +219,6 @@
                         </svg>
                         <span> Address: @item.Address</span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-geo-alt text-info" viewBox="0 0 20 20">
                             <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
@@ -243,7 +226,6 @@
                         </svg>
                         <span> ZipCode: @item.Zipcode</span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-check-circle text-info" viewBox="0 0 20 20">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -279,7 +261,6 @@
                             }
                         </span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-geo-alt text-info" viewBox="0 0 20 20">
                             <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
@@ -306,7 +287,6 @@
                             }
                         </span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text text-info" viewBox="0 0 16 16">
                             <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
@@ -329,17 +309,13 @@
                                         --
                                     </span>
                                 }
-
                             }
                             else
                             {
                                 <span>--</span>
-
                             }
-
                         </span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text text-info" viewBox="0 0 16 16">
                             <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
@@ -348,7 +324,6 @@
                         </svg>
                         <span>  Cancelled by Provider Note: --</span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text text-info" viewBox="0 0 16 16">
                             <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
@@ -359,7 +334,6 @@
                             Admin Note: @if (Model.ReqNotes.Any(x => x.Requestid == item.Request.Requestid))
                             {
                                 var notes = Model.ReqNotes.FirstOrDefault(x => x.Requestid == item.Request.Requestid);
-
                                 if (@notes.Adminnotes != null)
                                 {
                                     <span>
@@ -376,11 +350,9 @@
                             else
                             {
                                 <span>--</span>
-
                             }
                         </span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text text-info" viewBox="0 0 16 16">
                             <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
@@ -389,7 +361,6 @@
                         </svg>
                         <span>  Cancellation Reason:--</span>
                     </div>
-
                     <div class="mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text text-info" viewBox="0 0 16 16">
                             <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
@@ -398,12 +369,10 @@
                         </svg>
                         <span>  Patient Note:--</span>
                     </div>
-
                     <div class="d-flex justify-content-center">
                         <div class="w-50">
                             <a asp-action="ViewCase" asp-route-id="@item.Request.Requestid" class="d-block btn btn-light border-info text-info bg-transparent my-2">View Case</a>
                             <a class="d-block btn btn-light border-danger text-danger bg-transparent" onclick="deleteRequest(this)" value="@item.Request.Requestid">Delete Permanently</a>
-                           
                         </div>
                     </div>
                 </div>
@@ -411,7 +380,6 @@
         </div>
     }
 </div>  
-
 <div aria-label="Page navigation">
     <ul class="pagination justify-content-center mt-3">
         @if (Model.TotalPages >= 1)
@@ -422,7 +390,6 @@
                     <span aria-hidden="true"><i class="bi bi-caret-left-fill text-info"></i> </span>
                 </a>
             </li>
-
             <!-- Page numbers -->
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
@@ -430,7 +397,6 @@
                     <a class="page-link" id="plink-@i" href="javascript:void(0)" onclick="getRecords(@i)">@i</a>
                 </li>
             }
-
             <!-- Next page -->
             <li class="page-item @(Model.NextPage ? " " : "disabled")">
                 <a class="page-link" href="javascript:void(0)" onclick="getRecords(@Model.CurrentPage+1)" aria-label="Next">
@@ -440,6 +406,4 @@
         }
     </ul>
 </div>  
-
 <div id="modalpopup"></div>
-

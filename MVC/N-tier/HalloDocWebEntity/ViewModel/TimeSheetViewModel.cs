@@ -1,4 +1,5 @@
 ﻿using HalloDocWebEntity.Data;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 namespace HalloDocWebEntity.ViewModel
 {
@@ -26,6 +27,8 @@ namespace HalloDocWebEntity.ViewModel
         public int CreatedBy { get; set; }
 
         public DateTime? CreatedDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public int? ModifiedBy { get; set; }
 
@@ -34,5 +37,10 @@ namespace HalloDocWebEntity.ViewModel
         public int? OnCallHours { get; set; }
         public int? NumberOfHouseCalls { get; set; }
         public int? NumberOfPhoneConsults { get; set; }
+
+        public string? Item { get; set; }
+        public string? FileName { get; set; }
+        public int? Amount { get; set; }
+        public IFormFile? ReceiptFile { get; set; }
     }
 }

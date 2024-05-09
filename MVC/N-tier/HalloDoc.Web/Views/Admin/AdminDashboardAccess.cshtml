@@ -30,7 +30,6 @@
             </tr>
         </thead>
         <tbody class="text-muted">
-
             @foreach (var item in Model)
             {
                 <tr>
@@ -46,7 +45,6 @@
                         case 0:
                             <td>All</td>
                             break;
-
                     }
                     <td class="text-center">
                         <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Roleid"><button type="button" class="btn btn-outline-info">Edit</button></a>
@@ -54,18 +52,12 @@
                     </td>
                 </tr>
             }
-
-
-
-
         </tbody>
     </table>
     <div class="d-md-none border-bottom">
-
         @foreach (var item in Model)
         {
             <div class="border-bottom px-2" id="accordiancolor">
-
                 <div class="my-2">
                     <div class="my-1">Name: <strong>@item.Name</strong></div>
                     <div class="my-1">
@@ -81,7 +73,6 @@
                             case 0:
                                 <span>All</span>
                                 break;
-
                         }
                     </div>
                     <div class="my-1">
@@ -91,17 +82,13 @@
                 </div>
             </div>
         }
-
     </div>
-
 </div>
-
 <div id="modalpopup">
 </div>
 <script>
     document.getElementById("access1").classList.add("active");
     function deleteaccess(element) {
-
         var id = element.value;
         console.log(id);
         $.ajax({
@@ -110,15 +97,11 @@
             type: "GET",
             dataType: "html",
             success: function (data) {
-
                 $("#modalpopup").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");
-
             }
         });
     };
-
 </script>

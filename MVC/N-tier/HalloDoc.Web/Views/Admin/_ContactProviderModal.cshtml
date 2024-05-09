@@ -68,7 +68,6 @@
         var mobile = document.getElementById("phyPhone").value;
         var note = document.getElementById("notes").value;
         var id = @Model.Physicianid;
-
         alert(id);
         if(note != " "){
             window.location.href = "/Admin/ContactProviderSendMessage?id=" + id + "&email=" + email + "&phone=" + mobile + "&note=" + note + "&selected=" + selected;
@@ -76,10 +75,7 @@
         else{
             document.getElementById("notesError").style.display = 'Block';
         }
-        
     }
-
-
     $("#cancelbtn").click(function () {
         $("#modalpopup").remove();
         $(".modal-backdrop").remove()
@@ -87,10 +83,8 @@
     });
     (function () {
         'use strict'
-
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll('.needs-validation')
-
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
@@ -99,7 +93,6 @@
                         event.preventDefault()
                         event.stopPropagation()
                     }
-
                     form.classList.add('was-validated')
                 }, false)
             })

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,7 +14,7 @@ public partial class TimesheetDetail
     public int TimesheetId { get; set; }
 
     [Column(TypeName = "timestamp without time zone")]
-    public DateTime? Shiftdate { get; set; }
+    public DateTime? Sheetdate { get; set; }
 
     public int? ShiftHours { get; set; }
 
@@ -23,8 +22,24 @@ public partial class TimesheetDetail
 
     public int? PhoneConsult { get; set; }
 
-    [Column("isWeekend", TypeName = "bit(1)")]
-    public BitArray? IsWeekend { get; set; }
+    public int? PhysicianId { get; set; }
+
+    [Column(TypeName = "timestamp without time zone")]
+    public DateTime? CreatedDate { get; set; }
+
+    public int? CreatedBy { get; set; }
+
+    [Column(TypeName = "timestamp without time zone")]
+    public DateTime? ModifiedDate { get; set; }
+
+    public int? ModifiedBy { get; set; }
+
+    [Column("isWeekend")]
+    public bool? IsWeekend { get; set; }
+
+    [ForeignKey("PhysicianId")]
+    [InverseProperty("TimesheetDetails")]
+    public virtual Physician? Physician { get; set; }
 
     [ForeignKey("TimesheetId")]
     [InverseProperty("TimesheetDetails")]

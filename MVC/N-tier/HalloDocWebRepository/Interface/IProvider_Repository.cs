@@ -60,5 +60,15 @@ namespace HalloDocWebRepo.Interface
         void AddShiftDetails(List<Shiftdetail> shiftdetails);
         void UpdateShiftDetailTable(Shiftdetail sd);
         List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, int phyid);
+        Timesheet GetInvoicesByPhyId(DateTime? startDate, DateTime? endDate, int physicianid);
+        List<TimesheetDetail> GetTimeSheetListByInvoiceId(int timesheetId);
+        void UpdateTimeSheetDetailTable(List<TimesheetDetail> timesheets);
+        void AddTimeSheetDetailTable(List<TimesheetDetail> timesheet);
+        void AddTimeSheetTable(Timesheet invoice);
+        List<TimesheetReimbursement> GetReimbursementListByInvoiceId(int timesheetId);
+        void UpdateReimbursementList(List<TimesheetReimbursement> reimbursements);
+        void AddReimbursementListTbale(List<TimesheetReimbursement> reimbursement);
+        TimesheetReimbursement GetReimByPhyIdAndStartDate(DateTime dateTime, int physicianid);
+        void UpdateReimbursementTable(TimesheetReimbursement reim);
     }
 }

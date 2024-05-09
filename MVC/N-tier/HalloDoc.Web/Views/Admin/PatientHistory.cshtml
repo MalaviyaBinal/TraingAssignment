@@ -2,7 +2,6 @@
 @{
     Layout = "_AdminHeader";
 }
-
 <div>
     <div class="row" style="--bs-gutter-x: 0rem;">
         <div class="col-12">
@@ -41,7 +40,6 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
     $(document).ready(function () {
         $.ajax({
@@ -61,11 +59,9 @@
 </script>
 <script>
     function getPatientHistory(pagenumber) {
-
         if (pagenumber == 0) {
             pagenumber = @Model.CurrentPage;
         }
-
         let fname = document.getElementById('fname').value;
         let lname = document.getElementById('lname').value;
         let email = document.getElementById('email').value;

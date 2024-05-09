@@ -2,7 +2,6 @@
 @{
     Layout = "_AfterLogin";
 }
-
 <div class="container text-end mt-3">
     <a class="text-start text-info text-decoration-none " asp-controller="Home" asp-action="patientdashboard">
         <button class="btn btn-white  text-info border-info rounded ">
@@ -10,7 +9,6 @@
         </button>
     </a>
 </div>
-
 <form method="post" asp-action="RequestForsSomeone" enctype="multipart/form-data">
     <div class="container bg-white rounded mt-3">
         <div class="row">
@@ -106,7 +104,6 @@
                     <div class="col">
                         <p>
                             <div style="position:absolute; height:45px; width : 110px; text-align:justify-all;z-index : 999 !important;" class="bg-info p-2 text-light rounded-1 align-items-center">
-                               
                                     <i class="fa-solid fa-cloud-arrow-up"
                                        style="color: #ffffff; border-radius: 0px 5px 5px 0px; "></i>
                                     <span >Upload</span>
@@ -116,7 +113,6 @@
                         </p>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="text-end pb-3">
@@ -125,7 +121,6 @@
         </div>
     </div>
 </form>
-
 <script>
     document.getElementById("dashbrd").classList.add("active");
 </script>

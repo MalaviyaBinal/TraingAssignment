@@ -3,7 +3,6 @@
     .iti {
         width: 100%;
     }
-
     #phone, #phone1 {
         height: 58px;
     }
@@ -54,10 +53,8 @@
     });
     (function () {
         'use strict'
-
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll('.needs-validation')
-
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
@@ -66,7 +63,6 @@
                         event.preventDefault()
                         event.stopPropagation()
                     }
-
                     form.classList.add('was-validated')
                 }, false)
             })
@@ -75,5 +71,4 @@
 <script>
     const phoneInputField = document.querySelector("#phone");
     const phoneInput = window.intlTelInput(phoneInputField, { utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js", });
-
 </script>

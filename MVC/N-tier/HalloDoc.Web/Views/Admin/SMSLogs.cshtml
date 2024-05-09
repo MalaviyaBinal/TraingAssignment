@@ -2,7 +2,6 @@
 @{
     Layout = "_AdminHeader";
 }
-
 <style>
     .form-floating > .form-select {
         padding-top: 0.625rem;
@@ -28,21 +27,18 @@
                             @*<label for="RoleSelect" class="form-label"></label>*@
                         </div>
                     </div>
-
                     <div class="col-lg-2 col-md-4 col-sm-6 mt-1 pe-2">
                         <div class=" form-floating">
                             <input type="text" class="form-control me-2" id="name" placeholder="Receiver Name">
                             <label for="name" class="form-label">Receiver Name</label>
                         </div>
                     </div>
-
                     <div class="col-lg-2 col-md-4 col-sm-6 mt-1 pe-2">
                         <div class="form-floating">
                             <input type="text" class="form-control me-2" id="mobile" placeholder="Mobile Number">
                             <label for="mobile" class="form-label">Mobile Number</label>
                         </div>
                     </div>
-
                     <div class="col-lg-2 col-md-4 col-sm-6 mt-1 pe-2">
                         <div class="form-floating">
                             <input type="date" class="form-control me-2" id="createdDate">
@@ -60,15 +56,12 @@
                         <button type="button" class="btn border-info text-info p-2" onclick="document.location.reload(true)">Cancel</button>
                     </div>
                 </div>
-
                 <div id="tableContent" class="w-100">
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.getElementById("records_dropdown").classList.add("active");
@@ -82,7 +75,6 @@
             dataType: "html",
             success: function (data) {
                 $("#tableContent").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");
@@ -93,7 +85,6 @@
 </script>
 <script>
     function getSMSLog(pagenumber) {
-
         if (pagenumber == 0) {
             pagenumber = @Model.CurrentPage;
         }
@@ -111,7 +102,6 @@
             dataType: "html",
             success: function (data) {
                 $("#tableContent").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");

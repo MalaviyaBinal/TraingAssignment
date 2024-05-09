@@ -1,5 +1,4 @@
 ﻿@model HalloDocWebEntity.ViewModel.DeleteAccountDetails
-
 <div class="modal fade" id="delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -12,7 +11,6 @@
                 </div>
                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
             </div>
-
             @switch (Model.accountTypeName)
             {
                 case "Vender":
@@ -24,7 +22,6 @@
                     </div>
                     <div class="modal-footer d-flex justify-content-center pb-3">
                         <a asp-action="DeleteVender" asp-controller="Admin" asp-route-id="@Model.venderID"><button type="button" class="btn btn-info text-white ">Yes Delete</button></a>
-
                         <button type="button" id="cancelbtn" class="btn btn-white text-info border-info" data-bs-dismiss="modal">Cancel</button>
                     </div>
                     break;
@@ -37,7 +34,6 @@
                     </div>
                     <div class="modal-footer d-flex justify-content-center pb-3">
                         <a asp-action="DeleteAccessRole" asp-controller="Admin" asp-route-id="@Model.roleId"><button type="button" class="btn btn-info text-white ">Yes Delete</button></a>
-
                         <button type="button" id="cancelbtn" class="btn btn-white text-info border-info" data-bs-dismiss="modal">Cancel</button>
                     </div>
                     break;
@@ -50,7 +46,6 @@
                     </div>
                     <div class="modal-footer d-flex justify-content-center pb-3">
                         <a asp-action="DeletePhysician" asp-controller="Admin" asp-route-id="@Model.PhyId"><button type="button" class="btn btn-info text-white ">Yes Delete</button></a>
-
                         <button type="button" id="cancelbtn" class="btn btn-white text-info border-info" data-bs-dismiss="modal">Cancel</button>
                     </div>
                     break;
@@ -60,11 +55,9 @@
                             <h5 class="modal-title " id="staticBackdropLabel">Confirmation for Delete Request</h5>
                         </div>
                         Are sure you want to Unblock this Account?
-
                     </div>
                     <div class="modal-footer d-flex justify-content-center pb-3">
                         <a asp-action="UnblockRequest" asp-controller="Admin" asp-route-id="@Model.blockId"><button type="button" class="btn btn-info text-white ">Yes Unblock</button></a>
-
                         <button type="button" id="cancelbtn" class="btn btn-white text-info border-info" data-bs-dismiss="modal">Cancel</button>
                     </div>
                     break;
@@ -74,17 +67,13 @@
                             <h5 class="modal-title " id="staticBackdropLabel">Confirmation for Delete Account</h5>
                         </div>
                         Are sure you want to Delete this Account Permanently?you Won't be able to access this account after deletion..
-
                     </div>
                     <div class="modal-footer d-flex justify-content-center pb-3">
                         <a asp-action="DeleteRequest" asp-controller="Admin" asp-route-id="@Model.reqId"><button type="button" class="btn btn-info text-white ">Yes Delete</button></a>
-
                         <button type="button" id="cancelbtn" class="btn btn-white text-info border-info" data-bs-dismiss="modal">Cancel</button>
                     </div>
                     break;
-
             }
-
         </div>
     </div>
 </div>
@@ -92,12 +81,10 @@
     $(document).ready(function () {
         var myModal = new bootstrap.Modal(document.getElementById('delete'));
         myModal.show();
-
     });
     $("#cancelbtn").click(function () {
         $("#modalpopup").remove();
         $(".modal-backdrop").remove()
         location.reload();
     });
-
 </script>

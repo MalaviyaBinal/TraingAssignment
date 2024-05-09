@@ -1,18 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 	  <RazorCompileOnBuild>false</RazorCompileOnBuild>
   </PropertyGroup>
-
   <ItemGroup>
     <None Include="wwwroot\css\UploadedFiles\DemoMvcCore.sln" />
     <None Include="wwwroot\PhysicianDoc\5\HIPAA.xlsx" />
     <None Include="wwwroot\UploadedFiles\DemoMvcCore.sln" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.2" />
     <PackageReference Include="GoogleMaps.LocationServices" Version="1.2.0.5" />
@@ -34,22 +31,18 @@
     <PackageReference Include="System.Web.Helpers.Crypto" Version="3.2.3" />
     <PackageReference Include="WindowsAzure.ServiceBus" Version="7.0.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\HalloDocWebEntity\HalloDocWebEntity.csproj" />
     <ProjectReference Include="..\HalloDocWebService\HalloDocWebService.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Update="wwwroot\PhysicianDoc\5\SRS-23-24-Trainees.pdf">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="PhysicianDoc\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
-
 </Project>

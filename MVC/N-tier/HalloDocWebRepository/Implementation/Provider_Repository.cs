@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Globalization;
+using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
 
@@ -321,7 +322,7 @@ namespace HalloDocWebRepo.Implementation
 
         public List<Requestwisefile> getRequestWiseFileList(int id)
         {
-            return _context.Requestwisefiles.Where(e => e.Requestid == id).ToList();    
+            return _context.Requestwisefiles.Where(e => e.Requestid == id).ToList();
         }
         public Aspnetuser getAspnetuserByID(int? aspnetuserid)
         {
@@ -343,23 +344,23 @@ namespace HalloDocWebRepo.Implementation
         }
         public List<ShiftDetailsModel> getshiftDetail(int phyid)
         {
-          
-                return _context.Shiftdetails.Where(e => e.Isdeleted != new BitArray(1, true))
-                   .Include(e => e.Shift)
-                   .ThenInclude(e => e.Physician).ThenInclude(e => e.Region).Where(e => e.Shift.Physicianid == phyid).Select(e =>
-                       new ShiftDetailsModel
-                       {
-                           PhysicianName = e.Shift.Physician.Firstname + " " + e.Shift.Physician.Lastname,
-                           Physicianid = e.Shift.Physician.Physicianid,
-                           RegionName = e.Shift.Physician.Region.Name,
-                           Status = e.Status,
-                           Starttime = e.Starttime,
-                           Endtime = e.Endtime,
-                           Shiftdate = e.Shiftdate,
-                           Shiftdetailid = e.Shiftdetailid,
-                       }
-                   ).ToList();
-           
+
+            return _context.Shiftdetails.Where(e => e.Isdeleted != new BitArray(1, true))
+               .Include(e => e.Shift)
+               .ThenInclude(e => e.Physician).ThenInclude(e => e.Region).Where(e => e.Shift.Physicianid == phyid).Select(e =>
+                   new ShiftDetailsModel
+                   {
+                       PhysicianName = e.Shift.Physician.Firstname + " " + e.Shift.Physician.Lastname,
+                       Physicianid = e.Shift.Physician.Physicianid,
+                       RegionName = e.Shift.Physician.Region.Name,
+                       Status = e.Status,
+                       Starttime = e.Starttime,
+                       Endtime = e.Endtime,
+                       Shiftdate = e.Shiftdate,
+                       Shiftdetailid = e.Shiftdetailid,
+                   }
+               ).ToList();
+
         }
         public Shiftdetail getShiftDetailByShiftDetailId(int id)
         {
@@ -394,20 +395,26 @@ namespace HalloDocWebRepo.Implementation
         public List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, int phyid)
         {
             DateTime enddate = startDate.AddDays(15 - startDate.Day);
-            System.Diagnostics.Debug.WriteLine(startDate.Day);
-            System.Diagnostics.Debug.WriteLine(DateTime.Now);
-            System.Diagnostics.Debug.WriteLine(startDate.AddDays(16 - startDate.Day));
-
-
+           
             if (startDate.Day > 15)
             {
                 enddate = startDate.AddDays(DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day);
             }
-            List<Timesheet> sheets = _context.Timesheets.Include(e => e.TimesheetDetails.Where(x =>x.Shiftdate >= startDate && x.Shiftdate <= enddate)).Where(e => e.PhysicianId == phyid).ToList();
+
+            Timesheet invoice = _context.Timesheets.FirstOrDefault(e => e.PhysicianId == phyid && e.Startdate == startDate && e.Enddate == enddate);
+            List<TimesheetDetail> sheets = new List<TimesheetDetail>();
+            List<TimesheetReimbursement> reimbursements = new List<TimesheetReimbursement>();
+            if (invoice != null)
+            {
+                sheets = _context.TimesheetDetails.Where(x => x.TimesheetId == invoice.TimesheetId).ToList();
+                reimbursements = _context.TimesheetReimbursements.Where(x => x.TimesheetId == invoice.TimesheetId).ToList();
+            }
+
+          
             List<TimeSheetViewModel> timesheets = new();
             for (int i = 0; i <= enddate.Day - startDate.Day; i++)
             {
-                double onCallHour = _context.Shiftdetails.Where(x => x.Shift.Physicianid == phyid && x.Isdeleted != new BitArray(1,true) && x.Shiftdate == DateOnly.FromDateTime( startDate.AddDays(i))).Select(x => new
+                double onCallHour = _context.Shiftdetails.Where(x => x.Shift.Physicianid == phyid && x.Isdeleted != new BitArray(1, true) && x.Shiftdate == DateOnly.FromDateTime(startDate.AddDays(i))).Select(x => new
                 {
                     x.Shiftdate,
                     Duration = x.Endtime - x.Starttime,
@@ -415,17 +422,81 @@ namespace HalloDocWebRepo.Implementation
                 }).GroupBy(x => x.Shiftdate).Select(x => x.Sum(y => y.Duration.TotalHours)).FirstOrDefault();
                 timesheets.Add(new TimeSheetViewModel()
                 {
-                    InvoiceId = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetId,
+                    InvoiceId = sheets.FirstOrDefault(x => x.Sheetdate == startDate.AddDays(i))?.TimesheetId,
                     Date = startDate.AddDays(i),
                     OnCallHours = (int)onCallHour,
                     PhysicianId = phyid,
-                    TotalHours = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().ShiftHours ?? (int)onCallHour,
-                    WeekendHoliday = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().IsWeekend == new BitArray(1,true),
-                    NumberOfHouseCalls = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().Housecall!=0 ? sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().Housecall: 0,
-                    NumberOfPhoneConsults = sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().PhoneConsult != 0 ? sheets.FirstOrDefault(x => x.TimesheetDetails.First().Shiftdate == startDate.AddDays(i))?.TimesheetDetails.First().PhoneConsult : 0,
+                    TotalHours = sheets.FirstOrDefault(x => x.Sheetdate == startDate.AddDays(i))?.ShiftHours ?? (int)onCallHour,
+                    WeekendHoliday = sheets.FirstOrDefault(x => x.Sheetdate == startDate.AddDays(i))?.IsWeekend == true,
+                    NumberOfHouseCalls = sheets.FirstOrDefault(x => x.Sheetdate == startDate.AddDays(i))?.Housecall != null ? sheets.FirstOrDefault(x => x.Sheetdate == startDate.AddDays(i))?.Housecall : 0,
+                    NumberOfPhoneConsults = sheets.FirstOrDefault(x => x.Sheetdate == startDate.AddDays(i))?.PhoneConsult != null ? sheets.FirstOrDefault(x => x.Sheetdate == startDate.AddDays(i))?.PhoneConsult : 0,
+                    Item = reimbursements.FirstOrDefault(x => x.ReimbursementDate == startDate.AddDays(i))?.Item ?? null,
+                    FileName = reimbursements.FirstOrDefault(x => x.ReimbursementDate == startDate.AddDays(i))?.Filename ?? null,
+                    ReceiptFile = null,
+                    Amount = reimbursements.FirstOrDefault(x => x.ReimbursementDate == startDate.AddDays(i))?.Amount ?? 0,
+                    
                 });
             }
+            timesheets.First().StartDate = startDate;
+            timesheets.First().EndDate = enddate;
             return timesheets;
+        }
+
+        public Timesheet GetInvoicesByPhyId(DateTime? startDate, DateTime? endDate, int physicianid)
+        {
+            return _context.Timesheets.FirstOrDefault(x => x.PhysicianId == physicianid && x.Startdate == startDate && x.Enddate == endDate);
+        }
+
+        public List<TimesheetDetail> GetTimeSheetListByInvoiceId(int timesheetId)
+        {
+            return _context.TimesheetDetails.Where(t => t.TimesheetId == timesheetId).ToList();
+        }
+
+        public void UpdateTimeSheetDetailTable(List<TimesheetDetail> timesheets)
+        {
+            _context.TimesheetDetails.UpdateRange(timesheets);
+            _context.SaveChanges();
+        }
+
+
+        public void AddTimeSheetDetailTable(List<TimesheetDetail> timesheet)
+        {
+            _context.TimesheetDetails.AddRange(timesheet);
+            _context.SaveChanges();
+        }
+
+        public void AddTimeSheetTable(Timesheet invoice)
+        {
+            _context.Timesheets.Add(invoice);
+            _context.SaveChanges();
+        }
+
+        public List<TimesheetReimbursement> GetReimbursementListByInvoiceId(int timesheetId)
+        {
+            return _context.TimesheetReimbursements.Where(t => t.TimesheetId == timesheetId).ToList();
+        }
+
+        public void UpdateReimbursementList(List<TimesheetReimbursement> reimbursements)
+        {
+            _context.TimesheetReimbursements.UpdateRange(reimbursements);
+            _context.SaveChanges();
+        }
+
+        public void AddReimbursementListTbale(List<TimesheetReimbursement> reimbursement)
+        {
+            _context.TimesheetReimbursements.AddRange(reimbursement);
+            _context.SaveChanges();
+        }
+
+        public TimesheetReimbursement GetReimByPhyIdAndStartDate(DateTime startDate, int physicianid)
+        {
+            return _context.TimesheetReimbursements.FirstOrDefault(x => x.ReimbursementDate.Value.Date == startDate.Date && x.PhysicianId == physicianid);
+        }
+
+        public void UpdateReimbursementTable(TimesheetReimbursement reim)
+        {
+            _context.TimesheetReimbursements.Update(reim);
+            _context.SaveChanges();
         }
     }
 

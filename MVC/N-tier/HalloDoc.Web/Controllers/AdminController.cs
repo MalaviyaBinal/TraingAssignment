@@ -11,7 +11,6 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.EMMA;
 using HalloDocWebService.Authentication;
 using System.Text.RegularExpressions;
-
 namespace HalloDoc.Web.Controllers
 {
     public class AdminController : Controller
@@ -51,7 +50,6 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult CreateProviderAdmin(AdminProviderModel model)
         {
-         
             _service.addProviderByAdmin(model);
             return RedirectToAction(nameof(AdminDashboard));
         }
@@ -538,14 +536,10 @@ namespace HalloDoc.Web.Controllers
             if (info.Email != info.con_Email)
             {
                 var m = _service.getAdminProfileData(HttpContext.Request.Cookies["userEmail"]);
-               
                     m.con_Email = info.con_Email;
                     ModelState.AddModelError("con_Email", "Email and Confirm email should be same");
-                
                 return View(nameof(AdminDashboardMyProfile), m);
             }
-
-
             _service.updateadminform(info);
             return RedirectToAction(nameof(AdminDashboardMyProfile));
         }
@@ -571,11 +565,8 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public ActionResult UpdateAdminPassword(AdminProfile info)
         {
-            
-            
             _service.saveAdminPassword(info);
             Logout();
-
             return RedirectToAction(nameof(AdminDashboardMyProfile));
         }
         [HttpPost]
@@ -838,6 +829,5 @@ namespace HalloDoc.Web.Controllers
             _service.UpdatePayRate(model, phyid);
             return RedirectToAction(nameof(PayRate), new {id = phyid});
         }
-
     }
 }

@@ -6,11 +6,9 @@
     .iti {
         width: 100%;
     }
-
     #phone, #phone1 {
         height: 58px;
     }
-
     .nav-underline .nav-link.active {
         color: #5bc0de !important;
     }
@@ -19,16 +17,11 @@
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between mt-3">
-
-
                 @if (Model.isProviderEdit)
                 {
-
                     <script>
-
                         document.getElementById("provider1").classList.add("active");
                     </script>
-
                 }
                 else
                 {
@@ -43,7 +36,6 @@
                     </button>
                 </a>
             </div>
-
             <div class="container rounded bg-white shadow py-3">
                 <form method="post" asp-action="SavePhysicianPassword" asp-controller="Admin">
                     <h5 class="mb-3">Account Information</h5>
@@ -61,20 +53,16 @@
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
                             <div class="mb-3 border border-light rounded-5">
-
                                 <select class="form-select text-muted p-3 " asp-for=physician.Status aria-label="form-select-lg example" disabled>
-
                                             <option value="1">Pending</option>
                                             <option value="2">Active</option>
                                             <option value="3">InActive</option>
                                         </select>
-                                   
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
                             <div class="mb-3 border border-light rounded-5">
                                 <select class="form-select text-muted p-3 " asp-for=physician.Roleid aria-label=" form-select-lg example" disabled>
-
                                     @foreach (var item in Model.roles)
                                     {
                                         <option value="@item.Roleid">
@@ -87,7 +75,6 @@
                     </div>
                     <div class="text-end pb-3">
                         <button class="btn btn-info text-white" type="button" id="edit3" onclick="EditData3()">Edit</button>
-              
                         <button class="btn btn-white text-info border-info d-none" onclick="Cancel3()" id="cancel3" type="button">Cancel</button>
                         <button class="btn btn-white text-info border-info" id="resetpwd" type="submit" disabled>Reset password</button>
                     </div>
@@ -115,7 +102,6 @@
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input id="phone" class="form-control inp2 dclass" asp-for=Mobile value="@Model.Mobile" type="tel" placeholder="Phone Number" disabled>
-                            
                             <span asp-validation-for="Mobile" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
@@ -160,7 +146,6 @@
                         <a asp-action="PayRate" asp-route-id="@Model.physician.Physicianid"><button class="btn btn-info text-white" type="button">Enter Payrate</button></a>
                         <button class="btn btn-info text-white" id="edit" onclick="EditData()" type="button">Edit</button>
                         <button class="btn btn-info text-white d-none" id="save" type="submit">Save</button>
-
                         <button class="btn btn-white text-info border-info d-none" onclick="Cancel()" id="cancel" type="button">Cancel</button>
                     </div>
                 </form>
@@ -235,13 +220,8 @@
                                 </span>
                                 <input type="File" class="form-control input-placeholder border-0 d2class " asp-for="Photo"
                                        placeholder="Select Photo" disabled>
-
-
-
                             </p>
-
                         </div>
-
                         <div class=" col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
                             <p>
                                 <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
@@ -250,14 +230,8 @@
                                 </span>
                                 <input type="file" asp-for="Signature" class="form-control input-placeholder border-0 d2class " id="fileToUpload"
                                        placeholder="Select Signature" disabled>
-
-
-
                             </p>
-
                         </div>
-
-
                         <div class="form-floating mb-3">
                             <textarea class="form-control d2class" asp-for=Adminnotes value="@Model.Adminnotes placeholder="Admin Notes" id="floatingTextarea2" style="height: 100px" disabled></textarea>
                             <label for="floatingTextarea2" class="ms-2">Admin Notes</label>
@@ -271,13 +245,11 @@
                         }
                         @if (Model.isSignature == true)
                         {
-
                             var str = "/PhysicianDoc/" + Model.physician.Physicianid + "/" + Model.SignatureName;
                             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
                                 <img src="@str" class="img-fluid" style="height:250px ; width : 250px;">
                             </div>
                         }
-
                     </div>
                     <div class="text-end pb-3">
                         <button class="btn btn-info text-white" id="edit2" onclick="EditData2()" type="button">Edit</button>
@@ -287,7 +259,6 @@
                     <hr />
                 </form>
                 <form asp-action="SavePhysicianDocuments" method="post" asp-controller="Admin" enctype="multipart/form-data">
-
                     <input type="hidden" value="@Model.physician.Physicianid" asp-for="@Model.physician.Physicianid" />
                     <div class="row p-3">
                         <div class="col-12 h5 mb-3">
@@ -297,11 +268,9 @@
                     <div class="row p-3">
                         <div class="form-check mb-3 col-sm-12 pt-4 col-md-6 col-lg-6 mb-3">
                             <input class="form-check-input" type="checkbox" id="1" asp-for="@Model.Isagrementdoc[0]">
-
                             <span class="form-check-label" for="1">
                                 Independent Contractor Agreement
                             </span>
-
                         </div>
                         <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <p>
@@ -311,13 +280,8 @@
                                 </span>
                                 <input type="File" class="form-control input-placeholder border-0  " asp-for="@Model.AgreementDoc" id="fileToUpload"
                                        placeholder="Select File">
-
-
-
                             </p>
-
                         </div>
-
                         @if (@Model.Isagrementdoc[0])
                         {
                             <button class="btn btn-info  col-md-1 col-lg-1text-white mb-4 mt-4" type="button" onclick="viewdoc('AgreementDoc')">View</button>
@@ -329,10 +293,7 @@
                             <span class="form-check-label" for="2">
                                 Background Check
                             </span>
-
                         </div>
-
-
                         <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <p>
                                 <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
@@ -341,13 +302,8 @@
                                 </span>
                                 <input type="File" class="form-control input-placeholder border-0 " asp-for=@Model.backgroundDoc id="fileToUpload"
                                        placeholder="Select File">
-
-
-
                             </p>
-
                         </div>
-
                         @if (@Model.IsbackgroundDoc[0])
                         {
                             <button class="btn btn-info col-sm-12 col-md-1 col-lg-1text-white mb-4 mt-4" type="button" onclick="viewdoc('BackgroundDoc')">View</button>
@@ -360,7 +316,6 @@
                                 HIPAA Compilance
                             </span>
                         </div>
-
                         <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <p>
                                 <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
@@ -369,11 +324,7 @@
                                 </span>
                                 <input type="File" class="form-control input-placeholder border-0  " asp-for="TrainingDoc" id="fileToUpload"
                                        placeholder="Select File">
-
-
-
                             </p>
-
                         </div>
                         @if (@Model.IsTrainingDoc[0])
                         {
@@ -387,7 +338,6 @@
                                 Non-Disclosure Agreement
                             </span>
                         </div>
-
                         <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <p>
                                 <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
@@ -396,13 +346,8 @@
                                 </span>
                                 <input type="File" class="form-control input-placeholder border-0 " asp-for="@Model.NonDisclosure" id="fileToUpload"
                                        placeholder="Select File">
-
-
-
                             </p>
-
                         </div>
-
                         @if (@Model.IsNonDisclosure[0])
                         {
                             <button class="btn btn-info col-sm-12 col-md-1 col-lg-1text-white mb-4 mt-4" type="button" onclick="viewdoc('NonDisclosureDoc')">View</button>
@@ -410,13 +355,11 @@
                     </div>
                     <div class="row p-3">
                         <div class="form-check mb-3 pt-4 col-sm-12 col-md-6 col-lg-6">
-
                             <input class="form-check-input" type="checkbox" id="5" asp-for="@Model.IsLisenceDoc[0]">
                             <span class="form-check-label" for="5">
                                 Licence Document
                             </span>
                         </div>
-
                         <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <p>
                                 <span style="position:absolute;left:0; height:46px; width:110px" class="btn btn-info text-light text-start">
@@ -425,21 +368,13 @@
                                 </span>
                                 <input type="File" class="form-control input-placeholder border-0 " asp-for="LisenceDoc" id="fileToUpload"
                                        placeholder="Select File">
-
-
-
                             </p>
-
                         </div>
                         @if (@Model.IsLisenceDoc[0])
                         {
-
                             <button class="btn btn-info col-sm-12 col-md-1 col-lg-1text-white mb-4 mt-4" type="button" onclick="viewdoc('LicenseDoc')">View</button>
                         }
                     </div>
-
-
-
                     <hr />
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-info text-white me-md-2" type="submit">Save</button>
@@ -453,12 +388,8 @@
 <div id="modalpopup">
 </div>
 <script>
-
-
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
-
-
     window.intlTelInput(input, {
         utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
@@ -469,7 +400,6 @@
         window.open("/PhysicianDoc/" + @Model.physician.Physicianid+"/" + str + ".pdf");
     }
     function deleteaccess(element) {
-
         var id = element.value;
         console.log(id);
         $.ajax({
@@ -478,13 +408,10 @@
             type: "GET",
             dataType: "html",
             success: function (data) {
-
                 $("#modalpopup").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");
-
             }
         });
     };
@@ -492,82 +419,65 @@
         document.getElementById("save").classList.remove("d-none");
         document.getElementById("cancel").classList.remove("d-none");
         document.getElementById("edit").classList.add("d-none");
-
         document.querySelectorAll(".dclass").forEach(x => {
             x.removeAttribute("disabled");
         })
-
     }
-
     function Cancel() {
         document.getElementById("save").classList.add("d-none");
         document.getElementById("cancel").classList.add("d-none");
         document.getElementById("edit").classList.remove("d-none");
-
         document.querySelectorAll(".dclass").forEach(x => {
             x.setAttribute("disabled", "");
         })
-
     }
-
     function EditData1() {
         document.getElementById("cancel1").classList.remove("d-none");
         document.getElementById("save1").classList.remove("d-none");
         document.getElementById("edit1").classList.add("d-none");
-
         document.querySelectorAll(".d1class").forEach(x => {
             x.removeAttribute("disabled");
         })
     }
-
     function Cancel1() {
         document.getElementById("edit1").classList.remove("d-none");
         document.getElementById("cancel1").classList.add("d-none");
         document.getElementById("save1").classList.add("d-none");
-
         document.querySelectorAll(".d1class").forEach(x => {
             x.setAttribute("disabled", "");
         })
     }
-
     function EditData2() {
         document.getElementById("cancel2").classList.remove("d-none");
         document.getElementById("save2").classList.remove("d-none");
         document.getElementById("edit2").classList.add("d-none");
-
         document.querySelectorAll(".d2class").forEach(x => {
             x.removeAttribute("disabled");
         })
     }
-
     function Cancel2() {
         document.getElementById("edit2").classList.remove("d-none");
         document.getElementById("cancel2").classList.add("d-none");
         document.getElementById("save2").classList.add("d-none");
-
         document.querySelectorAll(".d2class").forEach(x => {
             x.setAttribute("disabled", "");
         })
     }
-
     function EditData3() {
         document.getElementById("cancel3").classList.remove("d-none");
         //document.getElementById("save3").classList.remove("d-none");
         document.getElementById("edit3").classList.add("d-none");
         document.getElementById("resetpwd").removeAttribute("disabled");
         document.getElementById("password").removeAttribute("disabled");
-
         //document.querySelectorAll(".d3class").forEach(x => {
         //    x.removeAttribute("disabled");
         //})
     }
-
     function Cancel3() {
         document.getElementById("edit3").classList.remove("d-none");
         document.getElementById("cancel3").classList.add("d-none");
         document.getElementById("resetpwd").setAttribute("disabled", "");
         //document.getElementById("save3").classList.add("d-none");
-
         document.querySelectorAll(".d3class").forEach(x => {
             x.setAttribute("disabled", "");
         })
@@ -577,9 +487,7 @@
     function checkPWD() {
         debugger;
         var password = document.getElementById("password").value;
-
         let pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$/
-
         if (!pattern.test(password)) {
             document.getElementById("pwdError").innerHTML = "Password must contain One uppercase ,lowercase letter ,one digit and special character..";
         }
@@ -590,8 +498,6 @@
             document.getElementById("pwdError").innerHTML = "";
         }
     }
-
-
 </script>
 @section Scripts {
     @{

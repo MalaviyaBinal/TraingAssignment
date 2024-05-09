@@ -1,12 +1,9 @@
 Name:
   wkhtmltoimage 0.12.2.1 (with patched qt)
-
 Synopsis:
   wkhtmltoimage [OPTIONS]... <input file> <output file>
-  
 Description:
   Converts an HTML page into an image, 
-
 General Options:
       --allow <path>                  Allow the file or files from the specified
                                       folder to be loaded (repeatable)
@@ -95,23 +92,17 @@ General Options:
       --window-status <windowStatus>  Wait until window.status is equal to this
                                       string before rendering page
       --zoom <float>                  Use this zoom factor (default 1)
-
 Specifying A Proxy:
   By default proxy information will be read from the environment variables:
   proxy, all_proxy and http_proxy, proxy options can also by specified with the
   -p switch
-
   <type> := "http://" | "socks5://"
   <serif> := <username> (":" <password>)? "@"
   <proxy> := "None" | <type>? <string>? <host> (":" <port>)?
-  
   Here are some examples (In case you are unfamiliar with the BNF):
-
   http://user:password@myproxyserver:8080
   socks5://myproxyserver
   None
-  
 Contact:
   If you experience bugs or want to request new features please visit 
   <https://github.com/wkhtmltopdf/wkhtmltopdf/issues>
-

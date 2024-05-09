@@ -52,5 +52,8 @@ namespace HalloDocWebServices.Interfaces
         void CreateShift(SchedulingViewModel info,string email);
         void DeleteShiftDetails(int id);
         List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, string phyid);
+        void SaveTimesheet(TimeSheetDataViewModel model, string? v);
+        void SaveReceipt(TimeSheetDataViewModel model, string? v);
+        void EditReimbursement(DateTime dateTime, string item, int amount, int gap, string? v);
     }
 }

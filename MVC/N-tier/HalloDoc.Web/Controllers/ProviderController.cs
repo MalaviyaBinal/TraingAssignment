@@ -1,14 +1,12 @@
 ﻿using HalloDocWebEntity.ViewModel;
-
 using HalloDocWebServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-
 using HalloDocWebEntity.Data;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Rotativa.AspNetCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using HalloDocWebService.Authentication;
-
+using System.Globalization;
 namespace HalloDoc.Web.Controllers
 {
     public class ProviderController : Controller
@@ -18,12 +16,10 @@ namespace HalloDoc.Web.Controllers
         {
             _service = service;
         }
-
         #region ProviderDashboard
         [CustomAuthorize("Provider", 186)]
         public IActionResult ProviderDashboard()
         {
-
             var count = _service.setProviderDashboardCount(HttpContext.Request.Cookies["userEmail"]);
             AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.adminCount = count;
@@ -37,21 +33,16 @@ namespace HalloDoc.Web.Controllers
             AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.physicians = _service.getPhysicianList();
             model.regions = _service.getRegionList();
-
-
             if (searchValue != null)
             {
                 if (!string.IsNullOrWhiteSpace(searchValue))
                 {
                     tabledata1 = tabledata1.Where(x => x.Name.ToLower().Contains(searchValue.ToLower())).ToList();
                 }
-
             }
             if (searchRegion != 0)
             {
-
                 tabledata1 = tabledata1.Where(x => x.RegionID == searchRegion).ToList();
-
             }
             model.tabledata = tabledata1;
             var count = tabledata1.Count();
@@ -72,18 +63,13 @@ namespace HalloDoc.Web.Controllers
                 model.PreviousPage = pagenumber > 1;
                 model.NextPage = pagenumber < model.TotalPages;
             }
-
-
-
             switch (id)
             {
-
                 case 2: return PartialView("_Pending", model);
                 case 3: return PartialView("_Active", model);
                 case 4: return PartialView("_Conclude", model);
                 default: return PartialView("_New", model);
             }
-
         }
         public IActionResult PatientRequestProvider()
         {
@@ -104,26 +90,51 @@ namespace HalloDoc.Web.Controllers
         }
         public ActionResult SendLink(AdminDashBoardPagination info)
         {
-           
             _service.sendLinkProviderDashboard(info, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(ProviderDashboard));
         }
         #endregion
-
         #region Invoicing
         [CustomAuthorize("Provider", 187)]
         public IActionResult Invoicing()
         {
             return View();
         }
+        //[Route("TimeSheet")]
         public IActionResult TimeSheet(DateTime StartDate)
         {
-            
             List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, HttpContext.Request.Cookies["userEmail"]);
             return View(model);
         }
+        [HttpPost]
+        public IActionResult SaveTimesheet([FromForm] TimeSheetDataViewModel model)
+        {
+            _service.SaveTimesheet(model, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate) });
+        }
+        [HttpPost]
+        public IActionResult SaveReceipt([FromForm] TimeSheetDataViewModel model)
+        {
+            _service.SaveReceipt(model, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate) });
+        }
+        public IActionResult EditReimbursement(DateTime StartDate1, string Item, int Amount, int Gap)
+        {
+            string T = DateOnly.FromDateTime(StartDate1).ToString("MM-dd-yyyy");
+            DateTime dt = DateTime.ParseExact(T, "MM-dd-yyyy", CultureInfo.InvariantCulture);
+            string StartDate = dt.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
+            _service.EditReimbursement(DateTime.Parse(StartDate), Item, Amount, Gap, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(TimeSheet), new { StartDate = StartDate1 });
+        }
+        public IActionResult SaveReimbursement(DateTime StartDate1, string Item, int Amount, int Gap,IFormFile ReceiptFile)
+        {
+            //string T = DateOnly.FromDateTime(StartDate1).ToString("MM-dd-yyyy");
+            //DateTime dt = DateTime.ParseExact(T, "MM-dd-yyyy", CultureInfo.InvariantCulture);
+            //string StartDate = dt.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
+            //_service.EditReimbursement(DateTime.Parse(StartDate), Item, Amount, Gap, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(TimeSheet), new { StartDate = StartDate1 });
+        }
         #endregion
-
         #region Provider Dashboard Actions
         public IActionResult GeneratePDF([FromQuery] int requestid)
         {
@@ -136,7 +147,6 @@ namespace HalloDoc.Web.Controllers
             {
                 FileName = "Encounter_Form.pdf"
             };
-
         }
         public ActionResult AcceptConsultRequest(int id)
         {
@@ -145,13 +155,10 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<ActionResult> ViewCase(int id)
         {
-
             return View(_service.ViewCaseModel(id));
-
         }
         public async Task<ActionResult> ViewNotes(int id)
         {
-
             return View(_service.ViewNotes(id));
         }
         public async Task<IActionResult> SaveNote(Notes n, int id)
@@ -173,11 +180,9 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> TransferCaseModal(int id)
         {
-
             TempData["reqid"] = id;
             return PartialView("_TransferCaseModal", _service.GetRequestData(id));
         }
-
         public async Task<IActionResult> TransferConfirm(Request reg)
         {
             _service.TransferConfirm(reg, HttpContext.Request.Cookies["userEmail"]);
@@ -189,7 +194,6 @@ namespace HalloDoc.Web.Controllers
                 HttpContext.Session.SetInt32("req_id", (int)id);
             AdminViewUpload data = _service.getPatientDocument(HttpContext.Session.GetInt32("req_id"));
             Dictionary<int, string> requestIdCounts = _service.GetExtension((int)HttpContext.Session.GetInt32("req_id"));
-
             ViewBag.fileExtensions = requestIdCounts;
             return View(data);
         }
@@ -201,21 +205,16 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult UploadFileProvider(IFormFile fileToUpload)
         {
-
             if (fileToUpload != null && fileToUpload.Length > 0)
             {
                 _service.uploadFileAdmin(fileToUpload, (int)HttpContext.Session.GetInt32("req_id"), HttpContext.Request.Cookies["userEmail"]);
-
                 return RedirectToAction(nameof(ViewDocument), (int)HttpContext.Session.GetInt32("req_id"));
             }
             else
             {
-
                 return RedirectToAction(nameof(ViewDocument));
             }
-
         }
-        
         [HttpPost]
         public ActionResult DownloadFiles([FromBody] string[] filenames)
         {
@@ -242,7 +241,6 @@ namespace HalloDoc.Web.Controllers
         {
             //var data = _service.opencancelmodel(id);
             ViewBag.reqid = id;
-
             return View();
         }
         public ActionResult ConsultCall(int id)
@@ -258,7 +256,6 @@ namespace HalloDoc.Web.Controllers
         public ActionResult EncounterFinalize(int id)
         {
             _service.EncounterFinalize(id);
-
             return RedirectToAction(nameof(ProviderDashboard));
         }
         public IActionResult EncounterForm(int id)
@@ -289,7 +286,6 @@ namespace HalloDoc.Web.Controllers
         {
             ViewBag.id = id;
             Dictionary<int, string> requestIdCounts = _service.GetExtension(id);
-
             ViewBag.fileExtensions = requestIdCounts;
             AdminViewUpload model = _service.ConcludeCare(id);
             return View(model);
@@ -297,19 +293,15 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult ConcludeUploadFileProvider(IFormFile fileToUpload)
         {
-
             if (fileToUpload != null && fileToUpload.Length > 0)
             {
                 _service.uploadFileAdmin(fileToUpload, (int)HttpContext.Session.GetInt32("req_id"), HttpContext.Request.Cookies["userEmail"]);
-
                 return RedirectToAction(nameof(ConcludeCare), (int)HttpContext.Session.GetInt32("req_id"));
             }
             else
             {
-
                 return RedirectToAction(nameof(ConcludeCare));
             }
-
         }
         public IActionResult ConcludeFinal(AdminViewUpload model)
         {
@@ -337,12 +329,10 @@ namespace HalloDoc.Web.Controllers
                 info.Passwordhash = pwd;
                 return View("MyProfile", info);
             }
-           
             _service.savePhysicianPassword(info);
             return RedirectToAction(nameof(MyProfile));
         }
         #endregion
-
         #region Scheduling
         [CustomAuthorize("Provider", 188)]
         public IActionResult MySchedule(int reg)
@@ -351,7 +341,6 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult _ViewShiftModal(int id, int regid)
         {
-
             return View(_service.getViewShiftData(id, regid));
         }
         public async Task<IActionResult> _AddShiftModal(int regionid)
@@ -371,13 +360,9 @@ namespace HalloDoc.Web.Controllers
             return RedirectToAction(nameof(MySchedule));
         }
         #endregion
-
         public IActionResult Error()
         {
             return View();
         }
-
-
-
     }
 }

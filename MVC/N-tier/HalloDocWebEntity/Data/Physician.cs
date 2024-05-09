@@ -155,5 +155,11 @@ public partial class Physician
     public virtual ICollection<Shift> Shifts { get; set; } = new List<Shift>();
 
     [InverseProperty("Physician")]
+    public virtual ICollection<TimesheetDetail> TimesheetDetails { get; set; } = new List<TimesheetDetail>();
+
+    [InverseProperty("Physician")]
+    public virtual ICollection<TimesheetReimbursement> TimesheetReimbursements { get; set; } = new List<TimesheetReimbursement>();
+
+    [InverseProperty("Physician")]
     public virtual ICollection<Timesheet> Timesheets { get; set; } = new List<Timesheet>();
 }

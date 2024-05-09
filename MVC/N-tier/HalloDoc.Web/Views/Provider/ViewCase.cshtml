@@ -1,5 +1,4 @@
 ﻿@model HalloDocWebEntity.ViewModel.ViewCaseModel
-
 @{
     Layout = "_ProviderHeader";
     ViewData["Title"] = "View Case Page";
@@ -8,12 +7,10 @@
     .iti {
         width: 100%;
     }
-
     #phone, #phone1 {
         height: 58px;
     }
 </style>
-
 <div class="container ">
     <div class="row">
         <div class="col-12">
@@ -30,9 +27,7 @@
                         View Reservation
                     </h4>
                 }
-
                 <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
-
                     <button class="btn btn-white  text-info border-info rounded ">
                         <i class="fa-solid  fa-less-than"></i> Back
                     </button>
@@ -61,17 +56,14 @@
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for="@Model.DOB" type="date" name="dob" asp-format="{0:yyyy-MM-dd}" class="form-control" id="dob" placeholder="Date Of Birth" disabled>
                             <label for="exampleFormControlInput1" class="form-label ps-4">Date Of Birth</label>
-
                         </div>
                         <div class="col-sm-10 col-md-4 col-xl-5 col-9 form-floating mb-3 text-muted">
                             <input value="@Model.Phonenumber" id="phone" class="form-control inp2" type="tel" placeholder="Phone Number" disabled>
                         </div>
                         <div class=" col-sm-2 col-md-2 col-xl-1 col-1 mb-3 ">
-                       
                                 <a class="rounded p-2" style="border: solid thin #4dd2ff;" href="tel:@Model.Phonenumber">
                                     <i class="fa-solid fa-phone fa-lg rounded " style="color: #4ddfff; padding-top:20px !important;"></i>
                                 </a>
-                      
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input value="@Model.Email" name="email" type="email" class="form-control" id="email" placeholder="Email" disabled>
@@ -91,14 +83,10 @@
                             <label for="exampleFormControlInput1" class="form-label ps-4">Address</label>
                         </div>
                         <div class="col-sm-2 col-md-2 col-xl-1 col-1 mb-3 ">
-
-
                             <a class="btn btn-outline-info"
                                href="https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(@Model.Address).ToString()}" ;" target="_blank">
                                 <i class="fa fa-location-arrow "></i>
                             </a>
-
-
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
                             <input type="text" name="city" class="form-control" id="city" placeholder="City" disabled>
@@ -106,24 +94,17 @@
                         </div>
                     </div>
                     <div class="text-end pb-3 justify-content-end">
-                        
                         <a  asp-action="ViewNotes" asp-controller="Provider" asp-route-id="@Model.requestId"><button class="btn btn-info text-white" type="button">View Notes</button></a>
-                        
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-
-
 <script>
     document.getElementById("dashbrd").classList.add("active");
     const input = document.querySelector("#phone");
-   
     window.intlTelInput(input, {
         utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
-
 </script>

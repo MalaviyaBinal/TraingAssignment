@@ -1,16 +1,12 @@
-
 .scheduler_default_corner_inner + div {
     display: none;
 }
-
 .month_default_loading + div {
     display: none;
 }
-
 .scheduler_default_cell {
     background-color: rgb(255, 255, 255) !important;
 }
-
 .month_default_cell_header {
     background-color: #eabae9 !important;
 }
@@ -18,11 +14,9 @@
     margin: 0;
     padding: 0;
 }
-
 .box-area {
     width: 1200px;
 }
-
 .login-bg {
     background-image: url("login-img.jpg");
     background-position: center;
@@ -35,7 +29,6 @@
     z-index: -15;
     display: block;
 }
-
 .dropdown-item:hover {
     background-color: #D6F8FF;
     color: #54d4d3 !important;
@@ -62,7 +55,6 @@
     z-index: -15;
     display: none;
 }
-
 .iti {
     display: block !important;
     width: 100% !important;
@@ -70,22 +62,17 @@
     padding: 2px;
     height: calc(3.7 rem +2px) !important;
 }
-
-
-
 .logo-icon {
     max-height: 80px;
     max-width: 180px;
     background-color: transparent;
 }
-
 p {
     margin: 20px 0 !important;
     position: relative !important;
     display: inline-block !important;
     width: 100% !important;
 }
-
 .input-placeholder {
     padding: 10px !important;
     width: 100% !important;
@@ -93,7 +80,6 @@ p {
     background-color: transparent !important;
     border-color: rgb(131, 130, 130) !important;
 }
-
 .label-placeholder {
     padding: 10px !important;
     pointer-events: none !important;
@@ -105,8 +91,6 @@ p {
     transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1) !important;
     opacity: 0.5 !important;
 }
-
-
 input:focus + label, input:not(:placeholder-shown) + label {
     opacity: 1 !important;
     transform: scale(0.75) translateY(-20%) translateX(-1px) !important;
@@ -121,7 +105,6 @@ select:focus + label, input:not(:placeholder-shown) + label {
     box-shadow: skyblue !important;
     background-color: transparent !important;
 }
-
 /*form i {
     padding: 15px;
     position: absolute;
@@ -134,11 +117,9 @@ select:focus + label, input:not(:placeholder-shown) + label {
     right: 0;
     top: 0;
 }
-
 .accordion-button::after {
     display: none;
 }
-
 .theme-btn {
     top: 5px;
     right: 0;
@@ -150,7 +131,6 @@ select:focus + label, input:not(:placeholder-shown) + label {
     border: 2px solid #54B4D3;
     color: #54B4D3;
 }
-
 .theme-btn-header {
     width: 40px;
     height: 40px;
@@ -159,7 +139,6 @@ select:focus + label, input:not(:placeholder-shown) + label {
     border: 2px solid #54B4D3;
     color: #54B4D3;
 }
-
 .footer-bottom {
     position: fixed;
     left: 0;
@@ -169,20 +148,17 @@ select:focus + label, input:not(:placeholder-shown) + label {
     color: white;
     text-align: center;
 }
-
 .Submit-request-header {
     background-color: white;
     width: 100%;
     position: fixed;
     box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.5);
 }
-
 .file-input {
     opacity: 0;
     position: absolute;
     width: 100%;
 }
-
 .hide {
     display: none !important;
 }
@@ -190,7 +166,6 @@ select:focus + label, input:not(:placeholder-shown) + label {
 nav {
     background-color: white;
 }
-
     nav ul {
         display: flex;
         list-style: none;
@@ -198,16 +173,13 @@ nav {
         justify-content: flex-end;
         align-items: center;
     }
-
     nav li {
         height: 80px;
         padding: 0 3px;
     }
-
         nav li:first-child {
             margin-right: auto;
         }
-
 .sideBar {
     position: fixed;
     top: 80px;
@@ -222,12 +194,10 @@ nav {
     align-items: flex-start;
     justify-content: flex-start;
 }
-
     .sideBar li {
         width: 100%;
         height: 30px !important;
     }
-
     .sideBar a {
         width: 100%;
         text-decoration:none;
@@ -241,8 +211,6 @@ nav {
     border-bottom: 3px solid #54d4d3 !important;
     --bs-nav-link-color: #54d4d3 !important;
 }
-
-
 .nav-item a {
     color: black;
     text-decoration: none;
@@ -252,25 +220,20 @@ nav {
     color: black !important;
     background-color: rgb(213, 243, 255);
 }
-
 @media only screen and (max-width : 870px) {
     .box-area {
         margin: 0 10px;
     }
-
     .left-box {
         height: 0px;
         overflow: hidden;
     }
-
     .right-box {
         padding: 0px;
     }
-
     .hideOnMobile {
         display: none !important;
     }
-
     .showOnMobile {
         display: block !important;
     }

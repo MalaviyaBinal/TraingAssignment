@@ -1,5 +1,4 @@
 ﻿@model HalloDocWebEntity.ViewModel.ShiftDetailsModel
-
 <div class="table-responsive d-lg-block d-none">
     <table class="table">
         <thead class="bg-body-tertiary">
@@ -7,7 +6,6 @@
             <tr>
                 <th scope="col">
                     <input type="checkbox" id="mainCheckbox" style="width:20px;height:20px" onclick="selectAllCheckboxes()" />
-
                 </th>
                 <th>
                     Staff
@@ -17,36 +15,27 @@
                 <th>Region</th>
             </tr>
         </thead>
-
         <tbody>
                 @foreach (var details in Model.shiftdetail)
                 {
                 <input type="hidden" id="countcheckbox" value="@Model.shiftdetail.Count" />
                 <tr class="align-middle">
-
                     <td>
                         <input type="checkbox" class="Subcheckbox" style="width:20px;height:20px" onclick="checkAllCheckboxes()" value="@details.Shiftdetailid">
-
                     </td>
                     <td>
                             @details.Shift.Physician.Firstname @details.Shift.Physician.Lastname
                     </td>
-
-
                     <td>
                             @details.Shiftdate.ToString("MMM dd,yyyy")
                     </td>
-
                     <td>
                             @details.Starttime - @details.Endtime
                     </td>
                     <td>@details.Shift.Physician.Region.Name</td>
                 </tr>
-
                 }
-
         </tbody>
-
     </table>
 </div>
 <div class="d-flex justify-content-between " aria-label="Page navigation">
@@ -60,7 +49,6 @@
                     <span aria-hidden="true"><i class="bi bi-caret-left-fill text-info"></i> </span>
                 </a>
             </li>
-
             <!-- Page numbers -->
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
@@ -68,7 +56,6 @@
                     <a class="page-link" id="plink-@i" href="javascript:void(0)" onclick="ShiftReview(@i)">@i</a>
                 </li>
             }
-
             <!-- Next page -->
             <li class="page-item @(Model.NextPage ? " " : "disabled")">
                 <a class="page-link" href="javascript:void(0)" onclick="ShiftReview(@Model.CurrentPage+1)" aria-label="Next">

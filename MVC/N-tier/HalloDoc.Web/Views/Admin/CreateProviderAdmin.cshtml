@@ -11,7 +11,6 @@
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({ address: address }, function (results, status) {
             if (status == "OK") {
-
                 var latitude = results[0].geometry.location.lat();
                 var longitude = results[0].geometry.location.lng();
                 document.getElementById('lat').value = latitude;
@@ -28,11 +27,9 @@
     .iti {
         width: 100%;
     }
-
     #phone, #phone1 {
         height: 58px;
     }
-
     .nav-underline .nav-link.active {
         color: #5bc0de !important;
     }
@@ -42,16 +39,13 @@
         <div class="col-12">
             <div class="d-flex justify-content-between mt-3">
                 <h4 class="mt-3">Create Physician Account</h4>
-
                 <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
                     <button class="btn btn-white  text-info border-info rounded ">
                         <i class="fa-solid  fa-less-than"></i> Back
                     </button>
                 </a>
             </div>
-
             <div class="container rounded bg-white shadow py-3">
-
                 <form enctype="multipart/form-data" id="enable" method="post" asp-action="CreateProviderAdmin" asp-controller="Admin">
                     <div class="row">
                         <div class="col-sm-12 col-md-4 col-xl-4 form-floating mb-3 text-muted">
@@ -121,7 +115,6 @@
                             {
                                 @foreach (var item in Model.regions)
                                 {
-
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input checkboxes" type="checkbox" name="SelectedReg" value="@item.Regionid">
                                         <span class="form-check-label text6" for="inlineCheckbox1">@item.Name</span>
@@ -130,8 +123,6 @@
                             }
                         </div>
                     </div>
-
-
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Mailing & Billing Information
@@ -173,7 +164,6 @@
                         <input type="hidden" asp-for="lat" id="lat">
                         <input type="hidden" asp-for="log" id="long">
                     </div>
-
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Provider Profile
@@ -197,21 +187,14 @@
                                 </span>
                                 <input type="File" class="form-control input-placeholder border-0 d2class " asp-for="Photo"
                                        placeholder="Select Photo" >
-
-
-
                             </p>
-
                         </div>
-                        
                         <div class="form-floating mb-3">
                             <textarea asp-for=Adminnotes class="form-control d2class" placeholder="Admin Notes" id="floatingTextarea2" style="height: 100px"></textarea>
                             <label for="floatingTextarea2" class="ms-2">Admin Notes</label>
                         </div>
                     </div>
-
                     <hr />
-
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Onboarding
@@ -224,7 +207,6 @@
                                 <span class="form-check-label" for="1">
                                     Independent Contractor Agreement
                                 </span>
-
                             </div>
                         </div>
                             <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
@@ -237,7 +219,6 @@
                                            placeholder="Select File">
                                 </p>
                             </div>
-                        
                     </div>
                     <div class="row p-3">
                         <div class="form-check mb-3 col-6 mb-3">
@@ -246,7 +227,6 @@
                                 <span class="form-check-label" for="2">
                                     Background Check
                                 </span>
-
                             </div>
                         </div>
                             <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
@@ -259,7 +239,6 @@
                                        placeholder="Select File" >
                                 </p>
                             </div>
-                        
                     </div>
                     <div class="row p-3">
                         <div class="form-check mb-3 col-6 mb-3">
@@ -268,7 +247,6 @@
                                 <span class="form-check-label" for="2">
                                     HIPAA Compilance
                                 </span>
-
                             </div>
                         </div>
                             <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
@@ -281,7 +259,6 @@
                                            placeholder="Select File">
                                 </p>
                             </div>
-                        
                     </div>
                    <div class="row p-3">
                         <div class="form-check mb-3 col-6 mb-3">
@@ -290,7 +267,6 @@
                                 <span class="form-check-label" for="2">
                                     Non-Disclosure Agreement
                                 </span>
-
                             </div>
                         </div>
                             <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4">
@@ -303,14 +279,10 @@
                                            placeholder="Select File">
                                 </p>
                             </div>
-                        
                     </div>
-                 
-          
             <hr />
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-info text-white me-md-2" type="submit">Submit</button>
-
             </div>
             </form>
         </div>
@@ -327,22 +299,17 @@
         var fname = document.getElementById("providerFirstName").value;
         var lname = document.getElementById("providerLastname").value;
         document.getElementById("providerUsername").value = "MD."+lname +"."+ fname.charAt(0);
-
     }
 </script>
-
 <script>
     document.getElementById("provider1").classList.add("active");
-
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
     const button = document.querySelector("#btn");
     const errorMsg = document.querySelector("#error-msg");
     const validMsg = document.querySelector("#valid-msg");
-
     // here, the index maps to the error code returned from getValidationError - see readme
     const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
-
     // initialise plugin
     const iti = window.intlTelInput(input, {
         initialCountry: "us",
@@ -352,7 +319,4 @@
         initialCountry: "us",
         utilsScript: "/intl-tel-input/js/utils.js?1706723638591"
     });
-
-
-
 </script>

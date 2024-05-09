@@ -13,7 +13,6 @@
         <div class="col-12 mb-3">
             <div class="d-flex justify-content-between align-items-center my-3">
                 <h4 class="mt-3 heading">Requested Shifts</h4>
-
                 <a class="text-start text-info text-decoration-none " href="javascript:void(0);" onclick="history.go(-1);">
                     <button class="btn btn-white  text-info border-info rounded ">
                         <i class="fa-solid  fa-less-than"></i> Back
@@ -22,9 +21,7 @@
             </div>
         </div>
     </div>
-
     <div class="border rounded shadow bg-white p-3">
-
         <div class="d-md-flex justify-content-between align-items-center mb-3">
             <form role="search" class="d-flex align-items-center border border-rounded rounded border-info bg-white mb-3">
                 <i type="search" class="bi bi-search px-2"></i>
@@ -34,34 +31,27 @@
                     {
                         <option  value=@i.Regionid>@i.Name</option>
                     }
-
                 </select>
             </form>
             <div class="justify-content-between">
-                
                 <button type="button" class="btn btn-success ms-1" id="approveBtn" onclick="ViewCurrentMonthShift()">
                     <span class="d-md-block d-none">View Current Month Shifts</span>
                     <span class="d-block d-md-none"><i class="bi bi-plus text-info fs-4"></i></span>
                 </button>
-
                 <button type="button" class="btn btn-success ms-1" id="approveBtn" onclick="approveShifts()">
                     <span class="d-md-block d-none">Approve Selected</span>
                     <span class="d-block d-md-none"><i class="bi bi-plus text-info fs-4"></i></span>
                 </button>
-
                 <button type="button" class="btn btn-danger ms-1" id="deleteBtn" onclick="deleteshifts()">
                     <span class="d-md-block d-none">Delete Selected</span>
                     <span class="d-block d-md-none"><i class="bi bi-plus text-info fs-4"></i></span>
                 </button>
             </div>
         </div>
-
         <div id="tableContent">
-
         </div>
     </div>
 </div>
-
 <script>
     var isCurrentMonth;
     $(document).ready(function () {
@@ -92,7 +82,6 @@
             document.getElementById("mainCheckbox").checked = false;
         }
     }
-
     function approveShifts() {
         var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
         var shifts = [];
@@ -101,35 +90,25 @@
         });
         if (shifts.length > 0) {
             window.location.href = "/Admin/ApproveShift?selectedShifts=" + shifts;
-
         }
         else {
             Swal.fire('Please select atleast one shift to  approve.');
         }
-
     }
-
-
-
     function deleteshifts() {
         var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
         var shifts = [];
         checkboxes.forEach(function (checkbox) {
             shifts.push(parseInt(checkbox.getAttribute('value')));
         });
-
         if (shifts.length > 0) {
             window.location.href = "/Admin/DeleteShift?selectedShifts=" + shifts;
-
         }
         else {
             alert('Please select atleast one shift to delete.');
         }
-
     }
-    
     function ShiftReview(pagenumber) {
-
         if (pagenumber == 0) {
             pagenumber = @Model.CurrentPage;
         }
@@ -148,18 +127,14 @@
                 $("#tableContent").html('An error has occurred');
                 }
             });
-        
-
         //window.location.href = "/Admin/ShiftForReview?reg=" + regionid;
     }
       function ViewCurrentMonthShift() {
         var regionid = document.getElementById("RegionDropdown").value
         isCurrentMonth = true;
             ShiftReview();
-
         //window.location.href = "/Admin/ShiftForReview?reg=" + regionid;
     }
-
 </script>
 <script>
     document.getElementById("provider1").classList.add("active");

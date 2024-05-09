@@ -1,5 +1,4 @@
 ﻿@model HalloDocWebEntity.Data.Requestclient
-
 <div class="modal fade" id="sendAgreementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -7,7 +6,6 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Send Agreement</h1>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            
             <div class="modal-body">
                 <div class="row mb-3">
                     <div class="col text-muted">
@@ -19,26 +17,20 @@
                                     break;
                                 case 2:
                                     <i class="fa-solid fa-circle fa-xs me-2" style="color: #5FBC61;"></i> <span>Patient</span>
-
                                     break;
                                 case 3:
                                     <i class="fa-solid fa-circle fa-xs me-2" style="color: #DE943D;"></i>
                                     <span>Friend/Family</span>
-
                                     break;
                                 case 4:
                                     <i class="fa-solid fa-circle fa-xs me-2" style="color: #007FC6;"></i>
                                     <span>Concierge</span>
                                     break;
-                                
                             }
-                           
-                           
                         </p>
                         To Send Agreement Please make sure you are updating the correct contact information below for the responsible party.
                     </div>
                 </div>
-                
                 <div class="row">
                     <div class="col-12">
                         <div class="form-floating mb-3">
@@ -58,7 +50,6 @@
                 <a asp-action="sendMailAgreement" asp-controller="Admin" asp-route-id="@Model.Requestid"><button type="button" class="btn btn-info text-white">Send</button></a>
                 <button type="button" id="cancelbtn" class="btn btn-white border-info text-info" data-bs-dismiss="modal">Cancel</button>
             </div>
-          
         </div>
     </div>
 </div>
@@ -66,12 +57,10 @@
     $(document).ready(function () {
         var myModal = new bootstrap.Modal(document.getElementById('sendAgreementModal'));
         myModal.show();
-
     });
     $("#cancelbtn").click(function () {
         $("#modalpopup").remove();
         $(".modal-backdrop").remove()
         location.reload();
     });
-    
 </script>

@@ -47,11 +47,8 @@
         </div>
     </div>
 </div>
-
 <div id="modalpopup">
 </div>
-
-
 <table id="adminTable" class="table table-responsive caption-top mt-4 hideOnMobile">
     <thead>
         <tr class="text-muted">
@@ -74,7 +71,6 @@
             @if (item.RequestTypeId == 1)
             {
                 str = "background-color: #DF657A;color : red; ";
-
             }
             @if (item.RequestTypeId == 2)
             {
@@ -89,29 +85,23 @@
                 str = "background-color: #007FC6;color : white; ";
             }
             <tr style="@str ">
-
                 <td>
                     @item.Name
                 </td>
-
                 <td>
                     @item.DOB
                 </td>
                 <td>
                     @item.Requestor
                 </td>
-
                 <td>
                     @item.physician
                 </td>
                 <td>
                     @item.Dateofservice
                 </td>
-
                 <td>
-
                     <button class="btn btn-outline-light"> @item.Phonenumber</button>
-
                 </td>
                 <td>
                     @item.Address
@@ -127,27 +117,20 @@
                         <button class="btn text-light bg-transparent border border-white  " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
                         </button>
-
                         <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="fa-solid fa-file-invoice me-3"></i>View Case</a></li>
                             <li><a class="dropdown-item" asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-arrow-up me-3"></i>View Uploads</a></li>
-
                             <li><a class="dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-journals me-3"></i>View Notes</a></li>
                             <li><button class="dropdown-item" onclick="transfercase(this)" value="@item.Requestid"><i class="bi bi-card-checklist me-3"></i>Transfer</button></li>
                             <li><button class="dropdown-item" onclick="clearcase(this)" value="@item.Requestid"><i class="bi bi-x-circle me-3"></i>Clear Case</button></li>
-
                             <li><button class="dropdown-item" onclick="sendAgreement(this)" value="@item.Requestid"><i class="bi bi-file-earmark-text me-3"></i>Send Agreement</button></li>
                         </ul>
                     </div>
                 </td>
-
-
-
             </tr>
         }
     </tbody>
 </table>
-
 <div class="accordion showOnMobile mt-3" id="accordionExample" style="display:none" id="adminTable">
     @if (1 == 1)
     {
@@ -165,7 +148,6 @@
                                 @if (item.RequestTypeId == 1)
                                 {
                                     <i class="fa-solid fa-circle fa-xs me-2" style="color: #DF657A;"></i>
-
                                     <span>Business</span>
                                 }
                                 @if (item.RequestTypeId == 2)
@@ -194,7 +176,6 @@
                         </div>
                     </div>
                 </div>
-
                 <hr class="m-0 p-0 text-muted" />
                 <div id="collapse_@i" class="accordion-collapse collapse" style="background-color: #00bae920;" aria-labelledby="flush-heading" data-bs-parent="#accordionExample">
                     <div class="d-flex justify-content-end">
@@ -214,9 +195,7 @@
                            <td class="font1">
                                     @item.physician
                                 </td>
-                           
                         </p>
-
                         <p class="mb-1"><i class="fa-regular fa-user me-1 circlefa"></i>Requestor : @item.Requestor</p>
                         <div class="row">
                             <div class="col-6 mb-2">
@@ -226,8 +205,6 @@
                                     </button>
                                 </a>
                             </div>
-
-
                             <div class="col-6 mb-2">
                                 <a asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.Requestid">
                                     <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #228B22;">
@@ -261,7 +238,6 @@
                             </div>
                             <hr class="mb-1 p-0 text-muted" />
                         </div>
-
                         <div class="text-end d-md-flex justify-content-md-end pb-3">
                             <span>Chat With:</span>
                             <button class="btn btn-info text-white me-md-1" type="button"><i class="fa-regular fa-user me-1"></i><small>Patient</small> </button>
@@ -274,7 +250,6 @@
         }
     }
 </div>
-
 <div class="d-flex justify-content-between " aria-label="Page navigation">
     <div class=" mt-4">@Model.FromRec - @Model.ToRec of @Model.TotalRecord</div>
     <ul class="pagination justify-content-center mt-3">
@@ -286,7 +261,6 @@
                     <span aria-hidden="true"><i class="bi bi-caret-left-fill text-info"></i> </span>
                 </a>
             </li>
-
             <!-- Page numbers -->
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
@@ -294,7 +268,6 @@
                     <a class="page-link" id="plink-@i" href="javascript:void(0)" onclick="MyAjax(@i)">@i</a>
                 </li>
             }
-
             <!-- Next page -->
             <li class="page-item @(Model.NextPage ? " " : "disabled")">
                 <a class="page-link" href="javascript:void(0)" onclick="MyAjax(@Model.CurrentPage+1)" aria-label="Next">
@@ -304,13 +277,8 @@
         }
     </ul>
 </div>
-
-
-
 <script>
-
     function sendAgreement(element) {
-
         var id = element.value;
         console.log(id);
         $.ajax({
@@ -319,9 +287,7 @@
             type: "GET",
             dataType: "html",
             success: function (data) {
-
                 $("#modalpopup").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");
@@ -330,7 +296,6 @@
         });
     };
     function transfercase(element) {
-
         var id = element.value;
         console.log(id);
         $.ajax({
@@ -339,9 +304,7 @@
             type: "GET",
             dataType: "html",
             success: function (data) {
-
                 $("#modalpopup").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");
@@ -350,7 +313,6 @@
         });
     };
     function clearcase(element) {
-
         var id = element.value;
         console.log(id);
         $.ajax({
@@ -359,9 +321,7 @@
             type: "GET",
             dataType: "html",
             success: function (data) {
-
                 $("#modalpopup").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");
@@ -369,5 +329,4 @@
             }
         });
     };
-
 </script>

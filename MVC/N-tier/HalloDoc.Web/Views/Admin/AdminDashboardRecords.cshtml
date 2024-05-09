@@ -6,19 +6,15 @@
     Layout = "_AdminHeader";
     ViewBag.tab = "records";
 }
-
 <div class="m-3 ">
-
     <div class=" row  mb-4 ">
         <div class="col-sm-10 col">
             <span class="h2">Search Records</span>
         </div>
         <div class="col-sm-2 text-end col">
-
                 <button class="btn btn-info  text-white" onclick="exportData()">
                 <i class="fa-solid fa-share-from-square" style="color: #ffffff;"></i> Export Data To Excel
                 </button>
-           
         </div>
     </div>
     <div class="  bg-white rounded p-4 shadow mb-5 ">
@@ -73,30 +69,20 @@
                 <input name="PhoneNumber" type="text" class="form-control"  id="PhoneNumber" placeholder="PhoneNumber">
                 <label for="PhoneNumber" class="form-label ms-2">Phone Number</label>
             </div>
-
-
         </div>
         <div class="row">
             <div class="col text-end">
                 <button class="btn btn-outline-info me-2" onclick="document.location.reload(true)">Clear</button>
                 <button class=" btn btn-info text-white" onclick="getRecords()">Search</button>
             </div>
-
-
         </div>
         <div class="row">
             <div id="tableContent"></div>
         </div>
-
-        
     </div>
-
-
 </div>
-
 <script>
     $(document).ready(function () {
-
         // var profid = document.getElementById("SelectedProfessionId").value
         // var searchstr = document.getElementById("searchstr").value
         $.ajax({
@@ -108,12 +94,10 @@
             },
             error: function () {
                 alert("An error occured!");
-
             }
         });
     });
     function getRecords(pagenumber) {
-
         if (pagenumber == 0) {
             pagenumber = @Model.CurrentPage;
         }
@@ -126,7 +110,6 @@
         var email = document.getElementById("Email").value
         var mobile = document.getElementById("PhoneNumber").value
         // var id = element.value;
-
         $.ajax({
             url: "/Admin/_SearchRecordsTable",
             data: { status: status, searchstr: searchstr, reqtype: reqtype, fdate: fdate, tdate: tdate, pname: pname, email: email, mobile: mobile, pagenumber: pagenumber },
@@ -136,12 +119,10 @@
             },
             error: function () {
                 alert("An error occured!");
-
             }
         });
     };
     function exportData() {
-
         var status = document.getElementById("ReqStatus").value
         var searchstr = document.getElementById("PatientName").value
         var reqtype = document.getElementById("ReqType").value
@@ -152,11 +133,8 @@
         var mobile = document.getElementById("PhoneNumber").value
         // var id = element.value;
         window.location.href = "/Admin/ExportRecords?status=" + status + "&mobile=" + mobile + "&email=" + email + "&pname=" + pname + "&tdate=" + tdate + "&fdate=" + fdate + "&reqtype=" + reqtype + "&searchstr=" + searchstr;
-      
     };
 </script>
-
-
     <script>
     document.getElementById("records_dropdown").classList.add("active");
     </script>

@@ -7,7 +7,6 @@
         <div class="col-12">
             <div class="d-flex justify-content-between mt-3">
                 <h4 class="mt-3">Create Role</h4>
-
                 <a class="text-start text-info text-decoration-none " asp-action="AdminDashboardAccess">
                     <button class="btn btn-white  text-info border-info rounded ">
                         <i class="fa-solid  fa-less-than"></i> Back
@@ -15,7 +14,6 @@
                 </a>
             </div>
             <div class="container rounded bg-white shadow py-3">
-
                 <div class="row">
                     <div class="col-12 h5 mb-3">
                         Details
@@ -24,7 +22,6 @@
                         <input asp-for="RoleName" type="text" class="form-control" id="RoleName" placeholder="Role Name">
                         <label for="exampleFormControlInput1" class="form-label ps-4">Role Name</label>
                         <span asp-validation-for="RoleName" id="errorMSGRolename" class="text-danger"></span>
-
                     </div>
                     <div class="col-sm-12 col-md-6 col-xl-6">
                         <div class="mb-3 border border-light rounded-5">
@@ -36,7 +33,6 @@
                             </select>
                             <span asp-validation-for="SelectedRole" id="errorMSGRole" class="text-danger"></span>
                         </div>
-                        
                     </div>
                     <div>
                         @foreach (var item in Model.menu)
@@ -62,7 +58,6 @@
     var check;
     $("#RoleSelect").change(function (e) {
         check = document.getElementById("RoleSelect").value;
-
         window.location.href = "/Admin/CreateRole?check=" + check;
     });
     function checkSelect() {

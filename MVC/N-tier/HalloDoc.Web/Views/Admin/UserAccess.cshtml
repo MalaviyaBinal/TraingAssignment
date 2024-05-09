@@ -22,21 +22,15 @@
         </div>
     </div>
     <div id="TableContent">
-
     </div>
-
 </div>
 <script>
     document.getElementById("access1").classList.add("active");
-
     $(document).ready(function () {
         getTable();
     });
     $("#roleSelect").change(function(e){
- 
-
        getTable();
-       
     });
     function getTable(){
         var roleid = $('#roleSelect').val()
@@ -47,7 +41,6 @@
             dataType: "html",
             success: function (result) {
                 $("#TableContent").html(result);
-
             },
             error: function () {
                 alert("No Projects Found");

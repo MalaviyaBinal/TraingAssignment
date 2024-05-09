@@ -15,12 +15,9 @@
         @foreach (var item in Model.tabledata)
         {
             string str="";
-
-
             @if (item.RequestTypeId == 1)
             {
                 str = "background-color: #DF657A;color : white; ";
-
             }
             @if (item.RequestTypeId == 2)
             {
@@ -29,35 +26,27 @@
             @if (item.RequestTypeId == 3)
             {
                 str = "background-color: #DE943D;color : white; ";
-
             }
             @if (item.RequestTypeId == 4)
             {
                 str = "background-color: #007FC6;color : white; ";
             }
             <tr style="@str ">
-            
                 <td>
                     @item.Name
                 </td>
-
-                
                 <td>
                     @item.physician
                 </td>
                 <td>
                     @item.Dateofservice
                 </td>
-
                 <td>
-
                     <button class="btn btn-outline-light"> @item.Phonenumber</button>
-
                 </td>
                 <td>
                     @item.Address
                 </td>
-               
                 <td>
                     <button class="btn btn-outline-light" type="button"><i class="fa-solid fa-user-doctor me-1"></i>Provider</button>
                 </td>
@@ -66,7 +55,6 @@
                         <button class="btn text-light bg-transparent border border-white  " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
                         </button>
-                      
                         <ul class="dropdown-menu position-fixed" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin"  asp-route-id="@item.Requestid"><i class="fa-solid fa-file-invoice me-3"></i>View Case</a></li>
                             <li><a class="dropdown-item" asp-action="AdminViewDocument" asp-controller="Admin" asp-route-id="@item.Requestid"><i class="bi bi-file-earmark-arrow-up me-3"></i>View Uploads</a></li>
@@ -74,14 +62,10 @@
                         </ul>
                     </div>
                 </td>
-
-
-
             </tr>
         }
     </tbody>
 </table>
-
 <div class="accordion showOnMobile mt-3" id="accordionExample" style="display:none" id="adminTable">
     @if (1 == 1)
     {
@@ -99,7 +83,6 @@
                                 @if (item.RequestTypeId == 1)
                                 {
                                     <i class="fa-solid fa-circle fa-xs me-2" style="color: #DF657A;"></i>
-
                                     <span>Business</span>
                                 }
                                 @if (item.RequestTypeId == 2)
@@ -178,8 +161,6 @@
         }
     }
 </div>
-
-
 <div class="d-flex justify-content-between " aria-label="Page navigation">
     <div class=" mt-4">@Model.FromRec - @Model.ToRec of @Model.TotalRecord</div>
     <ul class="pagination justify-content-center mt-3">
@@ -191,7 +172,6 @@
                     <span aria-hidden="true"><i class="bi bi-caret-left-fill text-info"></i> </span>
                 </a>
             </li>
-
             <!-- Page numbers -->
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
@@ -199,7 +179,6 @@
                     <a class="page-link" id="plink-@i" href="javascript:void(0)" onclick="MyAjax(@i)">@i</a>
                 </li>
             }
-
             <!-- Next page -->
             <li class="page-item @(Model.NextPage ? " " : "disabled")">
                 <a class="page-link" href="javascript:void(0)" onclick="MyAjax(@Model.CurrentPage+1)" aria-label="Next">
@@ -209,4 +188,3 @@
         }
     </ul>
 </div>
-

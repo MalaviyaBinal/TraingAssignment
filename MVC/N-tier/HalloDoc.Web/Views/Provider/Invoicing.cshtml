@@ -6,16 +6,13 @@
 <script>
     document.getElementById("invoicing").classList.add("active");
 </script>*@
-
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor Accessor
 @{
     ViewData["Title"] = "InvoicingProvider";
     Layout = "_ProviderHeader";
-    
     DateTime date = DateTime.Now;
 }
-
 <style>
     .documentBtn {
         width: fit-content;
@@ -23,7 +20,6 @@
 </style>
 <div class="container">
     <div class="tab-pane show active px-4" id="access" role="tabpanel" aria-labelledby="providers-tab">
-
         <div class="row my-3">
             <div class="col">
                 <h3 class="ms-2">TimeSheets</h3>
@@ -38,7 +34,6 @@
                 </a>
             </div>
         </div>
-
         <div class=" boxshadow py-3 my-3">
             <div class=" row p-3 ">
                 <div class=" col form-floating mb-3">
@@ -52,7 +47,6 @@
                                 </option>
                             }
                             <option value="@date.AddDays(1-date.Day).ToString("MM/dd/yyyy")">@date.AddDays(1 - date.Day).ToShortDateString() - @date.AddDays(15 - date.Day).ToShortDateString()</option>
-
                             date = date.AddMonths(-1);
                         }
                     </select>
@@ -64,36 +58,21 @@
                 <div id="finalizeDiv">
                 </div>
             </div>
-
             <div id="timesheetTable"> </div>
-
         </div>
-
         <div class="table-responsive" id="reimbursementTable"></div>
-
-
     </div>
 </div>
-
-
 <script>
-
     function FindStartDate(element) {
         debugger;
         var StartDate = document.getElementById("TimeSheet").value;
         return StartDate;
-
     }
-
     function OpenTimesheet() {
         debugger;
         var StartDate = document.getElementById("TimeSheet").value;
         window.location.href = "/Provider/TimeSheet?StartDate=" + StartDate;
-
-
-
-
-
     }
 </script>
 <script>

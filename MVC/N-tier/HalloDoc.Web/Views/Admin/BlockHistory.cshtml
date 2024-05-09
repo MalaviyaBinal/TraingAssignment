@@ -4,25 +4,19 @@
 @{
     ViewData["Title"] = "Block History";
     Layout = "_AdminHeader";
-   
 }
-
 <div class="mx-5 my-3 p-2">
-
     <div class=" row  mb-4 ">
         <div class="col-sm-10 col">
             <span class="h2">Block History</span>
         </div>
-
     </div>
     <div class="rounded p-4 bg-white shadow mb-5 ">
         <div class="row">
-
             <div class="col-sm-12 col-md-6 col-xl-3 form-floating mb-3 text-muted">
                 <input name="PatientName" type="text" class="form-control"  id="PatientName" placeholder="Patient Name">
                 <label for="PatientName" class="form-label ms-2">Patient Name</label>
             </div>
-
             <div class="col-sm-12 col-md-6 col-xl-3 form-floating mb-3 text-muted">
                 <input name="date" type="date" class="form-control"  id="date" placeholder="date">
                 <label for="date" class="form-label ms-2">Date</label>
@@ -35,27 +29,19 @@
                 <input name="PhoneNumber" type="text" class="form-control"  id="PhoneNumber" placeholder="PhoneNumber">
                 <label for="PhoneNumber" class="form-label ms-2">Phone Number</label>
             </div>
-
-
         </div>
         <div class="row">
             <div class="col text-end">
                 <button class="btn btn-outline-info me-2" onclick="window.location.reload();">Clear</button>
                 <button class=" btn btn-info text-white" onclick="getBlockHistoryData()">Search</button>
             </div>
-
-
         </div>
         <div id="tableContent"></div>
     </div>
-
-
 </div>
-
 <script>
     document.getElementById("records_dropdown").classList.add("active");
     $(document).ready(function () {
-
         // var profid = document.getElementById("SelectedProfessionId").value
         // var searchstr = document.getElementById("searchstr").value
         $.ajax({
@@ -67,7 +53,6 @@
             },
             error: function () {
                 alert("An error occured!");
-
             }
         });
     });
@@ -80,7 +65,6 @@
         var email = document.getElementById("Email").value
         var mobile = document.getElementById("PhoneNumber").value
         // var id = element.value;
-
         $.ajax({
             url: "/Admin/_BlockHistoryTable",
             data: { searchstr: searchstr, date: date, email: email, mobile: mobile, pagenumber: pagenumber },
@@ -90,11 +74,7 @@
             },
             error: function () {
                 alert("An error occured!");
-
             }
         });
     };
-
- 
-
 </script>

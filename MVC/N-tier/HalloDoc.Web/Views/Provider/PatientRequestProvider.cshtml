@@ -6,33 +6,25 @@
     document.getElementById("dashbrd").classList.add("active");
 </script>
 <div class="container text-end mt-3">
-
     <div class="row">
         <div class="col text-start">
             <h5>Submit Information</h5>
-
         </div>
         <div class="col text-end">
-
             <a class="text-start text-info text-decoration-none " asp-action="ProviderDashboard">
                 <button class="btn btn-white  text-info border-info rounded ">
                     <i class="fa-solid  fa-less-than"></i> Back
                 </button>
             </a>
         </div>
-
-
     </div>
-   
 </div>
-
 <form method="post" asp-action="PatientRequestbyProvider" asp-controller="Provider">
     <div class="container bg-white rounded mt-3">
         <div class="row">
             <div class="col-12 h5 mb-3 mt-3">
                 Patient
             </div>
-            
             <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                 <input   name="first_name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Firstname" >
                 <label for="exampleFormControlInput1" class="form-label ms-2 ps-4">First name</label>
@@ -59,7 +51,6 @@
                 <span asp-validation-for="dob" class="text-danger"></span>
             </div>
         </div>
-        
         <div class="row">
             <div class="col-12 h5 mb-3">
                 Location
@@ -89,14 +80,11 @@
                 <label for="exampleFormControlInput1" class="form-label ms-2 ps-4">Room # / (Suite Optional)</label>
                 <span asp-validation-for="room" class="text-danger"></span>
             </div>
-          
-
         </div>
         <div class="row">
             <div class="col-12 h5 mb-3">
                 Notes
             </div>
-
         </div>
         <div class="row">
             <div class="col">
@@ -104,7 +92,6 @@
                     <textarea name="admin_notes" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                     <label for="floatingTextarea2" class="ps-4">Notes (Optional)</label>
                 </div>
-
             </div>
         </div>
         <div class="text-end pb-3">
@@ -113,4 +100,3 @@
         </div>
     </div>
 </form>
-

@@ -22,14 +22,12 @@
                         <option value="@i.Healthprofessionalid">@i.Professionname</option>
                     }
                 </select>
-
             </div>
             <div class=" col-sm-12 col-md-4 col-xl-4 text-end  my-4">
                 <a asp-action="AddVendor" class="btn border border-info text-info">
                     <i class="fa-solid fa-plus" style="color: #74C0FC;"></i>Add Business
                 </a>
             </div>
-
         </div>
         <div id="tableContent"></div>
     </div>
@@ -59,22 +57,17 @@
         });
     }
     function deleteaccess(element) {
-
         var id = element.value;
-
         $.ajax({
             url: "/Admin/ShowDeleteModal",
             data: { 'id': id, 'acntType': "Vender" },
             type: "GET",
             dataType: "html",
             success: function (data) {
-
                 $("#modalpopup").html(data);
-
             },
             error: function () {
                 alert("No Projects Found");
-
             }
         });
     };
@@ -86,12 +79,10 @@
 </script>
 <script>
     function GetVendorData(pagenumber) {
-
         if (pagenumber == 0) {
             pagenumber = @Model.CurrentPage;
         }
         var reg = $("#RegionSelect").val();
-
         MyAJax(reg, pagenumber);
     }
 </script>

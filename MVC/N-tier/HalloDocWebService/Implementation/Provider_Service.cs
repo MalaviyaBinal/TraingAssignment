@@ -988,6 +988,172 @@ namespace HalloDocWebServices.Implementation
 
             return TimeSheet;
         }
+
+        public void SaveTimesheet(TimeSheetDataViewModel model, string? phyEmail)
+        {
+            var phy = _repository.GetPhyByEmail(phyEmail);
+            Timesheet invoice1 = _repository.GetInvoicesByPhyId(model.StartDate, model.EndDate, phy.Physicianid);
+
+            if (invoice1 != null)
+            {
+                int i1 = 0;
+                List<TimesheetDetail> timesheets = _repository.GetTimeSheetListByInvoiceId(invoice1.TimesheetId);
+                if (timesheets.Count != 0)
+                {
+                    foreach (TimesheetDetail sheet in timesheets)
+                    {
+                        sheet.IsWeekend = model.WeekendHoliday.Any(e => e == sheet.Sheetdate.Value.Day);
+                        sheet.ShiftHours = model.TotalHours.ElementAt(i1);
+                        sheet.Housecall = model.NumberOfHouseCalls.ElementAt(i1);
+                        sheet.PhoneConsult = model.NumberOfPhoneConsults.ElementAt(i1);
+                        sheet.ModifiedBy = phy.Aspnetuserid ?? 1;
+                        sheet.ModifiedDate = DateTime.Now;
+                        i1++;
+                    }
+                    _repository.UpdateTimeSheetDetailTable(timesheets);
+                }
+                else
+                {
+                    List<TimesheetDetail> timesheet = new();
+                    for (int i = 0; i <= model.EndDate.Value.Day - model.StartDate.Value.Day; i++)
+                    {
+                        timesheet.Add(new TimesheetDetail
+                        {
+                            TimesheetId = invoice1.TimesheetId,
+                            PhysicianId = phy.Physicianid,
+                            Sheetdate = model.StartDate.Value.AddDays(i),
+                            ShiftHours = model.TotalHours.ElementAt(i),
+                            IsWeekend = model.WeekendHoliday.Any(e => e == model.StartDate.Value.AddDays(i).Day),
+                            Housecall = model.NumberOfHouseCalls.ElementAt(i),
+                            PhoneConsult = model.NumberOfPhoneConsults.ElementAt(i),
+                            CreatedBy = phy.Aspnetuserid ?? 1,
+                            CreatedDate = DateTime.Now,
+                            //NoHousecallsNight = 0,
+                            //NoPhoneConsultNight = 0,
+                        });
+                    }
+                    _repository.AddTimeSheetDetailTable(timesheet);
+                }
+            }
+            else
+            {
+                Timesheet invoice = new Timesheet();
+                invoice.PhysicianId = phy.Physicianid;
+                invoice.Startdate = (DateTime)model.StartDate;
+                invoice.Enddate = (DateTime)model.EndDate;
+                //invoice.Createdby = phy.AspNetUserId ?? 1;
+                //invoice.CreatedDate = DateTime.Now;
+                _repository.AddTimeSheetTable(invoice);
+
+
+                List<TimesheetDetail> timesheet = new();
+                for (int i = 0; i <= model.EndDate.Value.Day - model.StartDate.Value.Day; i++)
+                {
+                    timesheet.Add(new TimesheetDetail
+                    {
+                        TimesheetId = invoice.TimesheetId,
+                        PhysicianId = phy.Physicianid,
+                        Sheetdate = model.StartDate.Value.AddDays(i),
+                        ShiftHours = model.TotalHours.ElementAt(i),
+                        IsWeekend = model.WeekendHoliday.Any(e => e == model.StartDate.Value.AddDays(i).Day),
+                        Housecall = model.NumberOfHouseCalls.ElementAt(i),
+                        PhoneConsult = model.NumberOfPhoneConsults.ElementAt(i),
+                        CreatedBy = phy.Aspnetuserid ?? 1,
+                        CreatedDate = DateTime.Now,
+                        //NoHousecallsNight = 0,
+                        //NoPhoneConsultNight = 0,
+                    });
+                }
+                _repository.AddTimeSheetDetailTable(timesheet);
+
+            }
+        }
+        public void SaveReceipt(TimeSheetDataViewModel model, string? phyEmail)
+        {
+            var phy = _repository.GetPhyByEmail(phyEmail);
+            Timesheet invoice1 = _repository.GetInvoicesByPhyId(model.StartDate, model.EndDate, phy.Physicianid);
+
+            if (invoice1 != null)
+            {
+                int i1 = 0;
+                List<TimesheetReimbursement> reimbursements = _repository.GetReimbursementListByInvoiceId(invoice1.TimesheetId);
+                if (reimbursements.Count != 0)
+                {
+                    foreach (TimesheetReimbursement sheet in reimbursements)
+                    {
+                        sheet.Item = model.Item.ElementAt(i1);
+                        sheet.Amount = model.Amount.ElementAt(i1);
+                        sheet.Filename = "Receipt.pdf";
+                        //sheet.Filename = model.ReceiptFile.ElementAt(i1) != null ? model.ReceiptFile.ElementAt(i1).FileName : null;
+
+                        sheet.ModifiedBy = phy.Aspnetuserid ?? 1;
+                        sheet.ModifiedDate = DateTime.Now;
+                        i1++;
+                    }
+                    _repository.UpdateReimbursementList(reimbursements);
+                }
+                else
+                {
+                    List<TimesheetReimbursement> reimbursement = new();
+                    for (int i = 0; i <= model.EndDate.Value.Day - model.StartDate.Value.Day; i++)
+                    {
+                        reimbursement.Add(new TimesheetReimbursement
+                        {
+                            PhysicianId = phy.Physicianid,
+                            TimesheetId = invoice1.TimesheetId,
+                            ReimbursementDate = model.StartDate.Value.AddDays(i),
+                            Item = model.Item.ElementAt(i),
+                            Amount = model.Amount.ElementAt(i),
+                            //Filename = "Receipt.pdf",
+                            //Filename = model.ReceiptFile.ElementAt(i) != null ? model.ReceiptFile.ElementAt(i).FileName : null,
+                            CreatedBy = phy.Aspnetuserid ?? 1,
+                            CreatedDate = DateTime.Now,
+                        });
+
+                    }
+                    _repository.AddReimbursementListTbale(reimbursement);
+                }
+            }
+            else
+            {
+                Timesheet invoice = new Timesheet();
+                invoice.PhysicianId = phy.Physicianid;
+                invoice.Startdate = (DateTime)model.StartDate;
+                invoice.Enddate = (DateTime)model.EndDate;
+                //invoice.Createdby = phy.AspNetUserId ?? 1;
+                //invoice.CreatedDate = DateTime.Now;
+                _repository.AddTimeSheetTable(invoice);
+
+                List<TimesheetReimbursement> reimbursements = new();
+                for (int i = 0; i <= model.EndDate.Value.Day - model.StartDate.Value.Day; i++)
+                {
+                    reimbursements.Add(new TimesheetReimbursement
+                    {
+                        PhysicianId = phy.Physicianid,
+                        TimesheetId = invoice.TimesheetId,
+                        ReimbursementDate = model.StartDate.Value.AddDays(i),
+                        Item = model.Item.ElementAt(i),
+                        Amount = model.Amount.ElementAt(i),
+                        Filename = model.ReceiptFile.ElementAt(i) != null ? model.ReceiptFile.ElementAt(i).FileName : null,
+                        CreatedBy = phy.Aspnetuserid ?? 1,
+                        CreatedDate = DateTime.Now,
+                    });
+
+                }
+                _repository.AddReimbursementListTbale(reimbursements);
+            }
+        }
+
+        public void EditReimbursement(DateTime startDate, string item, int amount, int gap, string? phyEmail)
+        {
+            var phy = _repository.GetPhyByEmail(phyEmail);
+            TimesheetReimbursement reim = _repository.GetReimByPhyIdAndStartDate(DateTime.Parse(startDate.AddDays(gap).ToString("dd-MM-yyyy")), phy.Physicianid);
+            reim.Amount = amount;
+            reim.Item = item;
+            reim.ModifiedBy = phy.Aspnetuserid ?? 1;
+            reim.ModifiedDate = DateTime.Now;
+            _repository.UpdateReimbursementTable(reim);
+        }
     }
 }
 

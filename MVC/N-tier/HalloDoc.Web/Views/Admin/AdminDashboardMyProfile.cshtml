@@ -8,13 +8,10 @@
     .iti {
         width: 100%;
     }
-
     #phone, #phone1 {
         height: 58px;
     }
 </style>
-
-
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -25,7 +22,6 @@
                     <script>
                         document.getElementById("myProfile").classList.add("active");
                     </script>
-
                 }
                 else
                 {
@@ -39,9 +35,7 @@
                         document.getElementById("access1").classList.add("active");
                     </script>
                 }
-
             </div>
-
             <div class="container rounded bg-white shadow py-3">
                 <form asp-action="UpdateAdminPassword" asp-controller="Admin" id="" method="post">
                     <input type="hidden" asp-for="adminuser.Id" />
@@ -55,12 +49,10 @@
                             <input name="profile_Password" type="text" class="form-control " id="password" onchange="checkPWD(this)" disabled required>
                             <label for="exampleFormControlInput1" class="form-label ps-4">Password </label>
                             <span asp-validation-for="profile_Password" id="pwdError" class="text-danger"></span>
-
                         </div>
                         <div class="col-sm-12 col-md-6 col-xl-6">
                             <div class="mb-3 border border-light rounded-5">
                                 <select class="form-select p-3 pla1" asp-for=admin.Status aria-label="form-select-lg example" disabled>
-
                                     <option value="1">Pending</option>
                                     <option value="2">Active</option>
                                     <option value="3">InActive</option>
@@ -70,7 +62,6 @@
                         <div class="col-sm-12 col-md-6 col-xl-6">
                             <div class="mb-3 border border-light rounded-5">
                                 <select class="form-select text-muted p-3 pla1" asp-for=admin.Roleid aria-label=" form-select-lg example" disabled>
-
                                     @foreach (var item in Model.roles)
                                     {
                                         <option value="@item.Roleid">
@@ -139,11 +130,9 @@
                                 }
                             }
                         </div>
-
                         <div class="text-end pb-3">
                             <button class="btn btn-info text-white" id="edit" onclick="EditData()" type="button">Edit</button>
                             <button class="btn btn-info text-white" id="save" type="submit" style="display:none;">Save</button>
-
                             <button class="btn btn-white text-info border-info" onclick="disableData1()" id="cancel" type="button" style="display:none;">Cancel</button>
                         </div>
                 </form>
@@ -186,7 +175,6 @@
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
                             <input asp-for=Altphone value="@Model.admin.Altphone" id="phone1" class="form-control inp2" type="tel" placeholder="Phone Number" disabled>
                             <span asp-validation-for=" Altphone" class="text-danger"></span>
-
                         </div>
                     </div>
                     <div class="text-end pb-3">
@@ -199,7 +187,6 @@
         </div>
     </div>
 </div>
-
 <script>
     function disableData() {
         document.getElementById("save1").style.display = "none";
@@ -253,11 +240,8 @@
         document.getElementById("cancelbtn").style.display = "inline";
         document.getElementById("resetbtn").style.display = "none";
     }
-
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
-   
-
     // initialise plugin
     window.intlTelInput(input, {
         utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
@@ -268,11 +252,8 @@
 </script>
 <script>
     function checkPWD() {
-    
         var password = document.getElementById("password").value;
-      
         let pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@@$!%*?&])(?=.*\d).{8,}$/
-      
         if (!pattern.test(password)) {
             document.getElementById("pwdError").innerHTML = "Password must contain One uppercase ,lowercase letter ,one digit and special character..";
         }
@@ -283,8 +264,6 @@
             document.getElementById("pwdError").innerHTML = "";
         }
     }
- 
-
 </script>
 @section Scripts {
     @{

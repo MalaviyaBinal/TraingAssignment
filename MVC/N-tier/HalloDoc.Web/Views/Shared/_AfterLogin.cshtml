@@ -1,26 +1,19 @@
-﻿
-@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor Accessor
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/css/style-patient.css" asp-append-version="true">
 </head>
-
-
 <body data-bs-theme="dark">
     <!-- --------------------------------------Main container--------------------------------------------- -->
     <nav class="bg-white ">
@@ -33,24 +26,19 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link " asp-action="PatientDashboard" asp-controller="Home" style="cursor : pointer;">Dashboard</a>
-
             </li>
             <li class="nav-item">
                 <a class="nav-link " asp-action="Profile" asp-controller="Home" style="cursor : pointer;">Profile</a>
-
             </li>
         </ul>
         <ul style="margin-bottom: 0px !important;">
             <li class="d-flex">
                 <button class="theme-btn-header  mt-3 showOnMobile" style="display:none" onclick="showSidebar()">
                     <i class="fa-solid fa-bars" style="color: #54B4D3;"></i>
-
-
                 </button>
                 <div>
                     <img class="logo-icon mb-5 " src="~/images/lobgin-logo.png" alt="logo">
                 </div>
-
             </li>
             <li>
                 <small><p class="p-3 m-2 hideOnMobile">Wellcome : <b>@Accessor.HttpContext.Request.Cookies["userName"]</b></p></small>
@@ -63,34 +51,27 @@
                     <a asp-controller="Home" asp-action="PatientLogin"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #54B4D3;"></i></a>
                 </button>
             </li>
-
             <li>
                 <button class="theme-btn-header mt-3" onclick="changeTheme()">
                     <i class="fa-regular fa-moon fa-lg"></i>
                 </button>
             </li>
         </ul>
-
     </nav>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs tabs bg-white shadow hideOnMobile">
         <li class="nav-item">
             <a class="nav-link " asp-action="PatientDashboard" asp-controller="Home" id="dashbrd" style="cursor : pointer;">Dashboard</a>
-  
         </li>
         <li class="nav-item">
             <a class="nav-link " asp-action="Profile" asp-controller="Home" id="Profile" style="cursor : pointer;">Profile</a>
-           
         </li>
-
     </ul>
-
     <div class="container w-100">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
     <script>
         function changeTheme() {
             debugger;
@@ -102,7 +83,6 @@
                 document.querySelector(".login-bg").style.display = "none";
                 document.querySelector(".login-bg-dark").style.display = "block";
             }
-
         }
         function showSidebar() {
             document.querySelector(".sideBar").style.display = "flex";
@@ -110,10 +90,6 @@
         function hideSidebar() {
             document.querySelector(".sideBar").style.display = "none";
         }
-
-
-
-
         const toggleButton = (curr_btn, redirect_page) => {
             const buttons = document.getElementsByClassName("common-btn")
             for (let i = 0; i < buttons.length; ++i) {
@@ -126,16 +102,13 @@
             // document.getElementById("redirect-value").value = 'SubmitForMePatient';
             document.getElementById("redirect-value").value = redirect_page;
         }
-
         const redirect = () => {
             window.location.assign(`./${document.getElementById("redirect-value").value} `);
                 }
     </script>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-

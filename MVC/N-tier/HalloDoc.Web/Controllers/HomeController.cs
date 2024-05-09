@@ -14,7 +14,6 @@ using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.EMMA;
 using System.Web.Helpers;
-
 namespace HalloDoc.Web.Controllers
 {
     public class HomeController : Controller
@@ -34,7 +33,6 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
-     
         [HttpPost]
         public IActionResult ResetPassword(Aspnetuser user)
         {
@@ -47,7 +45,6 @@ namespace HalloDoc.Web.Controllers
             {
                 _service.SendResetPwdPage(user);
             }
-           
             return View(nameof(Index));
         }
         [HttpPost]
@@ -69,11 +66,9 @@ namespace HalloDoc.Web.Controllers
             ResetPWDModel model = _service.getAspnetUserByToken(token);
             return View(model);
         }
-
         public IActionResult Profile()
         {
             var profile = _service.ReturnRequest(HttpContext.Request.Cookies["userEmail"]);
-
             return View(profile);
         }
         public IActionResult SubmitPatientRequest()
@@ -149,17 +144,12 @@ namespace HalloDoc.Web.Controllers
                             {
                                 case "Patient":
                                     return RedirectToAction(nameof(PatientDashboard));
-
                                 case "Admin":
                                     return RedirectToAction(nameof(AdminController.AdminDashboard), "Admin");
-
                                 case "Provider":
                                     return RedirectToAction("ProviderDashboard", "Provider");
-
-
                             }
                         }
-
                     }
                     else
                     {
@@ -170,12 +160,8 @@ namespace HalloDoc.Web.Controllers
                 {
                     ModelState.AddModelError("Usarname", "Incorrect Username");
                 }
-
-
             }
             return View();
-
-
         }
         public IActionResult PatientViewDocument(int? Id = 0)
         {
@@ -193,7 +179,6 @@ namespace HalloDoc.Web.Controllers
         [HttpPost]
         public IActionResult CreateAccount(loginModel info)
         {
-           
             if (!ModelState.IsValid || info.Passwordhash != info.confirmPassword)
             {
                 if(info.Passwordhash != info.confirmPassword)
@@ -210,13 +195,9 @@ namespace HalloDoc.Web.Controllers
         {
             if (fileToUpload != null && fileToUpload.Length > 0)
             {
-
                 _service.uploadFile(fileToUpload, (int)HttpContext.Session.GetInt32("req_id"));
-
             }
-
             return RedirectToAction(nameof(PatientViewDocument), new { Id = (int)HttpContext.Session.GetInt32("req_id") });
-
         }
         [Route("/Home/RequestPatient/{email}")]
         [Route("/Home/RequestBusiness/{email}")]
@@ -234,25 +215,21 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> CreatePatientByBusiness(BusinessPatientRequest info)
         {
-         
             _service.createPatientByBusiness(info);
             return RedirectToAction(nameof(SubmitPatientRequest));
         }
         public async Task<IActionResult> CreatePatientByConierge(ConciergePatientRequest info)
         {
-            
             _service.createPatientByConcierge(info);
             return RedirectToAction("SubmitPatientRequest", "Home");
         }
         public async Task<IActionResult> CreatePatientByFamilyFrd(FamilyFrdPatientRequest info)
         {
-            
             _service.createPatientByFamilyFrd(info);
             return RedirectToAction("SubmitPatientRequest", "Home");
         }
         public async Task<IActionResult> CreatePatient(PatientRequest info)
         {
-           
             _service.createPatient(info);
             return RedirectToAction("SubmitPatientRequest", "Home");
         }
@@ -262,8 +239,6 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> PatientDashboardRequestForMe()
         {
-
-
             return View(_service.getUserByEmail(HttpContext.Request.Cookies["userEmail"]));
         }
         public async Task<IActionResult> RequestForsSomeone(RequestForMe info)

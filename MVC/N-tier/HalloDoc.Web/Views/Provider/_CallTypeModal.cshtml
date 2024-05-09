@@ -25,7 +25,6 @@
         myModalAssign.show();
     });
 </script>
-
 <div class="modal fade" id="Encounter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -36,7 +35,6 @@
             <form action="">
                 <input type="hidden" name="" id="redirect-value" value="HouseCall">
                 <div class="modal-body">
-                   
                     <div class="modal-flex text-center mt-3">
                         <div class="btn btn-info common-btn cancel-btn create-request-active" onclick="toggleButton(this,'HouseCall')">HouseCall</div>
                         <div class="btn common-btn cancel-btn" onclick="toggleButton(this,'ConsultCall')">Consult</div>
@@ -50,11 +48,7 @@
         </div>
     </div>
 </div>
-
-
 <script>
-
-
     const toggleButton = (curr_btn, redirect_page) => {
         const buttons = document.getElementsByClassName("common-btn")
         for (let i = 0; i < buttons.length; ++i) {
@@ -67,7 +61,6 @@
         // document.getElementById("redirect-value").value = 'SubmitForMePatient';
         document.getElementById("redirect-value").value = redirect_page;
     }
-
     const redirect = () => {
         window.location.assign(`./${document.getElementById("redirect-value").value}?id=` + @ViewBag.reqid);
     }

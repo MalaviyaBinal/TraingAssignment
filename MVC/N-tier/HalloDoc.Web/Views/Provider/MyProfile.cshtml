@@ -9,7 +9,6 @@
     .iti {
         width: 100%;
     }
-
     #phone, #phone1 {
         height: 58px;
     }
@@ -59,7 +58,6 @@
                             <button class="btn btn-white text-info border-info" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button">Request To Admin</button>
                         </div>
                     </div>
-
                     <div class="row">
                         <input type="hidden" asp-for="@Model.aspnetuser.Id" />
                         <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
@@ -78,7 +76,6 @@
                         <button class="btn btn-white text-info border-info" onclick="disableData2()" id="cancel2" type="button" style="display:none;">Cancel</button>
                     </div>
                 </form>
-                
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Physician Information
@@ -131,7 +128,6 @@
                             }
                         </div>
                     </div>
-          
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Mailing & Billing Information
@@ -160,7 +156,6 @@
                             <input asp-for=Altphone value="@Model.Altphone" id="phone1" class="form-control inp2" type="tel" placeholder="Phone Number" disabled>
                         </div>
                     </div>
-         
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Provider Profile
@@ -182,17 +177,13 @@
                         }
                         @if (Model.isSignature == true)
                         {
-
                             var str = "/PhysicianDoc/" + Model.physician.Physicianid + "/" + Model.SignatureName;
                             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
                                 <img src="@str" class="img-fluid" style="height:250px ; width : 250px;">
                             </div>
                         }
-
-
                     </div>
                     <hr />
-               
                     <div class="row">
                         <div class="col-12 h5 mb-3">
                             Onboarding
@@ -258,14 +249,12 @@
                                 </div>
                                 @if (@Model.IsLisenceDoc[0])
                                 {
-
                                     <button class="btn btn-info col-1 text-white" type="button" onclick="viewdoc('LicenseDoc')">View</button>
                                 }
                             </div>
                         </div>
                     </div>
                     <hr />
-               
             </div>
         </div>
     </div>
@@ -276,7 +265,6 @@
     function viewdoc(str) {
         window.open("/PhysicianDoc/" + @Model.physician.Physicianid+"/" + str + ".pdf");
     }
- 
     function EditData2() {
         document.getElementById("reset").style.display = "none";
         document.getElementById("cancel2").style.display = "inline";
@@ -289,11 +277,8 @@
         document.getElementById("cancel2").style.display = "none";
         document.getElementById("save2").style.display = "none";
     }
-
-    
     const input = document.querySelector("#phone");
     const input2 = document.querySelector("#phone1");
-    
     // initialise plugin
     window.intlTelInput(input, {
         utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
@@ -301,17 +286,14 @@
     window.intlTelInput(input2, {
         utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/utils.js",
     });
-
 </script>
 <script>
     document.getElementById("myProfile").classList.add("active");
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
         'use strict'
-
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll('.needs-validation')
-
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
@@ -320,10 +302,8 @@
                         event.preventDefault()
                         event.stopPropagation()
                     }
-
                     form.classList.add('was-validated')
                 }, false)
             })
     })()
-
 </script>

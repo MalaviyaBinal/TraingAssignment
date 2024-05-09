@@ -486,6 +486,8 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.PhoneConsult).HasDefaultValueSql("0");
             entity.Property(e => e.ShiftHours).HasDefaultValueSql("0");
 
+            entity.HasOne(d => d.Physician).WithMany(p => p.TimesheetDetails).HasConstraintName("TimesheetDetails_PhysicianId_fkey");
+
             entity.HasOne(d => d.Timesheet).WithMany(p => p.TimesheetDetails)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("TimesheetDetails_TimesheetId_fkey");
@@ -494,6 +496,10 @@ public partial class ApplicationContext : DbContext
         modelBuilder.Entity<TimesheetReimbursement>(entity =>
         {
             entity.HasKey(e => e.TimesheetReimbursementId).HasName("TimesheetReimbursement_pkey");
+
+            entity.HasOne(d => d.Physician).WithMany(p => p.TimesheetReimbursements)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("TimesheetReimbursement_PhysicianId_fkey");
 
             entity.HasOne(d => d.Timesheet).WithMany(p => p.TimesheetReimbursements)
                 .OnDelete(DeleteBehavior.ClientSetNull)

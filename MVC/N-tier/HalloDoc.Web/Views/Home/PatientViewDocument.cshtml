@@ -76,9 +76,7 @@
                                     }
                                 </tbody>
                             </table>
-
                             <div class="showOnMobile hide">
-
                                 @foreach (var item in Model)
                                 {
                                     <tr>
@@ -86,7 +84,6 @@
                                             <div class="d-flex flex-column">
                                                 <div class="d-flex mb-3">
                                                     <input type="checkbox" class="Subcheckbox checkboxes me-2" data-filename="@item.Filename" />
-
                                                     <i class="fa-solid fa-file-pdf" style="color: #ff0000;"></i>
                                                     <div><small class="ms-2 me-2 text-muted">@Html.DisplayFor(modelItem => item.Filename)</small></div>
                                                 </div>
@@ -101,9 +98,7 @@
                                     </tr>
                                     <hr />
                                 }
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -126,9 +121,7 @@
                 }
             }
         }
-
         function downloadFile() {
-
             var checkboxes = document.querySelectorAll('.Subcheckbox:checked');
             var filenames = [];
             checkboxes.forEach(function (checkbox) {
@@ -153,8 +146,6 @@
                 alert('Please select one or more files to download.');
             }
         }
-
-
         function showSidebar() {
             document.querySelector(".sideBar").style.display = "flex";
         }
@@ -174,6 +165,3 @@
     <script>
         document.getElementById("dashbrd").classList.add("active");
     </script>
-
-
-
