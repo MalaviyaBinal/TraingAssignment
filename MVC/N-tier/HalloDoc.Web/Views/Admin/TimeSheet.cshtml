@@ -1,0 +1,212 @@
+﻿@model List<HalloDocWebEntity.ViewModel.TimeSheetViewModel>
+@{
+    ViewData["Title"] = "InvoicingProvider";
+    Layout = "_AdminHeader";
+    DateTime date = DateTime.Now;
+}
+<style>
+    .documentBtn {
+        width: fit-content;
+    }
+</style>
+<div class="container">
+    <div class="tab-pane show active px-4" id="access" role="tabpanel" aria-labelledby="providers-tab">
+        <div class="row my-3">
+            <div class="col">
+                <h3 class="ms-2">TimeSheets</h3>
+            </div>
+            <div class=" col text-end">
+                <a asp-controller="Provider" asp-action="Invoicing">
+                    <button class=" btn btn-outline-info me-2 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 20">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>Back
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="  shadow rounded py-3 my-3">
+            <div class=" row p-3 ">
+                <div class=" col form-floating table-responsive mb-3">
+                    <table class="table ">
+                        <colgroup>
+                            <col style="width: 13%" />
+                            <col style="width: 7%" />
+                            <col style="width: 10%" />
+                            <col style="width: 10%" />
+                            <col style="width: 20%" />
+                            <col style="width: 20%" />
+                            <col style="width: 20%" />
+                        </colgroup>
+                        <thead>
+                            <tr class="table-secondary">
+                                <td>Date</td>
+                                <td>On-call Hours</td>
+                                <td>Total Hours</td>
+                                <td>Weekend/Holiday</td>
+                                <td>Number of Housecalls</td>
+                                <td>Number of Phone Concults</td>
+                                <td>Total</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form asp-action="SaveTimesheet" method="post" asp-route-phyid="@Model.First().PhysicianId">
+                                <input type="hidden" value="@Model.FirstOrDefault().StartDate" name="StartDate" />
+                                <input type="hidden" value="@Model.FirstOrDefault().EndDate" name="EndDate" />
+                                @foreach (var timesheet in Model)
+                                {
+                                <tr>
+                                    <td>@timesheet.Date.ToShortDateString()</td>
+                                    <td><input type="number" name="OnCallHours" value="@timesheet.OnCallHours" class="form-control border-0" readonly /></td>
+                                    <td><input type="number" name="TotalHours" value="@timesheet.TotalHours" class="form-control" /></td>
+                                    <td>
+                                            @if (timesheet.WeekendHoliday == true)
+                                            {
+                                            <input type="checkbox" name="WeekendHoliday" value="@timesheet.Date.Day" class="form-check-input" checked />
+                                            }
+                                            else
+                                            {
+                                            <input type="checkbox" name="WeekendHoliday" value="@timesheet.Date.Day" class="form-check-input" />
+                                            }
+                                    </td>
+                                    <td><input type="number" name="NumberOfHouseCalls" value="@timesheet.NumberOfHouseCalls" class="form-control" /></td>
+                                    <td><input type="number" name="NumberOfPhoneConsults" value="@timesheet.NumberOfPhoneConsults" class="form-control" /></td>
+                                    <td></td>
+                                </tr>
+                                }
+                            <tr>
+                                <td>Payrate</td>
+                                <td></td>
+                                <td><input type="text" class="form-control" value="@Model.FirstOrDefault().Shift" disabled /></td>
+                                <td><input type="text" class="form-control" value="@Model.FirstOrDefault().NightshiftWeekend" disabled /></td>
+                                <td><input type="text" class="form-control" value="@Model.FirstOrDefault().Housecall" disabled /></td>
+                                <td><input type="text" class="form-control" value="@Model.FirstOrDefault().PhoneConsults" disabled /></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Invoice Total</td>
+                                <td></td>
+                                <td><input type="text" class="form-control" value="@Model.FirstOrDefault().TotalShift" disabled /></td>
+                                <td><input type="text" class="form-control" value="@Model.FirstOrDefault().TotalNightshiftWeekend" disabled /></td>
+                                <td><input type="text" class="form-control" value="@Model.FirstOrDefault().TotalHousecall" disabled /></td>
+                                <td><input type="text" class="form-control" value="@Model.FirstOrDefault().TotalPhoneConsults" disabled /></td>
+                                <td><input type="text" class="form-control" value="@Model.FirstOrDefault().TotalInvoice" disabled /></td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-end">
+                                    <button type="submit" class="btn btn-info text-white ">Submit</button>
+                                </td>
+                            </tr>
+                            </form>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button onclick="OpenReceipt()" class="btn btn-info text-white ms-4"> Add Receipt</button>
+            </div>
+        </div>
+        <div class="" id="ReceiptForm" style="display:none;">
+            <div class=" shadow rounded py-3 my-3">
+                <div class=" row p-3 ">
+                    <div class=" col form-floating table-responsive mb-3">
+                        <table class="table ">
+                            <colgroup>
+                                <col style="width: 15%" />
+                                <col style="width: 15%" />
+                                <col style="width: 15%" />
+                                <col style="width: 30%" />
+                                <col style="width: 25%" />
+                            </colgroup>
+                            <thead>
+                                <tr class="table-secondary">
+                                    <td>Date</td>
+                                    <td>Item</td>
+                                    <td>Amount</td>
+                                    <td>Bill</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @if (true)
+                                {
+                                    int id1 = 0;
+                                    @foreach (var timesheet in Model)
+                                    {
+
+                                        <tr>
+                                            <td>@timesheet.Date.ToShortDateString()</td>
+                                            @if (timesheet.Item != null)
+                                            {
+                                                <td>@timesheet.Item</td>
+                                            }
+                                            else
+                                            {
+
+                                                <td><input type="text" name="Item" class="form-control" /></td>
+
+                                            }
+                                            @if (timesheet.Amount != 0)
+                                            {
+                                                <td>@timesheet.Amount</td>
+                                            }
+                                            else
+                                            {
+                                                <td><input type="text" name="Item" class="form-control" /></td>
+                                            }
+                                            @if (timesheet.FileName != null)
+                                            {
+                                                <td>@timesheet.FileName</td>
+                                            }
+                                            else
+                                            {
+                                                <td><input type="text" name="Item" class="form-control" disabled /></td>
+                                            }
+                                            <td>
+                                                @if (timesheet.Item != null)
+                                                {
+
+                                                    var str1 = "/PhysicianDoc/" + timesheet.PhysicianId + "/" + @timesheet.FileName;
+                                                    <a href=@str1 target="_blank" class="text-decoration-none"> <button class="btn btn-outline-info  " type="button">View</button></a>
+
+                                                }
+
+                                            </td>
+                                        </tr>
+
+                                        id1++;
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row text-end">
+            <div class="col">
+                <a class="btn btn-info text-white ms-4" asp-action="ApproveTimesheet" asp-route-TimesheetId="@Model.First().InvoiceId"> Approve</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function OpenReceipt() {
+        debugger;
+        var t = document.getElementById("ReceiptForm").style.display == 'block';
+        if (t)
+            document.getElementById("ReceiptForm").style.display = 'none';
+        else
+            document.getElementById("ReceiptForm").style.display = 'block';
+    }
+    document.getElementById("provider1").classList.add("active");
+</script>

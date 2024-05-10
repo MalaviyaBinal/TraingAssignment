@@ -9,12 +9,24 @@
       "PackagePath": "staticwebassets\\PhysicianDoc\\1\\AgreementDoc.pdf"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Encounter_Form.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\1\\Encounter_Form.pdf"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Profile",
       "PackagePath": "staticwebassets\\PhysicianDoc\\1"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Profile.jpg",
       "PackagePath": "staticwebassets\\PhysicianDoc\\1\\Profile.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Profile.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\1\\Profile.pdf"
+    },
+    {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\SRS-23-24-Trainees-17April24-GoodToHave.pdf",
+      "PackagePath": "staticwebassets\\PhysicianDoc\\1\\SRS-23-24-Trainees-17April24-GoodToHave.pdf"
     },
     {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\Signature",

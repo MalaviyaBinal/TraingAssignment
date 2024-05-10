@@ -71,5 +71,8 @@ namespace HalloDocWebRepo.Interface
         TimesheetReimbursement GetReimByPhyIdAndStartDate(DateTime dateTime, int physicianid);
         void UpdateReimbursementTable(TimesheetReimbursement reim);
         void AddReimbursementTable(TimesheetReimbursement reim);
+        void DeleteReimbursementTable(int gap, DateTime startDate);
+        Timesheet GetTimeSheetByInvoiceId(int timesheetId);
+        void UpdateTimeSheetTable(Timesheet timesheet);
     }
 }

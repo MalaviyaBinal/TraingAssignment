@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.InkML;
 using HalloDocWebEntity.Data;
 using HalloDocWebEntity.ViewModel;
 using HalloDocWebRepo.Interface;
@@ -1130,6 +1131,40 @@ namespace HalloDocWebServices.Implementation
 ;
 
             _repository.AddReimbursementTable(reim);
+        }
+
+        public void DeleteReimbursement(int gap, DateTime startDate)
+        {
+            _repository.DeleteReimbursementTable(gap, startDate);
+        }
+
+        public void FinalizeTimesheet(int timesheetId)
+        {
+            Timesheet timesheet = _repository.GetTimeSheetByInvoiceId(timesheetId);
+            if (timesheet != null)
+            {
+                timesheet.IsFinalized = true;
+                _repository.UpdateTimeSheetTable(timesheet);
+            }
+        }
+
+        public bool IsTimesheetFinalized(DateTime startDate,string phyEmail)
+        {
+            DateTime enddate = startDate.AddDays(15 - startDate.Day);
+            var phy = _repository.GetPhyByEmail(phyEmail);
+            if (startDate.Day > 15)
+            {
+                enddate = startDate.AddDays(DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day);
+            }
+            Timesheet invoice = _repository.GetInvoicesByPhyId(startDate, enddate, phy.Physicianid);
+            if (invoice != null)
+            {
+                if(invoice.IsFinalized == true)
+                    return true;
+                else
+                return false;
+            }
+            return false;
         }
     }
 }

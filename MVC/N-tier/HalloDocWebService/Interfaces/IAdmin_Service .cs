@@ -114,5 +114,10 @@ namespace HalloDocWebServices.Interfaces
         Stream GetExportData(AdminRecordsModel model, int status, string mobile, string email, string pname, DateTime tdate, DateTime fdate, int reqtype, string searchstr );
         PayRateViewModel GetPayRate(int id);
         void UpdatePayRate(PayRateViewModel model, int phyid);
+        List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, int phyid);
+        List<bool> IsTimesheetFinalized(DateTime dateTime, int v);
+        TimeSheetViewModel GETTimeSheetForApprove(DateTime startDate, int phyid);
+        void ApproveTimesheet(int timesheetId);
+        void SaveTimesheet(TimeSheetDataViewModel model, int phyid);
     }
 }

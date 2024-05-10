@@ -127,5 +127,13 @@ namespace HalloDocWebRepo.Interface
         Payrate GetPayRateByPhyID(int id);
         void UpdatePayRateTable(Payrate payrate);
         void AddPayrateTable(Payrate payrate);
+        List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, int phyid);
+        Timesheet GetInvoicesByPhyId(DateTime? startDate, DateTime? enddate, int phyid);
+        Timesheet GetTimeSheetByInvoiceId(int timesheetId);
+        void UpdateTimeSheetTable(Timesheet timesheet);
+        
+        List<TimesheetDetail> GetTimeSheetListByInvoiceId(int timesheetId);
+        void UpdateTimeSheetDetailTable(List<TimesheetDetail> timesheets);
+        void AddTimeSheetDetailTable(List<TimesheetDetail> timesheet);
     }
 }

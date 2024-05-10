@@ -79,7 +79,7 @@ namespace HalloDoc.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return  View("PatientRequestProvider", info);
+                return View("PatientRequestProvider", info);
             }
             _service.patientRequestByProvider(info, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(ProviderDashboard));
@@ -100,11 +100,17 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
-        //[Route("TimeSheet")]
+
         public IActionResult TimeSheet(DateTime StartDate)
         {
             List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, HttpContext.Request.Cookies["userEmail"]);
             return View(model);
+        }
+        [HttpPost]
+        public IActionResult GETTimeSheet(DateTime StartDate)
+        {
+            List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, HttpContext.Request.Cookies["userEmail"]);
+            return PartialView("_TimesheetTable", model);
         }
         [HttpPost]
         public IActionResult SaveTimesheet([FromForm] TimeSheetDataViewModel model)
@@ -112,7 +118,12 @@ namespace HalloDoc.Web.Controllers
             _service.SaveTimesheet(model, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate) });
         }
-       
+        public IActionResult DeleteReimbursement(int Gap, DateTime StartDate)
+        {
+            _service.DeleteReimbursement(Gap, StartDate);
+            return RedirectToAction(nameof(TimeSheet), new { StartDate = StartDate });
+        }
+
         public IActionResult EditReimbursement(DateTime StartDate1, string Item, int Amount, int Gap)
         {
             //string T = DateOnly.FromDateTime(StartDate1).ToString("MM-dd-yyyy");
@@ -123,9 +134,31 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult SaveReimbursement([FromForm] TimeSheetDataViewModel model)
         {
-          
+
             _service.SaveReimbursement(model, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(TimeSheet), new { StartDate = model.StartDate });
+        }
+        public IActionResult FinalizeTimesheet(int TimesheetId)
+        {
+            if (TimesheetId == 0)
+            {
+                TempData["message"] = "error";
+            }
+            else
+            {
+                TempData["message"] = "success";
+                _service.FinalizeTimesheet(TimesheetId);
+            }
+           
+            return RedirectToAction(nameof(Invoicing));
+        }
+        [Route("/Provider/Invoicing/{StartDate}")]
+        [HttpGet]
+        public IActionResult IsTimesheetFinalized(string StartDate)
+        {
+            bool isFinalized = _service.IsTimesheetFinalized(DateTime.Parse( StartDate), HttpContext.Request.Cookies["userEmail"]);
+           
+            return Json(new { exists = isFinalized });
         }
         #endregion
         #region Provider Dashboard Actions
@@ -157,7 +190,7 @@ namespace HalloDoc.Web.Controllers
         public async Task<IActionResult> SaveNote(Notes n, int id)
         {
             _service.saveNotes(n, id);
-            return RedirectToAction(nameof(ViewNotes),new {id=id});
+            return RedirectToAction(nameof(ViewNotes), new { id = id });
         }
         public IActionResult SendAgreementModal(int id)
         {
@@ -338,7 +371,7 @@ namespace HalloDoc.Web.Controllers
         }
         public async Task<IActionResult> _AddShiftModal(int regionid)
         {
-            return View( _service.openShiftModel(regionid));
+            return View(_service.openShiftModel(regionid));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

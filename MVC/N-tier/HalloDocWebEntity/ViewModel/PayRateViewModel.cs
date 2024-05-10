@@ -13,10 +13,5 @@ namespace HalloDocWebEntity.ViewModel
       public int? PhoneConsultsNightsWeekend { get; set; }
       public int? BatchTesting { get; set; }
       public int? Housecall { get; set; }
-
-
-
-
-
     }
 }

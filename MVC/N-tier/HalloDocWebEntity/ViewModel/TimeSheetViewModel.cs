@@ -27,8 +27,8 @@ namespace HalloDocWebEntity.ViewModel
         public int CreatedBy { get; set; }
 
         public DateTime? CreatedDate { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public int? ModifiedBy { get; set; }
 
@@ -42,5 +42,15 @@ namespace HalloDocWebEntity.ViewModel
         public string? FileName { get; set; }
         public int? Amount { get; set; }
         public IFormFile? ReceiptFile { get; set; }
+               
+        public int? NightshiftWeekend { get; set; }
+        public int? TotalNightshiftWeekend { get; set; }
+        public int? Shift { get; set; }       
+        public int? TotalShift { get; set; }       
+        public int? PhoneConsults { get; set; }       
+        public int? TotalPhoneConsults { get; set; }       
+        public int? Housecall { get; set; }
+        public int? TotalHousecall { get; set; }
+        public int? TotalInvoice{ get; set; }
     }
 }

@@ -34,33 +34,35 @@
                 </a>
             </div>
         </div>
-        <div class=" boxshadow py-3 my-3">
+        <div class="rounded shadow py-3 my-3">
             <div class=" row p-3 ">
                 <div class=" col form-floating mb-3">
-                    <select class="form-select" id="TimeSheet" style="width:fit-content" aria-label="Default select example" onchange="CheckValidation(value)">
-                        @for (var i = 0; i < 3; i++)
+                    <select class="form-select" id="TimeSheet" style="width:fit-content" onchange=" checkFinalize()">
+
+                        @for (var i = 0; i < 12; i++)
                         {
                             if (DateTime.Now > @date.AddDays(16 - date.Day))
                             {
-                                <option value="@date.AddDays(16-date.Day).ToString("MM/dd/yyyy")">
+                                <option value="@date.AddDays(16-date.Day).ToString("MM-dd-yyyy")">
                                     @date.AddDays(16 - date.Day).ToShortDateString() - @date.AddDays(DateTime.DaysInMonth(date.Year, date.Month) - date.Day).ToShortDateString()
                                 </option>
                             }
-                            <option value="@date.AddDays(1-date.Day).ToString("MM/dd/yyyy")">@date.AddDays(1 - date.Day).ToShortDateString() - @date.AddDays(15 - date.Day).ToShortDateString()</option>
+                            <option value="@date.AddDays(1-date.Day).ToString("MM-dd-yyyy")">@date.AddDays(1 - date.Day).ToShortDateString() - @date.AddDays(15 - date.Day).ToShortDateString()</option>
                             date = date.AddMonths(-1);
                         }
                     </select>
                     <label class="ms-2">Search by Timesheet Period</label>
                 </div>
                 <div class="col text-end ">
-                    <button type="button" class="btn btn-info " onclick="OpenTimesheet()">Finalize TimeSheet</button>
+                    <button type="button" id="finalizeBtn" class="btn btn-info text-white" onclick="OpenTimesheet()" style="display:none;">Finalize TimeSheet</button>
                 </div>
-                <div id="finalizeDiv">
-                </div>
+
             </div>
+
             <div id="timesheetTable"> </div>
+
         </div>
-        <div class="table-responsive" id="reimbursementTable"></div>
+
     </div>
 </div>
 <script>
@@ -75,6 +77,59 @@
         window.location.href = "/Provider/TimeSheet?StartDate=" + StartDate;
     }
 </script>
+<script>
+    $(document).ready(function () {
+        if ('@TempData["message"]' == "success") {
+            toastr.success('TimeSheet Finalized Successfully!!');
+        }
+        else if ('@TempData["message"]' == "error") {
+            toastr.error('TimeSheet is Empty!!');
+        }
+        debugger;
+
+        checkFinalize();
+        
+
+    });
+</script>
+<script>
+    function checkFinalize(){
+        var StartDate = document.getElementById("TimeSheet").value;
+        fetch('/Provider/Invoicing/' + StartDate)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.exists) {
+                    document.getElementById('finalizeBtn').style.display = 'inline';
+
+                }
+                else {
+                    document.getElementById('finalizeBtn').style.display = 'none';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        MyAjax();
+    }
+    
+</script>
+<script>
+    function MyAjax(pagenumber) {
+
+        var StartDate = document.getElementById("TimeSheet").value;
+        $.ajax({
+            url: "/Provider/GETTimeSheet",
+            data: { 'StartDate': StartDate },
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                $("#timesheetTable").html(data);
+            },
+            error: function () {
+                $("#timesheetTable").html('No Data Found');
+            }
+        });
+    }
+</script>
+
 <script>
     document.getElementById("invoicing").classList.add("active");
 </script>

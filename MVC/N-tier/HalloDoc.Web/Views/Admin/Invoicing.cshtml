@@ -1,0 +1,159 @@
+﻿@model List<HalloDocWebEntity.Data.Physician>
+@{
+    ViewData["Title"] = "InvoicingProvider";
+    Layout = "_AdminHeader";
+    DateTime date = DateTime.Now;
+}
+<style>
+    .documentBtn {
+        width: fit-content;
+    }
+</style>
+<div class="container">
+    <div class="tab-pane show active px-4" id="access" role="tabpanel" aria-labelledby="providers-tab">
+        <div class="row my-3">
+            <div class="col">
+                <h3 class="ms-2">TimeSheets</h3>
+            </div>
+            <div class=" col text-end">
+                <a asp-controller="Provider" asp-action="ProviderDashboard">
+                    <button class=" btn btn-outline-info me-2 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 20">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>Back
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="rounded shadow py-3 my-3">
+            <div class=" row p-3 ">
+                <div class=" col-3 form-floating mb-3">
+                    <select class="form-select p-3" id="PhysicianSelect" onchange=" checkFinalize()">
+                       
+                        @foreach (var i in Model)
+                        {
+
+                            <option value="@i.Physicianid" >@i.Firstname @i.Lastname</option>
+                        }
+                    </select>
+                    </div>
+                @foreach (var i in Model)
+                {
+                    var str = "phyname" + i.Physicianid;
+                    <input type="hidden" id="@str" value="@i.Firstname @i.Lastname">
+                }
+                <div class=" col-4 form-floating mb-3">
+                    <select class="form-select" id="TimeSheet" style="width:fit-content" onchange=" checkFinalize()">
+
+                        @for (var i = 0; i < 12; i++)
+                        {
+                            if (DateTime.Now > @date.AddDays(16 - date.Day))
+                            {
+                                <option value="@date.AddDays(16-date.Day).ToString("MM-dd-yyyy")">
+                                    @date.AddDays(16 - date.Day).ToShortDateString() - @date.AddDays(DateTime.DaysInMonth(date.Year, date.Month) - date.Day).ToShortDateString()
+                                </option>
+                            }
+                            <option value="@date.AddDays(1-date.Day).ToString("MM-dd-yyyy")">@date.AddDays(1 - date.Day).ToShortDateString() - @date.AddDays(15 - date.Day).ToShortDateString()</option>
+                            date = date.AddMonths(-1);
+                        }
+                    </select>
+                    <label class="ms-2">Search by Timesheet Period</label>
+                </div>
+                <div class="col text-end ">
+                    <button type="button" id="finalizeBtn" class="btn btn-info text-white" onclick="OpenTimesheet()" style="display:none;">Finalize TimeSheet</button>
+                </div>
+
+            </div>
+
+            <div id="timesheetTable" class="p-3"> </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+  
+    function OpenTimesheet() {
+        debugger;
+        var StartDate = document.getElementById("TimeSheet").value;
+        window.location.href = "/Provider/TimeSheet?StartDate=" + StartDate;
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        if ('@TempData["message"]' == "success") {
+            toastr.success('TimeSheet Approved Successfully!!');
+        }
+      
+        debugger;
+
+        checkFinalize();
+        
+
+    });
+</script>
+<script>
+    function checkFinalize(){
+        debugger;
+        var StartDate = document.getElementById("TimeSheet").value;
+
+        var phyid = document.getElementById("PhysicianSelect").value;
+        var phyname = document.getElementById("phyname"+phyid).value;
+        fetch('/Admin/Invoicing/' + StartDate+'/' + phyid)
+            .then(response => response.json())
+            .then(data => {
+                if (data.isfinal && data.isapprove) {
+                    getTableData();
+                }
+                else if (data.isfinal && !data.isapprove) {
+                    getTableDataForApprove();
+                }
+                else{
+                    $("#timesheetTable").html(phyname + ' has not finalized the timesheet in specified time period');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+
+    }
+    
+</script>
+<script>
+    function getTableData() {
+
+        var StartDate = document.getElementById("TimeSheet").value;
+        var phyid = document.getElementById("PhysicianSelect").value;
+        $.ajax({
+            url: "/Admin/GETTimeSheet",
+            data: { 'StartDate': StartDate, 'phyid': phyid },
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                $("#timesheetTable").html(data);
+            },
+            error: function () {
+                $("#timesheetTable").html('No Data Found1');
+            }
+        });
+    }
+    function getTableDataForApprove() {
+
+        var StartDate = document.getElementById("TimeSheet").value;
+        var phyid = document.getElementById("PhysicianSelect").value;
+        $.ajax({
+            url: "/Admin/GETTimeSheetForApprove",
+            data: { 'StartDate': StartDate, 'phyid': phyid },
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                $("#timesheetTable").html(data);
+            },
+            error: function () {
+                $("#timesheetTable").html('No Data Found2');
+            }
+        });
+    }
+</script>
+
+<script>
+    document.getElementById("provider1").classList.add("active");
+</script>

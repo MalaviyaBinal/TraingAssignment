@@ -1,0 +1,122 @@
+﻿@model List<HalloDocWebEntity.ViewModel.TimeSheetViewModel>
+@{
+    ViewData["Title"] = "InvoicingProvider";
+
+    DateTime date = DateTime.Now;
+}
+
+
+<div class=" row p-3 ">
+    <div class=" col form-floating table-responsive mb-3">
+        <table class="table ">
+            <colgroup>
+                <col style="width: 13%" />
+                <col style="width: 7%" />
+                <col style="width: 20%" />
+                <col style="width: 10%" />
+                <col style="width: 25%" />
+                <col style="width: 25%" />
+            </colgroup>
+            <thead>
+                <tr class="table-secondary">
+                    <td>Date</td>
+                    <td>On-call Hours</td>
+                    <td>Total Hours</td>
+                    <td>Weekend/Holiday</td>
+                    <td>Number of Housecalls</td>
+                    <td>Number of Phone Concults</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var timesheet in Model)
+                {
+                    <tr>
+                        <td>@timesheet.Date.ToShortDateString()</td>
+                        <td>@timesheet.OnCallHours</td>
+                        <td>@timesheet.TotalHours</td>
+                        <td>
+                            @if (timesheet.WeekendHoliday == true)
+                            {
+                                <span>1</span>
+                            }
+                            else
+                            {
+                                <span>0</span>
+                            }
+                        </td>
+                        <td>@timesheet.NumberOfHouseCalls</td>
+                        <td>@timesheet.NumberOfPhoneConsults</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row ps-3">
+    <div class="col">
+        <h5>
+            TimeSheet Reimbursement
+        </h5>
+    </div>
+</div>
+
+<div class=" row p-3 ">
+    <div class=" col form-floating table-responsive mb-3">
+        <table class="table ">
+            <colgroup>
+                <col style="width: 15%" />
+                <col style="width: 15%" />
+                <col style="width: 15%" />
+                <col style="width: 30%" />
+                <col style="width: 25%" />
+            </colgroup>
+            <thead>
+                <tr class="table-secondary">
+                    <td>Date</td>
+                    <td>Item</td>
+                    <td>Amount</td>
+                    <td>Bill</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @if (true)
+                {
+                    int id1 = 0;
+                    @foreach (var timesheet in Model)
+                    {
+                        @if (timesheet.Item != null)
+                        {
+                            <tr>
+                                <td>@timesheet.Date.ToShortDateString()</td>
+                                <td>@timesheet.Item </td>
+                                <td>@timesheet.Amount</td>
+                                <td>@timesheet.FileName</td>
+                                <td>
+                                    @if (timesheet.FileName != null)
+                                    {
+                                        var str = "/PhysicianDoc/" + timesheet.PhysicianId + "/" + @timesheet.FileName;
+                                        <a href=@str target="_blank"> <button class="btn btn-info text-white" id=@str type="button">View</button></a>
+
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+
+
+
+                        id1++;
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

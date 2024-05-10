@@ -504,6 +504,27 @@ namespace HalloDocWebRepo.Implementation
             _context.TimesheetReimbursements.Add(reim);
             _context.SaveChanges();
         }
+
+        public void DeleteReimbursementTable(int gap, DateTime startDate)
+        {
+            var reim = _context.TimesheetReimbursements.FirstOrDefault(e => e.ReimbursementDate == DateTime.Parse(startDate.AddDays(gap).ToString("MM-dd-yyyy")));
+            if(reim != null)
+            {
+                _context.TimesheetReimbursements.Remove(reim);
+                _context.SaveChanges();
+            }
+        }
+
+        public Timesheet GetTimeSheetByInvoiceId(int timesheetId)
+        {
+            return _context.Timesheets.First(e => e.TimesheetId == timesheetId);
+        }
+
+        public void UpdateTimeSheetTable(Timesheet timesheet)
+        {
+            _context.Timesheets.Update(timesheet);
+            _context.SaveChanges();
+        }
     }
 
 }

@@ -829,5 +829,49 @@ namespace HalloDoc.Web.Controllers
             _service.UpdatePayRate(model, phyid);
             return RedirectToAction(nameof(PayRate), new {id = phyid});
         }
+        public IActionResult Invoicing()
+        {
+            return View(_service.getPhysicianList());
+        }
+        [Route("/Admin/Invoicing/{StartDate}/{phyid}")]
+        [HttpGet]
+        public IActionResult IsTimesheetFinalized(string StartDate,string phyid)
+        {
+            List<bool> isFinalized = _service.IsTimesheetFinalized(DateTime.Parse(StartDate), int.Parse(phyid));
+
+            return Json(new { isfinal = isFinalized.ElementAt(0) ,isapprove = isFinalized.ElementAt(1) });
+        }
+        [HttpPost]
+        public IActionResult GETTimeSheet(DateTime StartDate,int phyid)
+        {
+            List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, phyid);
+            return PartialView("_TimesheetTable", model);
+        }
+        [HttpPost]
+        public IActionResult GETTimeSheetForApprove(DateTime StartDate,int phyid)
+        {
+            TimeSheetViewModel model = _service.GETTimeSheetForApprove(StartDate, phyid);
+            return PartialView("_TimesheetApprove", model);
+        }
+        public IActionResult TimeSheet(DateTime StartDate,int phyid)
+        {
+            List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, phyid);
+            return View(model);
+        }
+        public IActionResult ApproveTimesheet(int TimesheetId)
+        {
+            
+                TempData["message"] = "success";
+                _service.ApproveTimesheet(TimesheetId);
+            
+
+            return RedirectToAction(nameof(Invoicing));
+        }
+        [HttpPost]
+        public IActionResult SaveTimesheet([FromForm] TimeSheetDataViewModel model,int phyid)
+        {
+            _service.SaveTimesheet(model,phyid);
+            return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate),phyid = phyid });
+        }
     }
 }

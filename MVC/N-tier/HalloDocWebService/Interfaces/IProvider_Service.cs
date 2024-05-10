@@ -56,5 +56,8 @@ namespace HalloDocWebServices.Interfaces
 
         void EditReimbursement(DateTime dateTime, string item, int amount, int gap, string? v);
         void SaveReimbursement(TimeSheetDataViewModel model, string? v);
+        void DeleteReimbursement(int gap, DateTime startDate);
+        void FinalizeTimesheet(int timesheetId);
+        bool IsTimesheetFinalized(DateTime startDate, string? v);
     }
 }

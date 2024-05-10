@@ -362,12 +362,12 @@ namespace HalloDocWebServices.Implementation
             request.Modifieddate = DateTime.Now;
             _repository.updateRequest(request);
             Requestnote note = _repository.getREquestNotes(id);
-            if(note != null)
+            if (note != null)
             {
                 note.Adminnotes = notes;
                 note.Modifiedby = admin.Id.ToString();
                 note.Modifieddate = DateTime.Now;
-                
+
                 _repository.updateRequestNote(note);
             }
             else
@@ -902,7 +902,7 @@ namespace HalloDocWebServices.Implementation
             model.Firstname = info.Firstname;
             model.Lastname = info.Lastname;
             model.Email = info.Email;
-            model.Mobile =  info.Mobile;
+            model.Mobile = info.Mobile;
             model.Modifieddate = DateTime.Now;
             _repository.updateAdmin(model);
         }
@@ -964,7 +964,7 @@ namespace HalloDocWebServices.Implementation
         {
             Aspnetuser aspnetuser = new Aspnetuser();
             aspnetuser.Passwordhash = Crypto.HashPassword(phy.Passwordhash);
-            aspnetuser.Usarname = "MD."+phy.Lastname +"."+ phy.Firstname.ToCharArray().First();
+            aspnetuser.Usarname = "MD." + phy.Lastname + "." + phy.Firstname.ToCharArray().First();
             aspnetuser.Createddate = DateTime.Now;
             aspnetuser.Modifieddate = DateTime.Now;
             aspnetuser.Email = phy.Email;
@@ -989,7 +989,7 @@ namespace HalloDocWebServices.Implementation
             model.Altphone = phy.Altphone;
             model.Businessname = phy.Businessname;
             model.Businesswebsite = phy.Businesswebsite;
-         
+
             model.Createddate = DateTime.Now;
             model.Roleid = phy.roleid;
             model.Regionid = phy.regionid;
@@ -1008,7 +1008,7 @@ namespace HalloDocWebServices.Implementation
             phylocation.Createddate = DateTime.Now;
             phylocation.Physicianname = "Dr" + " " + phy.Firstname;
             _repository.addPhysicianLocationTable(phylocation);
-            if(phy.SelectedReg.Count  > 0)
+            if (phy.SelectedReg.Count > 0)
             {
                 List<Physicianregion> phyreg = new List<Physicianregion>();
                 foreach (var item in phy.SelectedReg)
@@ -1020,7 +1020,7 @@ namespace HalloDocWebServices.Implementation
                 }
                 _repository.addPhyRegionList(phyreg);
             }
-      
+
             Physiciannotification phynoti = new Physiciannotification();
             phynoti.Pysicianid = model.Physicianid;
             phynoti.Isnotificationstopped = new BitArray(1, false);
@@ -1119,16 +1119,16 @@ namespace HalloDocWebServices.Implementation
             {
                 case 1:
                     SendSMS(phone, note);
-                
+
                     Smslog smslog = new Smslog
                     {
-                        Smstemplate ="Hello " + phy.Firstname+" "+phy.Lastname+","+note ,
+                        Smstemplate = "Hello " + phy.Firstname + " " + phy.Lastname + "," + note,
                         Mobilenumber = phone,
                         Createdate = DateTime.Now,
                         Sentdate = DateTime.Now,
                         Senttries = 1,
                         Roleid = 1,
-                        
+
                     };
                     _repository.addSmsLogTable(smslog);
                     break;
@@ -1185,7 +1185,7 @@ namespace HalloDocWebServices.Implementation
             model.phyregions = _repository.getPhysicianRegionByPhy(id);
             model.physician = phy;
             model.aspnetuser = asp;
-            model.Firstname =  phy.Firstname;
+            model.Firstname = phy.Firstname;
             model.Lastname = phy.Lastname;
             model.Email = phy.Email;
             model.Mobile = phy.Mobile;
@@ -1205,7 +1205,7 @@ namespace HalloDocWebServices.Implementation
             model.IsLisenceDoc = phy.Islicensedoc;
             model.regionid = (int)phy.Regionid;
             model.roleid = (int)phy.Roleid;
-            
+
             model.IsNonDisclosure = phy.Isnondisclosuredoc;
             if (u == null)
                 model.isProviderEdit = true;
@@ -1321,7 +1321,7 @@ namespace HalloDocWebServices.Implementation
         public void CreateAdminAccount(AdminProfile model, string email)
         {
             Aspnetuser aspnetuser = new Aspnetuser();
-            aspnetuser.Passwordhash = Crypto.HashPassword(model.Passwordhash) ;
+            aspnetuser.Passwordhash = Crypto.HashPassword(model.Passwordhash);
             aspnetuser.Usarname = model.Lastname + model.Firstname.ToCharArray().First();
             aspnetuser.Createddate = DateTime.Now;
             aspnetuser.Modifieddate = DateTime.Now;
@@ -1346,7 +1346,7 @@ namespace HalloDocWebServices.Implementation
             admin.Roleid = model.roleid;
             admin.Createdby = email;
             _repository.addAdminTable(admin);
-            if(model.SelectedReg.Count > 0)
+            if (model.SelectedReg.Count > 0)
             {
                 foreach (var item in model.SelectedReg)
                 {
@@ -1356,7 +1356,7 @@ namespace HalloDocWebServices.Implementation
                     _repository.addAdminReg(adminregion);
                 }
             }
-           
+
         }
         public AdminProfile getAdminRoleData()
         {
@@ -1391,7 +1391,7 @@ namespace HalloDocWebServices.Implementation
                     break;
 
             }
-           
+
             return userAccess;
         }
 
@@ -2212,7 +2212,7 @@ namespace HalloDocWebServices.Implementation
             var aspnetuser = _repository.getAspnetuserByID(info.adminuser.Id);
             if (info.profile_Password != null)
             {
-                aspnetuser.Passwordhash = Crypto.HashPassword(info.profile_Password) ;
+                aspnetuser.Passwordhash = Crypto.HashPassword(info.profile_Password);
             }
 
 
@@ -2248,7 +2248,8 @@ namespace HalloDocWebServices.Implementation
             model.phy = _repository.getPhysicianList();
 
 
-            if(model.Data != null) {
+            if (model.Data != null)
+            {
                 if (!string.IsNullOrWhiteSpace(searchstr))
                 {
                     model.Data = model.Data.Where(x => x.Firstname.ToLower().Contains(searchstr.ToLower())).ToList();
@@ -2435,7 +2436,7 @@ namespace HalloDocWebServices.Implementation
         public PayRateViewModel GetPayRate(int id)
         {
             Payrate payrate = _repository.GetPayRateByPhyID(id);
-            PayRateViewModel  model = new PayRateViewModel();
+            PayRateViewModel model = new PayRateViewModel();
             if (payrate != null)
             {
                 model.PhysicianId = payrate.PhysicianId;
@@ -2455,16 +2456,16 @@ namespace HalloDocWebServices.Implementation
 
             }
             return model;
-            
+
         }
 
         public void UpdatePayRate(PayRateViewModel model, int phyid)
         {
             Payrate payrate = _repository.GetPayRateByPhyID(phyid);
-            if(payrate != null)
+            if (payrate != null)
             {
-                payrate.Shift= model.Shift != null ? model.Shift.Value : payrate.Shift;
-                payrate.NightshiftWeekend = model.NightshiftWeekend!=null ? model.NightshiftWeekend.Value : payrate.NightshiftWeekend;
+                payrate.Shift = model.Shift != null ? model.Shift.Value : payrate.Shift;
+                payrate.NightshiftWeekend = model.NightshiftWeekend != null ? model.NightshiftWeekend.Value : payrate.NightshiftWeekend;
                 payrate.HousecallsNightsWeekend = model.HousecallsNightsWeekend != null ? model.HousecallsNightsWeekend.Value : payrate.HousecallsNightsWeekend;
                 payrate.PhoneConsults = model.PhoneConsults != null ? model.PhoneConsults.Value : payrate.PhoneConsults;
                 payrate.PhoneConsultsNightsWeekend = model.PhoneConsultsNightsWeekend != null ? model.PhoneConsultsNightsWeekend.Value : payrate.PhoneConsultsNightsWeekend;
@@ -2482,11 +2483,137 @@ namespace HalloDocWebServices.Implementation
                 payrate.HousecallsNightsWeekend = model.HousecallsNightsWeekend != null ? model.HousecallsNightsWeekend.Value : null;
                 payrate.PhoneConsults = model.PhoneConsults != null ? model.PhoneConsults.Value : null;
                 payrate.PhoneConsultsNightsWeekend = model.PhoneConsultsNightsWeekend != null ? model.PhoneConsultsNightsWeekend.Value : null;
-                payrate.Housecall = model.Housecall != null ? model.Housecall.Value :   null;
+                payrate.Housecall = model.Housecall != null ? model.Housecall.Value : null;
                 payrate.BatchTesting = model.BatchTesting != null ? model.BatchTesting.Value : null;
                 payrate.CreatedDate = DateTime.Now;
                 _repository.AddPayrateTable(payrate);
             }
+        }
+        public List<TimeSheetViewModel> MakeTimeSheet(DateTime startDate, int phyid)
+        {
+            List<TimeSheetViewModel> TimeSheet = _repository.MakeTimeSheet(startDate, phyid);
+            Payrate payrate = _repository.GetPayRateByPhyID(phyid);
+            TimeSheet.First().Shift = payrate.Shift;
+            TimeSheet.First().NightshiftWeekend = payrate.NightshiftWeekend;
+            TimeSheet.First().Housecall = payrate.Housecall;
+            TimeSheet.First().PhoneConsults = payrate.PhoneConsults;
+
+            int totalshift = 0;
+            int totalweekend = 0;
+            int totalhousecall = 0;
+            int totalphoneconsult = 0;
+            foreach (TimeSheetViewModel timeSheet in TimeSheet)
+            {
+                totalshift += timeSheet.TotalHours != null ? (int)timeSheet.TotalHours : 0;
+                totalweekend += timeSheet.WeekendHoliday == true ? 1 : 0;
+                totalhousecall += timeSheet.NumberOfHouseCalls != null ? (int)timeSheet.NumberOfHouseCalls : 0;
+                totalphoneconsult += timeSheet.NumberOfPhoneConsults != null ? (int)timeSheet.NumberOfPhoneConsults : 0;
+            }
+            TimeSheet.First().TotalShift = payrate.Shift * totalshift;
+            TimeSheet.First().TotalNightshiftWeekend = payrate.NightshiftWeekend * totalweekend;
+            TimeSheet.First().TotalHousecall = payrate.Housecall * totalhousecall;
+            TimeSheet.First().TotalPhoneConsults = payrate.PhoneConsults * totalphoneconsult;
+            TimeSheet.First().TotalInvoice = (payrate.PhoneConsults * totalphoneconsult) + (payrate.Housecall * totalhousecall) + (payrate.NightshiftWeekend * totalweekend) + (payrate.Shift * totalshift);
+
+
+
+            return TimeSheet;
+        }
+        public List<bool> IsTimesheetFinalized(DateTime startDate, int phyid)
+        {
+            DateTime enddate = startDate.AddDays(15 - startDate.Day);
+            List<bool> bools = new List<bool> { false, false };
+            if (startDate.Day > 15)
+            {
+                enddate = startDate.AddDays(DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day);
+            }
+            Timesheet invoice = _repository.GetInvoicesByPhyId(startDate, enddate, phyid);
+            if (invoice != null)
+            {
+                if (invoice.IsFinalized != null && invoice.IsApproved == null)
+                    bools = new List<bool> { true, false };
+                else if (invoice.IsFinalized != null && invoice.IsApproved != null)
+                    bools = new List<bool> { true, true };
+            }
+            return bools;
+        }
+
+        public TimeSheetViewModel GETTimeSheetForApprove(DateTime startDate, int phyid)
+        {
+            DateTime enddate = startDate.AddDays(15 - startDate.Day);
+
+            if (startDate.Day > 15)
+            {
+                enddate = startDate.AddDays(DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day);
+            }
+            Timesheet invoice = _repository.GetInvoicesByPhyId(startDate, enddate, phyid);
+            return new TimeSheetViewModel
+            {
+                InvoiceId = invoice.TimesheetId,
+                PhysicianId = phyid,
+                StartDate = startDate,
+                EndDate = enddate,
+            };
+        }
+
+        public void ApproveTimesheet(int timesheetId)
+        {
+            Timesheet timesheet = _repository.GetTimeSheetByInvoiceId(timesheetId);
+            if (timesheet != null)
+            {
+                timesheet.IsApproved = true;
+                _repository.UpdateTimeSheetTable(timesheet);
+            }
+        }
+
+        public void SaveTimesheet(TimeSheetDataViewModel model, int phyid)
+        {
+
+            var phy = _repository.getPhysicianById(phyid);
+            Timesheet invoice1 = _repository.GetInvoicesByPhyId(model.StartDate, model.EndDate, phy.Physicianid);
+
+            if (invoice1 != null)
+            {
+                int i1 = 0;
+                List<TimesheetDetail> timesheets = _repository.GetTimeSheetListByInvoiceId(invoice1.TimesheetId);
+                if (timesheets.Count != 0)
+                {
+                    foreach (TimesheetDetail sheet in timesheets)
+                    {
+                        sheet.IsWeekend = model.WeekendHoliday.Any(e => e == sheet.Sheetdate.Value.Day);
+                        sheet.ShiftHours = model.TotalHours.ElementAt(i1);
+                        sheet.Housecall = model.NumberOfHouseCalls.ElementAt(i1);
+                        sheet.PhoneConsult = model.NumberOfPhoneConsults.ElementAt(i1);
+                        sheet.ModifiedBy = phy.Aspnetuserid ?? 1;
+                        sheet.ModifiedDate = DateTime.Now;
+                        i1++;
+                    }
+                    _repository.UpdateTimeSheetDetailTable(timesheets);
+                }
+                else
+                {
+                    List<TimesheetDetail> timesheet = new();
+                    for (int i = 0; i <= model.EndDate.Value.Day - model.StartDate.Value.Day; i++)
+                    {
+                        timesheet.Add(new TimesheetDetail
+                        {
+                            TimesheetId = invoice1.TimesheetId,
+                            PhysicianId = phy.Physicianid,
+                            Sheetdate = model.StartDate.Value.AddDays(i),
+                            ShiftHours = model.TotalHours.ElementAt(i),
+                            IsWeekend = model.WeekendHoliday.Any(e => e == model.StartDate.Value.AddDays(i).Day),
+                            Housecall = model.NumberOfHouseCalls.ElementAt(i),
+                            PhoneConsult = model.NumberOfPhoneConsults.ElementAt(i),
+                            CreatedBy = phy.Aspnetuserid ?? 1,
+                            CreatedDate = DateTime.Now,
+                            //NoHousecallsNight = 0,
+                            //NoPhoneConsultNight = 0,
+                        });
+                    }
+                    _repository.AddTimeSheetDetailTable(timesheet);
+                }
+            }
+
         }
     }
 }
