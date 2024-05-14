@@ -1106,6 +1106,8 @@ namespace HalloDocWebRepo.Implementation
             }
             timesheets.First().StartDate = startDate;
             timesheets.First().EndDate = enddate;
+            timesheets.First().BonusAmount = invoice.BonusAmount != null ? invoice.BonusAmount :null;
+            timesheets.First().AdminNotes = invoice.AdminNote != null ? invoice.AdminNote : null;
             return timesheets;
         }
         public Timesheet GetInvoicesByPhyId(DateTime? startDate, DateTime? endDate, int physicianid)

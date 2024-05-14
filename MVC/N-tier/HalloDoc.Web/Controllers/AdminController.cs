@@ -20,7 +20,7 @@ namespace HalloDoc.Web.Controllers
         {
             _service = service;
         }
-        [CustomAuthorize("Admin",172)]
+        [CustomAuthorize("Admin", 172)]
         public IActionResult AdminDashboard()
         {
             var count = _service.setAdminDashboardCount();
@@ -127,9 +127,9 @@ namespace HalloDoc.Web.Controllers
             Physician model = _service.getPhysicianByID(id);
             return PartialView("_ContactProviderModal", model);
         }
-        public async Task<IActionResult> ContactProviderSendMessage(int id,string email, string phone, string note, int selected=3)
+        public async Task<IActionResult> ContactProviderSendMessage(int id, string email, string phone, string note, int selected = 3)
         {
-            _service.ContactProviderSendMessage(id,email, phone, note, selected);
+            _service.ContactProviderSendMessage(id, email, phone, note, selected);
             return RedirectToAction(nameof(AdminDashboardProviders));
         }
         [CustomAuthorize("Admin", 175)]
@@ -536,8 +536,8 @@ namespace HalloDoc.Web.Controllers
             if (info.Email != info.con_Email)
             {
                 var m = _service.getAdminProfileData(HttpContext.Request.Cookies["userEmail"]);
-                    m.con_Email = info.con_Email;
-                    ModelState.AddModelError("con_Email", "Email and Confirm email should be same");
+                m.con_Email = info.con_Email;
+                ModelState.AddModelError("con_Email", "Email and Confirm email should be same");
                 return View(nameof(AdminDashboardMyProfile), m);
             }
             _service.updateadminform(info);
@@ -824,10 +824,10 @@ namespace HalloDoc.Web.Controllers
             PayRateViewModel model = _service.GetPayRate(id);
             return View(model);
         }
-        public IActionResult PayratePhysician(PayRateViewModel model , int phyid)
+        public IActionResult PayratePhysician(PayRateViewModel model, int phyid)
         {
             _service.UpdatePayRate(model, phyid);
-            return RedirectToAction(nameof(PayRate), new {id = phyid});
+            return RedirectToAction(nameof(PayRate), new { id = phyid });
         }
         public IActionResult Invoicing()
         {
@@ -835,43 +835,43 @@ namespace HalloDoc.Web.Controllers
         }
         [Route("/Admin/Invoicing/{StartDate}/{phyid}")]
         [HttpGet]
-        public IActionResult IsTimesheetFinalized(string StartDate,string phyid)
+        public IActionResult IsTimesheetFinalized(string StartDate, string phyid)
         {
             List<bool> isFinalized = _service.IsTimesheetFinalized(DateTime.Parse(StartDate), int.Parse(phyid));
 
-            return Json(new { isfinal = isFinalized.ElementAt(0) ,isapprove = isFinalized.ElementAt(1) });
+            return Json(new { isfinal = isFinalized.ElementAt(0), isapprove = isFinalized.ElementAt(1) });
         }
         [HttpPost]
-        public IActionResult GETTimeSheet(DateTime StartDate,int phyid)
+        public IActionResult GETTimeSheet(DateTime StartDate, int phyid)
         {
             List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, phyid);
             return PartialView("_TimesheetTable", model);
         }
         [HttpPost]
-        public IActionResult GETTimeSheetForApprove(DateTime StartDate,int phyid)
+        public IActionResult GETTimeSheetForApprove(DateTime StartDate, int phyid)
         {
             TimeSheetViewModel model = _service.GETTimeSheetForApprove(StartDate, phyid);
             return PartialView("_TimesheetApprove", model);
         }
-        public IActionResult TimeSheet(DateTime StartDate,int phyid)
+        public IActionResult TimeSheet(DateTime StartDate, int phyid)
         {
             List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, phyid);
             return View(model);
         }
-        public IActionResult ApproveTimesheet(int TimesheetId)
+        public IActionResult ApproveTimesheet(int TimesheetId , int BonusAmnt,string AdminNote,int InvoiceAmnt)
         {
-            
-                TempData["message"] = "success";
-                _service.ApproveTimesheet(TimesheetId);
-            
+
+            TempData["message"] = "success";
+            _service.ApproveTimesheet(TimesheetId, BonusAmnt, AdminNote, InvoiceAmnt);
+
 
             return RedirectToAction(nameof(Invoicing));
         }
         [HttpPost]
-        public IActionResult SaveTimesheet([FromForm] TimeSheetDataViewModel model,int phyid)
+        public IActionResult SaveTimesheet([FromForm] TimeSheetDataViewModel model, int phyid)
         {
-            _service.SaveTimesheet(model,phyid);
-            return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate),phyid = phyid });
+            _service.SaveTimesheet(model, phyid, HttpContext.Request.Cookies["userEmail"]);
+            return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate), phyid = phyid });
         }
     }
 }

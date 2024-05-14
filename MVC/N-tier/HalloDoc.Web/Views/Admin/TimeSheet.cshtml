@@ -190,13 +190,27 @@
                 </div>
             </div>
         </div>
-        <div class="row text-end">
-            <div class="col">
-                <a class="btn btn-info text-white ms-4" asp-action="ApproveTimesheet" asp-route-TimesheetId="@Model.First().InvoiceId"> Approve</a>
+        <div class="row text-end justify-content-end">
+            <div class=" col-3">
+                <div class=" form-floating mb-3 text-muted">
+                    <input type="number" class="form-control" id="bonus">
+                    <label for="bonus" class="form-label ps-4">Bonus Amount</label>
+                </div>
+
+            </div>
+            <div class=" col-3">
+                <div class=" form-floating mb-3 text-muted">
+                    <input type="text" class="form-control" id="desc">
+                    <label for="desc" class="form-label ps-4">Bonus Amount</label>
+                </div>
+            </div>
+            <div class=" col-1">
+                <a class="btn btn-info text-white" onclick="ApproveSheet()" > Approve</a>
             </div>
         </div>
-
     </div>
+
+</div>
 </div>
 
 <script>
@@ -207,6 +221,12 @@
             document.getElementById("ReceiptForm").style.display = 'none';
         else
             document.getElementById("ReceiptForm").style.display = 'block';
+    }
+    function ApproveSheet() {
+        debugger;
+        var BonusAmnt = document.getElementById("bonus").value;
+        var AdminNote = document.getElementById("desc").value;
+        window.location.href = "/Admin/ApproveTimesheet?TimesheetId=" + @Model.First().InvoiceId + "&BonusAmnt=" + BonusAmnt + "&AdminNote=" + AdminNote + "&InvoiceAmnt=" + @Model.FirstOrDefault().TotalInvoice;
     }
     document.getElementById("provider1").classList.add("active");
 </script>

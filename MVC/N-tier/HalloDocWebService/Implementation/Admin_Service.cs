@@ -2514,6 +2514,7 @@ namespace HalloDocWebServices.Implementation
             TimeSheet.First().TotalHousecall = payrate.Housecall * totalhousecall;
             TimeSheet.First().TotalPhoneConsults = payrate.PhoneConsults * totalphoneconsult;
             TimeSheet.First().TotalInvoice = (payrate.PhoneConsults * totalphoneconsult) + (payrate.Housecall * totalhousecall) + (payrate.NightshiftWeekend * totalweekend) + (payrate.Shift * totalshift);
+     
 
 
 
@@ -2556,19 +2557,25 @@ namespace HalloDocWebServices.Implementation
             };
         }
 
-        public void ApproveTimesheet(int timesheetId)
+        public void ApproveTimesheet(int timesheetId, int BonusAmnt, string AdminNote, int InvoiceAmnt)
         {
             Timesheet timesheet = _repository.GetTimeSheetByInvoiceId(timesheetId);
             if (timesheet != null)
             {
                 timesheet.IsApproved = true;
+                timesheet.InvoiceAmount = InvoiceAmnt;
+                if(BonusAmnt !=0)
+                    timesheet.BonusAmount = BonusAmnt;
+                if(AdminNote != null)
+                    timesheet.AdminNote = AdminNote;
+                
                 _repository.UpdateTimeSheetTable(timesheet);
             }
         }
 
-        public void SaveTimesheet(TimeSheetDataViewModel model, int phyid)
+        public void SaveTimesheet(TimeSheetDataViewModel model, int phyid, string? adminEmail)
         {
-
+            var admin = _repository.getAdminTableDataByEmail(adminEmail);
             var phy = _repository.getPhysicianById(phyid);
             Timesheet invoice1 = _repository.GetInvoicesByPhyId(model.StartDate, model.EndDate, phy.Physicianid);
 
@@ -2584,34 +2591,13 @@ namespace HalloDocWebServices.Implementation
                         sheet.ShiftHours = model.TotalHours.ElementAt(i1);
                         sheet.Housecall = model.NumberOfHouseCalls.ElementAt(i1);
                         sheet.PhoneConsult = model.NumberOfPhoneConsults.ElementAt(i1);
-                        sheet.ModifiedBy = phy.Aspnetuserid ?? 1;
+                        sheet.ModifiedBy =(int) admin.Aspnetuserid;
                         sheet.ModifiedDate = DateTime.Now;
                         i1++;
                     }
                     _repository.UpdateTimeSheetDetailTable(timesheets);
                 }
-                else
-                {
-                    List<TimesheetDetail> timesheet = new();
-                    for (int i = 0; i <= model.EndDate.Value.Day - model.StartDate.Value.Day; i++)
-                    {
-                        timesheet.Add(new TimesheetDetail
-                        {
-                            TimesheetId = invoice1.TimesheetId,
-                            PhysicianId = phy.Physicianid,
-                            Sheetdate = model.StartDate.Value.AddDays(i),
-                            ShiftHours = model.TotalHours.ElementAt(i),
-                            IsWeekend = model.WeekendHoliday.Any(e => e == model.StartDate.Value.AddDays(i).Day),
-                            Housecall = model.NumberOfHouseCalls.ElementAt(i),
-                            PhoneConsult = model.NumberOfPhoneConsults.ElementAt(i),
-                            CreatedBy = phy.Aspnetuserid ?? 1,
-                            CreatedDate = DateTime.Now,
-                            //NoHousecallsNight = 0,
-                            //NoPhoneConsultNight = 0,
-                        });
-                    }
-                    _repository.AddTimeSheetDetailTable(timesheet);
-                }
+               
             }
 
         }

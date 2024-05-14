@@ -4,6 +4,7 @@ using HalloDocWebRepo.Interface;
 using HalloDocWebServices.Implementation;
 using HalloDocWebServices.Interfaces;
 using Rotativa.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); 
@@ -16,6 +17,7 @@ builder.Services.AddScoped<IProvider_Service, Provider_Service>();
 builder.Services.AddScoped<IJWT_Service, JWT_Service>();
 builder.Services.AddDbContext<ApplicationContext>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSignalR();
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = ".AdventureWorks.Session";
@@ -40,4 +42,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.MapHub<ChatHub>("/chatHub");
 app.Run();

@@ -52,5 +52,7 @@ namespace HalloDocWebEntity.ViewModel
         public int? Housecall { get; set; }
         public int? TotalHousecall { get; set; }
         public int? TotalInvoice{ get; set; }
+        public int? BonusAmount { get; set; }
+        public string? AdminNotes { get; set; }
     }
 }
