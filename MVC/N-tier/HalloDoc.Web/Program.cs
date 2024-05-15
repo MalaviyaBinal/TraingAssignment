@@ -1,3 +1,4 @@
+using HalloDoc.Web.Hubs;
 using HalloDocWebEntity.Data;
 using HalloDocWebRepo.Implementation;
 using HalloDocWebRepo.Interface;
@@ -42,5 +43,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-//app.MapHub<ChatHub>("/chatHub");
+app.MapHub<ChatHub>("/chatHub");
 app.Run();

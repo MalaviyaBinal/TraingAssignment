@@ -417,3 +417,4 @@ D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\HalloDoc.Web.pdb
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\HalloDoc.Web.genruntimeconfig.cache
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\obj\Debug\net7.0\ref\HalloDoc.Web.dll
 D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\System.Net.WebSockets.WebSocketProtocol.dll
+D:\Projects\HelloDOC\MVC\N-tier\HalloDoc.Web\bin\Debug\net7.0\libman.json

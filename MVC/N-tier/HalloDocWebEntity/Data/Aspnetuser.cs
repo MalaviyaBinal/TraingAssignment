@@ -43,6 +43,12 @@ public partial class Aspnetuser
     [InverseProperty("Aspnetuser")]
     public virtual ICollection<Admin> Admins { get; set; } = new List<Admin>();
 
+    [InverseProperty("Receiver")]
+    public virtual ICollection<Chat> ChatReceivers { get; set; } = new List<Chat>();
+
+    [InverseProperty("Sender")]
+    public virtual ICollection<Chat> ChatSenders { get; set; } = new List<Chat>();
+
     [InverseProperty("Aspnetuser")]
     public virtual ICollection<Physician> Physicians { get; set; } = new List<Physician>();
 

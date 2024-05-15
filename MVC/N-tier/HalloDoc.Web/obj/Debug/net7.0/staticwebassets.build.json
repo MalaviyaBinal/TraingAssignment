@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "coJt2+LMvb7BVD+SYXuVRot8uP1xtxYS9Y7UcwlrNBw=",
+  "Hash": "fYzRm5KilOTALKqBinCf9U3Vtp3iOXerN6KjoM2SQtQ=",
   "Source": "HalloDoc.Web",
   "BasePath": "_content/HalloDoc.Web",
   "Mode": "Default",
@@ -1579,6 +1579,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\lib\\microsoft\\signalr\\dist\\browser\\signalr.js",
+      "SourceId": "HalloDoc.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\",
+      "BasePath": "_content/HalloDoc.Web",
+      "RelativePath": "lib/microsoft/signalr/dist/browser/signalr.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\microsoft\\signalr\\dist\\browser\\signalr.js"
+    },
+    {
+      "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\lib\\microsoft\\signalr\\dist\\browser\\signalr.min.js",
+      "SourceId": "HalloDoc.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\",
+      "BasePath": "_content/HalloDoc.Web",
+      "RelativePath": "lib/microsoft/signalr/dist/browser/signalr.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\microsoft\\signalr\\dist\\browser\\signalr.min.js"
     },
     {
       "Identity": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\PhysicianDoc\\1\\AgreementDoc.pdf",
