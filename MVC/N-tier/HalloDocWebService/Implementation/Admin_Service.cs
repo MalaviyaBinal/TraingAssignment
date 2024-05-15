@@ -2601,6 +2601,11 @@ namespace HalloDocWebServices.Implementation
             }
 
         }
+
+        public Admin getAdminByEmail(string? adminEmail)
+        {
+            return _repository.getAdminTableDataByEmail(adminEmail);
+        }
     }
 }
 

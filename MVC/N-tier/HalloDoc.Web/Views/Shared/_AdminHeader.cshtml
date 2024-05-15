@@ -18,6 +18,8 @@
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/intlTelInput.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.0.27/signalr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.0.27/signalr.js"></script>
 </head>
 <body data-bs-theme="dark">
     <!-- --------------------------------------Main container--------------------------------------------- -->
@@ -163,7 +165,7 @@
             if (document.querySelector(".sideBar").style.display == "flex") {
                 document.querySelector(".sideBar").style.display = "none"
                 document.documentElement.setAttribute('data-bs-theme', 'light')
-            }else {
+            } else {
                 document.documentElement.setAttribute('data-bs-theme', 'dark')
                 document.querySelector(".sideBar").style.display = "flex";
             }
@@ -172,69 +174,8 @@
             document.querySelector(".sideBar").style.display = "none";
         }
     </script>
+    
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header bg-info text-white">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Chat</h5>
-            <button type="button" class="btn-close  btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div>
-                <ul id="messagesList"></ul>
-            </div>
-
-        </div>
-        <div class="offcanvas-footer">
-            <div class="col form-floating text-muted">
-                <input type="text" class="form-control input-placeholder" id="messageInput" placeholder="">
-                <label class="form-label ms-2 ps-3">Message</label>
-                <i class=" fa-solid fa-paper-plane fs-4 icon m-2" id="sendButton"></i>
-
-            </div>
-            <input type="hidden" value="User1" id="userInput" />
-            @*<input type="text" class="w-100" id="messageInput" />*@
-
-        </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.0.27/signalr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.0.27/signalr.js"></script>
-    <script>
-        debugger;
-
-        "use strict";
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-
-        //Disable the send button until connection is established.
-        document.getElementById("sendButton").disabled = true;
-
-        connection.on("ReceiveMessage", function (user, message) {
-            var li = document.createElement("li");
-            document.getElementById("messagesList").appendChild(li);
-            // We can assign user-supplied strings to an element's textContent because it
-            // is not interpreted as markup. If you're assigning in any other way, you
-            // should be aware of possible script injection concerns.
-            li.textContent = `${message}`;
-        });
-
-        connection.start().then(function () {
-            document.getElementById("sendButton").disabled = false;
-        }).catch(function (err) {
-            return console.error(err.toString());
-        });
-
-        document.getElementById("sendButton").addEventListener("click", function (event) {
-            debugger;
-            var user = document.getElementById("userInput").value;
-            var message = document.getElementById("messageInput").value;
-            if (message != "") {
-                connection.invoke("SendMessage", user, message).catch(function (err) {
-                    return console.error(err.toString());
-                });
-                document.getElementById("messageInput").value ="";
-            }
-            event.preventDefault();
-        });
-    </script>
 
 </body>
 </html>

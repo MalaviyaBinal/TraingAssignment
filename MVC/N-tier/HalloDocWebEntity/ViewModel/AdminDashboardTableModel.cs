@@ -6,6 +6,7 @@ namespace HalloDocWebEntity.ViewModel
     public class AdminDashboardTableModel
     {
         public string? physician;
+        public int? physicianId;
 
         public string? Name { get; set; }
         public string? DOB { get; set; }

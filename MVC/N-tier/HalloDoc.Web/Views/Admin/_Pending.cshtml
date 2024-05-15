@@ -1,4 +1,57 @@
 ﻿@model HalloDocWebEntity.ViewModel.AdminDashBoardPagination
+<script>
+    function sendAgreement(element) {
+        var id = element.value;
+        console.log(id);
+        $.ajax({
+            url: "/Admin/SendAgreementModal",
+            data: { 'id': id },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
+    function transfercase(element) {
+        var id = element.value;
+        console.log(id);
+        $.ajax({
+            url: "/Admin/TransferCaseModal",
+            data: { 'id': id, 'regid': 0 },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
+    function clearcase(element) {
+        var id = element.value;
+        console.log(id);
+        $.ajax({
+            url: "/Admin/ClearCaseModal",
+            data: { 'id': id },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    };
+</script>
 <!-- Modal Transfer Case To Patient In Pending State-->
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -110,8 +163,9 @@
                     @item.Notes
                 </td>
                 <td>
-                    <button class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><i class="fa-solid fa-user-doctor me-1"></i>Patient</button>
-                    <button class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><i class="fa-solid fa-user-doctor me-1"></i>Provider</button>
+                    <a class="btn btn-outline-light" onclick="OpenChat()"><i class="fa-solid fa-user-doctor me-1"></i>Patient</a>
+                    <a class="btn btn-outline-light" onclick="OpenChat(@item.physicianId,'Provider')"><i class="fa-solid fa-user-doctor me-1"></i>Provider</a>
+                    
                 </td>
                 <td>
                     <div class="dropdown">
@@ -242,7 +296,7 @@
                         <div class="text-end d-md-flex justify-content-md-end pb-3">
                             <span>Chat With:</span>
                             <button class="btn btn-info text-white me-md-1" type="button"><i class="fa-regular fa-user me-1"></i><small>Patient</small> </button>
-                            <button class="btn btn-info  text-white" type="button"><i class="fa-solid fa-user-doctor me-1 "></i><small>Provider</small></button>
+                            <button class="btn btn-info  text-white" type="button" ><i class="fa-solid fa-user-doctor me-1 "></i><small>Provider</small></button>
                         </div>
                     </div>
                 </div>
@@ -278,56 +332,3 @@
         }
     </ul>
 </div>
-<script>
-    function sendAgreement(element) {
-        var id = element.value;
-        console.log(id);
-        $.ajax({
-            url: "/Admin/SendAgreementModal",
-            data: { 'id': id },
-            type: "GET",
-            dataType: "html",
-            success: function (data) {
-                $("#modalpopup").html(data);
-            },
-            error: function () {
-                alert("No Projects Found");
-                $("#tableContent").html('An error has occurred');
-            }
-        });
-    };
-    function transfercase(element) {
-        var id = element.value;
-        console.log(id);
-        $.ajax({
-            url: "/Admin/TransferCaseModal",
-            data: { 'id': id, 'regid': 0 },
-            type: "GET",
-            dataType: "html",
-            success: function (data) {
-                $("#modalpopup").html(data);
-            },
-            error: function () {
-                alert("No Projects Found");
-                $("#tableContent").html('An error has occurred');
-            }
-        });
-    };
-    function clearcase(element) {
-        var id = element.value;
-        console.log(id);
-        $.ajax({
-            url: "/Admin/ClearCaseModal",
-            data: { 'id': id },
-            type: "GET",
-            dataType: "html",
-            success: function (data) {
-                $("#modalpopup").html(data);
-            },
-            error: function () {
-                alert("No Projects Found");
-                $("#tableContent").html('An error has occurred');
-            }
-        });
-    };
-</script>

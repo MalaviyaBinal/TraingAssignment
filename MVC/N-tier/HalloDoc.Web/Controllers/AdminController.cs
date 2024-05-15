@@ -873,5 +873,18 @@ namespace HalloDoc.Web.Controllers
             _service.SaveTimesheet(model, phyid, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate), phyid = phyid });
         }
+        #region Chat
+        public IActionResult _ChatPanel(int phyid, string requesterType)
+        {
+            Admin admin = _service.getAdminByEmail(HttpContext.Request.Cookies["userEmail"]);
+            ChatViewModel model = new ChatViewModel();
+            model.PhysicianId = phyid;
+            model.AdminId = admin.Adminid;
+            model.SenderType = "Admin";
+            model.ReceiverType = requesterType;
+            model.CurrentUserId = admin.Adminid;
+            return PartialView(model);
+        }
+        #endregion
     }
 }

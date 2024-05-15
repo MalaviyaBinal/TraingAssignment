@@ -203,6 +203,7 @@ namespace HalloDocWebRepo.Implementation
                     Name = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Firstname + ' ' + item.Requestclients.FirstOrDefault().Lastname : "---",
                     Requestor = item.Requesttype.Name != null ? item.Requesttype.Name + " , " + item.Firstname + " " + item.Lastname : "---",
                     physician = item.Physician != null ? item.Physician.Firstname + "  " + item.Physician.Lastname : "---",
+                    physicianId = item.Physician != null ? item.Physician.Physicianid : 1,
                     Dateofservice = item.Lastreservationdate != null ? item.Lastreservationdate : null,
                     DOB = item.Requestclients.Count != 0 ? item.Requestclients.FirstOrDefault().Intdate.ToString() + "/" + item.Requestclients.FirstOrDefault().Strmonth + "/" + item.Requestclients.First().Intyear.ToString() : "---",
                     Requesteddate = item.Createddate != null ? item.Createddate : null,

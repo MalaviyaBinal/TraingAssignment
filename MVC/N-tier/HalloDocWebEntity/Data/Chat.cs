@@ -25,6 +25,9 @@ public partial class Chat
     [Column("sentDate", TypeName = "timestamp without time zone")]
     public DateTime SentDate { get; set; }
 
+    [Column("message", TypeName = "character varying")]
+    public string? Message { get; set; }
+
     [ForeignKey("ReceiverId")]
     [InverseProperty("ChatReceivers")]
     public virtual Aspnetuser Receiver { get; set; } = null!;
