@@ -26,6 +26,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 var app = builder.Build();
+
+//add logging info example
+//app.Logger.LogInformation("This is test Log"); 
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

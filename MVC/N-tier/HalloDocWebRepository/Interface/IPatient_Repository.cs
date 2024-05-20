@@ -28,6 +28,7 @@ namespace HalloDocWebRepo.Interface
         public Aspnetuser getAspnetUserByEmail(string usarname);
         public Request getFirstRequestTable(int id);
         public List<Requestwisefile> getPatientDocument(int? id);
+        Physician getPhysicianByID(int receiver);
         Requestclient getRequestClientByEmail(string? email);
         public Requestwisefile getRequestWiseFile(int id);
         public List<Requestwisefile> getRequestWiseFileTolist(int id);

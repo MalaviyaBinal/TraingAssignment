@@ -4,7 +4,30 @@
 }
 <script>
     document.getElementById("dashbrd").classList.add("active");
+    "use strict";
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    connection.start().then(function () {
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    function OpenChat(phyid, requesterType) {
+        $.ajax({
+            url: "/Home/_ChatPanel",
+            data: { 'receiver': phyid, 'requesterType': requesterType },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    }
 </script>
+<div id="modalpopup"></div>
 <!-- Tab panes -->
 <div class="tab-content">
     <div class="tab-pane container active" id="dashboard">
@@ -27,6 +50,9 @@
                                     </th>
                                     <th>
                                         Status
+                                    </th>
+                                    <th>
+                                        Action
                                     </th>
                                     <th class="text-center">Document</th>
                                 </tr>
@@ -81,6 +107,12 @@
                                                 </td>
                                                 break;
                                         }
+                                        <td class="">
+                                            @if (@item.Physicianid != null)
+                                            {
+                                                <a class="btn btn-outline-info" onclick="OpenChat(@item.Physicianid,'Provider')"><i class="fa-solid fa-user-doctor me-1"></i>Provider</a>
+                                            }
+                                        </td>
                                         <td class="text-center">
                                             <a asp-action="PatientViewDocument" asp-controller="Home" asp-route-id="@item.Requestid"><button class="theme-btn-header px-1 " style="height: 40px; width : 100px; color: #54B4D3;">(@ViewBag.RequestIdCounts[item.Requestid])Document</button></a>
                                         </td>

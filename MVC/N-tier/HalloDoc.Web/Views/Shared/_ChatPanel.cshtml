@@ -1,0 +1,215 @@
+﻿@model HalloDocWebEntity.ViewModel.ChatViewModel
+
+<style>
+    .ChatMessage {
+        /*margin: 7px;*/
+        padding: 3px;
+        border-radius: 5px;
+        font-size: 19px;
+        width : -webkit-fit-content;
+        /*background-color : red;*/
+    }
+
+        .ChatMessage::before {
+            /*content: "\f007"; /* FontAwesome Unicode for checkmark icon */*/
+            font-family: FontAwesome;
+            position: relative;
+            left: -10px;
+        }
+
+
+    .ChatMessageSender {
+        /*margin: 7px;*/
+        padding: 3px;
+        border-radius: 5px;
+        font-size: 19px;
+    }
+
+    .ChatMessageSender1::after {
+        content: "\f007"; /* FontAwesome Unicode for the desired icon */
+        font-family: FontAwesome; /* Use the appropriate font family */
+        position: absolute;
+        right: 10px; /* Position the icon at the end of the list item */
+    }
+
+    .TimeShow {
+        display: block;
+        font-size: 12px;
+        padding-left: 20px;
+    }
+
+</style>@*
+<style>
+    .ChatMessage {
+        /*margin: 7px;*/
+        padding: 3px;
+        border-radius: 5px;
+        font-size: 19px;
+
+        background-color : red;
+    }
+
+        .ChatMessage::before {
+            content: "\f007"; /* FontAwesome Unicode for checkmark icon */
+            font-family: FontAwesome;
+            position: relative;
+            left: -10px;
+        }
+
+
+    .ChatMessageSender {
+        /*margin: 7px;*/
+        padding: 3px;
+        border-radius: 5px;
+        font-size: 19px;
+    }
+
+    .ChatMessageSender1::after {
+        content: "\f007"; /* FontAwesome Unicode for the desired icon */
+        font-family: FontAwesome; /* Use the appropriate font family */
+        position: absolute;
+        right: 10px; /* Position the icon at the end of the list item */
+    }
+
+    .TimeShow {
+        display: block;
+        font-size: 12px;
+        padding-left: 20px;
+    }
+
+</style>*@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="chatoffcanvas" aria-labelledby="offcanvasExampleLabel" style=" z-index: 1060;">
+    <div class="offcanvas-header bg-info text-white">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+            <i class="btn bi bi-person text-bg-light mx-3"></i>
+            @Model.ReceiverName
+        </h5>
+        <button type="button" class="btn-close  btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div>
+            <ul id="messagesList" style="list-style-type: none;"></ul>
+        </div>
+
+    </div>
+    <div class="row offcanvas-footer mx-3 my-2">
+        <div class="col-10 form-floating text-muted">
+            <input type="text" class="form-control input-placeholder" id="messageInput" placeholder="">
+            <label class="form-label ms-2 ps-3">Message</label>
+        </div>
+        <div class="col-2">
+            <i class="btn btn-info fa fa-paper-plane fs-4 mt-1 text-white" style="height:56px; width:56px;    padding-top: 14px;
+" id="sendButton"></i>
+        </div>
+        <input type="hidden" value="@Model.Receiver" id="Receiver" />
+        <input type="hidden" value="@Model.Sender" id="Sender" />
+        <input type="hidden" value="@Model.ReceiverType" id="ReceiverType" />
+        <input type="hidden" value="@Model.SenderType" id="SenderType" />
+        @*<input type="text" class="w-100" id="messageInput" />*@
+
+    </div>
+</div>
+<script>
+    document.getElementById("sendButton").addEventListener("click", function (event) {
+        debugger;
+        var message = document.getElementById("messageInput").value;
+        var Sender = document.getElementById("Sender").value;
+        var SenderType = document.getElementById("SenderType").value;
+        var Receiver = document.getElementById("Receiver").value;
+        var ReceiverType = document.getElementById("ReceiverType").value;
+        if (message != "") {
+
+            connection.invoke("SaveData", Sender, SenderType, Receiver, ReceiverType, message).catch(function (err) {
+                return console.error(err.toString());
+            });
+            connection.invoke("SendMessage", Sender, SenderType, Receiver, ReceiverType).catch(function (err) {
+                return console.error(err.toString());
+            });
+            document.getElementById("messageInput").value = "";
+        }
+        event.preventDefault();
+    });
+
+    //connection.on("ReceiveMessage", function (data) {
+    //    debugger;
+    //    document.getElementById("messagesList").innerHTML = '';
+    //    data.forEach(function (item) {
+    //        var li = document.createElement("li");
+    //        document.getElementById("messagesList").appendChild(li);
+    //        li.textContent = `${item.message}`;
+    //        console.log(item.senderid);
+    //        console.log(@Model.CurrentUserId);
+    //        if (item.senderId == @Model.CurrentUserId) {
+                
+    //            li.classList.add("text-end");
+    //        }
+
+    //        console.log(item);
+    //    });
+
+    //});
+    connection.on("ReceiveMessage", function (data) {
+        const messagesList = document.getElementById('messagesList');
+        messagesList.scrollTop = messagesList.scrollHeight;
+        document.getElementById("messagesList").innerHTML = '';
+        data.forEach(function (item) {
+            // var icon = document.createElement("i");
+            // icon.setAttribute("class", "bi bi-person d-inline");
+            // document.getElementById("messagesList").appendChild(icon);
+            var li = document.createElement("li");
+            document.getElementById("messagesList").appendChild(li);
+            var p = document.createElement("span");
+            p.classList.add("TimeShow", "bg-info");
+            p.textContent = item.message;
+            li.appendChild(p);
+            //li.textContent = `${item.message}`;
+           
+            var paragraph = document.createElement("span");
+            paragraph.classList.add("TimeShow");
+           
+            li.appendChild(paragraph);
+            var time = `${item.sentTime}`;
+            var trimmedTime = time.substring(0, 5);
+            paragraph.textContent = trimmedTime;
+            if (item.senderId == @Model.CurrentUserId) {
+                li.classList.add("ChatMessageSender");
+                li.classList.add("text-end");
+            } else {
+                li.classList.add("ChatMessage");
+            }
+            document.getElementById("list")
+
+            // console.log(item);
+        });
+
+    });
+    var input = document.getElementById("messageInput");
+    input.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("sendButton").click();
+        }
+    });
+
+    $(document).ready(function () {
+
+        debugger;
+
+        var myOffcanvas = document.getElementById('chatoffcanvas')
+        var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas)
+        bsOffcanvas.show();
+        var message = document.getElementById("messageInput").value;
+        var Sender = document.getElementById("Sender").value;
+        var SenderType = document.getElementById("SenderType").value;
+        var Receiver = document.getElementById("Receiver").value;
+        var ReceiverType = document.getElementById("ReceiverType").value;
+
+        // connection.invoke("SaveData", Sender, SenderType, Receiver, ReceiverType, message).catch(function (err) {
+        //     return console.error(err.toString());
+        // });
+        connection.invoke("SendMessage", Sender, SenderType, Receiver, ReceiverType).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+    });
+</script>

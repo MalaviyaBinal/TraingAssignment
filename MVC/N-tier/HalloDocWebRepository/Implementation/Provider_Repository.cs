@@ -525,6 +525,11 @@ namespace HalloDocWebRepo.Implementation
             _context.Timesheets.Update(timesheet);
             _context.SaveChanges();
         }
+
+        User IProvider_Repository.GetUserByUserId(int? userid)
+        {
+            return _context.Users.FirstOrDefault(x => x.Userid == userid);
+        }
     }
 
 }

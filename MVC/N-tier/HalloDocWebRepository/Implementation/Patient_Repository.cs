@@ -168,6 +168,11 @@ namespace HalloDocWebRepo.Implementation
 
         }
 
+        Physician IPatient_Repository.getPhysicianByID(int receiver)
+        {
+            return _context.Physicians.FirstOrDefault(x => x.Physicianid == receiver);
+        }
+
         int IPatient_Repository.getReqWiseFile(int requestid)
         {
             return _context.Requestwisefiles.Count(r => r.Requestid == requestid && r.Isdeleted == null);

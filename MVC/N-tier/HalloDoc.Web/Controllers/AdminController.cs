@@ -11,6 +11,8 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.EMMA;
 using HalloDocWebService.Authentication;
 using System.Text.RegularExpressions;
+using Twilio.TwiML.Voice;
+
 namespace HalloDoc.Web.Controllers
 {
     public class AdminController : Controller
@@ -874,15 +876,29 @@ namespace HalloDoc.Web.Controllers
             return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate), phyid = phyid });
         }
         #region Chat
-        public IActionResult _ChatPanel(int phyid, string requesterType)
+        public IActionResult _ChatPanel(int receiver, string requesterType)
         {
             Admin admin = _service.getAdminByEmail(HttpContext.Request.Cookies["userEmail"]);
             ChatViewModel model = new ChatViewModel();
-            model.PhysicianId = phyid;
-            model.AdminId = admin.Adminid;
+            if (requesterType == "Provider")
+            {
+                Physician phy = _service.getPhysicianByID(receiver);
+                model.ReceiverName = "Dr."+phy.Firstname+" "+phy.Lastname;
+                model.Receiver = receiver;
+            }
+            if (requesterType == "Patient")
+            {
+                Request request = _service.getRequestByID(receiver);
+                User user = _service.GetUserByUserId(request.Userid);
+                model.ReceiverName = request.Firstname + " " + request.Lastname;
+                model.Receiver = user.Aspnetuserid;
+            }
+            
+            model.Sender = admin.Adminid;
             model.SenderType = "Admin";
             model.ReceiverType = requesterType;
-            model.CurrentUserId = admin.Adminid;
+            model.SenderName = admin.Firstname+" "+admin.Lastname;
+            model.CurrentUserId = admin.Aspnetuserid;
             return PartialView(model);
         }
         #endregion

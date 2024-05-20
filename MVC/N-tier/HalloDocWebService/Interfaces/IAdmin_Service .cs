@@ -120,5 +120,7 @@ namespace HalloDocWebServices.Interfaces
         void ApproveTimesheet(int timesheetId, int BonusAmnt, string AdminNote, int InvoiceAmnt);
         void SaveTimesheet(TimeSheetDataViewModel model, int phyid, string? v);
         Admin getAdminByEmail(string? v);
+        Request getRequestByID(int phyid);
+        User GetUserByUserId(int? userid);
     }
 }

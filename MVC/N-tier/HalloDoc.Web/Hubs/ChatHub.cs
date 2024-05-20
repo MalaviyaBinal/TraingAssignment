@@ -21,8 +21,8 @@ namespace HalloDoc.Web.Hubs
                     senderId = _context.Admins.FirstOrDefault(e => e.Adminid == int.Parse(Sender)).Aspnetuserid;
                     break;
                 case "Patient":
-                    int? temp = _context.Requests.FirstOrDefault(e => e.Requestid == int.Parse(Sender)).Userid;
-                    senderId = (int)_context.Users.FirstOrDefault(e => e.Userid == (int)temp).Aspnetuserid;
+
+                    senderId = int.Parse(Sender);
                     break;
                 case "Provider":
                     senderId = (int)_context.Physicians.FirstOrDefault(e => e.Physicianid == int.Parse(Sender)).Aspnetuserid;
@@ -34,8 +34,7 @@ namespace HalloDoc.Web.Hubs
                     receiverId = _context.Admins.FirstOrDefault(e => e.Adminid == int.Parse(Receiver)).Aspnetuserid;
                     break;
                 case "Patient":
-                    int? temp = _context.Requests.FirstOrDefault(e => e.Requestid == int.Parse(Receiver)).Userid;
-                    receiverId = (int)_context.Users.FirstOrDefault(e => e.Userid == (int)temp).Aspnetuserid;
+                    receiverId = int.Parse(Receiver);
                     break;
                 case "Provider":
                     receiverId = (int)_context.Physicians.FirstOrDefault(e => e.Physicianid == int.Parse(Receiver)).Aspnetuserid;
@@ -55,8 +54,7 @@ namespace HalloDoc.Web.Hubs
                     senderId = _context.Admins.FirstOrDefault(e => e.Adminid == int.Parse(Sender)).Aspnetuserid;
                     break;
                 case "Patient":
-                    int? temp = _context.Requests.FirstOrDefault(e => e.Requestid == int.Parse(Sender)).Userid;
-                    senderId = (int)_context.Users.FirstOrDefault(e => e.Userid == (int)temp).Aspnetuserid;
+                    senderId = int.Parse(Sender);
                     break;
                 case "Provider":
                     senderId = (int)_context.Physicians.FirstOrDefault(e => e.Physicianid == int.Parse(Sender)).Aspnetuserid;
@@ -68,8 +66,7 @@ namespace HalloDoc.Web.Hubs
                     receiverId = _context.Admins.FirstOrDefault(e => e.Adminid == int.Parse(Receiver)).Aspnetuserid;
                     break;
                 case "Patient":
-                    int? temp = _context.Requests.FirstOrDefault(e => e.Requestid == int.Parse(Receiver)).Userid;
-                    receiverId = (int)_context.Users.FirstOrDefault(e => e.Userid == (int)temp).Aspnetuserid;
+                    receiverId = int.Parse(Receiver);
                     break;
                 case "Provider":
                     receiverId = (int)_context.Physicians.FirstOrDefault(e => e.Physicianid == int.Parse(Receiver)).Aspnetuserid;

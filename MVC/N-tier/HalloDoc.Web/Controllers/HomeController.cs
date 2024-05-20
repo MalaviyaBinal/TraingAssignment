@@ -278,5 +278,12 @@ namespace HalloDoc.Web.Controllers
             var ms = _service.downloadAlll(filenames);
             return File(ms.ToArray(), "application/zip", "download.zip");
         }
+        public IActionResult _ChatPanel(int receiver, string requesterType)
+        {
+            string email = HttpContext.Request.Cookies["userEmail"];
+            ChatViewModel model = _service._ChatPanel(email, receiver, requesterType);
+          
+            return PartialView(model);
+        }
     }
 }

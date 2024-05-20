@@ -1144,5 +1144,9 @@ namespace HalloDocWebRepo.Implementation
             _context.SaveChanges();
         }
 
+        User IAdmin_Repository.GetUserByUserId(int? userid)
+        {
+            return _context.Users.FirstOrDefault(x => x.Userid == userid);
+        }
     }
 }

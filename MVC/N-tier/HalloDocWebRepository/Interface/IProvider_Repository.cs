@@ -74,5 +74,6 @@ namespace HalloDocWebRepo.Interface
         void DeleteReimbursementTable(int gap, DateTime startDate);
         Timesheet GetTimeSheetByInvoiceId(int timesheetId);
         void UpdateTimeSheetTable(Timesheet timesheet);
+        User GetUserByUserId(int? userid);
     }
 }

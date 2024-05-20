@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Spreadsheet;
 using HalloDocWebEntity.Data;
 using HalloDocWebEntity.ViewModel;
 using HalloDocWebRepo.Interface;
@@ -1165,6 +1166,30 @@ namespace HalloDocWebServices.Implementation
                 return false;
             }
             return false;
+        }
+
+        ChatViewModel IProvider_Service._ChatPanel(string? email, int receiver, string requesterType)
+        {
+
+            Physician phy = _repository.GetPhyByEmail(email);
+            ChatViewModel model = new ChatViewModel();
+            //if (requesterType == "Provider")
+            //{
+            //    Physician phy = _repository.getPhysicianByID(receiver);
+            //    model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
+            //}
+            
+                Request request = _repository.getRequestByReqID(receiver);
+                User user = _repository.GetUserByUserId(request.Userid);
+                model.ReceiverName =user.Firstname + " " + user.Lastname;
+            
+            model.Receiver = user.Aspnetuserid;
+            model.Sender = (int)phy.Physicianid;
+            model.SenderType = "Provider";
+            model.ReceiverType = requesterType;
+            model.SenderName = phy.Firstname + " " + phy.Lastname;
+            model.CurrentUserId = (int)phy.Aspnetuserid;
+            return model;
         }
     }
 }

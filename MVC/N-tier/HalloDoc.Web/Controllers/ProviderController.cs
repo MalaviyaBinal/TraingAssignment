@@ -390,5 +390,14 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult _ChatPanel(int receiver, string requesterType)
+        {
+            string email = HttpContext.Request.Cookies["userEmail"];
+            ChatViewModel model = _service._ChatPanel(email, receiver, requesterType);
+
+            return PartialView(model);
+        }
+
     }
 }

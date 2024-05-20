@@ -135,5 +135,6 @@ namespace HalloDocWebRepo.Interface
         List<TimesheetDetail> GetTimeSheetListByInvoiceId(int timesheetId);
         void UpdateTimeSheetDetailTable(List<TimesheetDetail> timesheets);
         void AddTimeSheetDetailTable(List<TimesheetDetail> timesheet);
+        User GetUserByUserId(int? userid);
     }
 }

@@ -8,6 +8,7 @@
            <th></th>
             <th scope="col">Phone</th>
             <th scope="col">Address</th>
+            <th scope="col">Chat With</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -51,6 +52,9 @@
                 </td>
                 <td>
                     @item.Address
+                </td>
+                <td>
+                    <a class="btn btn-outline-light" onclick="OpenChat(@item.Requestid,'Patient')"><i class="fa-solid fa-user-doctor me-1"></i>Provider</a>
                 </td>
                 <td>
                     <div class="dropdown">

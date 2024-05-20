@@ -59,5 +59,6 @@ namespace HalloDocWebServices.Interfaces
         void DeleteReimbursement(int gap, DateTime startDate);
         void FinalizeTimesheet(int timesheetId);
         bool IsTimesheetFinalized(DateTime startDate, string? v);
+        ChatViewModel _ChatPanel(string? email, int receiver, string requesterType);
     }
 }

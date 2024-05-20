@@ -2606,6 +2606,16 @@ namespace HalloDocWebServices.Implementation
         {
             return _repository.getAdminTableDataByEmail(adminEmail);
         }
+
+        Request IAdmin_Service.getRequestByID(int phyid)
+        {
+            return _repository.getRequestByID(phyid);
+        }
+
+        User IAdmin_Service.GetUserByUserId(int? userid)
+        {
+            return _repository.GetUserByUserId(userid);
+        }
     }
 }
 

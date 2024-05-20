@@ -394,10 +394,10 @@
         return console.error(err.toString());
     });
 
-        function OpenChat(phyid,requesterType) {
+        function OpenChat(receiver,requesterType) {
         $.ajax({
             url: "/Admin/_ChatPanel",
-            data: { 'phyid': phyid, 'requesterType': requesterType },
+            data: { 'receiver': receiver, 'requesterType': requesterType },
             type: "GET",
             dataType: "html",
             success: function (data) {

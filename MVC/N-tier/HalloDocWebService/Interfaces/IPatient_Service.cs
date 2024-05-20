@@ -39,5 +39,6 @@ namespace HalloDocWebServices.Interfaces
         bool checkTokenExists(string token);
         ResetPWDModel getAspnetUserByToken(string token);
         void changePassword(ResetPWDModel user);
+        ChatViewModel _ChatPanel(string? email, int receiver, string requesterType);
     }
 }
