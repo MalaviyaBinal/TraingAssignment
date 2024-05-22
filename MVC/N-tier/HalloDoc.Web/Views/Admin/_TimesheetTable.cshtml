@@ -1,11 +1,8 @@
 ﻿@model List<HalloDocWebEntity.ViewModel.TimeSheetViewModel>
 @{
     ViewData["Title"] = "InvoicingProvider";
-
     DateTime date = DateTime.Now;
 }
-
-
 <div class=" row p-3 ">
     <div class=" col form-floating table-responsive mb-3">
         <table class="table ">
@@ -28,7 +25,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 @foreach (var timesheet in Model)
                 {
                     <tr>
@@ -49,12 +45,10 @@
                         <td>@timesheet.NumberOfPhoneConsults</td>
                     </tr>
                 }
-
             </tbody>
         </table>
     </div>
 </div>
-
 <div class="row ps-3">
     <div class="col">
         <h5>
@@ -62,7 +56,6 @@
         </h5>
     </div>
 </div>
-
 <div class=" row p-3 ">
     <div class=" col form-floating table-responsive mb-3">
         <table class="table ">
@@ -83,8 +76,6 @@
                 </tr>
             </thead>
             <tbody>
-
-
                 @if (true)
                 {
                     int id1 = 0;
@@ -102,21 +93,14 @@
                                     {
                                         var str = "/PhysicianDoc/" + timesheet.PhysicianId + "/" + @timesheet.FileName;
                                         <a href=@str target="_blank"> <button class="btn btn-info text-white" id=@str type="button">View</button></a>
-
                                     }
                                 </td>
-
                             </tr>
                         }
-
-
-
                         id1++;
                     }
                 }
-
             </tbody>
         </table>
     </div>
 </div>
-

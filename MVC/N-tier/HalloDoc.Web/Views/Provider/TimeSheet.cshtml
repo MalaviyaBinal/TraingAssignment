@@ -109,8 +109,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-
                                 @if (true)
                                 {
                                     int id1 = 0;
@@ -133,7 +131,6 @@
                                                 {
                                                     var str = "item" + id1;
                                                 <td><input type="text" id="@str" name="Item" onkeyup="Enablefile(@id1)" value="@timesheet.Item" class="form-control" /></td>
-
                                                 }
                                                 @if (timesheet.Amount != 0)
                                                 {
@@ -172,7 +169,6 @@
                                                         str = "view" + id1;
                                                         var str1 = "/PhysicianDoc/" + timesheet.PhysicianId + "/" + @timesheet.FileName;
                                                     <a href=@str1 target="_blank" class="text-decoration-none"> <button class="btn btn-info text-white " id=@str type="button">View</button></a>
-
                                                     }
                                                     else
                                                     {
@@ -185,10 +181,8 @@
                                         id1++;
                                     }
                                 }
-
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -198,7 +192,6 @@
                 <a class="btn btn-info text-white ms-4" asp-action="FinalizeTimesheet" asp-route-TimesheetId="@Model.First().InvoiceId"> Finalize</a>
             </div>
         </div>
-
     </div>
 </div>
 <script>
@@ -217,10 +210,8 @@
         var ItemValue = document.getElementById("item" + id1).value;
         var AmountValue = document.getElementById("amount" + id1).value;
         var Startday = document.getElementById("StartDate").value;
-
         window.location.href = "/Provider/EditReimbursement?StartDate1=" + Startday + "&Item=" + ItemValue + "&Amount=" + AmountValue + "&Gap=" + id1;
     }
-
     function SaveData(id1) {
         debugger;
         var filename = document.getElementById("ReceiptFile" + id1).value;
@@ -231,11 +222,9 @@
         }
         else
             document.getElementById("savebtn" + id1).style.display = "inline";
-
     }
     function CancelReimbursement(id1) {
         debugger;
-
         document.getElementById("item" + id1).value = document.getElementById("itemVal" + id1).value;
         document.getElementById("amount" + id1).value = document.getElementById("amountVal" + id1).value;
         document.getElementById("edit" + id1).style.display = "inline";
@@ -245,7 +234,6 @@
         document.getElementById("cancel" + id1).style.display = "none";
         document.getElementById("item" + id1).setAttribute("disabled", "");
         document.getElementById("amount" + id1).setAttribute("disabled", "");
-
     }
     function OpenReceipt() {
         debugger;

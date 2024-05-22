@@ -123,7 +123,7 @@
             string str = "";
             @if (item.RequestTypeId == 1)
             {
-                str = "background-color: #DF657A;color : red; ";
+                str = "background-color: #DF657A;color : white; ";
             }
             @if (item.RequestTypeId == 2)
             {
@@ -165,7 +165,6 @@
                 <td>
                     <a class="btn btn-outline-light" onclick="OpenChat(@item.Requestid,'Patient')"><i class="fa-solid fa-user-doctor me-1"></i>Patient</a>
                     <a class="btn btn-outline-light" onclick="OpenChat(@item.physicianId,'Provider')"><i class="fa-solid fa-user-doctor me-1"></i>Provider</a>
-                    
                 </td>
                 <td>
                     <div class="dropdown">

@@ -227,7 +227,6 @@
             searchValue = document.getElementById("searchPatient").value;
              MyAjax();
    }
-
    function RegionChange(){
            searchRegion = document.getElementById("regionSelect").value;
              MyAjax();
@@ -393,7 +392,6 @@
     }).catch(function (err) {
         return console.error(err.toString());
     });
-
         function OpenChat(receiver,requesterType) {
         $.ajax({
             url: "/Admin/_ChatPanel",

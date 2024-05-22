@@ -100,7 +100,6 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
-
         public IActionResult TimeSheet(DateTime StartDate)
         {
             List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, HttpContext.Request.Cookies["userEmail"]);
@@ -123,7 +122,6 @@ namespace HalloDoc.Web.Controllers
             _service.DeleteReimbursement(Gap, StartDate);
             return RedirectToAction(nameof(TimeSheet), new { StartDate = StartDate });
         }
-
         public IActionResult EditReimbursement(DateTime StartDate1, string Item, int Amount, int Gap)
         {
             //string T = DateOnly.FromDateTime(StartDate1).ToString("MM-dd-yyyy");
@@ -134,7 +132,6 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult SaveReimbursement([FromForm] TimeSheetDataViewModel model)
         {
-
             _service.SaveReimbursement(model, HttpContext.Request.Cookies["userEmail"]);
             return RedirectToAction(nameof(TimeSheet), new { StartDate = model.StartDate });
         }
@@ -149,7 +146,6 @@ namespace HalloDoc.Web.Controllers
                 TempData["message"] = "success";
                 _service.FinalizeTimesheet(TimesheetId);
             }
-           
             return RedirectToAction(nameof(Invoicing));
         }
         [Route("/Provider/Invoicing/{StartDate}")]
@@ -157,7 +153,6 @@ namespace HalloDoc.Web.Controllers
         public IActionResult IsTimesheetFinalized(string StartDate)
         {
             bool isFinalized = _service.IsTimesheetFinalized(DateTime.Parse( StartDate), HttpContext.Request.Cookies["userEmail"]);
-           
             return Json(new { exists = isFinalized });
         }
         #endregion
@@ -390,14 +385,11 @@ namespace HalloDoc.Web.Controllers
         {
             return View();
         }
-
         public IActionResult _ChatPanel(int receiver, string requesterType)
         {
             string email = HttpContext.Request.Cookies["userEmail"];
             ChatViewModel model = _service._ChatPanel(email, receiver, requesterType);
-
             return PartialView(model);
         }
-
     }
 }

@@ -1,7 +1,27 @@
-﻿@model List<HalloDocWebEntity.Data.Physicianlocation>
+﻿@using HalloDocWebEntity.Data;
+
+@*@model List<HalloDocWebEntity.Data.Physicianlocation>*@
+
+@model dynamic
 @{
     Layout = "_AdminHeader";
 }
+<ul>
+    @foreach (Region r in Model.RegionList)
+    {
+        <li>
+            @r.Name
+        </li>
+    }
+</ul>
+<ol>
+    @foreach (Region r in Model.RegionList2)
+    {
+        <li>
+            @r.Name
+        </li>
+    }
+</ol>
 <div class=" container tab-pane fade show active w-100 w-md-50  px-2 px-md-5 text-center" id="dashboard " role="tabpanel" aria-labelledby="dashboard-tab">
     <div class="d-flex justify-content-between mb-4">
         <h3 class="ms-2">Provider Location</h3>
@@ -15,7 +35,7 @@
 <script>
     var map = L.map('map');
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    var providers = @Html.Raw(Json.Serialize(Model));
+    var providers = @Html.Raw(Json.Serialize(Model.Data));
     var markers = [];
     for (var i = 0; i < providers.length; i++) {
         var provider = providers[i];

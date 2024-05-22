@@ -1,10 +1,8 @@
 ﻿@model HalloDocWebEntity.ViewModel.TimeSheetViewModel
 @{
     ViewData["Title"] = "InvoicingProvider";
-
     DateTime date = DateTime.Now;
 }
-
 <div class="row">
     <div class="col">
         <h3> Pending Bi-weekly timesheet</h3>
@@ -13,7 +11,6 @@
 <div class=" row p-3 ">
     <div class=" col form-floating table-responsive mb-3">
         <table class="table ">
-
             <thead>
                 <tr class="table-secondary">
                     <td>StartDate</td>
@@ -23,8 +20,6 @@
                 </tr>
             </thead>
             <tbody>
-
-
                 <tr>
                     <td>@Model.StartDate.ToShortDateString()</td>
                     <td>@Model.EndDate.ToShortDateString()</td>
@@ -32,12 +27,8 @@
                     <td>
                         <a class="btn btn-outline-info "  type="button" asp-action="TimeSheet" asp-route-StartDate="@Model.StartDate" asp-route-phyid="@Model.PhysicianId">Approve</a>
                     </td>
-
                 </tr>
-
-
             </tbody>
         </table>
     </div>
 </div>
-

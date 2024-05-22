@@ -58,7 +58,6 @@ return /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
-
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   "AbortError": () => (/* reexport */ AbortError),
@@ -79,7 +78,6 @@ __webpack_require__.d(__webpack_exports__, {
   "TransferFormat": () => (/* reexport */ TransferFormat),
   "VERSION": () => (/* reexport */ VERSION)
 });
-
 ;// CONCATENATED MODULE: ./src/Errors.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -214,7 +212,6 @@ class AggregateErrors extends Error {
         this.__proto__ = trueProto;
     }
 }
-
 ;// CONCATENATED MODULE: ./src/HttpClient.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -262,7 +259,6 @@ class HttpClient {
         return "";
     }
 }
-
 ;// CONCATENATED MODULE: ./src/ILogger.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -288,7 +284,6 @@ var LogLevel;
     /** The highest possible log level. Used when configuring logging to indicate that no log messages should be emitted. */
     LogLevel[LogLevel["None"] = 6] = "None";
 })(LogLevel || (LogLevel = {}));
-
 ;// CONCATENATED MODULE: ./src/Loggers.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -302,12 +297,9 @@ class NullLogger {
 }
 /** The singleton instance of the {@link @microsoft/signalr.NullLogger}. */
 NullLogger.instance = new NullLogger();
-
 ;// CONCATENATED MODULE: ./src/Utils.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
 // Version token that will be replaced by the prepack command
 /** The version of the SignalR client. */
 const VERSION = "8.0.0";
@@ -551,7 +543,6 @@ function getGlobalThis() {
     }
     throw new Error("could not find global");
 }
-
 ;// CONCATENATED MODULE: ./src/DynamicImports.browser.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -571,15 +562,9 @@ function getWS() {
 function getEventSource() {
     throw new Error("Trying to import 'eventsource' in the browser.");
 }
-
 ;// CONCATENATED MODULE: ./src/FetchHttpClient.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
-
 class FetchHttpClient extends HttpClient {
     constructor(logger) {
         super();
@@ -711,14 +696,9 @@ function deserializeContent(response, responseType) {
     }
     return content;
 }
-
 ;// CONCATENATED MODULE: ./src/XhrHttpClient.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
 class XhrHttpClient extends HttpClient {
     constructor(logger) {
         super();
@@ -795,15 +775,9 @@ class XhrHttpClient extends HttpClient {
         });
     }
 }
-
 ;// CONCATENATED MODULE: ./src/DefaultHttpClient.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
-
 /** Default implementation of {@link @microsoft/signalr.HttpClient}. */
 class DefaultHttpClient extends HttpClient {
     /** Creates a new instance of the {@link @microsoft/signalr.DefaultHttpClient}, using the provided {@link @microsoft/signalr.ILogger} to log messages. */
@@ -837,7 +811,6 @@ class DefaultHttpClient extends HttpClient {
         return this._httpClient.getCookieString(url);
     }
 }
-
 ;// CONCATENATED MODULE: ./src/TextMessageFormat.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -858,12 +831,9 @@ class TextMessageFormat {
 }
 TextMessageFormat.RecordSeparatorCode = 0x1e;
 TextMessageFormat.RecordSeparator = String.fromCharCode(TextMessageFormat.RecordSeparatorCode);
-
 ;// CONCATENATED MODULE: ./src/HandshakeProtocol.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
 /** @private */
 class HandshakeProtocol {
     // Handshake request is always JSON
@@ -910,7 +880,6 @@ class HandshakeProtocol {
         return [remainingData, responseMessage];
     }
 }
-
 ;// CONCATENATED MODULE: ./src/IHubProtocol.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -934,11 +903,9 @@ var MessageType;
     MessageType[MessageType["Ack"] = 8] = "Ack";
     MessageType[MessageType["Sequence"] = 9] = "Sequence";
 })(MessageType || (MessageType = {}));
-
 ;// CONCATENATED MODULE: ./src/Subject.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
 /** Stream implementation to stream items to the server. */
 class Subject {
     constructor() {
@@ -968,12 +935,9 @@ class Subject {
         return new SubjectSubscription(this, observer);
     }
 }
-
 ;// CONCATENATED MODULE: ./src/MessageBuffer.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
 /** @private */
 class MessageBuffer {
     constructor(protocol, connection, bufferSize) {
@@ -1163,17 +1127,9 @@ class BufferedItem {
         this._rejector = rejector;
     }
 }
-
 ;// CONCATENATED MODULE: ./src/HubConnection.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
-
-
-
 const DEFAULT_TIMEOUT_IN_MS = 30 * 1000;
 const DEFAULT_PING_INTERVAL_IN_MS = 15 * 1000;
 const DEFAULT_STATEFUL_RECONNECT_BUFFER_SIZE = 100000;
@@ -2101,7 +2057,6 @@ class HubConnection {
         return { type: MessageType.Close };
     }
 }
-
 ;// CONCATENATED MODULE: ./src/DefaultReconnectPolicy.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -2116,7 +2071,6 @@ class DefaultReconnectPolicy {
         return this._retryDelays[retryContext.previousRetryCount];
     }
 }
-
 ;// CONCATENATED MODULE: ./src/HeaderNames.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -2124,12 +2078,9 @@ class HeaderNames {
 }
 HeaderNames.Authorization = "Authorization";
 HeaderNames.Cookie = "Cookie";
-
 ;// CONCATENATED MODULE: ./src/AccessTokenHttpClient.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
 /** @private */
 class AccessTokenHttpClient extends HttpClient {
     constructor(innerClient, accessTokenFactory) {
@@ -2171,7 +2122,6 @@ class AccessTokenHttpClient extends HttpClient {
         return this._innerClient.getCookieString(url);
     }
 }
-
 ;// CONCATENATED MODULE: ./src/ITransport.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -2196,7 +2146,6 @@ var TransferFormat;
     /** Specifies that binary data will be transmitted over the connection. */
     TransferFormat[TransferFormat["Binary"] = 2] = "Binary";
 })(TransferFormat || (TransferFormat = {}));
-
 ;// CONCATENATED MODULE: ./src/AbortController.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -2225,15 +2174,9 @@ class AbortController_AbortController {
         return this._isAborted;
     }
 }
-
 ;// CONCATENATED MODULE: ./src/LongPollingTransport.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
-
 // Not exported from 'index', this type is internal.
 /** @private */
 class LongPollingTransport {
@@ -2409,13 +2352,9 @@ class LongPollingTransport {
         }
     }
 }
-
 ;// CONCATENATED MODULE: ./src/ServerSentEventsTransport.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
 /** @private */
 class ServerSentEventsTransport {
     constructor(httpClient, accessToken, logger, options) {
@@ -2513,14 +2452,9 @@ class ServerSentEventsTransport {
         }
     }
 }
-
 ;// CONCATENATED MODULE: ./src/WebSocketTransport.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
 /** @private */
 class WebSocketTransport {
     constructor(httpClient, accessTokenFactory, logger, logMessageContent, webSocketConstructor, headers) {
@@ -2669,20 +2603,9 @@ class WebSocketTransport {
         return event && typeof event.wasClean === "boolean" && typeof event.code === "number";
     }
 }
-
 ;// CONCATENATED MODULE: ./src/HttpConnection.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
-
-
-
-
-
-
 const MAX_REDIRECTS = 100;
 /** @private */
 class HttpConnection {
@@ -3238,15 +3161,9 @@ class PromiseSource {
         this._rejecter(reason);
     }
 }
-
 ;// CONCATENATED MODULE: ./src/JsonHubProtocol.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
-
 const JSON_HUB_PROTOCOL_NAME = "json";
 /** Implements the JSON Hub Protocol. */
 class JsonHubProtocol {
@@ -3358,17 +3275,9 @@ class JsonHubProtocol {
         }
     }
 }
-
 ;// CONCATENATED MODULE: ./src/HubConnectionBuilder.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
-
-
-
 const LogLevelNameMapping = {
     trace: LogLevel.Trace,
     debug: LogLevel.Debug,
@@ -3503,23 +3412,9 @@ class HubConnectionBuilder {
 function isLogger(logger) {
     return logger.log !== undefined;
 }
-
 ;// CONCATENATED MODULE: ./src/index.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;// CONCATENATED MODULE: ./src/browser-index.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -3547,8 +3442,6 @@ if (!Uint8Array.prototype.forEach) {
         writable: true,
     });
 }
-
-
 /******/ 	return __webpack_exports__;
 /******/ })()
 ;

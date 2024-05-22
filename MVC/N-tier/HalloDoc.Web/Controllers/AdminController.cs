@@ -12,6 +12,7 @@ using DocumentFormat.OpenXml.EMMA;
 using HalloDocWebService.Authentication;
 using System.Text.RegularExpressions;
 using Twilio.TwiML.Voice;
+using System.Dynamic;
 
 namespace HalloDoc.Web.Controllers
 {
@@ -25,10 +26,12 @@ namespace HalloDoc.Web.Controllers
         [CustomAuthorize("Admin", 172)]
         public IActionResult AdminDashboard()
         {
+            
             var count = _service.setAdminDashboardCount();
             AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.adminCount = count;
             model.regions = _service.getRegionList();
+
             return View(model);
         }
         public IActionResult AdminViewDocument(int id)
@@ -116,7 +119,12 @@ namespace HalloDoc.Web.Controllers
         [CustomAuthorize("Admin", 173)]
         public IActionResult AdminDashboardProviderLocation()
         {
-            return View(_service.getPhysicianLocation());
+
+            dynamic mymodel = new ExpandoObject();
+            mymodel.RegionList = _service.getRegionList();
+            mymodel.RegionList2 = _service.getRegionList();
+            mymodel.Data = _service.getPhysicianLocation();
+            return View(mymodel);
         }
         public async Task<IActionResult> SendOrder(int id, int profId = 0, int businessId = 0)
         {
@@ -840,7 +848,6 @@ namespace HalloDoc.Web.Controllers
         public IActionResult IsTimesheetFinalized(string StartDate, string phyid)
         {
             List<bool> isFinalized = _service.IsTimesheetFinalized(DateTime.Parse(StartDate), int.Parse(phyid));
-
             return Json(new { isfinal = isFinalized.ElementAt(0), isapprove = isFinalized.ElementAt(1) });
         }
         [HttpPost]
@@ -862,11 +869,8 @@ namespace HalloDoc.Web.Controllers
         }
         public IActionResult ApproveTimesheet(int TimesheetId , int BonusAmnt,string AdminNote,int InvoiceAmnt)
         {
-
             TempData["message"] = "success";
             _service.ApproveTimesheet(TimesheetId, BonusAmnt, AdminNote, InvoiceAmnt);
-
-
             return RedirectToAction(nameof(Invoicing));
         }
         [HttpPost]
@@ -893,7 +897,6 @@ namespace HalloDoc.Web.Controllers
                 model.ReceiverName = request.Firstname + " " + request.Lastname;
                 model.Receiver = user.Aspnetuserid;
             }
-            
             model.Sender = admin.Adminid;
             model.SenderType = "Admin";
             model.ReceiverType = requesterType;

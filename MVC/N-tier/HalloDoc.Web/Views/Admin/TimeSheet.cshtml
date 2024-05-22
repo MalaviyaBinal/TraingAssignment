@@ -91,7 +91,6 @@
                                 <td><input type="text" class="form-control" value="@Model.FirstOrDefault().TotalHousecall" disabled /></td>
                                 <td><input type="text" class="form-control" value="@Model.FirstOrDefault().TotalPhoneConsults" disabled /></td>
                                 <td><input type="text" class="form-control" value="@Model.FirstOrDefault().TotalInvoice" disabled /></td>
-
                             </tr>
                             <tr>
                                 <td colspan="7" class="text-end">
@@ -131,14 +130,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-
                                 @if (true)
                                 {
                                     int id1 = 0;
                                     @foreach (var timesheet in Model)
                                     {
-
                                         <tr>
                                             <td>@timesheet.Date.ToShortDateString()</td>
                                             @if (timesheet.Item != null)
@@ -147,9 +143,7 @@
                                             }
                                             else
                                             {
-
                                                 <td><input type="text" name="Item" class="form-control" /></td>
-
                                             }
                                             @if (timesheet.Amount != 0)
                                             {
@@ -170,22 +164,16 @@
                                             <td>
                                                 @if (timesheet.Item != null)
                                                 {
-
                                                     var str1 = "/PhysicianDoc/" + timesheet.PhysicianId + "/" + @timesheet.FileName;
                                                     <a href=@str1 target="_blank" class="text-decoration-none"> <button class="btn btn-outline-info  " type="button">View</button></a>
-
                                                 }
-
                                             </td>
                                         </tr>
-
                                         id1++;
                                     }
                                 }
-
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -196,7 +184,6 @@
                     <input type="number" class="form-control" id="bonus">
                     <label for="bonus" class="form-label ps-4">Bonus Amount</label>
                 </div>
-
             </div>
             <div class=" col-3">
                 <div class=" form-floating mb-3 text-muted">
@@ -209,10 +196,8 @@
             </div>
         </div>
     </div>
-
 </div>
 </div>
-
 <script>
     function OpenReceipt() {
         debugger;

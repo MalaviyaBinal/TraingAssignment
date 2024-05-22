@@ -1,12 +1,10 @@
 ﻿using HalloDocWebEntity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-
 namespace HalloDoc.Web.Hubs
 {
     public class ChatHub : Hub
     {
-
         private readonly ApplicationContext _context;
         public ChatHub(ApplicationContext context)
         {
@@ -21,7 +19,6 @@ namespace HalloDoc.Web.Hubs
                     senderId = _context.Admins.FirstOrDefault(e => e.Adminid == int.Parse(Sender)).Aspnetuserid;
                     break;
                 case "Patient":
-
                     senderId = int.Parse(Sender);
                     break;
                 case "Provider":
@@ -72,7 +69,6 @@ namespace HalloDoc.Web.Hubs
                     receiverId = (int)_context.Physicians.FirstOrDefault(e => e.Physicianid == int.Parse(Receiver)).Aspnetuserid;
                     break;
             }
-
             Chat chat = new Chat
             {
                 SenderId = senderId,
@@ -84,6 +80,5 @@ namespace HalloDoc.Web.Hubs
             _context.Chats.Add(chat);
             _context.SaveChanges();
         }
-
     }
 }

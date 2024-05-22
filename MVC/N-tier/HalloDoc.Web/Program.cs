@@ -5,8 +5,16 @@ using HalloDocWebRepo.Interface;
 using HalloDocWebServices.Implementation;
 using HalloDocWebServices.Interfaces;
 using Rotativa.AspNetCore;
-
 var builder = WebApplication.CreateBuilder(args);
+//configure Logging Properties here
+//builder.Logging.ClearProviders();
+//builder.Logging.AddConsole();
+//      OR
+//builder.Host.ConfigureLogging(logging =>
+//{
+//    logging.ClearProviders();
+//    logging.AddConsole();
+//});
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); 
 builder.Services.AddScoped<IPatient_Service, Patient_Service>();
@@ -26,16 +34,14 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 var app = builder.Build();
-
 //add logging info example
-//app.Logger.LogInformation("This is test Log"); 
-
+//app.Logger.LogInformation("This is test Log");  //Builder.WebApplication.Logger
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseHsts(); //HTTP Strict Transport Security Protocol
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
