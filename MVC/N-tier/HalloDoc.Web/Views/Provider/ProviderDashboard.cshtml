@@ -263,10 +263,13 @@
         "use strict";
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
     connection.start().then(function () {
+        connection.id = 20;
+        console.log(connection.id);
     }).catch(function (err) {
         return console.error(err.toString());
     });
         function OpenChat(receiver,requesterType) {
+            debugger;
         $.ajax({
             url: "/Provider/_ChatPanel",
             data: { 'receiver': receiver, 'requesterType': requesterType },

@@ -96,6 +96,11 @@ namespace HalloDocWebRepo.Implementation
             return _context.Aspnetusers.Any(x => x.Email == email);
         }
 
+        public Admin getAdminByAspId(int receiver2)
+        {
+            return _context.Admins.FirstOrDefault(e => e.Aspnetuserid == receiver2);
+        }
+
         public Aspnetuser getAspnetUser(int aspnetuserid)
         {
             return _context.Aspnetusers.FirstOrDefault(u => u.Id == aspnetuserid);

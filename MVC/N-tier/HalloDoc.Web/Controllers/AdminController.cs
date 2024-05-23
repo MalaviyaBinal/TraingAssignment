@@ -26,7 +26,7 @@ namespace HalloDoc.Web.Controllers
         [CustomAuthorize("Admin", 172)]
         public IActionResult AdminDashboard()
         {
-            
+
             var count = _service.setAdminDashboardCount();
             AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.adminCount = count;
@@ -867,7 +867,7 @@ namespace HalloDoc.Web.Controllers
             List<TimeSheetViewModel> model = _service.MakeTimeSheet(StartDate, phyid);
             return View(model);
         }
-        public IActionResult ApproveTimesheet(int TimesheetId , int BonusAmnt,string AdminNote,int InvoiceAmnt)
+        public IActionResult ApproveTimesheet(int TimesheetId, int BonusAmnt, string AdminNote, int InvoiceAmnt)
         {
             TempData["message"] = "success";
             _service.ApproveTimesheet(TimesheetId, BonusAmnt, AdminNote, InvoiceAmnt);
@@ -880,30 +880,46 @@ namespace HalloDoc.Web.Controllers
             return RedirectToAction(nameof(TimeSheet), new { StartDate = (DateTime)(model.StartDate), phyid = phyid });
         }
         #region Chat
-        public IActionResult _ChatPanel(int receiver, string requesterType)
+        public IActionResult _ChatPanel(int receiver1, int receiver2, string requesterType)
         {
             Admin admin = _service.getAdminByEmail(HttpContext.Request.Cookies["userEmail"]);
             ChatViewModel model = new ChatViewModel();
-            if (requesterType == "Provider")
+            switch (requesterType)
             {
-                Physician phy = _service.getPhysicianByID(receiver);
-                model.ReceiverName = "Dr."+phy.Firstname+" "+phy.Lastname;
-                model.Receiver = receiver;
-            }
-            if (requesterType == "Patient")
-            {
-                Request request = _service.getRequestByID(receiver);
-                User user = _service.GetUserByUserId(request.Userid);
-                model.ReceiverName = request.Firstname + " " + request.Lastname;
-                model.Receiver = user.Aspnetuserid;
+                case "Provider":
+                    Physician phy = _service.getPhysicianByID(receiver1);
+                    model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
+                    model.Receiver1Name = "Dr." + phy.Firstname;
+                    model.Receiver = receiver1;
+                    model.Receiver1 = (int)phy.Aspnetuserid;
+                    model.Receiver2 = 0;
+                    break;
+                case "Patient":
+                    Request request = _service.getRequestByID(receiver1);
+                    User user = _service.GetUserByUserId(request.Userid);
+                    model.ReceiverName = user.Firstname + " " + user.Lastname;
+                    model.Receiver = user.Aspnetuserid;
+                    model.Receiver2 = 0;
+                    break;
+                case "AdminGroup":
+                    Physician phy1 = _service.getPhysicianByID(receiver1);
+                    Request request1 = _service.getRequestByID(receiver2);
+                    User user1 = _service.GetUserByUserId(request1.Userid);
+                    model.ReceiverName = "Dr."  + phy1.Lastname +" & " + user1.Firstname;
+                    model.Receiver1Name = "Dr."  + phy1.Lastname ;
+                    model.Receiver2Name = user1.Firstname;
+                    model.Receiver = receiver1;
+                    model.Receiver1 = (int)phy1.Aspnetuserid;
+                    model.Receiver2 = user1.Aspnetuserid;
+                    break;
             }
             model.Sender = admin.Adminid;
             model.SenderType = "Admin";
             model.ReceiverType = requesterType;
-            model.SenderName = admin.Firstname+" "+admin.Lastname;
+            model.SenderName = admin.Firstname + " " + admin.Lastname;
             model.CurrentUserId = admin.Aspnetuserid;
             return PartialView(model);
-        }
+        }   
         #endregion
     }
 }

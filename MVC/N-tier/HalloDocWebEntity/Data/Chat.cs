@@ -28,6 +28,12 @@ public partial class Chat
     [Column("message", TypeName = "character varying")]
     public string? Message { get; set; }
 
+    [Column("receiver2Id")]
+    public int? Receiver2Id { get; set; }
+
+    [Column("isGroup")]
+    public bool? IsGroup { get; set; }
+
     [ForeignKey("ReceiverId")]
     [InverseProperty("ChatReceivers")]
     public virtual Aspnetuser Receiver { get; set; } = null!;

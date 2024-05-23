@@ -23,6 +23,7 @@ namespace HalloDocWebRepo.Interface
         public void addUserTable(User user);
         bool checkTokenExists(string token);
         bool checkUserExists(string? email);
+        Admin getAdminByAspId(int receiver2);
         public Aspnetuser getAspnetUser(int aspnetuserid);
         public bool getAspnetUserAny(string email);
         public Aspnetuser getAspnetUserByEmail(string usarname);

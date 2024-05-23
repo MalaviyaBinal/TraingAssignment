@@ -7,6 +7,8 @@
     "use strict";
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
     connection.start().then(function () {
+        connection.id = 30;
+        console.log(connection.id);
     }).catch(function (err) {
         return console.error(err.toString());
     });
@@ -110,6 +112,7 @@
                                             @if (@item.Physicianid != null)
                                             {
                                                 <a class="btn btn-outline-info" onclick="OpenChat(@item.Physicianid,'Provider')"><i class="fa-solid fa-user-doctor me-1"></i>Provider</a>
+                                                <a class="btn btn-outline-info" onclick="OpenChat(@item.Physicianid,'PatientGroup')"><i class="fa-solid fa-user-doctor me-1"></i>Group Chat</a>
                                             }
                                         </td>
                                         <td class="text-center">

@@ -75,5 +75,6 @@ namespace HalloDocWebRepo.Interface
         Timesheet GetTimeSheetByInvoiceId(int timesheetId);
         void UpdateTimeSheetTable(Timesheet timesheet);
         User GetUserByUserId(int? userid);
+        Admin GetAdminByAspId(int receiver1);
     }
 }

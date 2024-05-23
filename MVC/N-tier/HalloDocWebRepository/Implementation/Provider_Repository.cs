@@ -530,6 +530,11 @@ namespace HalloDocWebRepo.Implementation
         {
             return _context.Users.FirstOrDefault(x => x.Userid == userid);
         }
+
+        public Admin GetAdminByAspId(int receiver1)
+        {
+            return _context.Admins.FirstOrDefault(e => e.Aspnetuserid == receiver1);
+        }
     }
 
 }

@@ -4,12 +4,14 @@
         padding: 3px;
         border-radius: 5px;
         font-size: 12px;
-        width: -webkit-fit-content ;
+        width: -webkit-fit-content;
     }
-    .ChatMessage::before {
-        font-family: FontAwesome;
-        position: relative;
-    }
+
+        .ChatMessage::before {
+            font-family: FontAwesome;
+            position: relative;
+        }
+
     .ChatMessageSender {
         padding: 3px;
         border-radius: 5px;
@@ -17,11 +19,13 @@
         /*float: right;*/
         width: -webkit-fit-content;
     }
+
     .ChatMessageSender1::after {
         font-family: FontAwesome;
         position: relative;
         right: 10px;
     }
+
     .TimeShow {
         display: block;
         /*color: white;*/
@@ -29,10 +33,12 @@
         background-color: #EBFAFD;
         border: solid thin #C8F1F9;
     }
+
     .self {
         float: right;
         clear: both;
     }
+
     .other {
         float: left;
         clear: both;
@@ -45,12 +51,13 @@
         var Sender = document.getElementById("Sender").value;
         var SenderType = document.getElementById("SenderType").value;
         var Receiver = document.getElementById("Receiver").value;
+        var Receiver2 = document.getElementById("Receiver2").value;
         var ReceiverType = document.getElementById("ReceiverType").value;
         if (message != "") {
-            connection.invoke("SaveData", Sender, SenderType, Receiver, ReceiverType, message).catch(function (err) {
+            connection.invoke("SaveData", Sender, SenderType, Receiver, ReceiverType, message, Receiver2).catch(function (err) {
                 return console.error(err.toString());
             });
-            connection.invoke("SendMessage", Sender, SenderType, Receiver, ReceiverType).catch(function (err) {
+            connection.invoke("SendMessage", Sender, SenderType, Receiver, ReceiverType, Receiver2).catch(function (err) {
                 return console.error(err.toString());
             });
             document.getElementById("messageInput").value = "";
@@ -58,26 +65,43 @@
         event.preventDefault();
     });
     connection.on("ReceiveMessage", function (data) {
+        debugger;
         const messagesList = document.getElementById('messagesList');
         messagesList.scrollTop = messagesList.scrollHeight;
         document.getElementById("messagesList").innerHTML = '';
         data.forEach(function (item) {
+            //list tage
             var li = document.createElement("li");
             document.getElementById("messagesList").appendChild(li);
+            //Receiver name
+            var recName = document.createElement("span");
+            if (item.senderId == @Model.Receiver1) {
+                recName.textContent = document.getElementById("Receiver1Name").value;
+            }
+            else if (item.senderId == @Model.Receiver2) {
+                recName.textContent = document.getElementById("Receiver2Name").value;
+            }
+            else {
+                recName.textContent = "Me";
+            }
+            li.appendChild(recName);
+            //Message
             var p = document.createElement("span");
             p.textContent = item.message;
             li.appendChild(p);
+            //Sent Time
             var paragraph = document.createElement("span");
             li.appendChild(paragraph);
             var time = `${item.sentTime}`;
             var trimmedTime = time.substring(0, 5);
             paragraph.textContent = trimmedTime;
+            //add class list
             if (item.senderId == @Model.CurrentUserId) {
                 p.classList.add("TimeShow", "bg-light", "p-2", "rounded", "border");
-                li.classList.add("ChatMessageSender", "self","text-end");
+                li.classList.add("ChatMessageSender", "self", "text-end");
             } else {
-                p.classList.add("TimeShow",  "p-2", "rounded");
-                li.classList.add("ChatMessage","other","w-80");
+                p.classList.add("TimeShow", "p-2", "rounded");
+                li.classList.add("ChatMessage", "other", "w-80");
             }
             document.getElementById("list")
         });
@@ -98,8 +122,9 @@
         var Sender = document.getElementById("Sender").value;
         var SenderType = document.getElementById("SenderType").value;
         var Receiver = document.getElementById("Receiver").value;
+        var Receiver2 = document.getElementById("Receiver2").value;
         var ReceiverType = document.getElementById("ReceiverType").value;
-        connection.invoke("SendMessage", Sender, SenderType, Receiver, ReceiverType).catch(function (err) {
+        connection.invoke("SendMessage", Sender, SenderType, Receiver, ReceiverType, Receiver2).catch(function (err) {
             return console.error(err.toString());
         });
     });
@@ -127,6 +152,9 @@
 " id="sendButton"></i>
         </div>
         <input type="hidden" value="@Model.Receiver" id="Receiver" />
+        <input type="hidden" value="@Model.Receiver2" id="Receiver2" />
+        <input type="hidden" value="@Model.Receiver2Name" id="Receiver2Name" />
+        <input type="hidden" value="@Model.Receiver1Name" id="Receiver1Name" />
         <input type="hidden" value="@Model.Sender" id="Sender" />
         <input type="hidden" value="@Model.ReceiverType" id="ReceiverType" />
         <input type="hidden" value="@Model.SenderType" id="SenderType" />

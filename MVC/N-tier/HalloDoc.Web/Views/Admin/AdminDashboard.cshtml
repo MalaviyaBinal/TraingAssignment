@@ -386,6 +386,34 @@
             MyAjax();
         });
     });
+    </script>
+    <script>
+        "use strict";
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    connection.start().then(function () {
+   connection.id = 10;
+        console.log(connection.id);
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+        function OpenChat(receiver1,receiver2,requesterType) {
+            debugger;
+        $.ajax({
+            url: "/Admin/_ChatPanel",
+            data: { 'receiver1': receiver1, 'receiver2': receiver2, 'requesterType': requesterType },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#modalpopup").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    }
+</script>
+@*<script>
         "use strict";
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
     connection.start().then(function () {
@@ -407,4 +435,4 @@
             }
         });
     }
-</script>
+</script>*@

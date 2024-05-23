@@ -20,6 +20,7 @@ using System.Net;
 using System.Net.Mail;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
+using Twilio.TwiML.Fax;
 using Twilio.TwiML.Voice;
 
 namespace HalloDocWebServices.Implementation
@@ -1168,28 +1169,57 @@ namespace HalloDocWebServices.Implementation
             return false;
         }
 
-        ChatViewModel IProvider_Service._ChatPanel(string? email, int receiver, string requesterType)
+        ChatViewModel IProvider_Service._ChatPanel(string? email, int receiver1,int receiver2, string requesterType)
         {
 
             Physician phy = _repository.GetPhyByEmail(email);
             ChatViewModel model = new ChatViewModel();
-            //if (requesterType == "Provider")
-            //{
-            //    Physician phy = _repository.getPhysicianByID(receiver);
-            //    model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
-            //}
-            
-                Request request = _repository.getRequestByReqID(receiver);
-                User user = _repository.GetUserByUserId(request.Userid);
-                model.ReceiverName =user.Firstname + " " + user.Lastname;
-            
-            model.Receiver = user.Aspnetuserid;
+
+            switch (requesterType)
+            { 
+                case "Patient":
+                    Request request = _repository.getRequestByReqID(receiver2);
+                    User user = _repository.GetUserByUserId(request.Userid);
+                    model.ReceiverName = user.Firstname + " " + user.Lastname;
+                    model.Receiver = user.Aspnetuserid;
+                    model.Receiver2 = 0;
+                    break;
+                case "ProviderGroup":
+                    Admin admin = _repository.GetAdminByAspId(receiver1);
+                    Request request1 = _repository.getRequestByReqID(receiver2);
+                    User user1 = _repository.GetUserByUserId(request1.Userid);
+                    model.ReceiverName = "Dr." + admin.Lastname + " & " + admin.Firstname;
+                    model.Receiver1Name =   admin.Firstname;
+                    model.Receiver2Name = user1.Firstname;
+                    model.Receiver = receiver1;
+                    model.Receiver1 = receiver1;
+                    model.Receiver2 = user1.Aspnetuserid;
+                    break;
+            }
             model.Sender = (int)phy.Physicianid;
             model.SenderType = "Provider";
             model.ReceiverType = requesterType;
             model.SenderName = phy.Firstname + " " + phy.Lastname;
             model.CurrentUserId = (int)phy.Aspnetuserid;
             return model;
+
+            ////if (requesterType == "Provider")
+            ////{
+            ////    Physician phy = _repository.getPhysicianByID(receiver);
+            ////    model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
+            ////}
+
+            //Request request = _repository.getRequestByReqID(receiver);
+            //    User user = _repository.GetUserByUserId(request.Userid);
+            //    model.ReceiverName =user.Firstname + " " + user.Lastname;
+
+            //model.Receiver = user.Aspnetuserid;
+            //model.Sender = (int)phy.Physicianid;
+            //model.SenderType = "Provider";
+            //model.ReceiverType = requesterType;
+            //model.SenderName = phy.Firstname + " " + phy.Lastname;
+            //model.CurrentUserId = (int)phy.Aspnetuserid;
+           
         }
     }
 }

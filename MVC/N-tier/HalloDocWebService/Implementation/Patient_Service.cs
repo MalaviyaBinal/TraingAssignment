@@ -9,6 +9,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Web.Helpers;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Twilio.TwiML.Fax;
 
 namespace HalloDocWebServices.Implementation
 {
@@ -685,27 +686,62 @@ namespace HalloDocWebServices.Implementation
             _repository.updateAspnetuserTable(netuser);
         }
 
-        ChatViewModel IPatient_Service._ChatPanel(string? email, int receiver, string requesterType)
+        ChatViewModel IPatient_Service._ChatPanel(string? email, int receiver,int receiver2, string requesterType)
         {
             var user = _repository.getUserByEmail(email);
             ChatViewModel model = new ChatViewModel();
-            if (requesterType == "Provider")
+
+            switch (requesterType)
             {
-                Physician phy = _repository.getPhysicianByID(receiver);
-                model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
+                case "Provider":
+                    Physician phy = _repository.getPhysicianByID(receiver);
+                    model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
+                    model.Receiver1Name = "Dr." + phy.Firstname;
+                    model.Receiver = receiver;
+                    model.Receiver1 = (int)phy.Aspnetuserid;
+                    model.Receiver2 = 0;
+                    break;
+                //case "Patient":
+                //    Request request = _service.getRequestByID(receiver1);
+                //    User user = _service.GetUserByUserId(request.Userid);
+                //    model.ReceiverName = user.Firstname + " " + user.Lastname;
+                //    model.Receiver = user.Aspnetuserid;
+                //    model.Receiver2 = 0;
+                //    break;
+                case "PatientGroup":
+                    Physician phy1 = _repository.getPhysicianByID(receiver);
+                   Admin admin = _repository.getAdminByAspId(receiver2);
+                    model.ReceiverName = "Dr." + phy1.Lastname + " & " + admin.Firstname;
+                    model.Receiver1Name = "Dr." + phy1.Lastname;
+                    model.Receiver2Name = admin.Firstname;
+                    model.Receiver = receiver;
+                    model.Receiver1 = (int)phy1.Aspnetuserid;
+                    model.Receiver2 = receiver2;
+                    break;
             }
-            //if (requesterType == "Patient")
-            //{
-            //    Request request = _service.getRequestByID(receiver);
-            //    User user = _service.GetUserByUserId(request.Userid);
-            //}
-            model.Receiver = receiver;
             model.Sender = user.Aspnetuserid;
             model.SenderType = "Patient";
             model.ReceiverType = requesterType;
             model.SenderName = user.Firstname + " " + user.Lastname;
             model.CurrentUserId = user.Aspnetuserid;
             return model;
+            //if (requesterType == "Provider")
+            //{
+            //    Physician phy = _repository.getPhysicianByID(receiver);
+            //    model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
+            //}
+            ////if (requesterType == "Patient")
+            ////{
+            ////    Request request = _service.getRequestByID(receiver);
+            ////    User user = _service.GetUserByUserId(request.Userid);
+            ////}
+            //model.Receiver = receiver;
+            //model.Sender = user.Aspnetuserid;
+            //model.SenderType = "Patient";
+            //model.ReceiverType = requesterType;
+            //model.SenderName = user.Firstname + " " + user.Lastname;
+            //model.CurrentUserId = user.Aspnetuserid;
+            //return model;
 
         }
     }
