@@ -118,9 +118,7 @@ namespace HalloDocWebServices.Interfaces
         List<bool> IsTimesheetFinalized(DateTime dateTime, int v);
         TimeSheetViewModel GETTimeSheetForApprove(DateTime startDate, int phyid);
         void ApproveTimesheet(int timesheetId, int BonusAmnt, string AdminNote, int InvoiceAmnt);
-        void SaveTimesheet(TimeSheetDataViewModel model, int phyid, string? v);
-        Admin getAdminByEmail(string? v);
-        Request getRequestByID(int phyid);
-        User GetUserByUserId(int? userid);
+        void SaveTimesheet(TimeSheetDataViewModel model, int phyid, string? adminEmail);
+        ChatViewModel _ChatPanel(string? adminEmail, int receiver1, int receiver2, string requesterType);
     }
 }

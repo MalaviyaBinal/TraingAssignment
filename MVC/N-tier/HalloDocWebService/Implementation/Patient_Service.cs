@@ -701,13 +701,6 @@ namespace HalloDocWebServices.Implementation
                     model.Receiver1 = (int)phy.Aspnetuserid;
                     model.Receiver2 = 0;
                     break;
-                //case "Patient":
-                //    Request request = _service.getRequestByID(receiver1);
-                //    User user = _service.GetUserByUserId(request.Userid);
-                //    model.ReceiverName = user.Firstname + " " + user.Lastname;
-                //    model.Receiver = user.Aspnetuserid;
-                //    model.Receiver2 = 0;
-                //    break;
                 case "PatientGroup":
                     Physician phy1 = _repository.getPhysicianByID(receiver);
                    Admin admin = _repository.getAdminByAspId(receiver2);

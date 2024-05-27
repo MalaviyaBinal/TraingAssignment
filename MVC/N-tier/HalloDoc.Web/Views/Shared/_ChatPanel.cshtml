@@ -124,6 +124,8 @@
         var Receiver = document.getElementById("Receiver").value;
         var Receiver2 = document.getElementById("Receiver2").value;
         var ReceiverType = document.getElementById("ReceiverType").value;
+        
+        alert(connection.id);
         connection.invoke("SendMessage", Sender, SenderType, Receiver, ReceiverType, Receiver2).catch(function (err) {
             return console.error(err.toString());
         });

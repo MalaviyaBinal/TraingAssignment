@@ -5,14 +5,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using ClosedXML.Excel;
 using HalloDocWebEntity.Data;
-using System.Security.Claims;
-using System.Collections.Generic;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.EMMA;
 using HalloDocWebService.Authentication;
-using System.Text.RegularExpressions;
-using Twilio.TwiML.Voice;
 using System.Dynamic;
+
 
 namespace HalloDoc.Web.Controllers
 {
@@ -23,6 +18,7 @@ namespace HalloDoc.Web.Controllers
         {
             _service = service;
         }
+
         [CustomAuthorize("Admin", 172)]
         public IActionResult AdminDashboard()
         {
@@ -882,44 +878,9 @@ namespace HalloDoc.Web.Controllers
         #region Chat
         public IActionResult _ChatPanel(int receiver1, int receiver2, string requesterType)
         {
-            Admin admin = _service.getAdminByEmail(HttpContext.Request.Cookies["userEmail"]);
-            ChatViewModel model = new ChatViewModel();
-            switch (requesterType)
-            {
-                case "Provider":
-                    Physician phy = _service.getPhysicianByID(receiver1);
-                    model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
-                    model.Receiver1Name = "Dr." + phy.Firstname;
-                    model.Receiver = receiver1;
-                    model.Receiver1 = (int)phy.Aspnetuserid;
-                    model.Receiver2 = 0;
-                    break;
-                case "Patient":
-                    Request request = _service.getRequestByID(receiver1);
-                    User user = _service.GetUserByUserId(request.Userid);
-                    model.ReceiverName = user.Firstname + " " + user.Lastname;
-                    model.Receiver = user.Aspnetuserid;
-                    model.Receiver2 = 0;
-                    break;
-                case "AdminGroup":
-                    Physician phy1 = _service.getPhysicianByID(receiver1);
-                    Request request1 = _service.getRequestByID(receiver2);
-                    User user1 = _service.GetUserByUserId(request1.Userid);
-                    model.ReceiverName = "Dr."  + phy1.Lastname +" & " + user1.Firstname;
-                    model.Receiver1Name = "Dr."  + phy1.Lastname ;
-                    model.Receiver2Name = user1.Firstname;
-                    model.Receiver = receiver1;
-                    model.Receiver1 = (int)phy1.Aspnetuserid;
-                    model.Receiver2 = user1.Aspnetuserid;
-                    break;
-            }
-            model.Sender = admin.Adminid;
-            model.SenderType = "Admin";
-            model.ReceiverType = requesterType;
-            model.SenderName = admin.Firstname + " " + admin.Lastname;
-            model.CurrentUserId = admin.Aspnetuserid;
+            var model = _service._ChatPanel(HttpContext.Request.Cookies["userEmail"], receiver1, receiver2, requesterType);            
             return PartialView(model);
-        }   
+        }
         #endregion
     }
 }

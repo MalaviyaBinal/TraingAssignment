@@ -66,8 +66,11 @@ namespace HalloDoc.Web.Hubs
             {
                 data = _context.Chats.Where(e => (e.SenderId == senderId || e.ReceiverId == senderId) && (e.SenderId == receiverId || e.ReceiverId == receiverId) && e.IsGroup == false).ToList();
             }
-            //Clients.All.SendAsync("ReceiveMessage", data);
-            Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", data);
+            string[] str = { "10","20","30"};
+            // to All clients
+            Clients.All.SendAsync("ReceiveMessage", data);
+            //to single client
+            Clients.Clients(str.ToList()).SendAsync("ReceiveMessage", data);
 
         }
         public void SaveData(string Sender, string SenderType, string Receiver, string ReceiverType, string message, string Receiver2)

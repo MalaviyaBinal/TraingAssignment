@@ -2601,20 +2601,47 @@ namespace HalloDocWebServices.Implementation
             }
 
         }
+       
 
-        public Admin getAdminByEmail(string? adminEmail)
+        public ChatViewModel _ChatPanel(string? adminEmail, int receiver1, int receiver2, string requesterType)
         {
-            return _repository.getAdminTableDataByEmail(adminEmail);
-        }
-
-        Request IAdmin_Service.getRequestByID(int phyid)
-        {
-            return _repository.getRequestByID(phyid);
-        }
-
-        User IAdmin_Service.GetUserByUserId(int? userid)
-        {
-            return _repository.GetUserByUserId(userid);
+            Admin admin = _repository.getAdminTableDataByEmail(adminEmail);
+            ChatViewModel model = new ChatViewModel();
+            switch (requesterType)
+            {
+                case "Provider":
+                    Physician phy = _repository.getPhysicianById(receiver1);
+                    model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
+                    model.Receiver1Name = "Dr." + phy.Firstname;
+                    model.Receiver = receiver1;
+                    model.Receiver1 = (int)phy.Aspnetuserid;
+                    model.Receiver2 = 0;
+                    break;
+                case "Patient":
+                    Request request = _repository.getRequestByID(receiver1);
+                    User user = _repository.GetUserByUserId(request.Userid);
+                    model.ReceiverName = user.Firstname + " " + user.Lastname;
+                    model.Receiver = user.Aspnetuserid;
+                    model.Receiver2 = 0;
+                    break;
+                case "AdminGroup":
+                    Physician phy1 = _repository.getPhysicianById(receiver1);
+                    Request request1 = _repository.getRequestByID(receiver2);
+                    User user1 = _repository.GetUserByUserId(request1.Userid);
+                    model.ReceiverName = "Dr." + phy1.Lastname + " & " + user1.Firstname;
+                    model.Receiver1Name = "Dr." + phy1.Lastname;
+                    model.Receiver2Name = user1.Firstname;
+                    model.Receiver = receiver1;
+                    model.Receiver1 = (int)phy1.Aspnetuserid;
+                    model.Receiver2 = user1.Aspnetuserid;
+                    break;
+            }
+            model.Sender = admin.Adminid;
+            model.SenderType = "Admin";
+            model.ReceiverType = requesterType;
+            model.SenderName = admin.Firstname + " " + admin.Lastname;
+            model.CurrentUserId = admin.Aspnetuserid;
+            return model;
         }
     }
 }
