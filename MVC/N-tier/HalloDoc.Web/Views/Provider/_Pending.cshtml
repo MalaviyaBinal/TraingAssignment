@@ -54,8 +54,8 @@
                     @item.Address
                 </td>
                 <td>
-                    <a class="btn btn-outline-light" onclick="OpenChat(@item.Requestid,'Patient')"><i class="fa-solid fa-user-doctor me-1"></i>Provider</a>
-                    <a class="btn btn-outline-light" onclick="OpenChat(@item.Requestid,'ProviderGroup')"><i class="fa-solid fa-user-doctor me-1"></i>Group Chat</a>
+                    <a class="btn btn-outline-light" onclick="OpenChat(@item.physicianId,@item.Requestid,'Patient')"><i class="fa-solid fa-user-doctor me-1"></i>Patient</a>
+                    <a class="btn btn-outline-light" onclick="OpenChat(@item.physicianId,@item.Requestid,'ProviderGroup')"><i class="fa-solid fa-user-doctor me-1"></i>Group Chat</a>
                 </td>
                 <td>
                     <div class="dropdown">

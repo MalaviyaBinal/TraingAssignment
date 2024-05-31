@@ -397,6 +397,10 @@
       "PackagePath": "staticwebassets\\images\\xyz.png"
     },
     {
+      "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\js\\ServiceWorker.js",
+      "PackagePath": "staticwebassets\\js\\ServiceWorker.js"
+    },
+    {
       "Id": "D:\\Projects\\HelloDOC\\MVC\\N-tier\\HalloDoc.Web\\wwwroot\\js\\daypilot-all.min.js",
       "PackagePath": "staticwebassets\\js\\daypilot-all.min.js"
     },

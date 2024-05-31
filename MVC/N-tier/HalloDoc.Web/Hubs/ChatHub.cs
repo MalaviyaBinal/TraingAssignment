@@ -1,8 +1,9 @@
 ﻿using HalloDocWebEntity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Security.Cryptography;
+using System.Text;
 using Twilio.TwiML.Messaging;
-
 namespace HalloDoc.Web.Hubs
 {
     public class ChatHub : Hub
@@ -27,7 +28,6 @@ namespace HalloDoc.Web.Hubs
                 case "Provider":
                     senderId = (int)_context.Physicians.FirstOrDefault(e => e.Physicianid == int.Parse(Sender)).Aspnetuserid;
                     break;
-
             }
             switch (ReceiverType)
             {
@@ -47,31 +47,31 @@ namespace HalloDoc.Web.Hubs
                 case "ProviderGroup":
                     receiverId = int.Parse(Receiver);
                     receiver2Id = int.Parse(Receiver2);
-                    break; 
+                    break;
                 case "PatientGroup":
                     receiverId = (int)_context.Physicians.FirstOrDefault(e => e.Physicianid == int.Parse(Receiver)).Aspnetuserid;
                     receiver2Id = int.Parse(Receiver2);
                     break;
             }
-            if (ReceiverType == "PatientGroup" ||ReceiverType == "ProviderGroup" ||ReceiverType == "AdminGroup" )
+            if (ReceiverType == "PatientGroup" || ReceiverType == "ProviderGroup" || ReceiverType == "AdminGroup")
             {
                 data = _context.Chats.Where(e =>
                 (e.SenderId == senderId || e.ReceiverId == senderId || e.Receiver2Id == senderId)
                 &&
                 (e.SenderId == receiver2Id || e.ReceiverId == receiver2Id || e.Receiver2Id == receiver2Id)
                 &&
-                (e.SenderId == receiverId || e.ReceiverId == receiverId || e.Receiver2Id == receiverId) && e.IsGroup == true).OrderBy(e =>e .SentDate).ToList();
+                (e.SenderId == receiverId || e.ReceiverId == receiverId || e.Receiver2Id == receiverId) && e.IsGroup == true).OrderBy(e => e.SentDate).ToList();
             }
             else
             {
                 data = _context.Chats.Where(e => (e.SenderId == senderId || e.ReceiverId == senderId) && (e.SenderId == receiverId || e.ReceiverId == receiverId) && e.IsGroup == false).ToList();
             }
-            string[] str = { "10","20","30"};
+            Clients.Clients(Context.ConnectionId).SendAsync("ReceiveMessage", data);
             // to All clients
-            Clients.All.SendAsync("ReceiveMessage", data);
+            //Clients.All.SendAsync("ReceiveMessage", data);
             //to single client
-            Clients.Clients(str.ToList()).SendAsync("ReceiveMessage", data);
-
+            //string[] str = { "10", "20", "30" };
+            //Clients.Clients(str.ToList()).SendAsync("ReceiveMessage", data);
         }
         public void SaveData(string Sender, string SenderType, string Receiver, string ReceiverType, string message, string Receiver2)
         {

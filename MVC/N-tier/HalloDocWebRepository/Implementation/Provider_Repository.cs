@@ -93,7 +93,7 @@ namespace HalloDocWebRepo.Implementation
                     Address = item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().City + " , " + item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().Zipcode,
                     Requestid = item.Requestid != null ? item.Requestid : null,
                     Notes = item.Requestnotes.Count != 0 ? "Admin note:" + item.Requestnotes.FirstOrDefault().Adminnotes != null ? item.Requestnotes.FirstOrDefault().Adminnotes : "---" + "\nPhysician notes:" + item.Requestnotes.FirstOrDefault().Physiciannotes != null ? item.Requestnotes.FirstOrDefault().Physiciannotes : "---" : "--",
-
+                    physicianId = phyid,
                     RequestTypeId = item.Requesttypeid,
                     RegionID = item.Requestclients.FirstOrDefault().Regionid,
                     RequestTypeName = item.Requesttype != null ? item.Requesttype.Name : null,
@@ -141,7 +141,7 @@ namespace HalloDocWebRepo.Implementation
                     Address = item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().City + " , " + item.Requestclients.FirstOrDefault().Street + " , " + item.Requestclients.FirstOrDefault().Zipcode,
                     Requestid = item.Requestid != null ? item.Requestid : null,
                     Notes = item.Requestnotes.Count != 0 ? "Admin note:" + item.Requestnotes.FirstOrDefault().Adminnotes != null ? item.Requestnotes.FirstOrDefault().Adminnotes : "---" + "\nPhysician notes:" + item.Requestnotes.FirstOrDefault().Physiciannotes != null ? item.Requestnotes.FirstOrDefault().Physiciannotes : "---" : "--",
-
+                    physicianId = phyid,
                     RequestTypeId = item.Requesttypeid,
                     RegionID = item.Requestclients.FirstOrDefault().Regionid,
                     RequestTypeName = item.Requesttype != null ? item.Requesttype.Name : null,

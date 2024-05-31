@@ -1188,7 +1188,7 @@ namespace HalloDocWebServices.Implementation
                     Admin admin = _repository.GetAdminByAspId(receiver1);
                     Request request1 = _repository.getRequestByReqID(receiver2);
                     User user1 = _repository.GetUserByUserId(request1.Userid);
-                    model.ReceiverName = "Dr." + admin.Lastname + " & " + admin.Firstname;
+                    model.ReceiverName =user1.Firstname+ " &AD." + admin.Firstname;
                     model.Receiver1Name =   admin.Firstname;
                     model.Receiver2Name = user1.Firstname;
                     model.Receiver = receiver1;

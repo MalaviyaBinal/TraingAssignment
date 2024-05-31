@@ -386,8 +386,37 @@
             MyAjax();
         });
     });
-    </script>
-    <script>
+</script>
+<script>
+        "use strict";
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    function OpenChat(receiver1,receiver2,requesterType) {
+        debugger;
+        connection.start().then(function () {
+            if(requesterType == "AdminGroup")
+                connection.id = receiver1.toString()+receiver2.toString()+"Group";
+            else
+                connection.id = receiver1.toString()+receiver2.toString()+"self";
+            console.log(connection.id);
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+    $.ajax({
+        url: "/Admin/_ChatPanel",
+        data: { 'receiver1': receiver1, 'receiver2': receiver2, 'requesterType': requesterType },
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+            $("#modalpopup").html(data);
+        },
+        error: function () {
+            alert("No Projects Found");
+            $("#tableContent").html('An error has occurred');
+        }
+    });
+    }
+</script>
+@*<script>
         "use strict";
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
     connection.start().then(function () {
@@ -413,26 +442,4 @@
         });
     }
 </script>
-@*<script>
-        "use strict";
-    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-    connection.start().then(function () {
-    }).catch(function (err) {
-        return console.error(err.toString());
-    });
-        function OpenChat(receiver,requesterType) {
-        $.ajax({
-            url: "/Admin/_ChatPanel",
-            data: { 'receiver': receiver, 'requesterType': requesterType },
-            type: "GET",
-            dataType: "html",
-            success: function (data) {
-                $("#modalpopup").html(data);
-            },
-            error: function () {
-                alert("No Projects Found");
-                $("#tableContent").html('An error has occurred');
-            }
-        });
-    }
-</script>*@
+*@

@@ -718,23 +718,7 @@ namespace HalloDocWebServices.Implementation
             model.SenderName = user.Firstname + " " + user.Lastname;
             model.CurrentUserId = user.Aspnetuserid;
             return model;
-            //if (requesterType == "Provider")
-            //{
-            //    Physician phy = _repository.getPhysicianByID(receiver);
-            //    model.ReceiverName = "Dr." + phy.Firstname + " " + phy.Lastname;
-            //}
-            ////if (requesterType == "Patient")
-            ////{
-            ////    Request request = _service.getRequestByID(receiver);
-            ////    User user = _service.GetUserByUserId(request.Userid);
-            ////}
-            //model.Receiver = receiver;
-            //model.Sender = user.Aspnetuserid;
-            //model.SenderType = "Patient";
-            //model.ReceiverType = requesterType;
-            //model.SenderName = user.Firstname + " " + user.Lastname;
-            //model.CurrentUserId = user.Aspnetuserid;
-            //return model;
+           
 
         }
     }

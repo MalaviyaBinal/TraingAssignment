@@ -260,16 +260,21 @@
             MyAjax();
         });
     });
-        "use strict";
+</script>
+<script>
+    "use strict";
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-    connection.start().then(function () {
-        
-        console.log(connection.id);
-    }).catch(function (err) {
+    function OpenChat(phyid,receiver,requesterType) {
+        debugger;
+        connection.start().then(function () {
+              if(requesterType == "ProviderGroup")
+                connection.id = phyid.toString()+receiver.toString()+"Group";
+            else
+                connection.id = phyid.toString()+receiver.toString()+"self";
+        }).catch(function (err) {
         return console.error(err.toString());
-    });
-        function OpenChat(receiver,requesterType) {
-            debugger;
+        });
+         console.log(connection);
         $.ajax({
             url: "/Provider/_ChatPanel",
             data: { 'receiver': receiver, 'requesterType': requesterType },

@@ -6,12 +6,10 @@
         font-size: 12px;
         width: -webkit-fit-content;
     }
-
-        .ChatMessage::before {
-            font-family: FontAwesome;
-            position: relative;
-        }
-
+    .ChatMessage::before {
+        font-family: FontAwesome;
+        position: relative;
+    }
     .ChatMessageSender {
         padding: 3px;
         border-radius: 5px;
@@ -19,13 +17,11 @@
         /*float: right;*/
         width: -webkit-fit-content;
     }
-
     .ChatMessageSender1::after {
         font-family: FontAwesome;
         position: relative;
         right: 10px;
     }
-
     .TimeShow {
         display: block;
         /*color: white;*/
@@ -33,12 +29,10 @@
         background-color: #EBFAFD;
         border: solid thin #C8F1F9;
     }
-
     .self {
         float: right;
         clear: both;
     }
-
     .other {
         float: left;
         clear: both;
@@ -61,11 +55,34 @@
                 return console.error(err.toString());
             });
             document.getElementById("messageInput").value = "";
+            new Notification(`New message `, {
+                body: message
+            });
         }
         event.preventDefault();
     });
     connection.on("ReceiveMessage", function (data) {
         debugger;
+        //Notification
+        navigator.serviceWorker.register('/js/ServiceWorker.js')
+            .then(function (registration) {
+                console.log('Service worker successfully registered.');
+
+            })
+            .catch(function (error) {
+                console.log('Service worker registration failed:', error);
+            });
+
+        console.log(Notification);
+        Notification.requestPermission().then(function (permission) {
+            if (permission === 'granted') {
+                console.log('Notification permission granted.');
+            } else {
+                console.log('Unable to get permission to notify.');
+            }
+        });
+      
+
         const messagesList = document.getElementById('messagesList');
         messagesList.scrollTop = messagesList.scrollHeight;
         document.getElementById("messagesList").innerHTML = '';
@@ -118,14 +135,16 @@
         var myOffcanvas = document.getElementById('chatoffcanvas')
         var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas)
         bsOffcanvas.show();
+        myOffcanvas.addEventListener('hide.bs.offcanvas',
+            function () {
+                connection.stop();
+            })
         var message = document.getElementById("messageInput").value;
         var Sender = document.getElementById("Sender").value;
         var SenderType = document.getElementById("SenderType").value;
         var Receiver = document.getElementById("Receiver").value;
         var Receiver2 = document.getElementById("Receiver2").value;
-        var ReceiverType = document.getElementById("ReceiverType").value;
-        
-        alert(connection.id);
+        var ReceiverType = document.getElementById("ReceiverType").value;        
         connection.invoke("SendMessage", Sender, SenderType, Receiver, ReceiverType, Receiver2).catch(function (err) {
             return console.error(err.toString());
         });
@@ -150,8 +169,7 @@
             <label class="form-label ms-2 ps-3">Message</label>
         </div>
         <div class="col-2 p-0">
-            <i class="btn btn-info fa fa-paper-plane fs-4 text-white" style="height:56px; width:56px;    padding-top: 14px;
-" id="sendButton"></i>
+            <i class="btn btn-info fa fa-paper-plane fs-4 text-white" style="height:56px; width:56px;    padding-top: 14px;" id="sendButton"></i>
         </div>
         <input type="hidden" value="@Model.Receiver" id="Receiver" />
         <input type="hidden" value="@Model.Receiver2" id="Receiver2" />

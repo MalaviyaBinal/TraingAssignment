@@ -6,13 +6,16 @@
     document.getElementById("dashbrd").classList.add("active");
     "use strict";
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-    connection.start().then(function () {
-        connection.id = 30;
-        console.log(connection.id);
-    }).catch(function (err) {
-        return console.error(err.toString());
-    });
-    function OpenChat(phyid, requesterType) {
+    function OpenChat(phyid,reqid, requesterType) {
+        connection.start().then(function () {
+            if (requesterType == "PatientGroup")
+                connection.id = phyid.toString() + reqid.toString() + "Group";
+            else
+                connection.id = phyid.toString() + reqid.toString() + "self";
+            console.log(connection.id);
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
         $.ajax({
             url: "/Home/_ChatPanel",
             data: { 'receiver': phyid, 'requesterType': requesterType },
@@ -111,9 +114,8 @@
                                         <td class="">
                                             @if (@item.Physicianid != null)
                                             {
-                                                <a class="btn btn-outline-info" 
-                                                ]><i class="fa-solid fa-user-doctor me-1"></i>Provider</a>
-                                                <a class="btn btn-outline-info" onclick="OpenChat(@item.Physicianid,'PatientGroup')"><i class="fa-solid fa-user-doctor me-1"></i>Group Chat</a>
+                                                <a class="btn btn-outline-info" onclick="OpenChat(@item.Physicianid,@item.Requestid,'Provider')"><i class="fa-solid fa-user-doctor me-1"></i>Provider</a>
+                                                <a class="btn btn-outline-info" onclick="OpenChat(@item.Physicianid,@item.Requestid,'PatientGroup')"><i class="fa-solid fa-user-doctor me-1"></i>Group Chat</a>
                                             }
                                         </td>
                                         <td class="text-center">

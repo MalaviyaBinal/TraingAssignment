@@ -7,8 +7,6 @@ using ClosedXML.Excel;
 using HalloDocWebEntity.Data;
 using HalloDocWebService.Authentication;
 using System.Dynamic;
-
-
 namespace HalloDoc.Web.Controllers
 {
     public class AdminController : Controller
@@ -18,16 +16,13 @@ namespace HalloDoc.Web.Controllers
         {
             _service = service;
         }
-
         [CustomAuthorize("Admin", 172)]
         public IActionResult AdminDashboard()
         {
-
             var count = _service.setAdminDashboardCount();
             AdminDashBoardPagination model = new AdminDashBoardPagination();
             model.adminCount = count;
             model.regions = _service.getRegionList();
-
             return View(model);
         }
         public IActionResult AdminViewDocument(int id)
@@ -115,7 +110,6 @@ namespace HalloDoc.Web.Controllers
         [CustomAuthorize("Admin", 173)]
         public IActionResult AdminDashboardProviderLocation()
         {
-
             dynamic mymodel = new ExpandoObject();
             mymodel.RegionList = _service.getRegionList();
             mymodel.RegionList2 = _service.getRegionList();
